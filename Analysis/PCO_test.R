@@ -229,7 +229,7 @@ par(op)
 
 
 #------------------------
-#Empirical data
+#Empirical data - Slater
 #------------------------
 #And now with real data
 Slater.table<-read.table("../Empirical_mammals/Matrices/2013-Slater-MEE-morpho.phylip", header=F, sep=" ", row.names=1) 
@@ -282,6 +282,32 @@ eucl.table<-dist(table, method = "euclidean")
 pco<-pcoa(eucl.table)
 expect_is(pco, "pcoa")
 
+
+#------------------------
+#Empirical data - Ronquist
+#------------------------
+
+#Ronquist.tree<-read.nexus('../Empirical_mammals/Matrices/2012-Ronquist.et.al-Syst.Biol.tre') #Wrong tree#!
+#Ronquist.table<-read.table("../Empirical_mammals/Matrices/RonquistMat.table", header=F, sep=" ", row.names=1) 
+#plot(Ronquist.tree, cex=0.5) ; axisPhylo()
+
+
+#library(caper)
+#missing.in.data<-comparative.data(Ronquist.tree, data.frame("species"=row.names(Ronquist.table), "dummy"=rnorm(nrow(Ronquist.table)), "dumb"=rnorm(nrow(Ronquist.table))), "species")$dropped$unmatched.rows
+#missing.in.tree<-comparative.data(Ronquist.tree, data.frame("species"=row.names(Ronquist.table), "dummy"=rnorm(nrow(Ronquist.table)), "dumb"=rnorm(nrow(Ronquist.table))), "species")$dropped$tips
+
+#suppressWarnings(table.tmp<-Ronquist.table[-c(which(row.names(Ronquist.table) == missing.in.data)),])
+
+#missing<-which(duplicated(table.tmp)==TRUE)
+#missing.na.species<-rownames(table.tmp[missing,])
+#table.tmp<-table.tmp[-missing,]
+#table<-as.matrix(table.tmp)
+
+#missing.data.species<-c(missing.species, missing.na.species)
+
+#eucl.table<-dist(table, method = "euclidean")
+#pco<-pcoa(eucl.table)
+#expect_is(pco, "pcoa")
 
 
 
