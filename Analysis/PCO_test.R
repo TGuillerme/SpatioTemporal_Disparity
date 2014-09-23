@@ -284,35 +284,38 @@ expect_is(pco, "pcoa")
 
 
 #------------------------
-#Empirical data - Ronquist
+#Empirical data - Beck
 #------------------------
 
-#Ronquist.tree<-read.nexus('../Empirical_mammals/Matrices/2012-Ronquist.et.al-Syst.Biol.tre') #Wrong tree#!
-#Ronquist.table<-read.table("../Empirical_mammals/Matrices/RonquistMat.table", header=F, sep=" ", row.names=1) 
-#plot(Ronquist.tree, cex=0.5) ; axisPhylo()
+Beck.tree<-read.nexus('~/PhD/Projects/SpatioTemporal_Disparity/Empirical_mammals/2014-Beck-ProcB-TEM.tre')
+Beck.table<-read.table('~/PhD/Projects/SpatioTemporal_Disparity/Empirical_mammals/2014-Beck-Morpho.table', header=F, sep=" ", row.names=1)
+plot(Beck.tree, cex=0.5) ; axisPhylo()
 
 
-#library(caper)
-#missing.in.data<-comparative.data(Ronquist.tree, data.frame("species"=row.names(Ronquist.table), "dummy"=rnorm(nrow(Ronquist.table)), "dumb"=rnorm(nrow(Ronquist.table))), "species")$dropped$unmatched.rows
-#missing.in.tree<-comparative.data(Ronquist.tree, data.frame("species"=row.names(Ronquist.table), "dummy"=rnorm(nrow(Ronquist.table)), "dumb"=rnorm(nrow(Ronquist.table))), "species")$dropped$tips
+library(caper)
+missing.in.data<-comparative.data(Beck.tree, data.frame("species"=row.names(Beck.table), "dummy"=rnorm(nrow(Beck.table)), "dumb"=rnorm(nrow(Beck.table))), "species")$dropped$unmatched.rows
+missing.in.tree<-comparative.data(Beck.tree, data.frame("species"=row.names(Beck.table), "dummy"=rnorm(nrow(Beck.table)), "dumb"=rnorm(nrow(Beck.table))), "species")$dropped$tips
 
-#suppressWarnings(table.tmp<-Ronquist.table[-c(which(row.names(Ronquist.table) == missing.in.data)),])
+remove<-NULL
+for (n in 1:length(missing.in.data)) {
+    remove<-c(remove, which(row.names(Beck.table) == missing.in.data[n]))
+}
+table.tmp<-Beck.table[-remove,]
 
 #missing<-which(duplicated(table.tmp)==TRUE)
 #missing.na.species<-rownames(table.tmp[missing,])
 #table.tmp<-table.tmp[-missing,]
-#table<-as.matrix(table.tmp)
+table<-as.matrix(table.tmp)
 
 #missing.data.species<-c(missing.species, missing.na.species)
 
-#eucl.table<-dist(table, method = "euclidean")
-#pco<-pcoa(eucl.table)
-#expect_is(pco, "pcoa")
 
-
+eucl.table<-dist(table, method = "euclidean")
+pco<-pcoa(eucl.table)
+expect_is(pco, "pcoa")
 
 #Remove the species with only missing data from the tree
-tree.tmp<-drop.tip(Slater.tree, missing.data.species)
+tree.tmp<-drop.tip(Beck.tree, missing.in.tree)
 #TEST
 expect_that(Ntip(tree.tmp), equals(nrow(table)))
 
@@ -336,6 +339,17 @@ eucl.table<-dist(table, method = "euclidean")
 
 #pcoa
 pco<-pcoa(eucl.table)
+
+
+
+
+
+
+
+
+
+
+
 
 
 #------------------------
@@ -440,26 +454,27 @@ pco<-pcoa(dist.matrix) #Error in eigen(delta1) : infinite or missing values in '
 tree.full<-tree
 tree.full$node.label<-row.names(state.matrix[(nrow(table)+1):nrow(state.matrix),])
 
-clade1<-extract.clade(tree.full, 94)
-clade1<-drop.tip(clade1, extract.clade(tree.full, 105)$tip.label)
-clade1<-c(clade1$tip.label, clade1$node.label)
-clade2<-c(extract.clade(tree.full, 105)$tip.label, extract.clade(tree.full, 105)$node.label)
-
+clade1<-extract.clade(tree.full, 153)
+clade2<-drop.tip(tree.full, clade1$tip.label)
 pco.scores<-as.data.frame(pco$vectors)
 clade.col<-ncol(pco.scores)+1
 pco.scores[, clade.col]<-"NA"
-pco.scores[match(clade1, row.names(pco.scores)), clade.col]<-"non-eutheria"
-pco.scores[match(clade2, row.names(pco.scores)),clade.col]<-"eutheria"
-clade.1<-pco.scores[match(clade1, row.names(pco.scores)),1:2]
-clade.2<-pco.scores[match(clade2, row.names(pco.scores)),1:2]
+pco.scores[match(clade1$tip.label, row.names(pco.scores)), clade.col]<-"eutheria"
+pco.scores[match(clade2$tip.label, row.names(pco.scores)),clade.col]<-"non-eutheria"
+pco.scores[match(clade1$node.label, row.names(pco.scores)), clade.col]<-"eutheria"
+pco.scores[match(clade2$node.label, row.names(pco.scores)),clade.col]<-"non-eutheria"
+clade.1<-pco.scores[which(pco.scores[,clade.col] == "eutheria"),1:2]
+clade.2<-pco.scores[which(pco.scores[,clade.col] == "non-eutheria"),1:2]
+expect_that(sort(row.names(clade.1)), equals(sort(c(clade1$tip.label, clade1$node.label))))
+expect_that(sort(row.names(clade.2)), equals(sort(c(clade2$tip.label, clade2$node.label))))
 
 dev.new()
 plot.pco<-function(pco.scores ,clade.1 , clade.2, ...) {
     library(grDevices)
     plot(1,1, col="white", xlab="PC1", ylab="PC2", xlim=c(min(pco.scores[,1]), max(pco.scores[,1])), ylim=c(min(pco.scores[,2]), max(pco.scores[,2])), ...)
     points(pco.scores[,1], pco.scores[,2], col=c("red", "blue", "green3")[as.factor(pco.scores[,clade.col])])
-    polygon(clade.1[chull(clade.1),], border="green3")
-    polygon(clade.2[chull(clade.2),], border="red")
+    polygon(clade.1[chull(clade.1),], border="red")
+    polygon(clade.2[chull(clade.2),], border="green3")
 }
 
 plot.pco(pco.scores, clade.1, clade.2, main="with nodes")
@@ -472,55 +487,55 @@ source('sliceTree.R')
 
 #Six slices with ACCTRAN
 tree0.acc<-slice.tree(tree.full, age=0, method="ACCTRAN")
-tree1.acc<-slice.tree(tree.full, age=25, method="ACCTRAN")
-tree2.acc<-slice.tree(tree.full, age=50, method="ACCTRAN")
-tree3.acc<-slice.tree(tree.full, age=75, method="ACCTRAN")
-tree4.acc<-slice.tree(tree.full, age=100, method="ACCTRAN")
-tree5.acc<-slice.tree(tree.full, age=125, method="ACCTRAN")
-tree6.acc<-slice.tree(tree.full, age=150, method="ACCTRAN")
-tree7.acc<-slice.tree(tree.full, age=175, method="ACCTRAN")
-tree8.acc<-slice.tree(tree.full, age=200, method="ACCTRAN")
+tree1.acc<-slice.tree(tree.full, age=18, method="ACCTRAN")
+tree2.acc<-slice.tree(tree.full, age=37, method="ACCTRAN")
+tree3.acc<-slice.tree(tree.full, age=56, method="ACCTRAN")
+tree4.acc<-slice.tree(tree.full, age=75, method="ACCTRAN")
+tree5.acc<-slice.tree(tree.full, age=93, method="ACCTRAN")
+tree6.acc<-slice.tree(tree.full, age=112, method="ACCTRAN")
+tree7.acc<-slice.tree(tree.full, age=131, method="ACCTRAN")
+tree8.acc<-slice.tree(tree.full, age=150, method="ACCTRAN")
 
 #Six slices with DELTRAN
 tree0.del<-slice.tree(tree.full, age=0, method="DELTRAN")
-tree1.del<-slice.tree(tree.full, age=25, method="DELTRAN")
-tree2.del<-slice.tree(tree.full, age=50, method="DELTRAN")
-tree3.del<-slice.tree(tree.full, age=75, method="DELTRAN")
-tree4.del<-slice.tree(tree.full, age=100, method="DELTRAN")
-tree5.del<-slice.tree(tree.full, age=125, method="DELTRAN")
-tree6.del<-slice.tree(tree.full, age=150, method="DELTRAN")
-tree7.del<-slice.tree(tree.full, age=175, method="DELTRAN")
-tree8.del<-slice.tree(tree.full, age=200, method="DELTRAN")
+tree1.del<-slice.tree(tree.full, age=18, method="DELTRAN")
+tree2.del<-slice.tree(tree.full, age=37, method="DELTRAN")
+tree3.del<-slice.tree(tree.full, age=56, method="DELTRAN")
+tree4.del<-slice.tree(tree.full, age=75, method="DELTRAN")
+tree5.del<-slice.tree(tree.full, age=93, method="DELTRAN")
+tree6.del<-slice.tree(tree.full, age=112, method="DELTRAN")
+tree7.del<-slice.tree(tree.full, age=131, method="DELTRAN")
+tree8.del<-slice.tree(tree.full, age=150, method="DELTRAN")
 
 #make plot pco
 pcoSlice<-function(tree, main="slice") {
     pcoSlice<-pco.scores[tree$tip.label,]
-    clade.1<-pcoSlice[match(clade1, row.names(pcoSlice)),1:2]
-    clade.2<-pcoSlice[match(clade2, row.names(pcoSlice)),1:2]
-    plot.pco(pcoSlice, clade.1[-which(is.na(clade.1)),], clade.2[-which(is.na(clade.2)),], main=main)
+    clade.1<-pcoSlice[which(pcoSlice[,clade.col] == "eutheria"),1:2]
+    clade.2<-pcoSlice[which(pcoSlice[,clade.col] == "non-eutheria"),1:2]
+    plot.pco(pcoSlice, clade.1, clade.2, main=main)
 }
 
 op<-par(mfrow=c(3, 3))
 pcoSlice(tree0.del, main="0 Mya")
-pcoSlice(tree1.del, main="25 Mya")
-pcoSlice(tree2.del, main="50 Mya")
-pcoSlice(tree3.del, main="75 Mya")
-pcoSlice(tree4.del, main="100 Mya")
-pcoSlice(tree5.del, main="125 Mya")
-pcoSlice(tree6.del, main="150 Mya")
-pcoSlice(tree7.del, main="175 Mya")
-pcoSlice(tree8.del, main="200 Mya")
+pcoSlice(tree1.del, main="18 Mya")
+pcoSlice(tree2.del, main="37 Mya")
+pcoSlice(tree3.del, main="56 Mya")
+pcoSlice(tree4.del, main="75 Mya")
+pcoSlice(tree5.del, main="93 Mya")
+pcoSlice(tree6.del, main="112 Mya")
+pcoSlice(tree7.del, main="131 Mya")
+pcoSlice(tree8.del, main="150 Mya")
 par(op)
 
 
 op<-par(mfrow=c(3, 3))
 pcoSlice(tree0.acc, main="0 Mya")
-pcoSlice(tree1.acc, main="25 Mya")
-pcoSlice(tree2.acc, main="50 Mya")
-pcoSlice(tree3.acc, main="75 Mya")
-pcoSlice(tree4.acc, main="100 Mya")
-pcoSlice(tree5.acc, main="125 Mya")
-pcoSlice(tree6.acc, main="150 Mya")
-pcoSlice(tree7.acc, main="175 Mya")
-pcoSlice(tree8.acc, main="200 Mya")
+pcoSlice(tree1.acc, main="18 Mya")
+pcoSlice(tree2.acc, main="37 Mya")
+pcoSlice(tree3.acc, main="56 Mya")
+pcoSlice(tree4.acc, main="75 Mya")
+pcoSlice(tree5.acc, main="93 Mya")
+pcoSlice(tree6.acc, main="112 Mya")
+pcoSlice(tree7.acc, main="131 Mya")
+pcoSlice(tree8.acc, main="150 Mya")
 par(op)
