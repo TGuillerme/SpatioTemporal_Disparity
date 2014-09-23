@@ -149,11 +149,6 @@ slice.tree<-function(tree, age, method) {
 }
 
 
-
-
-
-
-
 #TEST parent/offspring.node
 tr<-rtree(10)
 tr$node.label<-paste("n",seq(1:9), sep="")

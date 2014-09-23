@@ -5,15 +5,9 @@ library(ape)
 
 #Plotting the polygon outlines per type
 
-plot.pco<-function(pco.scores ,clade.1 , clade.2, ...) {
-    library(grDevices)
-    plot(1,1, col="white", xlab="PC1", ylab="PC2", xlim=c(min(pco.scores[,1]), max(pco.scores[,1])), ylim=c(min(pco.scores[,2]), max(pco.scores[,2])), ...)
-    points(pco.scores[,1], pco.scores[,2], col=c("red", "blue")[as.factor(pco.scores[,clade.col])])
-    polygon(clade.1[chull(clade.1),], border="red")
-    polygon(clade.2[chull(clade.2),], border="blue")
-}
-
-source('treeAge.R')
+source('~/PhD/Projects/SpatioTemporal_Disparity/Functions/treeAge.R')
+source('~/PhD/Projects/SpatioTemporal_Disparity/Functions/sliceTree.R')
+source('~/PhD/Projects/SpatioTemporal_Disparity/Functions/plot.fun.R')
 
 #data
 tree<-read.tree('BDtree.tre')
@@ -209,12 +203,6 @@ tree4.del<-slice.tree(tree.full, age=4, method="DELTRAN")
 tree5.del<-slice.tree(tree.full, age=5, method="DELTRAN")
 
 #make plot pco
-pcoSlice<-function(tree, main="slice") {
-    pcoSlice<-pco.scores[tree$tip.label,]
-    clade.1<-pcoSlice[match(clade1, row.names(pcoSlice)),1:2]
-    clade.2<-pcoSlice[match(clade2, row.names(pcoSlice)),1:2]
-    plot.pco(pcoSlice, clade.1[-which(is.na(clade.1)),], clade.2[-which(is.na(clade.2)),], main=main)
-}
 
 op<-par(mfrow=c(3, 2))
 pcoSlice(tree0.acc, main="slice 0")
@@ -469,13 +457,6 @@ expect_that(sort(row.names(clade.1)), equals(sort(c(clade1$tip.label, clade1$nod
 expect_that(sort(row.names(clade.2)), equals(sort(c(clade2$tip.label, clade2$node.label))))
 
 dev.new()
-plot.pco<-function(pco.scores ,clade.1 , clade.2, ...) {
-    library(grDevices)
-    plot(1,1, col="white", xlab="PC1", ylab="PC2", xlim=c(min(pco.scores[,1]), max(pco.scores[,1])), ylim=c(min(pco.scores[,2]), max(pco.scores[,2])), ...)
-    points(pco.scores[,1], pco.scores[,2], col=c("red", "blue", "green3")[as.factor(pco.scores[,clade.col])])
-    polygon(clade.1[chull(clade.1),], border="red")
-    polygon(clade.2[chull(clade.2),], border="green3")
-}
 
 plot.pco(pco.scores, clade.1, clade.2, main="with nodes")
 
@@ -508,12 +489,7 @@ tree7.del<-slice.tree(tree.full, age=131, method="DELTRAN")
 tree8.del<-slice.tree(tree.full, age=150, method="DELTRAN")
 
 #make plot pco
-pcoSlice<-function(tree, main="slice") {
-    pcoSlice<-pco.scores[tree$tip.label,]
-    clade.1<-pcoSlice[which(pcoSlice[,clade.col] == "eutheria"),1:2]
-    clade.2<-pcoSlice[which(pcoSlice[,clade.col] == "non-eutheria"),1:2]
-    plot.pco(pcoSlice, clade.1, clade.2, main=main)
-}
+
 
 op<-par(mfrow=c(3, 3))
 pcoSlice(tree0.del, main="0 Mya")
