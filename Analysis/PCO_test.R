@@ -1,6 +1,8 @@
 #Header
 setwd('~/PhD/Projects/SpatioTemporal_Disparity/Analysis')
 library(ape)
+setwd('~/PhD/Projects/SpatioTemporal_Disparity/Functions')
+source('~/PhD/Projects/SpatioTemporal_Disparity/Functions/refresh.R')
 
 
 #Plotting the polygon outlines per type
@@ -220,8 +222,8 @@ par(op)
 #Empirical data - Slater
 #------------------------
 #And now with real data
-Slater.table<-read.table("../Empirical_mammals/Matrices/2013-Slater-MEE-morpho.phylip", header=F, sep=" ", row.names=1) 
-Slater.tree<-read.nexus('../Empirical_mammals/Trees/2013-Slater-MEE.tre')
+Slater.table<-read.table("../Data/2013-Slater-MEE-morpho.phylip", header=F, sep=" ", row.names=1) 
+Slater.tree<-read.nexus('../Data/2013-Slater-MEE-TEM.tre')
 plot(Slater.tree, show.tip.label=FALSE) ; axisPhylo()
 
 #Correct the table
