@@ -6,7 +6,7 @@
 #example
 tree<-rtree(10)
 matrix<-data.frame(row.names=tree$tip.label, 'char1'=sample(c(0,1), Ntip(tree), replace=TRUE), 'char2'=sample(c(0,1), Ntip(tree), replace=TRUE))
-test<-anc.state_ace(tree, matrix, model='ML', verbose=FALSE)
+test<-anc.state_ace(tree, matrix, method='ML', verbose=FALSE)
 
 #test
 test_that('Testing anc.state_ace()', {
@@ -17,9 +17,9 @@ test_that('Testing anc.state_ace()', {
     #number of reconstructions
     expect_that(length(test), equals(ncol(matrix)))
     #verbose
-    expect_message(bla<-anc.state_ace(tree, matrix, model='ML', verbose=TRUE), 'Estimating the ancestral states for 2 characters:')
-    expect_message(bla<-anc.state_ace(tree, matrix, model='ML', verbose=TRUE), '.')
-    expect_message(bla<-anc.state_ace(tree, matrix, model='ML', verbose=TRUE), 'Done.')
+    expect_message(bla<-anc.state_ace(tree, matrix, method='ML', verbose=TRUE), 'Estimating the ancestral states for 2 characters:')
+    expect_message(bla<-anc.state_ace(tree, matrix, method='ML', verbose=TRUE), '.')
+    expect_message(bla<-anc.state_ace(tree, matrix, method='ML', verbose=TRUE), 'Done.')
 })
 message('.', appendLF=FALSE)
 
@@ -27,7 +27,7 @@ message('.', appendLF=FALSE)
 #example
 tree<-rtree(10)
 matrix<-data.frame(row.names=tree$tip.label, 'char1'=sample(c(0,1), Ntip(tree), replace=TRUE), 'char2'=sample(c(0,1), Ntip(tree), replace=TRUE))
-test<-anc.state_prob(tree, matrix, anc.state_ace(tree, matrix, model='ML', verbose=FALSE))
+test<-anc.state_prob(tree, matrix, anc.state_ace(tree, matrix, method='ML', verbose=FALSE))
 
 #test
 test_that('Testing anc.state_prob()', {
@@ -47,7 +47,7 @@ message('.', appendLF=FALSE)
 #Testing anc.state_state
 tree<-rtree(10)
 matrix<-data.frame(row.names=tree$tip.label, 'char1'=sample(c(0,1), Ntip(tree), replace=TRUE), 'char2'=sample(c(0,1), Ntip(tree), replace=TRUE))
-test<-anc.state_state(tree, matrix, anc.state_ace(tree, matrix, model='ML', verbose=FALSE))
+test<-anc.state_state(tree, matrix, anc.state_ace(tree, matrix, method='ML', verbose=FALSE))
 
 #test
 test_that('Testing anc.state_state()', {
@@ -66,7 +66,7 @@ message('.', appendLF=FALSE)
 #Testing anc.states
 tree<-rtree(10)
 matrix<-data.frame(row.names=tree$tip.label, 'char1'=sample(c(0,1), Ntip(tree), replace=TRUE), 'char2'=sample(c(0,1), Ntip(tree), replace=TRUE))
-test<-anc.state(tree, matrix, model='ML', verbose=FALSE)
+test<-anc.state(tree, matrix, method='ML', verbose=FALSE)
 
 #test
 test_that('Testing anc.state()', {
@@ -84,8 +84,8 @@ test_that('Testing anc.state()', {
         expect_that(levels(as.factor(matrix[,character])) %in% as.vector(test$state[,character]), equals(rep(TRUE, length(levels(as.factor(matrix[,character]))))))
     }
     #verbose
-    expect_message(bla<-anc.state(tree, matrix, model='ML', verbose=TRUE), 'Estimating the ancestral states for 2 characters:')
-    expect_message(bla<-anc.state(tree, matrix, model='ML', verbose=TRUE), '.')
-    expect_message(bla<-anc.state(tree, matrix, model='ML', verbose=TRUE), 'Done.')
+    expect_message(bla<-anc.state(tree, matrix, method='ML', verbose=TRUE), 'Estimating the ancestral states for 2 characters:')
+    expect_message(bla<-anc.state(tree, matrix, method='ML', verbose=TRUE), '.')
+    expect_message(bla<-anc.state(tree, matrix, method='ML', verbose=TRUE), 'Done.')
 })
 message('.', appendLF=FALSE)

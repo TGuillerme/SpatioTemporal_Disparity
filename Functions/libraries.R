@@ -3,5 +3,6 @@ suppressMessages({
     library(ape)
     library(caper)
     library(paleotree)
+    library(phytools)
     library(testthat)
 })

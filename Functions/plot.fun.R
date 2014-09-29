@@ -2,12 +2,16 @@
 plot.pco<-function(pco.scores, tax.col, legend=FALSE, xlim='default', ylim='default',...) {
     library(grDevices)
     #empty plot
-    if(xlim=='default') {
-        xlim=c(min(pco.scores[,1]), max(pco.scores[,1]))
-    }
-    if(ylim=='default') {
-        ylim=c(min(pco.scores[,2]), max(pco.scores[,2]))
-    }
+    suppressWarnings(
+        if(xlim=='default') {
+            xlim=c(min(pco.scores[,1]), max(pco.scores[,1]))
+        }
+    )
+    suppressWarnings(
+        if(ylim=='default') {
+            ylim=c(min(pco.scores[,2]), max(pco.scores[,2]))
+        }
+    )
     plot(1,1, col="white", xlab="PC1", ylab="PC2", xlim=xlim, ylim=ylim, ...)
     groups=length(levels(as.factor(pco.scores[,tax.col])))
     #points

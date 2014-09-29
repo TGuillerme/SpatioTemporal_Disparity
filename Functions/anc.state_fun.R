@@ -1,17 +1,32 @@
 #FUNCTIONS FOR anc.state
 
 #Ancestral states estimations from a matrix
-anc.state_ace<-function(tree, matrix, model, verbose) {
+anc.state_ace<-function(tree, matrix, method, verbose, ...) {
     anc.list<-list()
     if(verbose == TRUE) {
         message('Estimating the ancestral states for ', ncol(matrix), ' characters:', appendLF=FALSE)
     }
     for (character in 1:ncol(matrix)) {
-        if(model == 'ML') {
+        if(method == 'ML') {
+            #ML
             anc.list[[character]]<-ace(as.factor(matrix[,character]), tree, type="d")
             if(verbose == TRUE) {
                 message('.', appendLF=FALSE)
             }
+        }
+        if(method == 'Bayesian') {
+            #Bayesian
+            characters<-as.factor(matrix[,character])
+            names(characters)<-row.names(matrix)
+            anc.list[[character]]<-anc.Bayes(tree, characters, ...)
+            #Generate manageable output (transform it + allow saving the trace).
+            if(verbose == TRUE) {
+                message('.', appendLF=FALSE)
+            }
+        }
+        if(method == 'Threshold') {
+            #Revell's threshold method
+            threshBayes()
         }
     }
     if(verbose == TRUE) {
