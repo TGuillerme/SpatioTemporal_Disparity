@@ -4,7 +4,6 @@ if(grep("TGuillerme", getwd())) {
 } else {
     warning("You might have to change the directory!")
 }
-library(ape)
 source("functions.R")
 
 #data='Slater'
@@ -65,7 +64,9 @@ if (data == 'Beck')
 
 
 #Ancestral state matrix
-anc.matrix<-anc.state(tree, table, model='ML', verbose=TRUE)
+anc.matrix.save<-anc.state(tree, table, model='ML', verbose=TRUE)
+#Recalculating the matrix with a 0.95 probability lower limit
+anc.matrix<-anc.unc(anc.matrix.save, 0.95)
 
 #PCO
 dist.matrix<-dist(anc.matrix$state, method="euclidian")
@@ -74,21 +75,21 @@ pco.scores<-pco$vectors
 
 #Clades Slater
 #Australosphenids (monotremes and relatives) node 160
-pco.scores<-set.group(tree, pco.scores, type='clade', node=160, name='Australosphenids')
+#pco.scores<-set.group(tree, pco.scores, type='clade', node=160, name='Australosphenids')
 #Marsupialiomorphs (marsupials and relatives) node 122
-pco.scores<-set.group(tree, pco.scores, tax.col="taxonomy", type='clade', node=122, name='Marsupialiomorphs')
+#pco.scores<-set.group(tree, pco.scores, tax.col="taxonomy", type='clade', node=122, name='Marsupialiomorphs')
 #Placentaliomorphs (placentals and relatives) node 106
-pco.scores<-set.group(tree, pco.scores, tax.col="taxonomy", type='clade', node=106, name='Placentaliomorphs')
+#pco.scores<-set.group(tree, pco.scores, tax.col="taxonomy", type='clade', node=106, name='Placentaliomorphs')
 #Stem mammaliforms node 91 to 101
-pco.scores<-set.group(tree, pco.scores, tax.col="taxonomy", type='grade', node=c(91, 101), name='Stem_mammaliforms')
+#pco.scores<-set.group(tree, pco.scores, tax.col="taxonomy", type='grade', node=c(91, 101), name='Stem_mammaliforms')
 #Stem theriforms node 102 105
-pco.scores<-set.group(tree, pco.scores, tax.col="taxonomy", type='grade', node=c(102, 105), name='Stem_theriforms')
+#pco.scores<-set.group(tree, pco.scores, tax.col="taxonomy", type='grade', node=c(102, 105), name='Stem_theriforms')
 
 #Clades Beck
 #Placental
-#pco.scores<-set.group(tree, pco.scores, type='clade', node=153, name='Placental')
+pco.scores<-set.group(tree, pco.scores, type='clade', node=153, name='Placental')
 #Stem-placental
-#pco.scores<-set.group(tree, pco.scores, type='grade', node=c(103,153), name='Stem-placental')
+pco.scores<-set.group(tree, pco.scores, type='grade', node=c(103,153), name='Stem-placental')
 
 #Full pco plot
 plot.pco(pco.scores, "taxonomy", main="Entire \"morphospace\"", legend=TRUE)
@@ -98,9 +99,9 @@ xlim=c(min(pco.scores[,1]), max(pco.scores[,1]))
 ylim=c(min(pco.scores[,2]), max(pco.scores[,2]))
 
 #Time slices pco plots Beck
-#pco.slice(tree, pco.scores, c(0, 40, 50, 60, 70, 80, 90, 100, 110), 'ACCTRAN', tax.col="taxonomy", legend=FALSE, pars=c(3,3), xlim=xlim, ylim=ylim)
-#dev.new()
-#pco.slice(tree, pco.scores, c(0, 40, 50, 60, 70, 80, 90, 100, 110), 'DELTRAN', tax.col="taxonomy", legend=FALSE, pars=c(3,3), xlim=xlim, ylim=ylim)
+pco.slice(tree, pco.scores, c(0, 40, 50, 60, 70, 80, 90, 100, 110), 'ACCTRAN', tax.col="taxonomy", legend=FALSE, pars=c(3,3), xlim=xlim, ylim=ylim)
+dev.new()
+pco.slice(tree, pco.scores, c(0, 40, 50, 60, 70, 80, 90, 100, 110), 'DELTRAN', tax.col="taxonomy", legend=FALSE, pars=c(3,3), xlim=xlim, ylim=ylim)
 
 #Time slices pco plots Slate
 pco.slice(tree, pco.scores, c(0,25,50,75,100,125,150,175,200), 'ACCTRAN', tax.col="taxonomy", legend=FALSE, pars=c(3,3), xlim=xlim, ylim=ylim)
