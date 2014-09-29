@@ -1,7 +1,14 @@
-plot.pco<-function(pco.scores, tax.col, legend=FALSE, ...) {
+
+plot.pco<-function(pco.scores, tax.col, legend=FALSE, xlim='default', ylim='default',...) {
     library(grDevices)
     #empty plot
-    plot(1,1, col="white", xlab="PC1", ylab="PC2", xlim=c(min(pco.scores[,1]), max(pco.scores[,1])), ylim=c(min(pco.scores[,2]), max(pco.scores[,2])), ...)
+    if(xlim=='default') {
+        xlim=c(min(pco.scores[,1]), max(pco.scores[,1]))
+    }
+    if(ylim=='default') {
+        ylim=c(min(pco.scores[,2]), max(pco.scores[,2]))
+    }
+    plot(1,1, col="white", xlab="PC1", ylab="PC2", xlim=xlim, ylim=ylim, ...)
     groups=length(levels(as.factor(pco.scores[,tax.col])))
     #points
     points(pco.scores[,1], pco.scores[,2], col=palette()[1:groups][as.factor(pco.scores[,tax.col])])
@@ -15,11 +22,8 @@ plot.pco<-function(pco.scores, tax.col, legend=FALSE, ...) {
     }
 }
 
-
-pco.slice<-function(tree, pco.scores, slices, method, tax.col, legend=FALSE) {
-    #Setting plotting window
-    op<-par(mfrow=c(3,3)) #put automatic values depending on slices here
-
+#fix the scale
+pco.slice<-function(tree, pco.scores, slices, method, tax.col, legend=FALSE, pars=c(3,3), xlim, ylim, ...) {
     #Setting the age slices (can be one value (time is split equitably) or a vector of values containing the age)
     if(length(slices) == 1) {
         age<-seq(from=0, to=max(tree.age(tree)[,1]), length.out=slices)
@@ -28,13 +32,15 @@ pco.slice<-function(tree, pco.scores, slices, method, tax.col, legend=FALSE) {
         slices<-length(slices)
     }
 
+    #plot window setting
+    op<-par(mfrow=pars) 
+
     #calculating and plotting each slice
     for (slice in 1:slices) {
         subtree<-slice.tree(tree, age=age[slice], method)
-        pco_slice<-pco.scores[subtree$tip.label,]
-        pco_slice[,tax.col]<-as.factor(pco_slice[,tax.col])
-        levels(pco_slice[,tax.col])<-levels(as.factor(pco.scores[,tax.col]))
-        plot.pco(pco_slice, tax.col, legend, main=paste(round(age[slice]), "Mya"))
+        pco.scores[,tax.col]<-as.factor(pco.scores[,tax.col])
+        pco_slice<-subset(pco.scores[subtree$tip.label,])
+        plot.pco(pco_slice, tax.col, legend, main=paste(round(age[slice]), "Mya"), xlim=xlim, ylim=ylim, ...)
     }
     par(op)
 }
