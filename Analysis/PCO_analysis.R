@@ -7,28 +7,61 @@ if(grep("TGuillerme", getwd())) {
 library(ape)
 source("functions.R")
 
-#Data input
-Slater.table<-read.table("../Data/2013-Slater-MEE-morpho.table", header=F, sep=" ", row.names=1) 
-Slater.tree<-read.nexus('../Data/2013-Slater-MEE-TEM.tre')
+#data='Slater'
+data='Beck'
 
-#Remove species with only missing data before hand
-Slater.table<-Slater.table[-c(as.vector(which(apply(as.matrix(Slater.table), 1, function(x) levels(as.factor(x))) == "?"))),]
-Slater.table<-Slater.table[-c(grep("Aegialodon", row.names(Slater.table)), grep("Murtoilestes", row.names(Slater.table))),] #Aegialodon and Murtoilestes are bugged
+if (data == 'Slater') {
+    #Data input (Slater)
+    Slater.table<-read.table("../Data/2013-Slater-MEE-morpho.table", header=F, sep=" ", row.names=1) 
+    Slater.tree<-read.nexus('../Data/2013-Slater-MEE-TEM.tre')
 
-#Cleaning the tree and the table
-tree<-clean.tree(Slater.tree, Slater.table)
-table<-clean.table(Slater.table, Slater.tree)
-#Making the tree binary
-tree<-bin.tree(tree)
-#adding node names
-tree$node.label<-paste("n",seq(1:Nnode(tree)), sep="")
+    #Remove species with only missing data before hand
+    if (any(apply(as.matrix(Beck.table), 1, function(x) levels(as.factor((x)))) == "?")) {
+        Slater.table<-Slater.table[-c(as.vector(which(apply(as.matrix(Slater.table), 1, function(x) levels(as.factor(x))) == "?"))),]
+    }
+    Slater.table<-Slater.table[-c(grep("Aegialodon", row.names(Slater.table)), grep("Murtoilestes", row.names(Slater.table))),] #Aegialodon and Murtoilestes are bugged
+
+    #Cleaning the tree and the table
+    tree<-clean.tree(Slater.tree, Slater.table)
+    table<-clean.table(Slater.table, Slater.tree)
+    #Making the tree binary
+    tree<-bin.tree(tree)
+    #adding node names
+    tree$node.label<-paste("n",seq(1:Nnode(tree)), sep="")
+
+    #test
+    expect_equal(Ntip(tree), nrow(table))
+    suppressWarnings({eucl.table<-dist(table, method = "euclidean")})
+    pco<-pcoa(eucl.table)
+    expect_is(pco, "pcoa")
+}
+
+if (data == 'Beck')
+    #Data input (Beck)
+    Beck.table<-read.table("../Data/2014-Beck-ProcB-morpho.table", header=F, sep=" ", row.names=1) 
+    Beck.tree<-read.nexus('../Data/2014-Beck-ProcB-TEM.tre')
+
+    #Remove species with only missing data before hand
+    if (any(apply(as.matrix(Beck.table), 1, function(x) levels(as.factor((x)))) == "?")) {
+        Beck.table<-Beck.table[-c(as.vector(which(apply(as.matrix(Beck.table), 1, function(x) levels(as.factor(x))) == "?"))),]
+    }
+
+    #Cleaning the tree and the table
+    tree<-clean.tree(Beck.tree, Beck.table)
+    table<-clean.table(Beck.table, Beck.tree)
+    #Making the tree binary
+    tree<-bin.tree(tree)
+    #adding node names
+    tree$node.label<-paste("n",seq(1:Nnode(tree)), sep="")   
+
+    #test
+    expect_equal(Ntip(tree), nrow(table))
+    suppressWarnings({eucl.table<-dist(table, method = "euclidean")})
+    pco<-pcoa(eucl.table)
+    expect_is(pco, "pcoa")
+}
 
 
-#test
-expect_equal(Ntip(tree), nrow(table))
-suppressWarnings({eucl.table<-dist(table, method = "euclidean")})
-pco<-pcoa(eucl.table)
-expect_is(pco, "pcoa")
 
 
 #Ancestral state matrix
@@ -39,7 +72,7 @@ dist.matrix<-dist(anc.matrix$state, method="euclidian")
 pco<-pcoa(dist.matrix)
 pco.scores<-pco$vectors
 
-#Clades
+#Clades Slater
 #Australosphenids (monotremes and relatives) node 160
 pco.scores<-set.group(tree, pco.scores, type='clade', node=160, name='Australosphenids')
 #Marsupialiomorphs (marsupials and relatives) node 122
@@ -51,8 +84,24 @@ pco.scores<-set.group(tree, pco.scores, tax.col="taxonomy", type='grade', node=c
 #Stem theriforms node 102 105
 pco.scores<-set.group(tree, pco.scores, tax.col="taxonomy", type='grade', node=c(102, 105), name='Stem_theriforms')
 
+#Clades Beck
+#Placental
+#pco.scores<-set.group(tree, pco.scores, type='clade', node=153, name='Placental')
+#Stem-placental
+#pco.scores<-set.group(tree, pco.scores, type='grade', node=c(103,153), name='Stem-placental')
+
 #Full pco plot
 plot.pco(pco.scores, "taxonomy", main="Entire \"morphospace\"", legend=TRUE)
 
-#Time slices pco plots
-pco.slice(tree, pco.scores, 9, 'ACCTRAN', tax.col="taxonomy", legend=FALSE)
+#lim
+xlim=c(min(pco.scores[,1]), max(pco.scores[,1]))
+ylim=c(min(pco.scores[,2]), max(pco.scores[,2]))
+
+#Time slices pco plots Beck
+#pco.slice(tree, pco.scores, c(0, 40, 50, 60, 70, 80, 90, 100, 110), 'ACCTRAN', tax.col="taxonomy", legend=FALSE, pars=c(3,3), xlim=xlim, ylim=ylim)
+#dev.new()
+#pco.slice(tree, pco.scores, c(0, 40, 50, 60, 70, 80, 90, 100, 110), 'DELTRAN', tax.col="taxonomy", legend=FALSE, pars=c(3,3), xlim=xlim, ylim=ylim)
+
+#Time slices pco plots Slate
+pco.slice(tree, pco.scores, c(0,25,50,75,100,125,150,175,200), 'ACCTRAN', tax.col="taxonomy", legend=FALSE, pars=c(3,3), xlim=xlim, ylim=ylim)
+pco.slice(tree, pco.scores, c(0,25,50,75,100,125,150,175,200), 'DELTRAN', tax.col="taxonomy", legend=FALSE, pars=c(3,3), xlim=xlim, ylim=ylim)
