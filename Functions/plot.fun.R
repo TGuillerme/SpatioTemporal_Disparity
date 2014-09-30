@@ -50,3 +50,14 @@ pco.slice<-function(tree, pco.scores, slices, method, tax.col, legend=FALSE, par
 }
 
 #the subplots must keep the same levels 
+
+#cumsum.pco
+
+#cumsum.pco<-function(pco, plot=TRUE, threshold=0.95, ...) {
+
+    #Creating a dummy prcomp object
+#    dummy<-prcomp(USArrests)
+
+    #Replacing the dummy pco scores ($rotation) by the pco$vectors
+#    dummy[2]<-pco$vectors
+#}

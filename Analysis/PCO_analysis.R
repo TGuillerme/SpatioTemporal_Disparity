@@ -60,18 +60,53 @@ if (data == 'Beck')
     expect_is(pco, "pcoa")
 }
 
-
-
-
 #Ancestral state matrix
 anc.matrix.save<-anc.state(tree, table, model='ML', verbose=TRUE)
+
+#Test: replacing "?" by NAs
+#anc.matrix<-anc.matrix.save
+#for (character in 1:ncol(anc.matrix$state)) {
+#    for (taxa in 1:nrow(anc.matrix$state)) {
+#        if(as.character(anc.matrix$state[taxa, character]) == "?") {
+#            anc.matrix$state[taxa, character] <- NA
+#        }
+#    }
+#}
+
+
 #Recalculating the matrix with a 0.95 probability lower limit
 anc.matrix<-anc.unc(anc.matrix.save, 0.95)
 
 #PCO
 dist.matrix<-dist(anc.matrix$state, method="euclidian")
-pco<-pcoa(dist.matrix)
+pco<-pcoa(dist.matrix, correction="lingoes") #or "cailliez", see ?pcoa
 pco.scores<-pco$vectors
+
+dat3b<-scale(dat3[-c(218:220),c(3:9)])
+s3b<-svd(cor(dat3b))
+sum<-s3b$d/sum(s3b$d)
+proj3<-dat3b%*%s3b$u
+
+
+#svd?
+dm.svd<-svd(dist.matrix)
+dm.svd.sca<-svd(scale(dist.matrix))
+dm.svd.sco<-svd(cor(scale(dist.matrix)))
+#Cumulative variance
+cum.dm.svd<-cumsum(dm.svd$d/sum(dm.svd$d))
+cum.dm.svd.sca<-cumsum(dm.svd.sca$d/sum(dm.svd.sca$d))
+cum.dm.svd.sco<-cumsum(dm.svd.sco$d/sum(dm.svd.sco$d))
+
+#Checking the axis variance
+op<-par(mfrow=c(3,2))
+barplot(dm.svd$d/sum(dm.svd$d), main="distance matrix")
+hist(cum.dm.svd, main="distance matrix")
+barplot(dm.svd.sca$d/sum(dm.svd.sca$d), main="scale(dist.mat)")
+hist(cum.dm.svd.sca, main="scale(dist.mat)")
+barplot(dm.svd.sco$d/sum(dm.svd.sco$d), main="cor(scale(dist.mat))")
+hist(cum.dm.svd.sco, main="cor(scale(dist.mat))")
+par(op)
+
 
 #Clades Slater
 #Australosphenids (monotremes and relatives) node 160
