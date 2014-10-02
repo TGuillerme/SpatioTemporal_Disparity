@@ -10,12 +10,18 @@ anc.state_ace<-function(tree, matrix, method, verbose, ...) {
         if(method == 'ML') {
             #ML
             anc.list[[character]]<-ace(as.factor(matrix[,character]), tree, type="d")
+            #mode="ER"/"SYM"/"ARD"
             if(verbose == TRUE) {
                 message('.', appendLF=FALSE)
             }
         }
         if(method == 'Bayesian') {
             #Bayesian
+            require(phangorn)
+
+            #ancestral.pml(type="bayes")
+
+
             characters<-as.factor(matrix[,character])
             names(characters)<-row.names(matrix)
             anc.list[[character]]<-anc.Bayes(tree, characters, ...)
@@ -27,6 +33,10 @@ anc.state_ace<-function(tree, matrix, method, verbose, ...) {
         if(method == 'Threshold') {
             #Revell's threshold method
             threshBayes()
+        }
+
+        if(method == 'MrBayes') {
+            #Creates a MrBayes script
         }
     }
     if(verbose == TRUE) {
