@@ -33,6 +33,28 @@ if (data == 'Slater') {
     suppressWarnings({eucl.table<-dist(table, method = "euclidean")})
     pco<-pcoa(eucl.table)
     expect_is(pco, "pcoa")
+
+    #Characters list
+    Mandible<-seq(1:39)
+    Premolars<-seq(40:56)
+    Molar_morpho<-seq(57:126)
+    Molar_wear<-seq(127:141)
+    Dental_other<-seq(142:173)
+    Vertebrae<-seq(174:185)
+    Shoulder<-seq(186:208)
+    Forelimb<-seq(209:224)
+    Pelvic<-seq(225:237)
+    Hindlimb<-seq(238:287)
+    Postcranial_other<-seq(288:292)
+    Basicranium<-seq(293:365)
+    Middle_ear<-seq(366:387)
+    Cranial_other<-seq(388:436)
+    Cranial_vault<-seq(437:443)
+    Soft_tissue<-seq(444:445)
+    #Groups
+    Dental<-c(Premolars, Molar_morpho, Molar_wear, Dental_other)
+    Cranial<-c(Mandible, Basicranium, Middle_ear, Cranial_other, Cranial_vault)
+    PostCranial<-c(Vertebrae, Shoulder, Forelimb, Pelvic, Hindlimb, Postcranial_other)
 }
 
 if (data == 'Beck')
@@ -58,6 +80,28 @@ if (data == 'Beck')
     suppressWarnings({eucl.table<-dist(table, method = "euclidean")})
     pco<-pcoa(eucl.table)
     expect_is(pco, "pcoa")
+
+    #Characters list
+    Dentition_general<-c(seq(1:5), 420)
+    Incisors<-c(seq(6:22), 417)
+    Canine<-seq(23:28)
+    Premolars<-seq(29:60)
+    Molars<-c(seq(61:127), 421)
+    Mandible<-seq(128:158)
+    Rostrum<-seq(159:182)
+    Palate<-seq(183:195)
+    Zygoma<-c(seq(196:202), 418)
+    Orbit<-seq(203:225)
+    Braincase<-seq(226:233)
+    Mesocranium<-seq(234:249)
+    Basicranium<-c(seq(250:332), 419)
+    Occiput<-seq(333:338)
+    Vertebrae<-seq(339:351)
+    Forelimb<-seq(352:369)
+    Hindlimb<-seq(370:416)
+    Dental<-c(Dentition_general, Incisors, Canine, Premolars, Molars)
+    Cranial<-c(Mandible, Rostrum, Palate, Zygoma, Braincase, Orbit, Mesocranium, Basicranium, Occiput)
+    PostCranial<-c(Vertebrae, Forelimb, Hindlimb)
 }
 
 #Ancestral state matrix
@@ -78,35 +122,32 @@ anc.matrix.save<-anc.state(tree, table, model='ML', verbose=TRUE)
 anc.matrix<-anc.unc(anc.matrix.save, 0.95)
 
 #PCO
-dist.matrix<-dist(anc.matrix$state, method="euclidian")
-pco<-pcoa(dist.matrix, correction="lingoes") #or "cailliez", see ?pcoa
+submatrix<-anc.matrix$state[,]
+dist.matrix<-dist(submatrix, method="euclidian")
+pco<-pcoa(dist.matrix)#, correction="cailliez") #or "lingoes", see ?pcoa
 pco.scores<-pco$vectors
+#?pcoa
+#Negative eigenvalues can be produced in PCoA when decomposing distance matrices produced by coefficients that are not Euclidean (Gower and Legendre 1986, Legendre and Legendre 1998).
+#Negative eigenvalues with insignificant magnitudes indicate a less serious model misspecification. Typically, it just indicates the use of too many variables that are highly correlated. 
+#Split the matrix into more sensible characters sets?
 
-dat3b<-scale(dat3[-c(218:220),c(3:9)])
-s3b<-svd(cor(dat3b))
-sum<-s3b$d/sum(s3b$d)
-proj3<-dat3b%*%s3b$u
+#Variance per axis
+load<-which(names(pco$values)=="Relative_eig") #Relative_eig / Rel_corr_eig / Cor_eig
+barplot(pco$values[,load], main="Relative variance per axis")
+text(70, (max(pco$values[,load])-0.1*max(pco$values[,load])), paste("1st axis = ", round(pco$values[1,load]*100, digit=2), "% variance", sep=""))
+text(70, (max(pco$values[,load])-0.15*max(pco$values[,load])), paste("2nd axis = ", round(pco$values[2,load]*100, digit=2), "% variance", sep=""))
+text(70, (max(pco$values[,load])-0.20*max(pco$values[,load])), paste("3rd axis = ", round(pco$values[3,load]*100, digit=2), "% variance", sep=""))
+text(70, (max(pco$values[,load])-0.25*max(pco$values[,load])), paste("4th axis = ", round(pco$values[4,load]*100, digit=2), "% variance", sep=""))
+#Bad
 
-
-#svd?
-dm.svd<-svd(dist.matrix)
-dm.svd.sca<-svd(scale(dist.matrix))
-dm.svd.sco<-svd(cor(scale(dist.matrix)))
-#Cumulative variance
-cum.dm.svd<-cumsum(dm.svd$d/sum(dm.svd$d))
-cum.dm.svd.sca<-cumsum(dm.svd.sca$d/sum(dm.svd.sca$d))
-cum.dm.svd.sco<-cumsum(dm.svd.sco$d/sum(dm.svd.sco$d))
-
-#Checking the axis variance
-op<-par(mfrow=c(3,2))
-barplot(dm.svd$d/sum(dm.svd$d), main="distance matrix")
-hist(cum.dm.svd, main="distance matrix")
-barplot(dm.svd.sca$d/sum(dm.svd.sca$d), main="scale(dist.mat)")
-hist(cum.dm.svd.sca, main="scale(dist.mat)")
-barplot(dm.svd.sco$d/sum(dm.svd.sco$d), main="cor(scale(dist.mat))")
-hist(cum.dm.svd.sco, main="cor(scale(dist.mat))")
-par(op)
-
+#Cumulative variance per axis
+expect_equal(pco$values$Cum_corr_eig[1], pco$values$Rel_corr_eig[1]/sum(pco$values$Rel_corr_eig))
+expect_equal(pco$values$Cum_corr_eig[2], pco$values$Rel_corr_eig[1]/sum(pco$values$Rel_corr_eig)+pco$values$Rel_corr_eig[2]/sum(pco$values$Rel_corr_eig))
+#etc...
+barplot(pco$values$Cum_corr_eig, main="Cumulative variance per axis")
+abline(0.95,0)
+text(70, 0.95, paste("0.95 cumulative variance (", length(which(pco$values$Cum_corr_eig <= 0.95)), " axis)", sep=""), , pos=1)
+#Bad
 
 #Clades Slater
 #Australosphenids (monotremes and relatives) node 160
