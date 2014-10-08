@@ -1,0 +1,176 @@
+species,extant,mass_g,source,tree
+Acristatherium,FALSE,,,Beck
+Acrobates_pygmaeus,TRUE,,,Slater
+Adapis,FALSE,,,Beck
+Adelobasileus,FALSE,,,Slater
+Afrodon_chleuhi,FALSE,,,Beck
+Afrodon_germanicus,FALSE,,,Beck
+Akidolestes,FALSE,,,Slater
+Albertatherium,FALSE,,,Slater
+Alostera,FALSE,,,Beck
+Ambondro,FALSE,,,Slater
+Amphilestes,FALSE,,,Slater
+Amphitherium,FALSE,,,Slater
+Anchistodelphys,FALSE,,,Slater
+Andinodelphys,FALSE,,,Slater
+Arctocyon,FALSE,,,Beck
+Asfaltomylos,FALSE,,,Slater
+Asiatherium,FALSE,,,Slater
+Asioryctes,FALSE,,,Beck / Slater
+Aspanlestes,FALSE,,,Beck
+Atokatheridium,FALSE,,,Slater
+Ausktribosphenos,FALSE,,,Slater
+Avitotherium,FALSE,,,Beck
+Barunlestes,FALSE,,,Beck
+Batodon,FALSE,,,Beck
+Bishops,FALSE,,,Slater
+Bobolestes,FALSE,,,Beck
+Borisodon,FALSE,,,Beck
+Bradypodidae,TRUE,,,Slater
+Bradypus,TRUE,,,Beck
+Bulaklestes,FALSE,,,Beck
+Caenolestidae_I,TRUE,,,Slater
+Canidae,TRUE,,,Slater
+Castorocauda,FALSE,,,Slater
+Chriacus,FALSE,,,Beck
+Cimolestes,FALSE,,,Beck
+Cimolodontans,FALSE,,,Slater
+Cynocephalus,TRUE,,,Beck
+Dasypodidae,TRUE,,,Beck / Slater
+Dasyuridae,TRUE,,,Slater
+Daulestes,FALSE,,,Beck / Slater
+Deccanolestes_cf_hislopi,FALSE,,,Beck
+Deccanolestes_hislopi,FALSE,,,Beck
+Deccanolestes_narmadensis,FALSE,,,Beck
+Deccanolestes_robustus,FALSE,,,Beck
+Deltatheridium,FALSE,,,Beck / Slater
+Diacodexis,FALSE,,,Beck
+Diadiaphorus,FALSE,,,Beck
+Didelphidae_I,TRUE,,,Slater
+Didelphodon,FALSE,,,Slater
+Didolodus,FALSE,,,Beck
+Dilambdogale,FALSE,,,Beck
+Dryolestes,FALSE,,,Slater
+Eomaia,FALSE,,,Beck / Slater
+Eoryctes,FALSE,,,Beck
+Eoungulatum,FALSE,,,Beck
+Eozhelestes,FALSE,,,Beck
+Erinaceidae_I,TRUE,,,Slater
+Erinaceus,TRUE,,,Beck
+Felidae,TRUE,,,Slater
+Fruitafossor,FALSE,,,Slater
+Gallolestes,FALSE,,,Beck
+Gobiconodon,FALSE,,,Slater
+Gomphos,FALSE,,,Beck
+Gujaratia,FALSE,,,Beck
+Gypsonictops,FALSE,,,Beck
+Hadrocodium,FALSE,,,Slater
+Haldanodon,FALSE,,,Slater
+Haramiyavia,FALSE,,,Slater
+Henkelotherium,FALSE,,,Slater
+Henricosbornia,FALSE,,,Beck
+Holoclemensia,FALSE,,,Slater
+Hyopsodus,FALSE,,,Beck
+Hyracotherium,FALSE,,,Beck
+Icaronycteris,FALSE,,,Beck
+Jeholodens,FALSE,,,Slater
+Juramaia,FALSE,,,Beck / Slater
+Kennalestes,FALSE,,,Beck / Slater
+Kielantherium,FALSE,,,Beck / Slater
+Kokopellia,FALSE,,,Slater
+Kulbeckia,FALSE,,,Beck
+Leporidae,TRUE,,,Slater
+Leptictis,FALSE,,,Beck
+Macropodidae,TRUE,,,Slater
+Maelestes,FALSE,,,Beck
+Maotherium,FALSE,,,Slater
+Massetognathus,FALSE,,,Slater
+Mayulestes,FALSE,,,Beck / Slater
+Megazostrodon,FALSE,,,Slater
+Meniscotherium,FALSE,,,Beck
+Miacis,FALSE,,,Beck
+Microbiotheriidae,TRUE,,,Slater
+Microgale,TRUE,,,Beck
+Mimotona,FALSE,,,Beck
+Mioclaenus,FALSE,,,Beck
+Moeritherium,FALSE,,,Beck
+Montanalestes,FALSE,,,Slater
+Morganucodon,FALSE,,,Slater
+Muridae,TRUE,,,Slater
+Murtoilestes,FALSE,,,Beck
+Myrmecophagidae,TRUE,,,Beck / Slater
+Nanolestes,FALSE,,,Beck / Slater
+Notharctus,FALSE,,,Beck
+Obdurodon,FALSE,,,Slater
+Ornithorhynchus_anatinus,TRUE,,,Slater
+Orycteropus,TRUE,,,Beck
+Oxyclaenus,FALSE,,,Beck
+Oxyprimus,FALSE,,,Beck
+Pachygenelus,FALSE,,,Slater
+Paramys,FALSE,,,Beck
+Paranyctoides,FALSE,,,Beck
+Parazhelestes,FALSE,,,Beck
+Patriomanis,FALSE,,,Beck
+Paulacoutoia,FALSE,,,Beck
+Pediomys,FALSE,,,Slater
+Peramelidae_I,TRUE,,,Slater
+Peramus,FALSE,,,Beck / Slater
+Periptychus,FALSE,,,Beck
+Pezosiren,FALSE,,,Beck
+Phalangeridae,TRUE,,,Slater
+Phascolarctos_cinereus,TRUE,,,Slater
+Phenacodus,FALSE,,,Beck
+Plagiaulacidans,FALSE,,,Slater
+Plesiadapis,FALSE,,,Beck
+Potamogalinae,TRUE,,,Beck
+Priacodon,FALSE,,,Slater
+Probainognathus,FALSE,,,Slater
+Procavia,TRUE,,,Beck
+Prokennalestes,FALSE,,,Beck / Slater
+Protictis,FALSE,,,Beck
+Protungulatum,FALSE,,,Beck
+Pseudocheiridae,TRUE,,,Slater
+Pseudotribos,FALSE,,,Slater
+Ptilocercus,TRUE,,,Beck
+Pucadelphys,FALSE,,,Beck / Slater
+Purgatorius,FALSE,,,Beck
+Pyrotherium,FALSE,,,Beck
+Repenomamus,FALSE,,,Slater
+Rhombomylus,TRUE,,,Beck
+Rhynchocyon,TRUE,,,Beck
+Sheikhdzheilia,FALSE,,,Beck
+Shuotherium,FALSE,,,Slater
+Simpsonotus,FALSE,,,Beck
+Sinoconodon,FALSE,,,Slater
+Sinodelphys,FALSE,,,Slater
+Solenodon,TRUE,,,Beck
+Soricidae,TRUE,,,Beck
+Spalacotherium,FALSE,,,Slater
+Steropodon,FALSE,,,Slater
+Sulestes,FALSE,,,Slater
+Tachyglossus_aculeatus,TRUE,,,Slater
+Teinolophos,FALSE,,,Slater
+Thomashuxleya,FALSE,,,Beck
+Thrinaxodon,FALSE,,,Slater
+Thylacomyidae,TRUE,,,Slater
+Tinodon,FALSE,,,Slater
+Todralestes,FALSE,,,Beck
+Tribosphenomys,FALSE,,,Beck
+Trichechus,TRUE,,,Beck
+Trigonostylops,FALSE,,,Beck
+Trioracodon,FALSE,,,Slater
+Tritylodontids,FALSE,,,Slater
+Turgidodon,FALSE,,,Slater
+Uchkudukodon,FALSE,,,Beck
+Ukhaatherium,FALSE,,,Beck / Slater
+unnamed_cimolestid,FALSE,,,Beck
+unnamed_zalambdalestid,FALSE,,,Beck
+Vincelestes,FALSE,,,Beck / Slater
+Vomabatidae,TRUE,,,Slater
+Vulpavus,FALSE,,,Beck
+Widanelfarasia,FALSE,,,Beck
+Yanoconodon,FALSE,,,Slater
+Zalambdalestes,FALSE,,,Beck / Slater
+Zhangheotherium,FALSE,,,Slater
+Zhangolestes,FALSE,,,Beck
+Zhelestes,FALSE,,,Beck
