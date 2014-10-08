@@ -57,7 +57,7 @@ if (data == 'Slater') {
     PostCranial<-c(Vertebrae, Shoulder, Forelimb, Pelvic, Hindlimb, Postcranial_other)
 }
 
-if (data == 'Beck')
+if (data == 'Beck') {
     #Data input (Beck)
     Beck.table<-read.table("../Data/2014-Beck-ProcB-morpho.table", header=F, sep=" ", row.names=1) 
     Beck.tree<-read.nexus('../Data/2014-Beck-ProcB-TEM.tre')
@@ -123,7 +123,11 @@ anc.matrix<-anc.unc(anc.matrix.save, 0.95)
 
 #PCO
 submatrix<-anc.matrix$state[,]
-dist.matrix<-dist(submatrix, method="euclidian")
+
+
+dist.matrix<-vegdist(submatrix, method="jaccard")
+#Error here.
+
 pco<-pcoa(dist.matrix)#, correction="cailliez") #or "lingoes", see ?pcoa
 pco.scores<-pco$vectors
 #?pcoa
@@ -132,7 +136,7 @@ pco.scores<-pco$vectors
 #Split the matrix into more sensible characters sets?
 
 #Variance per axis
-load<-which(names(pco$values)=="Relative_eig") #Relative_eig / Rel_corr_eig / Cor_eig
+load<-which(names(pco$values)=="Rel_corr_eig") #Relative_eig / Rel_corr_eig / Cor_eig
 barplot(pco$values[,load], main="Relative variance per axis")
 text(70, (max(pco$values[,load])-0.1*max(pco$values[,load])), paste("1st axis = ", round(pco$values[1,load]*100, digit=2), "% variance", sep=""))
 text(70, (max(pco$values[,load])-0.15*max(pco$values[,load])), paste("2nd axis = ", round(pco$values[2,load]*100, digit=2), "% variance", sep=""))
@@ -151,15 +155,15 @@ text(70, 0.95, paste("0.95 cumulative variance (", length(which(pco$values$Cum_c
 
 #Clades Slater
 #Australosphenids (monotremes and relatives) node 160
-#pco.scores<-set.group(tree, pco.scores, type='clade', node=160, name='Australosphenids')
+pco.scores<-set.group(tree, pco.scores, type='clade', node=160, name='Australosphenids')
 #Marsupialiomorphs (marsupials and relatives) node 122
-#pco.scores<-set.group(tree, pco.scores, tax.col="taxonomy", type='clade', node=122, name='Marsupialiomorphs')
+pco.scores<-set.group(tree, pco.scores, tax.col="taxonomy", type='clade', node=122, name='Marsupialiomorphs')
 #Placentaliomorphs (placentals and relatives) node 106
-#pco.scores<-set.group(tree, pco.scores, tax.col="taxonomy", type='clade', node=106, name='Placentaliomorphs')
+pco.scores<-set.group(tree, pco.scores, tax.col="taxonomy", type='clade', node=106, name='Placentaliomorphs')
 #Stem mammaliforms node 91 to 101
-#pco.scores<-set.group(tree, pco.scores, tax.col="taxonomy", type='grade', node=c(91, 101), name='Stem_mammaliforms')
+pco.scores<-set.group(tree, pco.scores, tax.col="taxonomy", type='grade', node=c(91, 101), name='Stem_mammaliforms')
 #Stem theriforms node 102 105
-#pco.scores<-set.group(tree, pco.scores, tax.col="taxonomy", type='grade', node=c(102, 105), name='Stem_theriforms')
+pco.scores<-set.group(tree, pco.scores, tax.col="taxonomy", type='grade', node=c(102, 105), name='Stem_theriforms')
 
 #Clades Beck
 #Placental
@@ -168,7 +172,7 @@ pco.scores<-set.group(tree, pco.scores, type='clade', node=153, name='Placental'
 pco.scores<-set.group(tree, pco.scores, type='grade', node=c(103,153), name='Stem-placental')
 
 #Full pco plot
-plot.pco(pco.scores, "taxonomy", main="Entire \"morphospace\"", legend=TRUE)
+plot.pco(pco.scores, "taxonomy", main="Entire \"morphospace\"", legend=TRUE, pos.leg=c(10,-5))
 
 #lim
 xlim=c(min(pco.scores[,1]), max(pco.scores[,1]))
