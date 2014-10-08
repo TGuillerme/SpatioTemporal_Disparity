@@ -1,176 +1,1 @@
-species,extant,mass_g,source,tree
-Acristatherium,FALSE,,,Beck
-Acrobates_pygmaeus,TRUE,,,Slater
-Adapis,FALSE,,,Beck
-Adelobasileus,FALSE,,,Slater
-Afrodon_chleuhi,FALSE,,,Beck
-Afrodon_germanicus,FALSE,,,Beck
-Akidolestes,FALSE,,,Slater
-Albertatherium,FALSE,,,Slater
-Alostera,FALSE,,,Beck
-Ambondro,FALSE,,,Slater
-Amphilestes,FALSE,,,Slater
-Amphitherium,FALSE,,,Slater
-Anchistodelphys,FALSE,,,Slater
-Andinodelphys,FALSE,,,Slater
-Arctocyon,FALSE,,,Beck
-Asfaltomylos,FALSE,,,Slater
-Asiatherium,FALSE,,,Slater
-Asioryctes,FALSE,,,Beck / Slater
-Aspanlestes,FALSE,,,Beck
-Atokatheridium,FALSE,,,Slater
-Ausktribosphenos,FALSE,,,Slater
-Avitotherium,FALSE,,,Beck
-Barunlestes,FALSE,,,Beck
-Batodon,FALSE,,,Beck
-Bishops,FALSE,,,Slater
-Bobolestes,FALSE,,,Beck
-Borisodon,FALSE,,,Beck
-Bradypodidae,TRUE,,,Slater
-Bradypus,TRUE,,,Beck
-Bulaklestes,FALSE,,,Beck
-Caenolestidae_I,TRUE,,,Slater
-Canidae,TRUE,,,Slater
-Castorocauda,FALSE,,,Slater
-Chriacus,FALSE,,,Beck
-Cimolestes,FALSE,,,Beck
-Cimolodontans,FALSE,,,Slater
-Cynocephalus,TRUE,,,Beck
-Dasypodidae,TRUE,,,Beck / Slater
-Dasyuridae,TRUE,,,Slater
-Daulestes,FALSE,,,Beck / Slater
-Deccanolestes_cf_hislopi,FALSE,,,Beck
-Deccanolestes_hislopi,FALSE,,,Beck
-Deccanolestes_narmadensis,FALSE,,,Beck
-Deccanolestes_robustus,FALSE,,,Beck
-Deltatheridium,FALSE,,,Beck / Slater
-Diacodexis,FALSE,,,Beck
-Diadiaphorus,FALSE,,,Beck
-Didelphidae_I,TRUE,,,Slater
-Didelphodon,FALSE,,,Slater
-Didolodus,FALSE,,,Beck
-Dilambdogale,FALSE,,,Beck
-Dryolestes,FALSE,,,Slater
-Eomaia,FALSE,,,Beck / Slater
-Eoryctes,FALSE,,,Beck
-Eoungulatum,FALSE,,,Beck
-Eozhelestes,FALSE,,,Beck
-Erinaceidae_I,TRUE,,,Slater
-Erinaceus,TRUE,,,Beck
-Felidae,TRUE,,,Slater
-Fruitafossor,FALSE,,,Slater
-Gallolestes,FALSE,,,Beck
-Gobiconodon,FALSE,,,Slater
-Gomphos,FALSE,,,Beck
-Gujaratia,FALSE,,,Beck
-Gypsonictops,FALSE,,,Beck
-Hadrocodium,FALSE,,,Slater
-Haldanodon,FALSE,,,Slater
-Haramiyavia,FALSE,,,Slater
-Henkelotherium,FALSE,,,Slater
-Henricosbornia,FALSE,,,Beck
-Holoclemensia,FALSE,,,Slater
-Hyopsodus,FALSE,,,Beck
-Hyracotherium,FALSE,,,Beck
-Icaronycteris,FALSE,,,Beck
-Jeholodens,FALSE,,,Slater
-Juramaia,FALSE,,,Beck / Slater
-Kennalestes,FALSE,,,Beck / Slater
-Kielantherium,FALSE,,,Beck / Slater
-Kokopellia,FALSE,,,Slater
-Kulbeckia,FALSE,,,Beck
-Leporidae,TRUE,,,Slater
-Leptictis,FALSE,,,Beck
-Macropodidae,TRUE,,,Slater
-Maelestes,FALSE,,,Beck
-Maotherium,FALSE,,,Slater
-Massetognathus,FALSE,,,Slater
-Mayulestes,FALSE,,,Beck / Slater
-Megazostrodon,FALSE,,,Slater
-Meniscotherium,FALSE,,,Beck
-Miacis,FALSE,,,Beck
-Microbiotheriidae,TRUE,,,Slater
-Microgale,TRUE,,,Beck
-Mimotona,FALSE,,,Beck
-Mioclaenus,FALSE,,,Beck
-Moeritherium,FALSE,,,Beck
-Montanalestes,FALSE,,,Slater
-Morganucodon,FALSE,,,Slater
-Muridae,TRUE,,,Slater
-Murtoilestes,FALSE,,,Beck
-Myrmecophagidae,TRUE,,,Beck / Slater
-Nanolestes,FALSE,,,Beck / Slater
-Notharctus,FALSE,,,Beck
-Obdurodon,FALSE,,,Slater
-Ornithorhynchus_anatinus,TRUE,,,Slater
-Orycteropus,TRUE,,,Beck
-Oxyclaenus,FALSE,,,Beck
-Oxyprimus,FALSE,,,Beck
-Pachygenelus,FALSE,,,Slater
-Paramys,FALSE,,,Beck
-Paranyctoides,FALSE,,,Beck
-Parazhelestes,FALSE,,,Beck
-Patriomanis,FALSE,,,Beck
-Paulacoutoia,FALSE,,,Beck
-Pediomys,FALSE,,,Slater
-Peramelidae_I,TRUE,,,Slater
-Peramus,FALSE,,,Beck / Slater
-Periptychus,FALSE,,,Beck
-Pezosiren,FALSE,,,Beck
-Phalangeridae,TRUE,,,Slater
-Phascolarctos_cinereus,TRUE,,,Slater
-Phenacodus,FALSE,,,Beck
-Plagiaulacidans,FALSE,,,Slater
-Plesiadapis,FALSE,,,Beck
-Potamogalinae,TRUE,,,Beck
-Priacodon,FALSE,,,Slater
-Probainognathus,FALSE,,,Slater
-Procavia,TRUE,,,Beck
-Prokennalestes,FALSE,,,Beck / Slater
-Protictis,FALSE,,,Beck
-Protungulatum,FALSE,,,Beck
-Pseudocheiridae,TRUE,,,Slater
-Pseudotribos,FALSE,,,Slater
-Ptilocercus,TRUE,,,Beck
-Pucadelphys,FALSE,,,Beck / Slater
-Purgatorius,FALSE,,,Beck
-Pyrotherium,FALSE,,,Beck
-Repenomamus,FALSE,,,Slater
-Rhombomylus,TRUE,,,Beck
-Rhynchocyon,TRUE,,,Beck
-Sheikhdzheilia,FALSE,,,Beck
-Shuotherium,FALSE,,,Slater
-Simpsonotus,FALSE,,,Beck
-Sinoconodon,FALSE,,,Slater
-Sinodelphys,FALSE,,,Slater
-Solenodon,TRUE,,,Beck
-Soricidae,TRUE,,,Beck
-Spalacotherium,FALSE,,,Slater
-Steropodon,FALSE,,,Slater
-Sulestes,FALSE,,,Slater
-Tachyglossus_aculeatus,TRUE,,,Slater
-Teinolophos,FALSE,,,Slater
-Thomashuxleya,FALSE,,,Beck
-Thrinaxodon,FALSE,,,Slater
-Thylacomyidae,TRUE,,,Slater
-Tinodon,FALSE,,,Slater
-Todralestes,FALSE,,,Beck
-Tribosphenomys,FALSE,,,Beck
-Trichechus,TRUE,,,Beck
-Trigonostylops,FALSE,,,Beck
-Trioracodon,FALSE,,,Slater
-Tritylodontids,FALSE,,,Slater
-Turgidodon,FALSE,,,Slater
-Uchkudukodon,FALSE,,,Beck
-Ukhaatherium,FALSE,,,Beck / Slater
-unnamed_cimolestid,FALSE,,,Beck
-unnamed_zalambdalestid,FALSE,,,Beck
-Vincelestes,FALSE,,,Beck / Slater
-Vomabatidae,TRUE,,,Slater
-Vulpavus,FALSE,,,Beck
-Widanelfarasia,FALSE,,,Beck
-Yanoconodon,FALSE,,,Slater
-Zalambdalestes,FALSE,,,Beck / Slater
-Zhangheotherium,FALSE,,,Slater
-Zhangolestes,FALSE,,,Beck
-Zhelestes,FALSE,,,Beck
+species,extant,mass_g,FOD_Mya,LOD_Mya,source,treeAcristatherium,FALSE,,,,,BeckAcrobates_pygmaeus,TRUE,27.0170613,0,0,Slater (2013).,SlaterAdapis,FALSE,,,,,BeckAdelobasileus,FALSE,,,,,SlaterAfrodon_chleuhi,FALSE,,,,,BeckAfrodon_germanicus,FALSE,,,,,BeckAkidolestes,FALSE,,,,,SlaterAlbertatherium,FALSE,80.84,83.5,70.6,Fox (1971).,SlaterAlostera,FALSE,,,,,BeckAmbondro,FALSE,18.86,167.7,164.7,Slater (2013).,SlaterAmphilestes,FALSE,54.48,167.7,164.7,Slater (2013).,SlaterAmphitherium,FALSE,,,,,SlaterAnchistodelphys,FALSE,23.06,93.5,89.3,Slater (2013).,SlaterAndinodelphys,FALSE,220.08,65.5,61.7,Slater (2013).,SlaterArctocyon,FALSE,,,,,BeckAsfaltomylos,FALSE,8.19,183,175.6,Slater (2013).,SlaterAsiatherium,FALSE,34.28,83.5,70.6,Trofimov and Szalay (1994).,SlaterAsioryctes,FALSE,23.83,75,75,Slater (2013).,Beck / SlaterAspanlestes,FALSE,34.42,89.3,85.8,Slater (2013).,BeckAtokatheridium,FALSE,14.22,122.46,109,"Davis, Cifelli, and Kienlan-Jaworoska (2008).",SlaterAusktribosphenos,FALSE,33.15,125.45,122.46,Slater (2013).,SlaterAvitotherium,FALSE,,,,,BeckBarunlestes,FALSE,,,,,BeckBatodon,FALSE,,,,,BeckBishops,FALSE,41.31,125.45,122.46,Slater (2013).,SlaterBobolestes,FALSE,,,,,BeckBorisodon,FALSE,,,,,BeckBradypodidae,TRUE,4324.57328,0,0,Slater (2013).,SlaterBradypus,TRUE,,,,,BeckBulaklestes,FALSE,,,,,BeckCaenolestidae_I,TRUE,36.25953131,0,0,Slater (2013).,SlaterCanidae,TRUE,5350.78917,0,0,Slater (2013).,SlaterCastorocauda,FALSE,800,164,164,Ji et al. (2006).,SlaterChriacus,FALSE,,,,,BeckCimolestes,FALSE,,,,,BeckCimolodontans,FALSE,819.73,125.45,33.9,Slater (2013).,SlaterCynocephalus,TRUE,,,,,BeckDasypodidae,TRUE,2092.41484,0,0,Slater (2013).,Beck / SlaterDasyuridae,TRUE,52.7080193,0,0,Slater (2013).,SlaterDaulestes,FALSE,7.46,89.3,85.8,Slater (2013).,Beck / SlaterDeccanolestes_cf_hislopi,FALSE,,,,,BeckDeccanolestes_hislopi,FALSE,,,,,BeckDeccanolestes_narmadensis,FALSE,,,,,BeckDeccanolestes_robustus,FALSE,,,,,BeckDeltatheridium,FALSE,157.96,83.5,70.6,Gregory and Simpson (1926).,Beck / SlaterDiacodexis,FALSE,,,,,BeckDiadiaphorus,FALSE,,,,,BeckDidelphidae_I,TRUE,67.0711013,0,0,Slater (2013).,SlaterDidelphodon,FALSE,912.88,83.5,70.6,Gordon (2003).,SlaterDidolodus,FALSE,,,,,BeckDilambdogale,FALSE,,,,,BeckDryolestes,FALSE,129.56,155.7,150.8,Slater (2013).,SlaterEomaia,FALSE,25,125,125,Ji et al. (2002).,Beck / SlaterEoryctes,FALSE,,,,,BeckEoungulatum,FALSE,,,,,BeckEozhelestes,FALSE,,,,,BeckErinaceidae_I,TRUE,294.490245,0,0,Slater (2013).,SlaterErinaceus,TRUE,,,,,BeckFelidae,TRUE,9717.67682,0,0,Slater (2013).,SlaterFruitafossor,FALSE,4.7,155.7,150.8,Slater (2013).,SlaterGallolestes,FALSE,,,,,BeckGobiconodon,FALSE,320.09,136.4,130,Slater (2013).,SlaterGomphos,FALSE,,,,,BeckGujaratia,FALSE,,,,,BeckGypsonictops,FALSE,,,,,BeckHadrocodium,FALSE,2,195,195,Luo et al. (2001).,SlaterHaldanodon,FALSE,32.6,155.7,150.8,Slater (2013).,SlaterHaramiyavia,FALSE,,,,,SlaterHenkelotherium,FALSE,,,,,SlaterHenricosbornia,FALSE,,,,,BeckHoloclemensia,FALSE,28.42,112.03,109,Slater (2013).,SlaterHyopsodus,FALSE,,,,,BeckHyracotherium,FALSE,,,,,BeckIcaronycteris,FALSE,,,,,BeckJeholodens,FALSE,25,130,125.4,Ji et al. (1999).,SlaterJuramaia,FALSE,17,160,160,Luo et al. (2011),Beck / SlaterKennalestes,FALSE,13.21,75,75,Nessov (1997).,Beck / SlaterKielantherium,FALSE,24.39,125.45,99.6,Slater (2013).,Beck / SlaterKokopellia,FALSE,52.9,105.3,93.5,Cifelli (1993).,SlaterKulbeckia,FALSE,,,,,BeckLeporidae,TRUE,1883.97077,0,0,Slater (2013).,SlaterLeptictis,FALSE,,,,,BeckMacropodidae,TRUE,6452.79049,0,0,Slater (2013).,SlaterMaelestes,FALSE,,,,,BeckMaotherium,FALSE,83,125.45,122.46,Ji et al. (2009).,SlaterMassetognathus,FALSE,,,,,SlaterMayulestes,FALSE,291.18,65.5,61.7,Slater (2013).,Beck / SlaterMegazostrodon,FALSE,30,210.6,196.5,Jenkins and Parrington (1976).,SlaterMeniscotherium,FALSE,,,,,BeckMiacis,FALSE,,,,,BeckMicrobiotheriidae,TRUE,25,0,0,Slater (2013).,SlaterMicrogale,TRUE,,,,,BeckMimotona,FALSE,,,,,BeckMioclaenus,FALSE,,,,,BeckMoeritherium,FALSE,,,,,BeckMontanalestes,FALSE,9.84,112,112,Slater (2013).,SlaterMorganucodon,FALSE,89,203,199,Luo et al. (2001).,SlaterMuridae,TRUE,68.9398503,0,0,Slater (2013).,SlaterMurtoilestes,FALSE,50.15,125,125,Slater (2013).,BeckMyrmecophagidae,TRUE,8398.16393,0,0,Slater (2013).,Beck / SlaterNanolestes,FALSE,4.37,161.2,150.8,Slater (2013).,Beck / SlaterNotharctus,FALSE,,,,,BeckObdurodon,FALSE,2038,23.03,15.97,Macrini et al. (2006).,SlaterOrnithorhynchus_anatinus,TRUE,1484.25,0,0,Slater (2013).,SlaterOrycteropus,TRUE,56175.2,0,0,Slater (2013).,BeckOxyclaenus,FALSE,,,,,BeckOxyprimus,FALSE,,,,,BeckPachygenelus,FALSE,,,,,SlaterParamys,FALSE,,,,,BeckParanyctoides,FALSE,,,,,BeckParazhelestes,FALSE,,,,,BeckPatriomanis,FALSE,,,,,BeckPaulacoutoia,FALSE,,,,,BeckPediomys,FALSE,39.15,83.5,70.6,Gordon (2003).,SlaterPeramelidae_I,TRUE,769.712403,0,0,Slater (2013).,SlaterPeramus,FALSE,,,,,Beck / SlaterPeriptychus,FALSE,,,,,BeckPezosiren,FALSE,,,,,BeckPhalangeridae,TRUE,2377.24511,0,0,Slater (2013).,SlaterPhascolarctos_cinereus,TRUE,,,,,SlaterPhenacodus,FALSE,,,,,BeckPlagiaulacidans,FALSE,31.78,167.7,61.7,Slater (2013).,SlaterPlesiadapis,FALSE,,,,,BeckPotamogalinae,TRUE,,,,,BeckPriacodon,FALSE,81.05,155.7,150.8,Slater (2013).,SlaterProbainognathus,FALSE,,,,,SlaterProcavia,TRUE,,,,,BeckProkennalestes,FALSE,13.22,112,112,Slater (2013).,Beck / SlaterProtictis,FALSE,,,,,BeckProtungulatum,FALSE,,,,,BeckPseudocheiridae,TRUE,780.577558,0,0,Slater (2013).,SlaterPseudotribos,FALSE,17.58,164,164,Slater (2013).,SlaterPtilocercus,TRUE,,,,,BeckPucadelphys,FALSE,20,65.5,61.7,Ladeveze et al. (2011).,Beck / SlaterPurgatorius,FALSE,,,,,BeckPyrotherium,FALSE,,,,,BeckRepenomamus,FALSE,10000,125.45,122.46,Slater (2013).,SlaterRhombomylus,TRUE,,,,,BeckRhynchocyon,TRUE,,,,,BeckSheikhdzheilia,FALSE,,,,,BeckShuotherium,FALSE,5.49,167,145,Slater (2013).,SlaterSimpsonotus,FALSE,,,,,BeckSinoconodon,FALSE,517,203,199,Luo et al. (2001).,SlaterSinodelphys,FALSE,40,125,125,Luo et al. (2003).,SlaterSolenodon,TRUE,,,,,BeckSoricidae,TRUE,9.24033084,0,0,Slater (2013).,BeckSpalacotherium,FALSE,33.15,145.5,140.2,Slater (2013).,SlaterSteropodon,FALSE,2367.53,112.03,99.6,Slater (2013).,SlaterSulestes,FALSE,122.89,89.3,85.5,"Nessov (1985, 1993, 1997).",SlaterTachyglossus_aculeatus,TRUE,,,,,SlaterTeinolophos,FALSE,66.11,125.45,122.46,Slater (2013).,SlaterThomashuxleya,FALSE,,,,,BeckThrinaxodon,FALSE,,,,,SlaterThylacomyidae,TRUE,,,,,SlaterTinodon,FALSE,61.27,155.7,150.8,Slater (2013).,SlaterTodralestes,FALSE,,,,,BeckTribosphenomys,FALSE,,,,,BeckTrichechus,TRUE,,,,,BeckTrigonostylops,FALSE,,,,,BeckTrioracodon,FALSE,,,,,SlaterTritylodontids,FALSE,,,,,SlaterTurgidodon,FALSE,169,83.5,70.6,Gordon (2003).,SlaterUchkudukodon,FALSE,,,,,BeckUkhaatherium,FALSE,32,75,75,Horovitz (2003).,Beck / Slaterunnamed_cimolestid,FALSE,,,,,Beckunnamed_zalambdalestid,FALSE,,,,,BeckVincelestes,FALSE,1228,130,125.4,Macrini et al. (2007).,Beck / SlaterVomabatidae,TRUE,37877.9706,0,0,Slater (2013).,SlaterVulpavus,FALSE,,,,,BeckWidanelfarasia,FALSE,,,,,BeckYanoconodon,FALSE,17.06,130,125.4,Slater (2013).,SlaterZalambdalestes,FALSE,59.89,75,75,Archibald and Averianov (2006).,Beck / SlaterZhangheotherium,FALSE,70,130,125.4,Hu et al. (1997).,SlaterZhangolestes,FALSE,,,,,BeckZhelestes,FALSE,,,,,Beck
