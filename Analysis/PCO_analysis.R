@@ -121,12 +121,32 @@ anc.matrix.save<-anc.state(tree, table, model='ML', verbose=TRUE)
 #Recalculating the matrix with a 0.95 probability lower limit
 anc.matrix<-anc.unc(anc.matrix.save, 0.95)
 
-#PCO
-submatrix<-anc.matrix$state[,]
+#Submatrix
+submatrix<-anc.matrix$state[1:102,Dental]
 
+#Does the problem comes from the number of species?
 
-dist.matrix<-vegdist(submatrix, method="jaccard")
-#Error here.
+#Test: replacing "?" by NAs and making the submatrix factor
+for (character in 1:ncol(submatrix)) {
+    for (taxa in 1:nrow(submatrix)) {
+        if(as.character(submatrix[taxa, character]) == "?") {
+            submatrix[taxa, character] <- NA
+        }
+    }
+}
+submatrix<-as.data.frame(submatrix)
+for (character in 1:ncol(submatrix)) {
+    submatrix[,character]<-as.numeric(submatrix[,character])
+}
+
+dist.matrix<-vegdist(submatrix, method="jaccard", na.rm=TRUE)
+
+#MDS transformation still no convincing
+#Classic MDS
+fit.cmdscale2 <- cmdscale(dist.matrix ,eig=TRUE, k=2)
+fit.cmdscale20 <- cmdscale(dist.matrix ,eig=TRUE, k=20)
+plot(fit.cmdscale2$points[,1], fit.cmdscale2$points[,2], xlab="Coordinate 1", ylab="Coordinate 2", main="Metric MDS")
+#exact same results than pcoa
 
 pco<-pcoa(dist.matrix)#, correction="cailliez") #or "lingoes", see ?pcoa
 pco.scores<-pco$vectors
