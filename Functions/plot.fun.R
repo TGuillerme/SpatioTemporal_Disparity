@@ -1,5 +1,5 @@
 
-plot.pco<-function(pco.scores, tax.col, legend=FALSE, xlim='default', ylim='default',...) {
+plot.pco<-function(pco.scores, tax.col, legend=FALSE, pos.leg, xlim='default', ylim='default',...) {
     library(grDevices)
     #empty plot
     suppressWarnings(
@@ -22,7 +22,11 @@ plot.pco<-function(pco.scores, tax.col, legend=FALSE, xlim='default', ylim='defa
         polygon(clade[chull(clade),], border=palette()[group])
     }
     if(legend == TRUE){
-        legend(min(pco.scores[,1]), max(pco.scores[,2]), levels(as.factor(pco.scores[,tax.col])), col=palette()[1:groups], pch=21, cex=0.7)
+        if(missing(pos.leg)){
+            legend(min(pco.scores[,1]), max(pco.scores[,2]), levels(as.factor(pco.scores[,tax.col])), col=palette()[1:groups], pch=21, cex=0.7)
+        } else {
+            legend(pos.leg[1], pos.leg[2], levels(as.factor(pco.scores[,tax.col])), col=palette()[1:groups], pch=21, cex=0.7)
+        }
     }
 }
 

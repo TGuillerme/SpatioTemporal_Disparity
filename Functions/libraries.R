@@ -4,5 +4,6 @@ suppressMessages({
     library(caper)
     library(paleotree)
     library(phytools)
+    library(vegan)
     library(testthat)
 })
