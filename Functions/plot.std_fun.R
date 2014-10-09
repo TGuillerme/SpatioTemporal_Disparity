@@ -1,6 +1,33 @@
+#plotting the pco axis load
+plot.load<-function(data, legend, pos.leg, pars=c(1,2), ...) {
+    #Window settings
+    op<-par(mfrow=pars) 
 
+    #Selecting the axis load and their cumulative value from the pco
+    cum<-data$values$Cum_corr_eig
+    load<-data$values$Rel_corr_eig
+
+    #plotting the load
+    barplot(load, main="Relative variance per axis")
+    if(legend==TRUE) {
+        text(round(length(load)/2), (max(load)-0.1*max(load)), paste("1st axis = ", round(load[1]*100, digit=2), "% variance", sep=""), cex=0.5)
+        text(round(length(load)/2), (max(load)-0.125*max(load)), paste("2nd axis = ", round(load[2]*100, digit=2), "% variance", sep=""), cex=0.5)
+        text(round(length(load)/2), (max(load)-0.15*max(load)), paste("3rd axis = ", round(load[3]*100, digit=2), "% variance", sep=""), cex=0.5)
+    }
+
+    #plotting the cumulative variance
+    barplot(cum, main="Cumulative variance per axis")
+    if(legend==TRUE) {
+        abline(0.95,0)
+        text(round(length(load)/3), 0.95, paste("0.95 cumulative variance (", length(which(cum <= 0.95)), " axis)", sep=""), cex=0.5 , pos=1)
+    }
+
+    par(op)
+}
+
+#plotting a global pco
 plot.pco<-function(pco.scores, tax.col, legend=FALSE, pos.leg, xlim='default', ylim='default',...) {
-    library(grDevices)
+    
     #empty plot
     suppressWarnings(
         if(xlim=='default') {
@@ -30,7 +57,7 @@ plot.pco<-function(pco.scores, tax.col, legend=FALSE, pos.leg, xlim='default', y
     }
 }
 
-#fix the scale
+#plotting a pco through time
 pco.slice<-function(tree, pco.scores, slices, method, tax.col, legend=FALSE, pars=c(3,3), xlim, ylim, ...) {
     #Setting the age slices (can be one value (time is split equitably) or a vector of values containing the age)
     if(length(slices) == 1) {
@@ -52,16 +79,3 @@ pco.slice<-function(tree, pco.scores, slices, method, tax.col, legend=FALSE, par
     }
     par(op)
 }
-
-#the subplots must keep the same levels 
-
-#cumsum.pco
-
-#cumsum.pco<-function(pco, plot=TRUE, threshold=0.95, ...) {
-
-    #Creating a dummy prcomp object
-#    dummy<-prcomp(USArrests)
-
-    #Replacing the dummy pco scores ($rotation) by the pco$vectors
-#    dummy[2]<-pco$vectors
-#}
