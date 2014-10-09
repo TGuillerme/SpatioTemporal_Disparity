@@ -5,5 +5,6 @@ suppressMessages({
     library(paleotree)
     library(phytools)
     library(vegan)
+    library(grDevices)
     library(testthat)
 })
