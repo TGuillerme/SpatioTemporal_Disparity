@@ -2,12 +2,14 @@
 #Set a group of taxa in pco plot
 ##########################
 #Extract all the species from a clade or a grade
-#v0.1
+#v0.2
+#Update: can now do multiple groups in a single line
+#Update: produces a table of the species taxonomy for pco.scores
+#TO DO!
 ##########################
 #SYNTAX :
 #<tree> a 'phylo' object
-#<pco.scores> a matrix or data.frame containing the the pco scores
-#<tax.col> the name of the column containing the taxonomy (if missing, is created)
+#<pco.names> a list of species from the pco object
 #<type> the type of group ('clade' or 'grade')
 #<node> the node number of the origin of the clade or two nodes for a grade
 #<name> the name of the group
