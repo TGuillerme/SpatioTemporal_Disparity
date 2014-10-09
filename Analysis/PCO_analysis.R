@@ -107,71 +107,21 @@ if (data == 'Beck') {
 #Ancestral state matrix
 anc.matrix.save<-anc.state(tree, table, model='ML', verbose=TRUE)
 
-#Test: replacing "?" by NAs
-#anc.matrix<-anc.matrix.save
-#for (character in 1:ncol(anc.matrix$state)) {
-#    for (taxa in 1:nrow(anc.matrix$state)) {
-#        if(as.character(anc.matrix$state[taxa, character]) == "?") {
-#            anc.matrix$state[taxa, character] <- NA
-#        }
-#    }
-#}
-
-
 #Recalculating the matrix with a 0.95 probability lower limit
 anc.matrix<-anc.unc(anc.matrix.save, 0.95)
 
 #Submatrix
-submatrix<-anc.matrix$state[1:102,Dental]
+submatrix<-anc.matrix
+submatrix$state<-submatrix$state[1:5, Dental]
 
-#Does the problem comes from the number of species?
+#Calculating the PCO/MDS with a scaled euclidean distance matrix and removing the NAs
+pco<-pco.std(submatrix, distance="euclidean", scale=TRUE, center=FALSE, na.rm=TRUE, correction="none")
 
-#Test: replacing "?" by NAs and making the submatrix factor
-for (character in 1:ncol(submatrix)) {
-    for (taxa in 1:nrow(submatrix)) {
-        if(as.character(submatrix[taxa, character]) == "?") {
-            submatrix[taxa, character] <- NA
-        }
-    }
-}
-submatrix<-as.data.frame(submatrix)
-for (character in 1:ncol(submatrix)) {
-    submatrix[,character]<-as.numeric(submatrix[,character])
-}
+#Visualising the axis variance load
+plot.std(pco, legend=TRUE)
 
-dist.matrix<-vegdist(submatrix, method="jaccard", na.rm=TRUE)
 
-#MDS transformation still no convincing
-#Classic MDS
-fit.cmdscale2 <- cmdscale(dist.matrix ,eig=TRUE, k=2)
-fit.cmdscale20 <- cmdscale(dist.matrix ,eig=TRUE, k=20)
-plot(fit.cmdscale2$points[,1], fit.cmdscale2$points[,2], xlab="Coordinate 1", ylab="Coordinate 2", main="Metric MDS")
-#exact same results than pcoa
 
-pco<-pcoa(dist.matrix)#, correction="cailliez") #or "lingoes", see ?pcoa
-pco.scores<-pco$vectors
-#?pcoa
-#Negative eigenvalues can be produced in PCoA when decomposing distance matrices produced by coefficients that are not Euclidean (Gower and Legendre 1986, Legendre and Legendre 1998).
-#Negative eigenvalues with insignificant magnitudes indicate a less serious model misspecification. Typically, it just indicates the use of too many variables that are highly correlated. 
-#Split the matrix into more sensible characters sets?
-
-#Variance per axis
-load<-which(names(pco$values)=="Rel_corr_eig") #Relative_eig / Rel_corr_eig / Cor_eig
-barplot(pco$values[,load], main="Relative variance per axis")
-text(70, (max(pco$values[,load])-0.1*max(pco$values[,load])), paste("1st axis = ", round(pco$values[1,load]*100, digit=2), "% variance", sep=""))
-text(70, (max(pco$values[,load])-0.15*max(pco$values[,load])), paste("2nd axis = ", round(pco$values[2,load]*100, digit=2), "% variance", sep=""))
-text(70, (max(pco$values[,load])-0.20*max(pco$values[,load])), paste("3rd axis = ", round(pco$values[3,load]*100, digit=2), "% variance", sep=""))
-text(70, (max(pco$values[,load])-0.25*max(pco$values[,load])), paste("4th axis = ", round(pco$values[4,load]*100, digit=2), "% variance", sep=""))
-#Bad
-
-#Cumulative variance per axis
-expect_equal(pco$values$Cum_corr_eig[1], pco$values$Rel_corr_eig[1]/sum(pco$values$Rel_corr_eig))
-expect_equal(pco$values$Cum_corr_eig[2], pco$values$Rel_corr_eig[1]/sum(pco$values$Rel_corr_eig)+pco$values$Rel_corr_eig[2]/sum(pco$values$Rel_corr_eig))
-#etc...
-barplot(pco$values$Cum_corr_eig, main="Cumulative variance per axis")
-abline(0.95,0)
-text(70, 0.95, paste("0.95 cumulative variance (", length(which(pco$values$Cum_corr_eig <= 0.95)), " axis)", sep=""), , pos=1)
-#Bad
 
 #Clades Slater
 #Australosphenids (monotremes and relatives) node 160
