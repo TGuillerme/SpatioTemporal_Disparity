@@ -7,19 +7,16 @@ tree$node.label<-seq(1:5)
 test<-set.group_clade(tree, 10) #clade (ABC)
 
 #test
-test_that('Testing set.group_clade()', {
-    #class
-    expect_is(test, 'character')
-    #length
-    expect_that(length(test), equals(5))
-    #ABC45
-    expect_that(grep("A", test), equals(1))
-    expect_that(grep("B", test), equals(2))
-    expect_that(grep("C", test), equals(3))
-    expect_that(grep("4", test), equals(4))
-    expect_that(grep("5", test), equals(5))
-})
-message('.', appendLF=FALSE)
+#class
+expect_is(test, 'character') ; message('.', appendLF=FALSE)
+#length
+expect_that(length(test), equals(5)) ; message('.', appendLF=FALSE)
+#ABC45
+expect_that(grep("A", test), equals(1)) ; message('.', appendLF=FALSE)
+expect_that(grep("B", test), equals(2)) ; message('.', appendLF=FALSE)
+expect_that(grep("C", test), equals(3)) ; message('.', appendLF=FALSE)
+expect_that(grep("4", test), equals(4)) ; message('.', appendLF=FALSE)
+expect_that(grep("5", test), equals(5)) ; message('.', appendLF=FALSE)
 
 
 #Testing set.group_grade
@@ -29,19 +26,17 @@ tree$node.label<-seq(1:5)
 test<-set.group_grade(tree, c(7,10)) #-clade (ABC)
 
 #test
-test_that('Testing set.group_grade()', {
-    #class
-    expect_is(test, 'character')
-    #length
-    expect_that(length(test), equals(5))
-    #DEF12
-    expect_that(grep("D", test), equals(1))
-    expect_that(grep("E", test), equals(2))
-    expect_that(grep("F", test), equals(3))
-    expect_that(grep("1", test), equals(4))
-    expect_that(grep("2", test), equals(5))
-})
-message('.', appendLF=FALSE)
+#class
+expect_is(test, 'character') ; message('.', appendLF=FALSE)
+#length
+expect_that(length(test), equals(5)) ; message('.', appendLF=FALSE)
+#DEF12
+expect_that(grep("D", test), equals(1)) ; message('.', appendLF=FALSE)
+expect_that(grep("E", test), equals(2)) ; message('.', appendLF=FALSE)
+expect_that(grep("F", test), equals(3)) ; message('.', appendLF=FALSE)
+expect_that(grep("1", test), equals(4)) ; message('.', appendLF=FALSE)
+expect_that(grep("2", test), equals(5)) ; message('.', appendLF=FALSE)
+
 
 #Testing set.group_add.tax
 tree<-read.tree(text="(((((A:1,B:1):1,C:1):1,D:1):1,E:1):1,F:1);")
@@ -54,15 +49,12 @@ test1<-set.group_add.tax(table_em, tax.col="taxo", taxa=taxa1, name="taxa1")
 test2<-set.group_add.tax(table_em, tax.col="taxonomy.col", taxa=taxa2, name="taxa2")
 
 #test
-test_that('Testing set.group_add.tax()', {
-    #class
-    expect_is(test1, 'data.frame')
-    expect_is(test2, 'data.frame')
-    #length
-    expect_equal(ncol(test1), 3)
-    expect_equal(ncol(test2), 3)
-    #taxa placement
-    expect_that(which(test1$taxo == "taxa1"), equals(c(1,2,3,10,11)))
-    expect_that(which(test2$taxo == "taxa2"), equals(c(4,5,6,7,8)))
-})
-message('.', appendLF=FALSE)
+#class
+expect_is(test1, 'data.frame') ; message('.', appendLF=FALSE)
+expect_is(test2, 'data.frame') ; message('.', appendLF=FALSE)
+#length
+expect_equal(ncol(test1), 3) ; message('.', appendLF=FALSE)
+expect_equal(ncol(test2), 3) ; message('.', appendLF=FALSE)
+#taxa placement
+expect_that(which(test1$taxo == "taxa1"), equals(c(1,2,3,10,11))) ; message('.', appendLF=FALSE)
+expect_that(which(test2$taxo == "taxa2"), equals(c(4,5,6,7,8))) ; message('.', appendLF=FALSE)

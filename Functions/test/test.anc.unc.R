@@ -14,26 +14,24 @@ anc.mat<-list("state"=matrix.state, "prob"=matrix.prob)
 test<-anc.unc(anc.mat, threshold=1)
 
 #test
-test_that('Testing anc.state_ace()', {
-    #anc.mat
-    expect_is(anc.mat, 'list')
-    expect_that(length(anc.mat), equals(2))
-    expect_that(names(anc.mat), equals(c("state", "prob")))
+#anc.mat
+expect_is(anc.mat, 'list') ; message('.', appendLF=FALSE)
+expect_that(length(anc.mat), equals(2)) ; message('.', appendLF=FALSE)
+expect_that(names(anc.mat), equals(c("state", "prob"))) ; message('.', appendLF=FALSE)
 
-    #object
-    expect_is(test, 'list')
-    expect_that(length(test), equals(2))
-    expect_that(names(test), equals(c("state", "prob")))
+#object
+expect_is(test, 'list') ; message('.', appendLF=FALSE)
+expect_that(length(test), equals(2)) ; message('.', appendLF=FALSE)
+expect_that(names(test), equals(c("state", "prob"))) ; message('.', appendLF=FALSE)
 
-    #only two cells in the right threshold
-    expect_equal(which(is.numeric(suppressWarnings(as.numeric(test$state[,1])))), 1)
-    expect_true(any(match("?", test$state[,1])))
-    expect_equal(which(is.numeric(suppressWarnings(as.numeric(test$state[,2])))), 1)
-    expect_true(any(match("?", test$state[,2])))
+#only two cells in the right threshold
+expect_equal(which(is.numeric(suppressWarnings(as.numeric(test$state[,1])))), 1) ; message('.', appendLF=FALSE)
+expect_true(any(match("?", test$state[,1]))) ; message('.', appendLF=FALSE)
+expect_equal(which(is.numeric(suppressWarnings(as.numeric(test$state[,2])))), 1) ; message('.', appendLF=FALSE)
+expect_true(any(match("?", test$state[,2]))) ; message('.', appendLF=FALSE)
 
-    #errors
-    expect_error(anc.unc(anc.mat, threshold='YES'))
-    expect_error(anc.unc(anc.mat, threshold=1.8))
-    expect_error(anc.unc("hahaha"))
-})
-message('.', appendLF=FALSE)
+#errors
+expect_error(anc.unc(anc.mat, threshold='YES')) ; message('.', appendLF=FALSE)
+expect_error(anc.unc(anc.mat, threshold=1.8)) ; message('.', appendLF=FALSE)
+expect_error(anc.unc("hahaha")) ; message('.', appendLF=FALSE)
+
