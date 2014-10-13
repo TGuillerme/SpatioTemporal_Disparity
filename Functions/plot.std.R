@@ -72,6 +72,7 @@ plot.std<-function(data, legend=FALSE, pos.leg, xlim, ylim, col, pars, ...) {
     #col
     if(missing(col)) {
         palette("default")
+        col<-palette()
     } else {
         check.class(col, 'character', ' col must be a vector of colours.')
     }
@@ -88,6 +89,10 @@ plot.std<-function(data, legend=FALSE, pos.leg, xlim, ylim, col, pars, ...) {
 
     if(class.load == TRUE) {
         plot.load(data, legend, pos.leg, ...)
+    }
+
+    if(class.pco == TRUE) {
+        plot.pco(data, legend, pos.leg, xlim, ylim, col, ...)
     }
 #    if(which.plot == ) {
 #        plot.load()

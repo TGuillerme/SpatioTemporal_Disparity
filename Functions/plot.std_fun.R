@@ -26,33 +26,38 @@ plot.load<-function(data, legend, pos.leg, pars=c(1,2), ...) {
 }
 
 #plotting a global pco
-plot.pco<-function(pco.scores, tax.col, legend=FALSE, pos.leg, xlim='default', ylim='default',...) {
+plot.pco<-function(data, legend=FALSE, pos.leg, xlim='default', ylim='default', col, ...) {
     
     #empty plot
     suppressWarnings(
         if(xlim=='default') {
-            xlim=c(min(pco.scores[,1]), max(pco.scores[,1]))
+            xlim=c(min(data[[1]][,1]), max(data[[1]][,1]))
         }
     )
     suppressWarnings(
         if(ylim=='default') {
-            ylim=c(min(pco.scores[,2]), max(pco.scores[,2]))
+            ylim=c(min(data[[1]][,2]), max(data[[1]][,2]))
         }
     )
-    plot(1,1, col="white", xlab="PC1", ylab="PC2", xlim=xlim, ylim=ylim, ...)
-    groups=length(levels(as.factor(pco.scores[,tax.col])))
+    plot(1,1, col="white", xlim=xlim, ylim=ylim, ...)
+
+    groups=length(levels(as.factor(data[[2]][,1])))
+
     #points
-    points(pco.scores[,1], pco.scores[,2], col=palette()[1:groups][as.factor(pco.scores[,tax.col])])
+    points(data[[1]][,1], data[[1]][,2], col=col[1:groups][as.factor(data[[2]][,1])])
+
     #polygon
     for (group in 1:groups) {
-        clade<-pco.scores[which(pco.scores[,tax.col] == levels(as.factor(pco.scores[,tax.col]))[group]),1:2]
+        n<-which(data[[2]][,1] == levels(as.factor(data[[2]][,1]))[group])
+        clade<-data[[1]][n,]
+        #which(row.names(data[[1]]) == levels((as.factor(data[[2]][,1]))[group]),1:2]
         polygon(clade[chull(clade),], border=palette()[group])
     }
     if(legend == TRUE){
-        if(missing(pos.leg)){
-            legend(min(pco.scores[,1]), max(pco.scores[,2]), levels(as.factor(pco.scores[,tax.col])), col=palette()[1:groups], pch=21, cex=0.7)
+        if(pos.leg == 'default'){
+            legend(min(data[[1]][,1]), max(data[[1]][,2]), levels(as.factor(data[[2]][,1])), col=col[1:groups], pch=21, cex=0.7)
         } else {
-            legend(pos.leg[1], pos.leg[2], levels(as.factor(pco.scores[,tax.col])), col=palette()[1:groups], pch=21, cex=0.7)
+            legend(pos.leg[1], pos.leg[2], levels(as.factor(data[[2]][,1])), col=col[1:groups], pch=21, cex=0.7)
         }
     }
 }
