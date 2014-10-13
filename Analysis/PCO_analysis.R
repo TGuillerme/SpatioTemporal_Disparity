@@ -112,7 +112,7 @@ anc.matrix<-anc.unc(anc.matrix.save, 0.95)
 
 #Submatrix
 submatrix<-anc.matrix
-submatrix$state<-submatrix$state[1:5, Dental]
+submatrix$state<-submatrix$state
 
 #Calculating the PCO/MDS with a scaled euclidean distance matrix and removing the NAs
 pco<-pco.std(submatrix, distance="euclidean", scale=TRUE, center=FALSE, na.rm=TRUE, correction="none")
@@ -120,29 +120,22 @@ pco<-pco.std(submatrix, distance="euclidean", scale=TRUE, center=FALSE, na.rm=TR
 #Visualising the axis variance load
 plot.std(pco, legend=TRUE)
 
+taxonomy.list<-list("Placental"=153, "Stem_placental"=c(103,153)) #Beck
+#taxonomy.list<-list("Australosphenids"=160, "Marsupialiomorphs"=122, "Placentaliomorphs"=106, "Stem_mammaliforms"=c(91, 101), "Stem_theriforms"=c(102,105)) #Slater
 
-
-
-#Clades Slater
-#Australosphenids (monotremes and relatives) node 160
-pco.scores<-set.group(tree, pco.scores, type='clade', node=160, name='Australosphenids')
-#Marsupialiomorphs (marsupials and relatives) node 122
-pco.scores<-set.group(tree, pco.scores, tax.col="taxonomy", type='clade', node=122, name='Marsupialiomorphs')
-#Placentaliomorphs (placentals and relatives) node 106
-pco.scores<-set.group(tree, pco.scores, tax.col="taxonomy", type='clade', node=106, name='Placentaliomorphs')
-#Stem mammaliforms node 91 to 101
-pco.scores<-set.group(tree, pco.scores, tax.col="taxonomy", type='grade', node=c(91, 101), name='Stem_mammaliforms')
-#Stem theriforms node 102 105
-pco.scores<-set.group(tree, pco.scores, tax.col="taxonomy", type='grade', node=c(102, 105), name='Stem_theriforms')
-
-#Clades Beck
-#Placental
-pco.scores<-set.group(tree, pco.scores, type='clade', node=153, name='Placental')
-#Stem-placental
-pco.scores<-set.group(tree, pco.scores, type='grade', node=c(103,153), name='Stem-placental')
+#Creating the pco.scores object (containing the axis and the taxonomy)
+pco.scores<-as.pco.scores(tree, pco, n.axis=2, taxonomy.list)
 
 #Full pco plot
-plot.pco(pco.scores, "taxonomy", main="Entire \"morphospace\"", legend=TRUE, pos.leg=c(10,-5))
+plot.std(pco.scores, legend=TRUE)
+
+
+
+
+
+
+
+
 
 #lim
 xlim=c(min(pco.scores[,1]), max(pco.scores[,1]))
