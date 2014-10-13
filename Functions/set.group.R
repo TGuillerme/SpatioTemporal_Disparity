@@ -1,3 +1,4 @@
+#OBSOLETE FUNCTION see pco.scores()
 ##########################
 #Set a group of taxa in pco plot
 ##########################
