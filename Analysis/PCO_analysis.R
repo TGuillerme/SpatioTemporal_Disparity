@@ -112,7 +112,7 @@ anc.matrix<-anc.unc(anc.matrix.save, 0.95)
 
 #Submatrix
 submatrix<-anc.matrix
-submatrix$state<-submatrix$state
+submatrix$state<-submatrix$state[, Dental]
 
 #Calculating the PCO/MDS with a scaled euclidean distance matrix and removing the NAs
 pco<-pco.std(submatrix, distance="euclidean", scale=TRUE, center=FALSE, na.rm=TRUE, correction="none")
@@ -127,7 +127,16 @@ taxonomy.list<-list("Placental"=153, "Stem_placental"=c(103,153)) #Beck
 pco.scores<-as.pco.scores(tree, pco, n.axis=2, taxonomy.list)
 
 #Full pco plot
-plot.std(pco.scores, legend=TRUE)
+plot.std(pco.scores, legend=TRUE, main="Full character-space")
+
+#Creating the slice list
+slices=c(0, 40, 50, 60, 70, 80, 90, 100, 110) #Beck
+#slices=c(0,25,50,75,100,125,150,175,200) #Slater
+std.slice_acc<-std.slice(tree, pco.scores, slices, method="ACCTRAN")
+std.slice_del<-std.slice(tree, pco.scores, slices, method="DELTRAN")
+
+plot.std(std.slice_acc, legend=TRUE, pars=c(3,3), pos.leg=c(-5,6))
+plot.std(std.slice_del, legend=TRUE, pars=c(3,3), pos.leg=c(-5,6))
 
 
 
@@ -137,15 +146,28 @@ plot.std(pco.scores, legend=TRUE)
 
 
 
-#lim
-xlim=c(min(pco.scores[,1]), max(pco.scores[,1]))
-ylim=c(min(pco.scores[,2]), max(pco.scores[,2]))
+#Check the for different parameters spaces
+#Full
+submatrix.full<-anc.matrix ; submatrix.full$state<-submatrix.full$state
+pco.full<-pco.std(submatrix.full, distance="euclidean", scale=TRUE, center=FALSE, na.rm=TRUE, correction="none")
+pco.scores.full<-as.pco.scores(tree, pco.full, n.axis=2, taxonomy.list)
+#Dental
+submatrix.dental<-anc.matrix ; submatrix.dental$state<-submatrix.dental$state[, Dental]
+pco.dental<-pco.std(submatrix.dental, distance="euclidean", scale=TRUE, center=FALSE, na.rm=TRUE, correction="none")
+pco.scores.dental<-as.pco.scores(tree, pco.dental, n.axis=2, taxonomy.list)
+#cranial
+submatrix.cranial<-anc.matrix ; submatrix.cranial$state<-submatrix.cranial$state[, Cranial]
+pco.cranial<-pco.std(submatrix.cranial, distance="euclidean", scale=TRUE, center=FALSE, na.rm=TRUE, correction="none")
+pco.scores.cranial<-as.pco.scores(tree, pco.cranial, n.axis=2, taxonomy.list)
+#postcranial
+submatrix.PostCranial<-anc.matrix ; submatrix.PostCranial$state<-submatrix.PostCranial$state[, PostCranial]
+pco.PostCranial<-pco.std(submatrix.PostCranial, distance="euclidean", scale=TRUE, center=FALSE, na.rm=TRUE, correction="none")
+pco.scores.PostCranial<-as.pco.scores(tree, pco.PostCranial, n.axis=2, taxonomy.list)
 
-#Time slices pco plots Beck
-pco.slice(tree, pco.scores, c(0, 40, 50, 60, 70, 80, 90, 100, 110), 'ACCTRAN', tax.col="taxonomy", legend=FALSE, pars=c(3,3), xlim=xlim, ylim=ylim)
-dev.new()
-pco.slice(tree, pco.scores, c(0, 40, 50, 60, 70, 80, 90, 100, 110), 'DELTRAN', tax.col="taxonomy", legend=FALSE, pars=c(3,3), xlim=xlim, ylim=ylim)
 
-#Time slices pco plots Slate
-pco.slice(tree, pco.scores, c(0,25,50,75,100,125,150,175,200), 'ACCTRAN', tax.col="taxonomy", legend=FALSE, pars=c(3,3), xlim=xlim, ylim=ylim)
-pco.slice(tree, pco.scores, c(0,25,50,75,100,125,150,175,200), 'DELTRAN', tax.col="taxonomy", legend=FALSE, pars=c(3,3), xlim=xlim, ylim=ylim)
+op<-par(mfrow=c(2,2)) 
+plot.std(pco.scores.full, legend=TRUE, pos.leg=c(-10, 10), xlim=c(-10,10), ylim=c(-10,10), main="Full character-space")
+plot.std(pco.scores.dental, xlim=c(-10,10), ylim=c(-10,10), main="Dental")
+plot.std(pco.scores.cranial, xlim=c(-10,10), ylim=c(-10,10), main="Cranial")
+plot.std(pco.scores.PostCranial, xlim=c(-10,10), ylim=c(-10,10), main="PostCranial")
+par(op)
