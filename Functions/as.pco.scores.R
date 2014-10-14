@@ -19,7 +19,7 @@ as.pco.scores<-function(tree, pco, n.axis=2, taxonomy.list) {
 
     #SANITIZING
     #tree
-    check.class(tree, 'phylo', ' must be a phylo object.')
+    check.class(tree, 'phylo', ' must be a \"phylo\" object.')
     #must have node labels
     if(is.null(tree$node.label)) {
         stop('The tree must have node label names.')
