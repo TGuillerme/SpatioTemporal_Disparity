@@ -26,7 +26,7 @@ plot.load<-function(data, legend, pos.leg, pars=c(1,2), ...) {
 }
 
 #plotting a global pco
-plot.pco<-function(data, legend=FALSE, pos.leg, xlim='default', ylim='default', col, ...) {
+plot.pco<-function(data, legend, pos.leg, xlim, ylim, col, ...) {
     
     #empty plot
     suppressWarnings(
@@ -50,8 +50,10 @@ plot.pco<-function(data, legend=FALSE, pos.leg, xlim='default', ylim='default', 
     for (group in 1:groups) {
         n<-which(data[[2]][,1] == levels(as.factor(data[[2]][,1]))[group])
         clade<-data[[1]][n,]
-        #which(row.names(data[[1]]) == levels((as.factor(data[[2]][,1]))[group]),1:2]
-        polygon(clade[chull(clade),], border=palette()[group])
+        #Draw Convec Hull if clade > 1 (2 coordinates)
+        if(length(clade) > 2) {
+            polygon(clade[chull(clade),], border=palette()[group])
+        }
     }
     if(legend == TRUE){
         if(pos.leg == 'default'){
@@ -63,24 +65,55 @@ plot.pco<-function(data, legend=FALSE, pos.leg, xlim='default', ylim='default', 
 }
 
 #plotting a pco through time
-pco.slice<-function(tree, pco.scores, slices, method, tax.col, legend=FALSE, pars=c(3,3), xlim, ylim, ...) {
-    #Setting the age slices (can be one value (time is split equitably) or a vector of values containing the age)
-    if(length(slices) == 1) {
-        age<-seq(from=0, to=max(tree.age(tree)[,1]), length.out=slices)
+pco.slice<-function(data, legend, pos.leg, xlim, ylim, col, pars, ...) {
+    
+    #main (default/missing)
+    if(!exists("main")){
+        main=paste("Mya", data$method, sep=" - ")
+    }
+
+    #xlim (default)
+    if(xlim=='default') {
+        X<-NULL
+        for(slice in 1:(length(data)-1)){ #-1 for method
+            X<-c(X, data[[slice]][[3]][,1])
+        }
+        xlim=c(min(X), max(X))
+    }
+
+    #ylim (default)
+    if(ylim=='default') {
+        Y<-NULL
+        for(slice in 1:(length(data)-1)){ #-1 for method
+            Y<-c(Y, data[[slice]][[3]][,2])
+        }
+        ylim=c(min(Y), max(Y))
+    }   
+
+    #pars
+    if(missing(pars)) {
+        stop("Plotting layout parameters must be defined.")
     } else {
-        age<-slices
-        slices<-length(slices)
+        check.class(pars, 'numeric', ' must be a vector of two numerical values.')
+        check.length(pars, 2, ' must be a vector of two numerical values.')
     }
 
     #plot window setting
-    op<-par(mfrow=pars) 
+    op<-par(mfrow=pars)
 
-    #calculating and plotting each slice
-    for (slice in 1:slices) {
-        subtree<-slice.tree(tree, age=age[slice], method)
-        pco.scores[,tax.col]<-as.factor(pco.scores[,tax.col])
-        pco_slice<-subset(pco.scores[subtree$tip.label,])
-        plot.pco(pco_slice, tax.col, legend, main=paste(round(age[slice]), "Mya"), xlim=xlim, ylim=ylim, ...)
+    #Plotting the first slice (optional legend)
+    #Creating pco.scores object
+    data_tmp<-data[[1]][3:4]
+    main_tmp<-paste(data[[1]][[1]], main)
+    plot.pco(data_tmp, legend, pos.leg, xlim, ylim, col, main=main_tmp, ...)
+
+    if (length(data)-1 > 1) {
+        for (slice in 3:length(data)-1) {
+            data_tmp<-data[[slice]][3:4]
+            main_tmp<-paste(data[[slice]][[1]], main)
+            plot.pco(data_tmp, legend=FALSE, pos.leg, xlim, ylim, col, main=main_tmp, ...)
+        }
     }
+
     par(op)
 }

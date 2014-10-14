@@ -17,7 +17,7 @@
 #guillert(at)tcd.ie 09/10/2014
 ##########################
 
-plot.std<-function(data, legend=FALSE, pos.leg, xlim, ylim, col, pars, ...) {
+plot.std<-function(data, legend=FALSE, pos.leg, xlim, ylim, col, pars=NULL, ...) {
 
     #SANITIZING
     #data
@@ -30,10 +30,10 @@ plot.std<-function(data, legend=FALSE, pos.leg, xlim, ylim, col, pars, ...) {
         if(class(data) == 'pco.scores') {
             class.pco<-TRUE
         } else {
-            if (class(data) == 'pco.slice') {
+            if (class(data) == 'std.slices') {
                 class.slice<-TRUE
             } else {
-                stop("Data must be from class \"pcoa\", \"pco.scores\" or \"pco.slices\"")
+                stop("Data must be from class \"pcoa\", \"pco.scores\" or \"std.slices\"")
             }
         }
     }
@@ -77,14 +77,6 @@ plot.std<-function(data, legend=FALSE, pos.leg, xlim, ylim, col, pars, ...) {
         check.class(col, 'character', ' col must be a vector of colours.')
     }
 
-    #pars
-    if(missing(pars)) {
-        pars='default'
-    } else {
-        check.class(pars, 'numeric', ' must be a vector of two numerical values.')
-        check.length(pars, 2, ' must be a vector of two numerical values.')
-    }
-
     #PLOTTING THE DATA
 
     if(class.load == TRUE) {
@@ -94,11 +86,10 @@ plot.std<-function(data, legend=FALSE, pos.leg, xlim, ylim, col, pars, ...) {
     if(class.pco == TRUE) {
         plot.pco(data, legend, pos.leg, xlim, ylim, col, ...)
     }
-#    if(which.plot == ) {
-#        plot.load()
-#        plot.pco()
-#        plot.slice()
-#    }
+
+    if(class.slice == TRUE) {
+        pco.slice(data, legend, pos.leg, xlim, ylim, col, pars, ...)
+    }
 
 #End
 }
