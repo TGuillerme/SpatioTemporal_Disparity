@@ -1,0 +1,412 @@
+\documentclass[a4paper,11pt]{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage[sc]{mathpazo}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{url}
+\usepackage{natbib}
+\usepackage{enumerate}
+\usepackage{lastpage} 
+\pagenumbering{arabic}
+\linespread{1.66}
+
+\usepackage[unicode=true,pdfusetitle,
+bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=2,
+breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
+{hyperref}
+
+\geometry{verbose,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+
+\hypersetup{pdfstartview={XYZ null null 1}}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+
+
+\begin{flushright}
+Version dated: \today
+\end{flushright}
+\begin{center}
+
+%Title
+\noindent{\Large{\bf{Spatio-temporal Disparity (STD)}}}\\
+\bigskip
+%Author
+\noindent{Thomas Guillerme - guillert@tcd.ie - http://tguillerme.github.io/}\\
+
+\end{center}
+This is a quick demo on how I run my Spatio-Temporal Disparity analysis.
+
+\textbf{DISCLAIMER}:
+This demo contains really early results of the work and is far from being correctly framed, both in the analysis than in the ideas.
+The functions and the associated testing have only be tested on two specific data sets and might not work with other ones.
+Also, most analyses violate any statistical assumptions and the functions options are usually just set to default without any thinking about them.
+Again, this a a \textbf{really early version} of this work.
+
+This document contains a pipelined analysis to produce a plot of morphospace through time using a conglomerate of functions that are not yet grouped in a package.
+Before starting the analysis, make sure you cloned the the Spatio-Temporal Disparity folder on your machine (available here: \url{https://github.com/TGuillerme/SpatioTemporal_Disparity}).
+
+\section{Before the analysis}
+Then run the following to check the repository and load all the necessary functions or data.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{setwd}\hlstd{(}\hlstr{"../Analysis"}\hlstd{)}
+\hlkwd{source}\hlstd{(}\hlstr{"functions.R"}\hlstd{)}
+\hlkwd{source}\hlstd{(}\hlstr{"set.data.R"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\section{The data} \label{data}
+
+%\texttt{x} for putting the text in courier
+%x[1] for printing out of the coding boxes an R object
+You now can choose which data to load by using \texttt{set.data}. Two data sets are available:
+\begin{enumerate}
+\item{\texttt{"Beck"}}
+
+A data set from Beck and Lee 2014 Proceedings of the Royal Society B containing 102 taxa and 421 morphological characters.
+
+\item{\texttt{"Slater"}}
+
+A data set from Slater 2013 Methods in Ecology and Evolution containing 90 taxa and 446 morphological characters
+\end{enumerate}
+You can use the \texttt{with.anc.matrix} option to also load the associated ancestral states estimation matrix (see Ancestral states estimation ~\ref{ACE})).
+For this example I will load the \texttt{Beck} dataset. Note that you can you any of the two example and still run the example
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{set.data}\hlstd{(}\hlstr{"Beck"}\hlstd{,} \hlkwc{with.anc.matrix}\hlstd{=}\hlnum{TRUE}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## Created the morphological characters table as:
+## tableCreated the tree as:
+## treeCreated the different morphological characters categories as:
+## Dental
+## Cranial
+## PostCranial
+## Characters details list is available in the object:
+## character.details
+## Created the taxonomical list as:
+## taxonomy.list
+## Created the age slices list as:
+## slices
+## Created the ancestral matrix in 'ML' as:
+## anc.matrix.save
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+Note that \texttt{set.data} loaded and generate various objects namely \texttt{tree} that can be plotted by just calling:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plot}\hlstd{(tree,} \hlkwc{cex}\hlstd{=}\hlnum{0.4}\hlstd{,} \hlkwc{main}\hlstd{=}\hlstr{"Beck and Lee 2014 - Placental"}\hlstd{)}\hlcom{#tiny tiny labels!}
+\hlkwd{axisPhylo}\hlstd{()}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/minimal-BeckTree-1} 
+
+}
+
+
+
+\end{knitrout}
+
+\section{Generating the PCO data}
+Once we've loaded the data we can run a PCO (or MDS) analysis to see the occupancy of placental mammals character-space through time.
+
+\subsection{Ancestral state estimation} \label{ACE}
+First we need to estimate the complete character-space by estimating the ancestral states of each characters on each node of the tree.
+We can use the \texttt{anc.state} function that needs a \texttt{tree} and a \texttt{table} containing the ancestral states.
+If our case both where loaded when using the \texttt{set.data} function (~\ref{data}).
+Three different methods can be used for \texttt{anc.state}:
+\begin{enumerate}
+\item{\texttt{"ML"}}
+
+Maximum Likelihood - using the \texttt{ace\{ape\}} function
+\item{\texttt{"Bayesian"}}
+
+Bayesian method - using the \texttt{anc.Bayes\{phangorn\}} function
+
+\item{\texttt{"Threshold"}}
+
+Threshold method - using the \texttt{threshBayes\{phytools\}} function
+\end{enumerate}
+Note that only the \texttt{"ML"} option is available for now.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{anc.matrix.save}\hlkwb{<-}\hlkwd{anc.state}\hlstd{(tree, table,} \hlkwc{method}\hlstd{=}\hlstr{'ML'}\hlstd{,} \hlkwc{verbose}\hlstd{=}\hlnum{TRUE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+No need to run this function here since we already loaded the ancestral state matrix with the data (~\label{data}).
+
+Let's check what's in \texttt{anc.matrix.save}:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{names}\hlstd{(anc.matrix.save)}
+\end{alltt}
+\begin{verbatim}
+## [1] "state" "prob"
+\end{verbatim}
+\begin{alltt}
+\hlkwd{head}\hlstd{(anc.matrix.save}\hlopt{$}\hlstd{state[,}\hlnum{1}\hlopt{:}\hlnum{5}\hlstd{])} \hlcom{#character 1 to 5 only}
+\end{alltt}
+\begin{verbatim}
+##                [,1] [,2] [,3] [,4] [,5]
+## Nanolestes     "0"  "0"  "0"  "?"  "0" 
+## Peramus        "0"  "0"  "0"  "?"  "0" 
+## Vincelestes    "0"  "0"  "3"  "0"  "0" 
+## Kielantherium  "0"  "0"  "0"  "?"  "?" 
+## Deltatheridium "0"  "0"  "1"  "0"  "0" 
+## Mayulestes     "0"  "0"  "1"  "0"  "0"
+\end{verbatim}
+\begin{alltt}
+\hlkwd{tail}\hlstd{(anc.matrix.save}\hlopt{$}\hlstd{prob[,}\hlnum{1}\hlopt{:}\hlnum{5}\hlstd{])} \hlcom{#character 1 to 5 only}
+\end{alltt}
+\begin{verbatim}
+##           [,1]      [,2]      [,3]      [,4]      [,5]
+## n96  0.9999999 0.9999992 0.9909884 0.9923644 0.9586465
+## n97  0.9999997 0.9999984 0.9964342 0.9368176 0.9857296
+## n98  0.9999976 0.9999886 0.9917309 0.9266584 0.9887148
+## n99  0.9999999 0.9998679 0.9722163 0.9902736 0.9388473
+## n100 0.9999996 0.9674255 0.5060960 0.9868221 0.5319853
+## n101 0.9999998 0.9999957 0.9950809 0.9517160 0.9880845
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\texttt{anc.matrix.save} is a list of two objects: state containing the states for each character and prob containing the probability of each state to be correct.
+
+\subsection{Probability threshold}
+We can then \textit{clean} \texttt{anc.matrix.save} by replacing each character state with a probability below a threshold by missing data (\texttt{"?"}) using the \texttt{anc.unc} function.
+Let's use a 0.95 probability threshold (discarding estimation below that):
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{anc.matrix}\hlkwb{<-}\hlkwd{anc.unc}\hlstd{(anc.matrix.save,} \hlnum{0.95}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\subsection{Calculation the PCO (or MDS) matrix}
+We can now run a principal coordinates analysis on \texttt{anc.matrix} using the \texttt{pco.std} function.
+This function generates a distance matrix using the \texttt{veg.dist\{vegan\}} function and runs a PCO analysis on it using the \texttt{pcoa\{ape\}} function.
+The function takes the options from both \texttt{veg.dist\{vegan\}}, \texttt{pcoa\{ape\}} and \texttt{scale\{base\}}.
+Let's run the PCO on a scaled euclidean distance matrix without NAs.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{pco}\hlkwb{<-}\hlkwd{pco.std}\hlstd{(anc.matrix,} \hlkwc{distance}\hlstd{=}\hlstr{"euclidean"}\hlstd{,}
+    \hlkwc{scale}\hlstd{=}\hlnum{TRUE}\hlstd{,} \hlkwc{center}\hlstd{=}\hlnum{FALSE}\hlstd{,} \hlkwc{na.rm}\hlstd{=}\hlnum{TRUE}\hlstd{,} \hlkwc{correction}\hlstd{=}\hlstr{"none"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\section{Analysing the results}
+To visualise the results of this PCO, we can use the three plotting options of the \texttt{plot.std} function.
+
+\subsection{Axis analysis}
+First let's check the load on each axis in our PCO and the cumulative explicative variance.
+We can obtain that by running the \texttt{plot.std} function on the raw \texttt{pco} object.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plot.std}\hlstd{(pco,} \hlkwc{legend}\hlstd{=}\hlnum{TRUE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/minimal-plot_load-1} 
+
+}
+
+
+
+\end{knitrout}
+
+\subsection{Plotting the full character-space}
+We can also plot the full character-space to see which group of species occupy which part of the character-space.
+First we need to create a \texttt{pco.scores} object using the function with the same name.
+This function takes as input our \texttt{tree}, the related \texttt{pco} object and an optional list of taxonomic information.
+We already generated the taxonomic list using \texttt{set.data} (~\label{data}).
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{taxonomy.list}
+\end{alltt}
+\begin{verbatim}
+## $Placental
+## [1] 153
+## 
+## $Stem_placental
+## [1] 103 153
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+This list contains the names of the taxonomic groups and the number of the node including them.
+Note that the Stem Placental group contains two nodes and is therefore a grade.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{pco.scores}\hlkwb{<-}\hlkwd{as.pco.scores}\hlstd{(tree, pco,} \hlkwc{n.axis}\hlstd{=}\hlnum{2}\hlstd{, taxonomy.list)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+The plot can then be easily created using the \texttt{plot.std} function:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plot.std}\hlstd{(pco.scores,} \hlkwc{legend}\hlstd{=}\hlnum{TRUE}\hlstd{,} \hlkwc{main}\hlstd{=}\hlstr{"Full character-space"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/minimal-plot_pco-1} 
+
+}
+
+
+
+\end{knitrout}
+
+\subsection{Plotting the evolution of the character-space through time}
+Finally, we can plot the evolution of this character space through time using the \texttt{slice.std} function.
+This function takes as input our \texttt{tree}, the related \texttt{pco.scores} object, the number of slices and a slicing method.
+The number of slices is a list of ages that we already generated though \texttt{set.data} (~\label{data}).
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{slices}
+\end{alltt}
+\begin{verbatim}
+## [1]   0  40  50  60  70  80  90 100 110
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+The \texttt{slice.std} function allows three different tree slicing method:
+\begin{enumerate}
+\item{\texttt{"ACCTRAN"}}
+
+This method is similar to the parsimony ACCTRAN method and sets the state at the slice to be the one of the closest \textbf{offspring} tip or node.
+\item{\texttt{"DELTRAN"}}
+
+This method is similar to the parsimony DELTRAN method and sets the state at the slice to be the one of the closest \textbf{ancestor} tip or node.
+\item{\texttt{"RATES"}}
+
+This method allows to give a probability of picking the offspring or the ancestor state depending on the overall character rate and the length of the sliced branch.
+\end{enumerate}
+Note that the \texttt{"RATES"} option is available for now.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{std.slice_acc}\hlkwb{<-}\hlkwd{std.slice}\hlstd{(tree, pco.scores, slices,} \hlkwc{method}\hlstd{=}\hlstr{"ACCTRAN"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+Similarly as above, to plot the results of this function, just use the \texttt{plot.std} function:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plot.std}\hlstd{(std.slice_acc,} \hlkwc{legend}\hlstd{=}\hlnum{TRUE}\hlstd{,} \hlkwc{pars}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{3}\hlstd{,}\hlnum{3}\hlstd{),} \hlkwc{pos.leg}\hlstd{=}\hlkwd{c}\hlstd{(}\hlopt{-}\hlnum{5}\hlstd{,}\hlnum{5}\hlstd{))}
+\end{alltt}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in if (pos.leg == "{}default"{}) \{: the condition has length > 1 and only the first element will be used}}\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/minimal-plot_slice-1} 
+
+}
+
+
+
+\end{knitrout}
+
+And that's it for now!
+
+I'm currently developing the three caveats of this method (and hopefully the will be updated soon):
+\begin{enumerate}
+\item{The ancestral states estimation:} Namely using Bayesian or the Threshold method to have a better way to deal with uncertainty. One option is also to use other softwares (i.e. MrBayes) to optimize the speed and the results of this step.
+\item{The PCO analysis:} Making sure that the PCO analysis is statistically correct, using the right distance matrix, and scaling rules.
+\item{The Tree Slicing:} Implementing the \texttt{"RATES"} method to allow to select for the characters states in a less arbitrary way.
+\end{enumerate}
+And two future directions needs to be developed:
+\begin{enumerate}
+\item{Adding fossils FOD/LOD values in the analysis.}
+\item{Adding body mass to the analysis.}
+\item{Adding methods to calculate de disparity using the group variance/range and distance to centroid.}
+\end{enumerate}
+
+\end{document}

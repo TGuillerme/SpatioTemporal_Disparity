@@ -1,0 +1,230 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[sc]{mathpazo}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{url}
+\usepackage{natbib}
+\usepackage{enumerate}
+\usepackage{lastpage} 
+\pagenumbering{arabic}
+\linespread{1.66}
+
+\usepackage[unicode=true,pdfusetitle,
+bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=2,
+breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
+{hyperref}
+
+\geometry{verbose,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+
+\hypersetup{pdfstartview={XYZ null null 1}}
+\begin{document}
+
+<<setup, include=FALSE, cache=FALSE>>=
+library(knitr)
+# set global chunk options
+opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold')
+options(formatR.arrow=TRUE,width=90) #$
+@
+
+\begin{flushright}
+Version dated: \today
+\end{flushright}
+\begin{center}
+
+%Title
+\noindent{\Large{\bf{Spatio-temporal Disparity (STD)}}}\\
+\bigskip
+%Author
+\noindent{Thomas Guillerme - guillert@tcd.ie - http://tguillerme.github.io/}\\
+
+\end{center}
+This is a quick demo on how I run my Spatio-Temporal Disparity analysis.
+
+\textbf{DISCLAIMER}:
+This demo contains really early results of the work and is far from being correctly framed, both in the analysis than in the ideas.
+The functions and the associated testing have only be tested on two specific data sets and might not work with other ones.
+Also, most analyses violate any statistical assumptions and the functions options are usually just set to default without any thinking about them.
+Again, this a a \textbf{really early version} of this work.
+
+This document contains a pipelined analysis to produce a plot of morphospace through time using a conglomerate of functions that are not yet grouped in a package.
+Before starting the analysis, make sure you cloned the the Spatio-Temporal Disparity folder on your machine (available here: \url{https://github.com/TGuillerme/SpatioTemporal_Disparity}).
+
+\section{Before the analysis}
+Then run the following to check the repository and load all the necessary functions or data.
+
+<<DataFunction, eval=FALSE>>=
+setwd("../Analysis")
+source("functions.R")
+source("set.data.R")
+@
+
+\section{The data} \label{data}
+
+%\texttt{x} for putting the text in courier
+%\Sexpr{x[1]} for printing out of the coding boxes an R object
+You now can choose which data to load by using \texttt{set.data}. Two data sets are available:
+\begin{enumerate}
+\item{\texttt{"Beck"}}
+
+A data set from Beck and Lee 2014 Proceedings of the Royal Society B containing 102 taxa and 421 morphological characters.
+
+\item{\texttt{"Slater"}}
+
+A data set from Slater 2013 Methods in Ecology and Evolution containing 90 taxa and 446 morphological characters
+\end{enumerate}
+You can use the \texttt{with.anc.matrix} option to also load the associated ancestral states estimation matrix (see Ancestral states estimation ~\ref{ACE})).
+For this example I will load the \texttt{Beck} dataset. Note that you can you any of the two example and still run the example
+
+<<DataRead>>=
+set.data("Beck", with.anc.matrix=TRUE)
+@
+
+Note that \texttt{set.data} loaded and generate various objects namely \texttt{tree} that can be plotted by just calling:
+
+<<BeckTree>>=
+plot(tree, cex=0.4, main="Beck and Lee 2014 - Placental") #tiny tiny labels!
+axisPhylo()
+@
+
+\section{Generating the PCO data}
+Once we've loaded the data we can run a PCO (or MDS) analysis to see the occupancy of placental mammals character-space through time.
+
+\subsection{Ancestral state estimation} \label{ACE}
+First we need to estimate the complete character-space by estimating the ancestral states of each characters on each node of the tree.
+We can use the \texttt{anc.state} function that needs a \texttt{tree} and a \texttt{table} containing the ancestral states.
+If our case both where loaded when using the \texttt{set.data} function (~\ref{data}).
+Three different methods can be used for \texttt{anc.state}:
+\begin{enumerate}
+\item{\texttt{"ML"}}
+
+Maximum Likelihood - using the \texttt{ace\{ape\}} function
+\item{\texttt{"Bayesian"}}
+
+Bayesian method - using the \texttt{anc.Bayes\{phangorn\}} function
+
+\item{\texttt{"Threshold"}}
+
+Threshold method - using the \texttt{threshBayes\{phytools\}} function
+\end{enumerate}
+Note that only the \texttt{"ML"} option is available for now.
+
+<<anc.state, eval=FALSE>>=
+anc.matrix.save<-anc.state(tree, table, method='ML', verbose=TRUE)
+@
+
+No need to run this function here since we already loaded the ancestral state matrix with the data (~\label{data}).
+
+Let's check what's in \texttt{anc.matrix.save}:
+
+<<anc.state2>>=
+names(anc.matrix.save)
+head(anc.matrix.save$state[,1:5]) #character 1 to 5 only
+tail(anc.matrix.save$prob[,1:5]) #character 1 to 5 only
+@
+
+\texttt{anc.matrix.save} is a list of two objects: \Sexpr{names(anc.matrix.save)[1]} containing the states for each character and \Sexpr{names(anc.matrix.save)[2]} containing the probability of each state to be correct.
+
+\subsection{Probability threshold}
+We can then \textit{clean} \texttt{anc.matrix.save} by replacing each character state with a probability below a threshold by missing data (\texttt{"?"}) using the \texttt{anc.unc} function.
+Let's use a 0.95 probability threshold (discarding estimation below that):
+
+<<anc.unc>>=
+anc.matrix<-anc.unc(anc.matrix.save, 0.95)
+@
+
+\subsection{Calculation the PCO (or MDS) matrix}
+We can now run a principal coordinates analysis on \texttt{anc.matrix} using the \texttt{pco.std} function.
+This function generates a distance matrix using the \texttt{veg.dist\{vegan\}} function and runs a PCO analysis on it using the \texttt{pcoa\{ape\}} function.
+The function takes the options from both \texttt{veg.dist\{vegan\}}, \texttt{pcoa\{ape\}} and \texttt{scale\{base\}}.
+Let's run the PCO on a scaled euclidean distance matrix without NAs.
+
+<<pco.std>>=
+pco<-pco.std(anc.matrix, distance="euclidean",
+    scale=TRUE, center=FALSE, na.rm=TRUE, correction="none")
+@
+
+\section{Analysing the results}
+To visualise the results of this PCO, we can use the three plotting options of the \texttt{plot.std} function.
+
+\subsection{Axis analysis}
+First let's check the load on each axis in our PCO and the cumulative explicative variance.
+We can obtain that by running the \texttt{plot.std} function on the raw \texttt{pco} object.
+
+<<plot.load>>=
+plot.std(pco, legend=TRUE)
+@
+
+\subsection{Plotting the full character-space}
+We can also plot the full character-space to see which group of species occupy which part of the character-space.
+First we need to create a \texttt{pco.scores} object using the function with the same name.
+This function takes as input our \texttt{tree}, the related \texttt{pco} object and an optional list of taxonomic information.
+We already generated the taxonomic list using \texttt{set.data} (~\label{data}).
+
+<<tax.list>>=
+taxonomy.list
+@
+
+This list contains the names of the taxonomic groups and the number of the node including them.
+Note that the Stem Placental group contains two nodes and is therefore a grade.
+
+<<pco.scores>>=
+pco.scores<-as.pco.scores(tree, pco, n.axis=2, taxonomy.list)
+@
+
+The plot can then be easily created using the \texttt{plot.std} function:
+
+<<plot.pco>>=
+plot.std(pco.scores, legend=TRUE, main="Full character-space")
+@
+
+\subsection{Plotting the evolution of the character-space through time}
+Finally, we can plot the evolution of this character space through time using the \texttt{slice.std} function.
+This function takes as input our \texttt{tree}, the related \texttt{pco.scores} object, the number of slices and a slicing method.
+The number of slices is a list of ages that we already generated though \texttt{set.data} (~\label{data}).
+
+<<slices>>=
+slices
+@
+
+The \texttt{slice.std} function allows three different tree slicing method:
+\begin{enumerate}
+\item{\texttt{"ACCTRAN"}}
+
+This method is similar to the parsimony ACCTRAN method and sets the state at the slice to be the one of the closest \textbf{offspring} tip or node.
+\item{\texttt{"DELTRAN"}}
+
+This method is similar to the parsimony DELTRAN method and sets the state at the slice to be the one of the closest \textbf{ancestor} tip or node.
+\item{\texttt{"RATES"}}
+
+This method allows to give a probability of picking the offspring or the ancestor state depending on the overall character rate and the length of the sliced branch.
+\end{enumerate}
+Note that the \texttt{"RATES"} option is available for now.
+
+<<slice.tree>>=
+std.slice_acc<-std.slice(tree, pco.scores, slices, method="ACCTRAN")
+@
+
+Similarly as above, to plot the results of this function, just use the \texttt{plot.std} function:
+
+<<plot.slice>>=
+plot.std(std.slice_acc, legend=TRUE, pars=c(3,3), pos.leg=c(-5,5))
+@
+
+And that's it for now!
+
+I'm currently developing the three caveats of this method (and hopefully the will be updated soon):
+\begin{enumerate}
+\item{The ancestral states estimation:} Namely using Bayesian or the Threshold method to have a better way to deal with uncertainty. One option is also to use other softwares (i.e. MrBayes) to optimize the speed and the results of this step.
+\item{The PCO analysis:} Making sure that the PCO analysis is statistically correct, using the right distance matrix, and scaling rules.
+\item{The Tree Slicing:} Implementing the \texttt{"RATES"} method to allow to select for the characters states in a less arbitrary way.
+\end{enumerate}
+And two future directions needs to be developed:
+\begin{enumerate}
+\item{Adding fossils FOD/LOD values in the analysis.}
+\item{Adding body mass to the analysis.}
+\item{Adding methods to calculate de disparity using the group variance/range and distance to centroid.}
+\end{enumerate}
+
+\end{document}
