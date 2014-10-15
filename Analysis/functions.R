@@ -11,5 +11,5 @@ sourceDir <- function(path, trace = TRUE, ...) {
     }
 }
 
-sourceDir(path="~/PhD/Projects/SpatioTemporal_Disparity/Functions/")
-sourceDir(path="~/PhD/Projects/SpatioTemporal_Disparity/Functions/test/")
+sourceDir(path="../Functions/")
+sourceDir(path="../Functions/test/")
