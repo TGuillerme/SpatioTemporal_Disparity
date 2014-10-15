@@ -2,7 +2,10 @@
 #PCO for STD
 ##########################
 #Pipeline for running a pco on the ancestral matrix from anc.state
-#v0.1
+#v0.1.1
+#Update:
+#This version is methodologically wrong:
+#If NA's are introduced in the distance matrix they are replaced by the mean distance.
 ##########################
 #SYNTAX :
 #<anc.matrix> the ancestral matrix (a list of states and probabilities returned from anc.state).
@@ -23,6 +26,9 @@ pco.std<-function(anc.matrix, distance="euclidean", scale=FALSE, center=FALSE, n
     #packages
     require(vegan)
     require(ape)
+
+    #DISCLAIMER
+    warning("This function is in development.\nIf NA's are introduced in the distance matrix they are replaced by the mean distance.\nThis is methodological wrong!")
 
     #anc.matrix
     check.class(anc.matrix, "list", " must be a list from anc.state containing two elements: \'state\' and \'prob\'.")
@@ -86,6 +92,18 @@ pco.std<-function(anc.matrix, distance="euclidean", scale=FALSE, center=FALSE, n
     } else {
         distance.matrix<-vegdist(scaled.matrix, method, na.rm=FALSE, ...)
     }
+
+
+    #DEVELOPEMENT PART (FIX!)
+    if(length(which(is.na(distance.matrix))) > 0) {
+        nas<-length(which(is.na(distance.matrix)))
+        distance.matrix[which(is.na(distance.matrix))]<-mean(distance.matrix, na.rm=TRUE)
+        warning("Version in development:\n", nas, " NAs have been replaced by the mean distance.\nThis is methodologically wrong!")
+    }
+
+
+
+
 
     #Calculating the pco
     pco.std<-pcoa(distance.matrix, correction)
