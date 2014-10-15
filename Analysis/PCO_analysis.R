@@ -19,7 +19,7 @@ set.data("Beck", with.anc.matrix=TRUE)
 
 #Ancestral state matrix
 ##Skiped for now
-#anc.matrix.save<-anc.state(tree, table, model='ML', verbose=TRUE)
+#anc.matrix.save<-anc.state(tree, table, method='ML', verbose=TRUE)
 
 #Recalculating the matrix with a 0.95 probability lower limit
 ##Using the load anc.matrix.save data
@@ -49,37 +49,3 @@ std.slice_del<-std.slice(tree, pco.scores, slices, method="DELTRAN")
 #Plot the two series of slices
 plot.std(std.slice_acc, legend=TRUE, pars=c(3,3), pos.leg=c(-5,6))
 plot.std(std.slice_del, legend=TRUE, pars=c(3,3), pos.leg=c(-5,6))
-
-
-
-
-
-
-
-
-
-#Check the for different parameters spaces
-#Full
-submatrix.full<-anc.matrix ; submatrix.full$state<-submatrix.full$state
-pco.full<-pco.std(submatrix.full, distance="euclidean", scale=TRUE, center=FALSE, na.rm=TRUE, correction="none")
-pco.scores.full<-as.pco.scores(tree, pco.full, n.axis=2, taxonomy.list)
-#Dental
-submatrix.dental<-anc.matrix ; submatrix.dental$state<-submatrix.dental$state[, Dental]
-pco.dental<-pco.std(submatrix.dental, distance="euclidean", scale=TRUE, center=FALSE, na.rm=TRUE, correction="none")
-pco.scores.dental<-as.pco.scores(tree, pco.dental, n.axis=2, taxonomy.list)
-#cranial
-submatrix.cranial<-anc.matrix ; submatrix.cranial$state<-submatrix.cranial$state[, Cranial]
-pco.cranial<-pco.std(submatrix.cranial, distance="euclidean", scale=TRUE, center=FALSE, na.rm=TRUE, correction="none")
-pco.scores.cranial<-as.pco.scores(tree, pco.cranial, n.axis=2, taxonomy.list)
-#postcranial
-submatrix.PostCranial<-anc.matrix ; submatrix.PostCranial$state<-submatrix.PostCranial$state[, PostCranial]
-pco.PostCranial<-pco.std(submatrix.PostCranial, distance="euclidean", scale=TRUE, center=FALSE, na.rm=TRUE, correction="none")
-pco.scores.PostCranial<-as.pco.scores(tree, pco.PostCranial, n.axis=2, taxonomy.list)
-
-
-op<-par(mfrow=c(2,2)) 
-plot.std(pco.scores.full, legend=TRUE, pos.leg=c(-10, 10), xlim=c(-10,10), ylim=c(-10,10), main="Full character-space")
-plot.std(pco.scores.dental, xlim=c(-10,10), ylim=c(-10,10), main="Dental")
-plot.std(pco.scores.cranial, xlim=c(-10,10), ylim=c(-10,10), main="Cranial")
-plot.std(pco.scores.PostCranial, xlim=c(-10,10), ylim=c(-10,10), main="PostCranial")
-par(op)
