@@ -25,18 +25,18 @@ set.data<-function(data, with.anc.matrix=FALSE)
 
         #Remove species with only missing data before hand
         Slater.table<-Slater.table[-c(as.vector(which(apply(as.matrix(Slater.table), 1, function(x) levels(as.factor(x))) == "?"))),]
-        Slater.table<-Slater.table[-c(grep("Aegialodon", row.names(Slater.table)), grep("Murtoilestes", row.names(Slater.table))),] #Aegialodon and Murtoilestes are bugged
+        Slater.table<-Slater.table[-c(grep("Aegialodon", row.names(Slater.table)), grep("Murtoilestes", row.names(Slater.table)))] #Somehow Aegialodon and Murtoilestes are bugged and Adelobasileus seems to produce NAs in the distance matrix
 
         #Cleaning the tree and the table
         tree<-clean.tree(Slater.tree, Slater.table)
         table<<-clean.table(Slater.table, Slater.tree)
-        cat("\nCreated the morphological characters table as:\ntable")
+        cat("Created the morphological characters table as:\ntable\n")
 
         #Making the tree binary
         tree<<-bin.tree(tree)
         #adding node names
         tree$node.label<<-paste("n",seq(1:Nnode(tree)), sep="")
-        cat("\nCreated the tree as:\ntree")
+        cat("Created the tree as:\ntree\n")
 
         #test
         expect_equal(Ntip(tree), nrow(table))
@@ -67,21 +67,21 @@ set.data<-function(data, with.anc.matrix=FALSE)
         Dental<<-c(Premolars, Molar_morpho, Molar_wear, Dental_other)
         Cranial<<-c(Mandible, Basicranium, Middle_ear, Cranial_other, Cranial_vault)
         PostCranial<<-c(Vertebrae, Shoulder, Forelimb, Pelvic, Hindlimb, Postcranial_other)
-        cat("\nCreated the different morphological characters categories as:\nDental\nCranial\nPostCranial\nCharacters details list is available in the object:\ncharacter.details")
+        cat("Created the different morphological characters categories as:\nDental\nCranial\nPostCranial\nCharacters details list is available in the object:\ncharacter.details\n")
 
         #taxonomy.list
         taxonomy.list<<-list("Australosphenids"=160, "Marsupialiomorphs"=122, "Placentaliomorphs"=106, "Stem_mammaliforms"=c(91, 101), "Stem_theriforms"=c(102,105)) #Slater
-        cat("\nCreated the taxonomical list as:\ntaxonomy.list")
+        cat("Created the taxonomical list as:\ntaxonomy.list\n")
 
         #Age slices
         slices<<-c(0,25,50,75,100,125,150,175,200)
-        cat("\nCreated the age slices list as:\nslices")
+        cat("Created the age slices list as:\nslices\n")
 
         if(with.anc.matrix==TRUE) {
             #load("https://raw.githubusercontent.com/TGuillerme/SpatioTemporal_Disparity/master/Data/slater.mat.Rda")
             load("../Data/slater.mat.Rda")
             anc.matrix.save<<-anc.matrix.save.slater
-            cat("\nCreated the ancestral matrix in \'ML\' as:\nanc.matrix.save")
+            cat("Created the ancestral matrix in \'ML\' as:\nanc.matrix.save\n")
         }
     }
 
@@ -100,12 +100,12 @@ set.data<-function(data, with.anc.matrix=FALSE)
         #Cleaning the tree and the table
         tree<-clean.tree(Beck.tree, Beck.table)
         table<<-clean.table(Beck.table, Beck.tree)
-        cat("\nCreated the morphological characters table as:\ntable")
+        cat("Created the morphological characters table as:\ntable")
         #Making the tree binary
         tree<<-bin.tree(tree)
         #adding node names
         tree$node.label<<-paste("n",seq(1:Nnode(tree)), sep="")
-        cat("\nCreated the tree as:\ntree")   
+        cat("Created the tree as:\ntree")   
 
         #test
         expect_equal(Ntip(tree), nrow(table))
@@ -137,21 +137,21 @@ set.data<-function(data, with.anc.matrix=FALSE)
         Dental<<-c(Dentition_general, Incisors, Canine, Premolars, Molars)
         Cranial<<-c(Mandible, Rostrum, Palate, Zygoma, Braincase, Orbit, Mesocranium, Basicranium, Occiput)
         PostCranial<<-c(Vertebrae, Forelimb, Hindlimb)
-        cat("\nCreated the different morphological characters categories as:\nDental\nCranial\nPostCranial\nCharacters details list is available in the object:\ncharacter.details")
+        cat("Created the different morphological characters categories as:\nDental\nCranial\nPostCranial\nCharacters details list is available in the object:\ncharacter.details\n")
 
         #taxonomy.list
         taxonomy.list<<-list("Placental"=153, "Stem_placental"=c(103,153)) #Beck
-        cat("\nCreated the taxonomical list as:\ntaxonomy.list")
+        cat("Created the taxonomical list as:\ntaxonomy.list\n")
 
         #Age slices
         slices<<-c(0, 40, 50, 60, 70, 80, 90, 100, 110) #Beck
-        cat("\nCreated the age slices list as:\nslices")
+        cat("Created the age slices list as:\nslices\n")
 
         if(with.anc.matrix==TRUE) {
             #load("https://raw.githubusercontent.com/TGuillerme/SpatioTemporal_Disparity/master/Data/beck.mat.Rda")
             load("../Data/beck.mat.Rda")
             anc.matrix.save<<-anc.matrix.save.beck
-            cat("\nCreated the ancestral matrix in \'ML\' as:\nanc.matrix.save")
+            cat("Created the ancestral matrix in \'ML\' as:\nanc.matrix.save\n")
         }
     }
 }
