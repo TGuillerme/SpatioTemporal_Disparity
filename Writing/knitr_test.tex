@@ -55,9 +55,8 @@ Before starting the analysis, make sure you cloned the the Spatio-Temporal Dispa
 Then run the following to check the repository and load all the necessary functions or data.
 
 <<DataFunction, eval=FALSE>>=
-setwd("../Analysis")
+setwd("Analysis")
 source("functions.R")
-source("set.data.R")
 @
 
 \section{The data} \label{data}
@@ -77,8 +76,8 @@ A data set from Slater 2013 Methods in Ecology and Evolution containing 90 taxa 
 You can use the \texttt{with.anc.matrix} option to also load the associated ancestral states estimation matrix (see Ancestral states estimation ~\ref{ACE})).
 For this example I will load the \texttt{Beck} dataset. Note that you can you any of the two example and still run the example
 
-<<DataRead>>=
-set.data("Beck", with.anc.matrix=TRUE)
+<<DataRead, eval=FALSE>>=
+source("Beck.data.R")
 @
 
 Note that \texttt{set.data} loaded and generate various objects namely \texttt{tree} that can be plotted by just calling:

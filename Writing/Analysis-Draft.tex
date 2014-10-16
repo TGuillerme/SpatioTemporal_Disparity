@@ -102,9 +102,8 @@ Then run the following to check the repository and load all the necessary functi
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlkwd{setwd}\hlstd{(}\hlstr{"../Analysis"}\hlstd{)}
+\hlkwd{setwd}\hlstd{(}\hlstr{"Analysis"}\hlstd{)}
 \hlkwd{source}\hlstd{(}\hlstr{"functions.R"}\hlstd{)}
-\hlkwd{source}\hlstd{(}\hlstr{"set.data.R"}\hlstd{)}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
@@ -129,24 +128,8 @@ For this example I will load the \texttt{Beck} dataset. Note that you can you an
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlkwd{set.data}\hlstd{(}\hlstr{"Beck"}\hlstd{,} \hlkwc{with.anc.matrix}\hlstd{=}\hlnum{TRUE}\hlstd{)}
+\hlkwd{source}\hlstd{(}\hlstr{"Beck.data.R"}\hlstd{)}
 \end{alltt}
-\begin{verbatim}
-## Created the morphological characters table as:
-## tableCreated the tree as:
-## treeCreated the different morphological characters categories as:
-## Dental
-## Cranial
-## PostCranial
-## Characters details list is available in the object:
-## character.details
-## Created the taxonomical list as:
-## taxonomy.list
-## Created the age slices list as:
-## slices
-## Created the ancestral matrix in 'ML' as:
-## anc.matrix.save
-\end{verbatim}
 \end{kframe}
 \end{knitrout}
 
@@ -263,7 +246,9 @@ Let's run the PCO on a scaled euclidean distance matrix without NAs.
 \hlstd{pco}\hlkwb{<-}\hlkwd{pco.std}\hlstd{(anc.matrix,} \hlkwc{distance}\hlstd{=}\hlstr{"euclidean"}\hlstd{,}
     \hlkwc{scale}\hlstd{=}\hlnum{TRUE}\hlstd{,} \hlkwc{center}\hlstd{=}\hlnum{FALSE}\hlstd{,} \hlkwc{na.rm}\hlstd{=}\hlnum{TRUE}\hlstd{,} \hlkwc{correction}\hlstd{=}\hlstr{"none"}\hlstd{)}
 \end{alltt}
-\end{kframe}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in pco.std(anc.matrix, distance = "{}euclidean"{}, scale = TRUE, center = FALSE, : This function is in development.\\\#\# If NA's are introduced in the distance matrix they are replaced by the mean distance.\\\#\# This is methodological wrong!}}\end{kframe}
 \end{knitrout}
 
 \section{Analysing the results}
@@ -382,9 +367,7 @@ Similarly as above, to plot the results of this function, just use the \texttt{p
 \begin{alltt}
 \hlkwd{plot.std}\hlstd{(std.slice_acc,} \hlkwc{legend}\hlstd{=}\hlnum{TRUE}\hlstd{,} \hlkwc{pars}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{3}\hlstd{,}\hlnum{3}\hlstd{),} \hlkwc{pos.leg}\hlstd{=}\hlkwd{c}\hlstd{(}\hlopt{-}\hlnum{5}\hlstd{,}\hlnum{5}\hlstd{))}
 \end{alltt}
-
-
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning in if (pos.leg == "{}default"{}) \{: the condition has length > 1 and only the first element will be used}}\end{kframe}
+\end{kframe}
 
 {\centering \includegraphics[width=\maxwidth]{figure/minimal-plot_slice-1} 
 
