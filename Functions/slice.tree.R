@@ -62,8 +62,9 @@ slice.tree<-function(tree, age, method) {
 
     #Correcting the sliced tree
     for (tip in 1:Ntip(tree_slice)) {
+
         #Check if the tree is sliced at the exact age of a tip (e.g. time=0)
-        if(tree_age[which(tree_age[,2]==tips[1]),1] != age) {
+        if(tree_age[which(tree_age[,2]==tips[tip]),1] != age) {
             if(method == "DELTRAN") {
                 tree_sliced$tip.label[tip]<-slice.tree_DELTRAN(tree, tips[tip], tree_slice)
             }

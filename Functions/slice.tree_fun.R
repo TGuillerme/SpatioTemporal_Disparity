@@ -62,7 +62,6 @@ slice.tree_ACCTRAN<-function(tree, tip, tree_slice) {
     offspring_node<-slice.tree_offspring.node(tree, parent_node, tip)
     return(offspring_node)
 }
-message("Error in slice.tree_fun.R-slice.tree_ACCTRAN function:\nDoes not return only tips when slice=0")
 
 #branch.state<-function(anc.stat, anc.stat.prob, off.stat, br.length, trait.rate) {
 #    #Randomly generates a state with a likelihood probability for any time point along a branch

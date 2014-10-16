@@ -50,12 +50,13 @@ tree.age<-function(tree, scale, type='past'){
     #Type
     if(type == 'past'){
         tree.height<-max(ages.table$ages)
-        ages.table$ages<-round(abs(ages.table$ages-tree.height), digit=7)
+        ages.table$ages<-round(abs(ages.table$ages-tree.height), digit=3)
     } else {
         ages.table$ages<-round(ages.table$ages, digit=7)
     }
 
     #Output
+    #ages.table<-round(ages.table[1,], digit=3)
     return(ages.table)
 
     #Example
