@@ -9,13 +9,14 @@ if(!grep("SpatioTemporal_Disparity/Analysis", getwd())) {
 }
 
 source("functions.R")
-source("set.data.R")
 
 #Choose the data set to load:
 ##"Beck" for the Beck & Lee 2014 Proc.B containing fossil and living placental mammals
 ##"Slater" for the Slater 2013 MEE containing fossil and living mammaliforms
 #Use the with.anc.matrix option to skip the ancestral states estimation part (long)
-set.data("Beck", with.anc.matrix=TRUE)
+#source("Slater.data.R")
+#source("Beck.data.R")
+
 
 #Ancestral state matrix
 ##Skiped for now
@@ -28,7 +29,7 @@ anc.matrix<-anc.unc(anc.matrix.save, 0.95)
 #Submatrix
 submatrix<-anc.matrix
 ##Using the loaded character list
-submatrix$state<-submatrix$state[, Dental]
+submatrix$state<-submatrix$state[,]
 
 #Calculating the PCO/MDS with a scaled euclidean distance matrix and removing the NAs
 pco<-pco.std(submatrix, distance="euclidean", scale=TRUE, center=FALSE, na.rm=TRUE, correction="none")
@@ -47,5 +48,5 @@ std.slice_acc<-std.slice(tree, pco.scores, slices, method="ACCTRAN")
 std.slice_del<-std.slice(tree, pco.scores, slices, method="DELTRAN")
 
 #Plot the two series of slices
-plot.std(std.slice_acc, legend=TRUE, pars=c(3,3), pos.leg=c(-5,6))
-plot.std(std.slice_del, legend=TRUE, pars=c(3,3), pos.leg=c(-5,6))
+plot.std(std.slice_acc, legend=TRUE, pars=c(3,3))
+plot.std(std.slice_del, legend=TRUE, pars=c(3,3))
