@@ -4,22 +4,25 @@ plot.load<-function(data, legend, pos.leg, pars=c(1,2), ...) {
     op<-par(mfrow=pars) 
 
     #Selecting the axis load and their cumulative value from the pco
-    cum<-data$values$Cum_corr_eig
-    load<-data$values$Rel_corr_eig
+    #Proposed values: "Eigenvalues"    "Relative_eig"   "Rel_corr_eig"   "Broken_stick"   "Cum_corr_eig"   "Cumul_br_stick"
+    #Not sure about the loading of the values here.
+    #The idea is that pcoa only outputs the positive eigen values when no correction is applied. Should test with different corrections. Number of axis must be equal to number of species??
+    load<-data$values$Eigenvalues[1:ncol(pco$vectors)]/sum(data$values$Eigenvalues[1:ncol(pco$vectors)]) #select only the vectors taken into account as PC axis
+    cum<-cumsum(load) #select only the vectors taken into account as PC axis 
 
     #plotting the load
     barplot(load, main="Relative variance per axis")
     if(legend==TRUE) {
-        text(round(length(load)/2), (max(load)-0.1*max(load)), paste("1st axis = ", round(load[1]*100, digit=2), "% variance", sep=""), cex=0.5)
-        text(round(length(load)/2), (max(load)-0.125*max(load)), paste("2nd axis = ", round(load[2]*100, digit=2), "% variance", sep=""), cex=0.5)
-        text(round(length(load)/2), (max(load)-0.15*max(load)), paste("3rd axis = ", round(load[3]*100, digit=2), "% variance", sep=""), cex=0.5)
+        text(round(length(load)/2), (max(load)-0.1*max(load)), paste("1st axis = ", round(load[1]*100, digit=2), "% variance", sep=""), cex=0.7)
+        text(round(length(load)/2), (max(load)-0.125*max(load)), paste("2nd axis = ", round(load[2]*100, digit=2), "% variance", sep=""), cex=0.7)
+        text(round(length(load)/2), (max(load)-0.15*max(load)), paste("3rd axis = ", round(load[3]*100, digit=2), "% variance", sep=""), cex=0.7)
     }
 
     #plotting the cumulative variance
     barplot(cum, main="Cumulative variance per axis")
     if(legend==TRUE) {
         abline(0.95,0)
-        text(round(length(load)/3), 0.95, paste("0.95 cumulative variance (", length(which(cum <= 0.95)), " axis)", sep=""), cex=0.5 , pos=1)
+        text(round(length(cum)/7), 0.95, paste("0.95 cumulative variance (", length(which(cum <= 0.95)), " axis)", sep=""), cex=0.7 , pos=1)
     }
 
     par(op)
@@ -56,11 +59,13 @@ plot.pco<-function(data, legend, pos.leg, xlim, ylim, col, ...) {
         }
     }
     if(legend == TRUE){
-        if(pos.leg == 'default'){
-            legend(min(data[[1]][,1]), max(data[[1]][,2]), levels(as.factor(data[[2]][,1])), col=col[1:groups], pch=21, cex=0.7)
-        } else {
-            legend(pos.leg[1], pos.leg[2], levels(as.factor(data[[2]][,1])), col=col[1:groups], pch=21, cex=0.7)
-        }
+        suppressWarnings(
+            if(pos.leg == 'default'){
+                legend(min(data[[1]][,1]), max(data[[1]][,2]), levels(as.factor(data[[2]][,1])), col=col[1:groups], pch=21, cex=0.7)
+            } else {
+                legend(pos.leg[1], pos.leg[2], levels(as.factor(data[[2]][,1])), col=col[1:groups], pch=21, cex=0.7)
+            }
+        )
     }
 }
 
