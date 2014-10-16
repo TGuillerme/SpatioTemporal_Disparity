@@ -85,3 +85,25 @@ anc.state_state<-function(tree, matrix, anc.state_ace) {
     }
     return(state.matrix)
 }
+
+
+#Creating the rate matrix for the nodes and the tips
+anc.state_rate<-function(tree, matrix, anc.state_ace) {
+    #Creating the empty matrix
+    rate.matrix<-as.data.frame(matrix(NA, ncol=2, nrow=(ncol(matrix))))
+    names(rate.matrix)<-c("rate.estimate", "std.err")
+    #Adding the character names if available:
+    if(!is.null(colnames(matrix))) {
+        rownames(rate.matrix)<-colnames(matrix)
+    }
+
+    #Filling the matrix
+    for(character in 1:ncol(matrix)) {
+        #rate
+        rate.matrix[character,1]<-anc.state_ace[[character]]$rates
+        #std.err
+        rate.matrix[character,2]<-anc.state_ace[[character]]$se
+    }
+
+    return(rate.matrix)
+}

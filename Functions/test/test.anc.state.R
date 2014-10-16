@@ -55,6 +55,29 @@ expect_equal(nrow(test), (Ntip(tree)+Nnode(tree))) ; message('.', appendLF=FALSE
 expect_is(test[1,1], 'character') ; message('.', appendLF=FALSE)
 
 
+#Testing anc.state_rate
+set.seed(1)
+tree<-rtree(10)
+set.seed(1)
+matrix<-data.frame(row.names=tree$tip.label, 'char1'=sample(c(0,1), Ntip(tree), replace=TRUE), 'char2'=sample(c(0,1), Ntip(tree), replace=TRUE))
+set.seed(1)
+test<-anc.state_rate(tree, matrix, anc.state_ace(tree, matrix, method='ML', verbose=FALSE))
+
+#test
+#class
+expect_is(test, 'data.frame') ; message('.', appendLF=FALSE)
+#number of columns
+expect_equal(ncol(test), 2) ; message('.', appendLF=FALSE)
+#number of rows
+expect_equal(nrow(test), ncol(matrix)) ; message('.', appendLF=FALSE)
+
+#states
+expect_equal(round(test[1,1], digit=2), 26.95) ; message('.', appendLF=FALSE)
+expect_equal(round(test[2,1], digit=2), 26.79) ; message('.', appendLF=FALSE)
+expect_equal(round(test[1,2], digit=2), 45211.82) ; message('.', appendLF=FALSE)
+expect_equal(round(test[2,2], digit=2), 36701.47) ; message('.', appendLF=FALSE)
+
+
 #Testing anc.states
 tree<-rtree(10)
 matrix<-data.frame(row.names=tree$tip.label, 'char1'=sample(c(0,1), Ntip(tree), replace=TRUE), 'char2'=sample(c(0,1), Ntip(tree), replace=TRUE))
@@ -78,3 +101,5 @@ for(character in 1:ncol(matrix)) {
 expect_message(bla<-anc.state(tree, matrix, method='ML', verbose=TRUE), 'Estimating the ancestral states for 2 characters:') ; message('.', appendLF=FALSE)
 expect_message(bla<-anc.state(tree, matrix, method='ML', verbose=TRUE), '.') ; message('.', appendLF=FALSE)
 expect_message(bla<-anc.state(tree, matrix, method='ML', verbose=TRUE), 'Done.') ; message('.', appendLF=FALSE)
+
+

@@ -69,9 +69,12 @@ anc.state<-function(tree, matrix, method='ML', verbose=TRUE, save=FALSE, ...){
     #Creating the state matrix for the nodes and the tips
     anc.state<-anc.state_state(tree, matrix, anc.list)
 
+    #Creating the rate matrix
+    anc.rate<-anc.state_rate(tree, matrix, anc.list)
+
 #OUTPUT
 
-    anc.matrix<-list("state"=anc.state, "prob"=anc.prob)
+    anc.matrix<-list("state"=anc.state, "prob"=anc.prob, "rate"=anc.rate)
     if (save == TRUE) {
         if(method == 'ML') {
             save(anc.matrix, files=paste(save.name, ".rda", sep=""))
