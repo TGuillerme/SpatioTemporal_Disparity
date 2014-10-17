@@ -87,12 +87,13 @@ test<-anc.state(tree, matrix, method='ML', verbose=FALSE)
 #class
 expect_is(test, 'list') ; message('.', appendLF=FALSE)
 #length
-expect_equal(length(test), 2) ; message('.', appendLF=FALSE)
+expect_equal(length(test), 3) ; message('.', appendLF=FALSE)
 #elements
 expect_is(test[[1]], 'matrix') ; message('.', appendLF=FALSE)
 expect_is(test[[2]], 'matrix') ; message('.', appendLF=FALSE)
+expect_is(test[[3]], 'data.frame') ; message('.', appendLF=FALSE)
 #names
-expect_equal(names(test), c('state', 'prob')) ; message('.', appendLF=FALSE)
+expect_equal(names(test), c('state', 'prob', 'rate')) ; message('.', appendLF=FALSE)
 #correct levels
 for(character in 1:ncol(matrix)) {
     expect_that(levels(as.factor(matrix[,character])) %in% as.vector(test$state[,character]), equals(rep(TRUE, length(levels(as.factor(matrix[,character])))))) ; message('.', appendLF=FALSE)
