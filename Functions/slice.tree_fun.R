@@ -62,14 +62,3 @@ slice.tree_ACCTRAN<-function(tree, tip, tree_slice) {
     offspring_node<-slice.tree_offspring.node(tree, parent_node, tip)
     return(offspring_node)
 }
-
-#branch.state<-function(anc.stat, anc.stat.prob, off.stat, br.length, trait.rate) {
-#    #Randomly generates a state with a likelihood probability for any time point along a branch
-#    branch.prob<-anc.sta.prob*exp(-trait.rate*br.length)
-#    branch.stat<-sample(c(anc.trait,des.trait), 1, prob=c(branch.prob, (1-branch.prob)))
-#}
-
-#RATES<-function(...) {
-#    stop("to do")
-#    #use branch.state
-#}

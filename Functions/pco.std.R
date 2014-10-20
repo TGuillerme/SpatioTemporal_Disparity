@@ -2,8 +2,9 @@
 #PCO for STD
 ##########################
 #Pipeline for running a pco on the ancestral matrix from anc.state
-#v0.1.1
+#v0.1.2
 #Update:
+#Fixed sanitizing to match with the new anc.matrix type (+rate)
 #This version is methodologically wrong:
 #If NA's are introduced in the distance matrix they are replaced by the mean distance.
 ##########################
@@ -31,13 +32,16 @@ pco.std<-function(anc.matrix, distance="euclidean", scale=FALSE, center=FALSE, n
     warning("This function is in development.\nIf NA's are introduced in the distance matrix they are replaced by the mean distance.\nThis is methodological wrong!")
 
     #anc.matrix
-    check.class(anc.matrix, "list", " must be a list from anc.state containing two elements: \'state\' and \'prob\'.")
-    check.length(anc.matrix, 2, " must be a list from anc.state containing two elements: \'state\' and \'prob\'.")
+    check.class(anc.matrix, "list", " must be a list from anc.state containing three elements: \'state\', \'prob\' and \'rate\'.")
+    check.length(anc.matrix, 3, " must be a list from anc.state containing three elements: \'state\', \'prob\' and \'rate\'.")
     if(names(anc.matrix)[1] != "state") {
-        stop(as.character(substitute(anc.matrix)), " must be a list from anc.state containing two elements: \'state\' and \'prob\'.", call.=FALSE)
+        stop(as.character(substitute(anc.matrix)), " must be a list from anc.state containing three elements: \'state\', \'prob\' and \'rate\'.", call.=FALSE)
     } 
     if(names(anc.matrix)[2] != "prob") {
-        stop(as.character(substitute(anc.matrix)), " must be a list from anc.state containing two elements: \'state\' and \'prob\'.", call.=FALSE)
+        stop(as.character(substitute(anc.matrix)), " must be a list from anc.state containing three elements: \'state\', \'prob\' and \'rate\'.", call.=FALSE)
+    }
+    if(names(anc.matrix)[3] != "rate") {
+        stop(as.character(substitute(anc.matrix)), " must be a list from anc.state containing three elements: \'state\', \'prob\' and \'rate\'.", call.=FALSE)
     }
     matrix<-anc.matrix$state
 

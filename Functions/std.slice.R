@@ -3,19 +3,21 @@
 ##########################
 #Generates a pco.slice list containing pco.scores through time and taxonomic information
 #Modyfied timeSliceTree function from Davd Bapst (paleotrree)
-#v0.1
+#v0.3
+#Update: added RATES method
 ##########################
 #SYNTAX :
 #<tree> a 'phylo' object
 #<pco.scores> a pco.scores object containing PC axis data and optional taxonomic data.
 #<slices> slices ages. Can be either a single value (for a single slice) or a series of values (for multiple slices)
 #<method> the slicing method (what becomes of the sliced branches): can be ACCTRAN, DELTRAN or RATE.
+#<anc.matrix> Optional, needed for the RATES method
 ##########################
 #----
-#guillert(at)tcd.ie 25/09/2014
+#guillert(at)tcd.ie 20/10/2014
 ##########################
 
-std.slice<-function(tree, pco.scores, slices, method) {
+std.slice<-function(tree, pco.scores, slices, method, anc.matrix) {
 
     #SANITIZING
     #tree
@@ -41,6 +43,27 @@ std.slice<-function(tree, pco.scores, slices, method) {
         }
     }
 
+    #anc.matrix
+    if(method == "RATES") {
+        if(missing(anc.matrix)) {
+            stop("Missing ancestral matrix for the \"RATES\" method.")
+        } else {
+            check.class(anc.matrix, "list", " must be a list from anc.state containing three elements: \'state\', \'prob\' and \'rate\'.")
+            check.length(anc.matrix, 3, " must be a list from anc.state containing three elements: \'state\', \'prob\' and \'rate\'.")
+            if(names(anc.matrix)[1] != "state") {
+                stop(as.character(substitute(anc.matrix)), " must be a list from anc.state containing three elements: \'state\', \'prob\' and \'rate\'.", call.=FALSE)
+            } 
+            if(names(anc.matrix)[2] != "prob") {
+                stop(as.character(substitute(anc.matrix)), " must be a list from anc.state containing three elements: \'state\', \'prob\' and \'rate\'.", call.=FALSE)
+            }
+            if(names(anc.matrix)[3] != "rate") {
+                stop(as.character(substitute(anc.matrix)), " must be a list from anc.state containing three elements: \'state\', \'prob\' and \'rate\'.", call.=FALSE)
+            }
+            rate<-anc.matrix$rate
+            prob<-anc.matrix$prob
+        }
+    }
+
     #SLICING THE TREE
     n.slices<-length(slices)
 
@@ -49,6 +72,8 @@ std.slice<-function(tree, pco.scores, slices, method) {
         
         #subtree
         sub_tree<-slice.tree(tree, slices[slice], method)
+
+        #ADD IF method=RATES
         
         #subtaxa list (sub_tree tip labels)
         sub_taxa<-sub_tree$tip.label

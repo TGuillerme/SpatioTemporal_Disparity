@@ -2,7 +2,9 @@
 #Ancestral uncertainty
 ##########################
 #Transforms the ancestral state matrix by excluding all infered states below a certain threshold.
-#v0.1
+#v0.1.1
+#Update:
+#Fixed sanitizing to match with the new anc.matrix type (+rate)
 ##########################
 #SYNTAX :
 #<anc.matrix> the ancestral matrix (a list of states and probabilities returned from anc.state)
@@ -15,13 +17,16 @@
 anc.unc<-function(anc.matrix, threshold=0.5) {
     #SANITIZING
     #anc.matrix
-    check.class(anc.matrix, 'list', ' must the ancestral matrix with a list of states and a list of probabilities.')
-    check.length(anc.matrix, 2, ' must the ancestral matrix with a list of states and a list of probabilities.')
-    if(names(anc.matrix)[1] != 'state') {
-        stop('anc.matrix must the ancestral matrix with a list of states and a list of probabilities.', call.=FALSE)
+    check.class(anc.matrix, "list", " must be a list from anc.state containing three elements: \'state\', \'prob\' and \'rate\'.")
+    check.length(anc.matrix, 3, " must be a list from anc.state containing three elements: \'state\', \'prob\' and \'rate\'.")
+    if(names(anc.matrix)[1] != "state") {
+        stop(as.character(substitute(anc.matrix)), " must be a list from anc.state containing three elements: \'state\', \'prob\' and \'rate\'.", call.=FALSE)
+    } 
+    if(names(anc.matrix)[2] != "prob") {
+        stop(as.character(substitute(anc.matrix)), " must be a list from anc.state containing three elements: \'state\', \'prob\' and \'rate\'.", call.=FALSE)
     }
-    if(names(anc.matrix)[2] != 'prob') {
-        stop('anc.matrix must the ancestral matrix with a list of states and a list of probabilities.', call.=FALSE)
+    if(names(anc.matrix)[3] != "rate") {
+        stop(as.character(substitute(anc.matrix)), " must be a list from anc.state containing three elements: \'state\', \'prob\' and \'rate\'.", call.=FALSE)
     }
 
     #threshold

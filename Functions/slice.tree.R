@@ -3,18 +3,20 @@
 ##########################
 #Slices a tree given a specific age
 #Modyfied timeSliceTree function from Davd Bapst (paleotrree)
-#v0.1
+#v0.2
+#Update: added RATES method
 ##########################
 #SYNTAX :
 #<tree> a 'phylo' object
 #<age> where to slice the tree
 #<method> the slicing method (what becomes of the sliced branches): can be ACCTRAN, DELTRAN or RATE
+#<anc.matrix> Optional, needed for the RATES method
 ##########################
 #----
-#guillert(at)tcd.ie 25/09/2014
+#guillert(at)tcd.ie 20/10/2014
 ##########################
 
-slice.tree<-function(tree, age, method) {
+slice.tree<-function(tree, age, method, anc.matrix) {
 
     #SANITIZING
     #tree
@@ -38,6 +40,27 @@ slice.tree<-function(tree, age, method) {
             if(method != "RATES") {
                         stop(as.character(substitute(method)), " must be \'ACCTRAN\', \'DELTRAN\' or \'RATES\'." , call.=FALSE)
             }
+        }
+    }
+
+    #anc.matrix
+    if(method == "RATES") {
+        if(missing(anc.matrix)) {
+            stop("Missing ancestral matrix for the \"RATES\" method.")
+        } else {
+            check.class(anc.matrix, "list", " must be a list from anc.state containing three elements: \'state\', \'prob\' and \'rate\'.")
+            check.length(anc.matrix, 3, " must be a list from anc.state containing three elements: \'state\', \'prob\' and \'rate\'.")
+            if(names(anc.matrix)[1] != "state") {
+                stop(as.character(substitute(anc.matrix)), " must be a list from anc.state containing three elements: \'state\', \'prob\' and \'rate\'.", call.=FALSE)
+            } 
+            if(names(anc.matrix)[2] != "prob") {
+                stop(as.character(substitute(anc.matrix)), " must be a list from anc.state containing three elements: \'state\', \'prob\' and \'rate\'.", call.=FALSE)
+            }
+            if(names(anc.matrix)[3] != "rate") {
+                stop(as.character(substitute(anc.matrix)), " must be a list from anc.state containing three elements: \'state\', \'prob\' and \'rate\'.", call.=FALSE)
+            }
+            rate<-anc.matrix$rate
+            prob<-anc.matrix$prob
         }
     }
 
