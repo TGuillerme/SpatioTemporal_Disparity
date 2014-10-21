@@ -62,23 +62,6 @@ slice.rate<-function(tree, slice, rate, prob){
 
 
 
-
-#Probability of a point in the branch to be in the ancestral state
-P.anc<-function(state.prob, rate, brlen) {
-    P.anc<-state.prob*exp(-rate*brlen)
-    return(P.anc)
-}
-
-branch.state<-function(anc.state, off.state, state.prob, rate, brlen) {
-    #Randomly generates a state with a likelihood probability for any time point along a branch
-    branch.state<-sample(c(anc.state, off.state), size=1, prob=c(P.anc(state.prob, rate, brlen), (1-P.anc(state.prob, rate, brlen))))
-    return(branc.state)
-}
-
-
-
-
-
 }
 
 

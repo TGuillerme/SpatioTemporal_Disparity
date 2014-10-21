@@ -1,6 +1,7 @@
 #Probability of a point in the branch to be in the ancestral state
 P.anc<-function(state.prob, rate, brlen) {
-    P.anc<-state.prob*exp(-rate*brlen)
+    #exp(rate*brlen) is the expectation of changing state.
+    P.anc<-state.prob*(exp(-rate*brlen))
     return(P.anc)
 }
 
