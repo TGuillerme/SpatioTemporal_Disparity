@@ -2,6 +2,7 @@
 P.anc<-function(state.prob, rate, brlen) {
     #exp(rate*brlen) is the expectation of changing state.
     P.anc<-state.prob*(exp(-rate*brlen))
+    #P.anc<-state.prob*(exp(-(rate*brlen)))
     return(P.anc)
 }
 
@@ -11,3 +12,4 @@ branch.state<-function(anc.state, off.state, state.prob, rate, brlen) {
     return(branch.state)
 }
 
+#Add new PROXIMITY method where the chosen state is the one closest to the cut (subtree terminal branch length vs tree branch length: if subtree tbrlen < tree brlen/2 -> DELTRAN, else ACCTRAN)

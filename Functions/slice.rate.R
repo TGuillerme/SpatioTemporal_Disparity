@@ -23,12 +23,13 @@ slice.rate<-function(tree, slice, rate, prob){
 
     #DEBUG
     warning("DEBUG MODE")
-    slice=0
+    slice=80
 
     #Creating the ACCTRAN/DELTRAN table
     #subtrees
-    sub_tree_acc<-slice.tree(tree, slice, method="ACCTRAN")
-    sub_tree_del<-slice.tree(tree, slice, method="DELTRAN") 
+    sub_tree_acc<-slice.tree(tree, slice, method="ACCTRAN") ; plot(sub_tree_acc)
+    sub_tree_del<-slice.tree(tree, slice, method="DELTRAN") ; plot(sub_tree_del)
+    sub_tree_pro<-slice.tree(tree, slice, method="PROXIMITY") ; plot(sub_tree_pro)
     #subtaxa table
     del_acc.table<-data.frame("DELTRAN"=sub_tree_del$tip.label, "ACCTRAN"=sub_tree_acc$tip.label)
 
@@ -43,10 +44,11 @@ slice.rate<-function(tree, slice, rate, prob){
     for (tip in 1:nrow(del_acc.table)) {
         brstate<-vector()
         for (character in 1:ncol(prob)) {
-            #state.prob=prob[which(rownames(prob) == del_acc.table[tip,1]) ,character]
-            brstate[[character]]<-branch.state(0,1, 1, rate=rate[tip, 1], brlen=del_acc.table[tip, 3])
+            state.prob=prob[which(rownames(prob) == del_acc.table[tip,1]) ,character]
+            #brstate[[character]]<-branch.state(0,1, state.prob, rate=rate[character, 1], brlen=del_acc.table[tip, 3])
+            brstate[[character]]<-P.anc(state.prob, rate=rate[character, 1], brlen=del_acc.table[tip, 3])
         }
-        global.state[[tip]]<-sum(brstate)/ncol(prob)
+        global.state[[tip]]<-median(brstate)
     }
     del_acc.table$"global.state"<-global.state
 
@@ -59,7 +61,7 @@ slice.rate<-function(tree, slice, rate, prob){
             del_acc.table[tip,5]<-as.character(del_acc.table[tip,1])
         }
     }
-
+    del_acc.table
 
 
 }

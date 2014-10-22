@@ -38,6 +38,7 @@ pco<-pco.std(submatrix, distance="euclidean", scale=TRUE, center=FALSE, na.rm=TR
 plot.std(pco, legend=TRUE)
 
 #Creating the pco.scores object (containing the axis and the taxonomy)
+#Change the taxonomy list into group list containing not only taxonomic data (BM, etc...).
 pco.scores<-as.pco.scores(tree, pco, n.axis=2, taxonomy.list)
 
 #Full pco plot
