@@ -34,11 +34,13 @@ slice.tree<-function(tree, age, method, anc.matrix) {
     }
 
     #method
-    check.class(method, 'character', " must be \'ACCTRAN\', \'DELTRAN\' or \'RATES\'.")
+    check.class(method, 'character', " must be \'ACCTRAN\', \'DELTRAN\', \'PROXIMITY\' or \'RATES\'.")
     if(method != "ACCTRAN") {
         if(method != "DELTRAN") {
             if(method != "RATES") {
-                        stop(as.character(substitute(method)), " must be \'ACCTRAN\', \'DELTRAN\' or \'RATES\'." , call.=FALSE)
+                if(method != "PROXIMITY") {
+                    stop(as.character(substitute(method)), " must be \'ACCTRAN\', \'DELTRAN\', \'PROXIMITY\' or \'RATES\'." , call.=FALSE)
+                }
             }
         }
     }
@@ -93,6 +95,9 @@ slice.tree<-function(tree, age, method, anc.matrix) {
             }
             if(method == "ACCTRAN") {
                 tree_sliced$tip.label[tip]<-slice.tree_ACCTRAN(tree, tips[tip], tree_slice)
+            }
+            if(method == "PROXIMITY") {
+                tree_sliced$tip.label[tip]<-slice.tree_PROXIMITY(tree, tips[tip], tree_slice)
             }
             if(method == "RATES") {
                 stop("TO DO!")

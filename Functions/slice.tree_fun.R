@@ -83,3 +83,63 @@ slice.tree_ACCTRAN<-function(tree, tip, tree_slice) {
     offspring_node<-slice.tree_offspring.node(tree, parent_node, tip)
     return(offspring_node)
 }
+
+#Modify the tree slicing by replacing the tips that are not at the cut by the offspring node towards the tip
+slice.tree_PROXIMITY<-function(tree, tip, tree_slice) {
+    #Calculating both the DELTRAN and the ACCTRAN node
+    DEL_node<-slice.tree_DELTRAN(tree, tip, tree_slice)
+    ACC_node<-slice.tree_ACCTRAN(tree, tip, tree_slice)
+
+    #If both nodes are the same (i.e slicing through the actual species), just return one
+    if(DEL_node == ACC_node) {
+        return(DEL_node)
+    } else {
+        #Extract the distance between DEL_node and ACC_node on tree
+        #Creating the two sub clades
+        del_tree<-extract.clade(tree, DEL_node)
+        if(any(tree$tip.label == ACC_node)) {
+            #Subclade irrelevant if ACC_node is a tip
+            ACC_tip<-TRUE
+            acc_tree<-list() ; acc_tree$tip.label<-ACC_node
+        } else {
+            ACC_tip<-FALSE
+            acc_tree<-extract.clade(tree, ACC_node)
+        }
+        #Tips to drop (-1)
+        if(Ntip(del_tree) > 3) {
+            drop<-del_tree$tip.label[which(is.na(match(del_tree$tip.label,acc_tree$tip.label)))-1]
+            drop<-drop[-which(drop == acc_tree$tip.label)]
+            del_tree<-drop.tip(del_tree, drop)
+        }
+
+        #Selecting the DEL_edge (root in del_tree) and the ACC_edge
+        DEL_edge<-Ntip(del_tree)+1
+        if(ACC_tip == TRUE) {
+            ACC_edge<-which(del_tree$tip.label == ACC_node)
+        } else {
+            ACC_edge<-which(del_tree$node.label == ACC_node)+Ntip(del_tree)
+        }
+
+        #Extracting the total edge length from DEL to ACC
+        total.edge.length<-del_tree$edge.length[which(apply(del_tree$edge, 1, function(x) all(x == c(DEL_edge, ACC_edge))))] #edge connecting DEL_node to ACC_node
+
+        #Calculate the terminal edges branch length and check if the tip is closer to the parent or offspring node.
+        terms <- tree_slice$edge[, 2] <= Ntip(tree_slice)
+        terminal.edges <- tree_slice$edge.length[terms]
+        names(terminal.edges) <- tree_slice$tip.label[tree_slice$edge[terms, 2]]
+
+        #Select the terminal edge for tip
+        terminal.edge<-sort(terminal.edges[match(acc_tree$tip.label, names(terminal.edges))])
+        names(terminal.edge) <- NULL
+
+        #Choose ACC or DEL node
+        if(terminal.edge < total.edge.length/2) {
+            print(DEL_node)
+            #return(DEL_node)
+        } else {
+            print(ACC_node)
+            #return(ACC_node)
+        }
+
+    }
+}
