@@ -8,7 +8,7 @@ slice.tree_parent.node<-function(tree, tip) {
     parent_node<-tree$node.label[parent.edge-Ntip(tree)]
     #error if not working
     if (length(parent_node) != 1) {
-        stop('No parent node found.')
+        stop('No parent node found!')
     }
     return(parent_node)
 }
@@ -17,7 +17,7 @@ slice.tree_parent.node<-function(tree, tip) {
 slice.tree_offspring.node<-function(tree, parent_node, tip) {
     #Stop if parent node is the same as tip
     if(parent_node == tip) {
-        stop('Parent node is the tip!')
+        stop('Parent node is a tip!')
     }
     #Extracting the subtrees connected to the parent node
     offsprings<-tree$edge[which(tree$edge[,1] == (match(parent_node, tree$node.label)+Ntip(tree))), 2]
@@ -53,6 +53,27 @@ slice.tree_DELTRAN<-function(tree, tip, tree_slice) {
         #Repeat if slice.tree_parent.node is not present in the sliced tree
         parent_node<-slice.tree_parent.node(tree, parent_node)
     }
+
+    #Test if there is another node between the MRCA (parent_node) and tip
+        try(offspring_node<-slice.tree_offspring.node(tree, parent_node, tip), silent=TRUE)
+        while(exists("offspring_node")) {
+            #Compute the node ages
+            age_tree<-tree.age(tree)
+            age_slic<-tree.age(tree_slice)
+            #select the oldest node in tree_slice
+            root<-age_slic$edges[which(age_slic$age == max(age_slic$age))]
+            #calculate the slice age using the oldest node in tree_slice
+            age=age_tree[which(as.character(age_tree$edges) == as.character(root)),1] - age_slic[which(as.character(age_slic$edges) == as.character(root)),1]
+            #extract the age of the offspring node
+            off_nod_age<-age_tree[which(age_tree$edge == offspring_node),1]
+            if(off_nod_age > age) {
+                parent_node<-offspring_node
+                remove(offspring_node)
+                try(offspring_node<-slice.tree_offspring.node(tree, parent_node, tip), silent=TRUE)
+            } else {
+                remove(offspring_node)
+            }
+        }
     return(parent_node)
 }
 
