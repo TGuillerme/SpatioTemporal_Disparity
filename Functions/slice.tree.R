@@ -3,13 +3,14 @@
 ##########################
 #Slices a tree given a specific age
 #Modyfied timeSliceTree function from Davd Bapst (paleotrree)
-#v0.2
+#v0.3
 #Update: added RATES method
+#Update: changed the RATES method into PROXIMITY
 ##########################
 #SYNTAX :
 #<tree> a 'phylo' object
 #<age> where to slice the tree
-#<method> the slicing method (what becomes of the sliced branches): can be ACCTRAN, DELTRAN or RATE
+#<method> the slicing method (what becomes of the sliced branches): can be ACCTRAN, DELTRAN or PROXIMITY
 #<anc.matrix> Optional, needed for the RATES method
 ##########################
 #----
@@ -34,12 +35,12 @@ slice.tree<-function(tree, age, method, anc.matrix) {
     }
 
     #method
-    check.class(method, 'character', " must be \'ACCTRAN\', \'DELTRAN\', \'PROXIMITY\' or \'RATES\'.")
+    check.class(method, 'character', " must be \'ACCTRAN\', \'DELTRAN\' or \'PROXIMITY\'.")
     if(method != "ACCTRAN") {
         if(method != "DELTRAN") {
             if(method != "RATES") {
                 if(method != "PROXIMITY") {
-                    stop(as.character(substitute(method)), " must be \'ACCTRAN\', \'DELTRAN\', \'PROXIMITY\' or \'RATES\'." , call.=FALSE)
+                    stop(as.character(substitute(method)), " must be \'ACCTRAN\', \'DELTRAN\' or \'PROXIMITY\'." , call.=FALSE)
                 }
             }
         }

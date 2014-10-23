@@ -107,8 +107,9 @@ slice.tree_PROXIMITY<-function(tree, tip, tree_slice) {
         }
         #Tips to drop (-1)
         if(Ntip(del_tree) > 3) {
-            drop<-del_tree$tip.label[which(is.na(match(del_tree$tip.label,acc_tree$tip.label)))-1]
-            drop<-drop[-which(drop == acc_tree$tip.label)]
+            drop<-del_tree$tip.label[which(is.na(match(del_tree$tip.label, acc_tree$tip.label)))]
+            #keep one species
+            drop<-drop[-1]
             del_tree<-drop.tip(del_tree, drop)
         }
 
@@ -134,11 +135,13 @@ slice.tree_PROXIMITY<-function(tree, tip, tree_slice) {
 
         #Choose ACC or DEL node
         if(terminal.edge < total.edge.length/2) {
-            print(DEL_node)
-            #return(DEL_node)
+            #cat(i, "-", tip, "\n", sep=" ")
+            #print(DEL_node)
+            return(DEL_node)
         } else {
-            print(ACC_node)
-            #return(ACC_node)
+            #cat(i, "-", tip, "\n", sep=" ")
+            #print(ACC_node)
+            return(ACC_node)
         }
 
     }
