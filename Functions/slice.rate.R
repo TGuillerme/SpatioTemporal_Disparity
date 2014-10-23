@@ -23,13 +23,14 @@ slice.rate<-function(tree, slice, rate, prob){
 
     #DEBUG
     warning("DEBUG MODE")
-    slice=80
+    slice=100
 
     #Creating the ACCTRAN/DELTRAN table
     #subtrees
     sub_tree_acc<-slice.tree(tree, slice, method="ACCTRAN") ; plot(sub_tree_acc)
     sub_tree_del<-slice.tree(tree, slice, method="DELTRAN") ; plot(sub_tree_del)
     sub_tree_pro<-slice.tree(tree, slice, method="PROXIMITY") ; plot(sub_tree_pro)
+    
     #subtaxa table
     del_acc.table<-data.frame("DELTRAN"=sub_tree_del$tip.label, "ACCTRAN"=sub_tree_acc$tip.label)
 
@@ -65,6 +66,12 @@ slice.rate<-function(tree, slice, rate, prob){
 
 
 }
+#########################
+#
+#Check notes in lab book.
+#
+#########################
+
 
 
 #RATES METHOD:
