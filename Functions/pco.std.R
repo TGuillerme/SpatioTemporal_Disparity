@@ -73,13 +73,7 @@ pco.std<-function(anc.matrix, distance="euclidean", scale=FALSE, center=FALSE, n
     #PCO
 
     #Transforming "?" in NAs in the matrix
-    for (character in 1:ncol(matrix)) {
-        for (taxa in 1:nrow(matrix)) {
-            if(as.character(matrix[taxa, character]) == "?") {
-                matrix[taxa, character] <- NA
-            }
-        }
-    }
+    ifelse(matrix == '?', NA, matrix)
 
     #Transforming the matrix to numeric
     matrix<-as.data.frame(matrix)
@@ -104,7 +98,11 @@ pco.std<-function(anc.matrix, distance="euclidean", scale=FALSE, center=FALSE, n
         distance.matrix[which(is.na(distance.matrix))]<-mean(distance.matrix, na.rm=TRUE)
         warning("Version in development:\n", nas, " NAs have been replaced by the mean distance.\nThis is methodologically wrong!")
     }
-
+#########################
+#
+#When NA, remove conflicting character
+#
+#########################
 
 
 
