@@ -3,8 +3,9 @@
 ##########################
 #Generates a pco.slice list containing pco.scores through time and taxonomic information
 #Modyfied timeSliceTree function from Davd Bapst (paleotrree)
-#v0.3
+#v0.4
 #Update: added RATES method
+#Update: changed the RATES method into PROXIMITY
 ##########################
 #SYNTAX :
 #<tree> a 'phylo' object
@@ -34,11 +35,11 @@ std.slice<-function(tree, pco.scores, slices, method, anc.matrix) {
     check.class(slices, 'numeric', ' must be numeric.')
 
     #method
-    check.class(method, 'character', " must be \'ACCTRAN\', \'DELTRAN\' or \'RATES\'.")
+    check.class(method, 'character', " must be \'ACCTRAN\', \'DELTRAN\' or \'PROXIMITY\'.")
     if(method != "ACCTRAN") {
         if(method != "DELTRAN") {
-            if(method != "RATES") {
-                stop(as.character(substitute(method)), " must be \'ACCTRAN\', \'DELTRAN\' or \'RATES\'." , call.=FALSE)
+            if(method != "PROXIMITY") {
+                stop(as.character(substitute(method)), " must be \'ACCTRAN\', \'DELTRAN\' or \'PROXIMITY\'." , call.=FALSE)
             }
         }
     }

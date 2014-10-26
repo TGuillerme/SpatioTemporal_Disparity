@@ -47,7 +47,9 @@ plot.std(pco.scores, legend=TRUE, main="Full character-space")
 #Creating the slice list
 std.slice_acc<-std.slice(tree, pco.scores, slices, method="ACCTRAN")
 std.slice_del<-std.slice(tree, pco.scores, slices, method="DELTRAN")
+std.slice_pro<-std.slice(tree, pco.scores, slices, method="PROXIMITY")
 
 #Plot the two series of slices
 plot.std(std.slice_acc, legend=TRUE, pars=c(3,3))
 plot.std(std.slice_del, legend=TRUE, pars=c(3,3))
+plot.std(std.slice_pro, legend=TRUE, pars=c(3,3))
