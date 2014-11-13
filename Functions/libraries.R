@@ -1,5 +1,8 @@
 suppressMessages({
     library(diversitree)
+    library(Claddis)
+    library(paleotree)
+    library(strap)
     library(ape)
     library(caper)
     library(paleotree)
