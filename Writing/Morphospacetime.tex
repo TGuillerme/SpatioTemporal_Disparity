@@ -36,7 +36,7 @@ However, discrete cladistic characters are still the best source for quantifying
 The intervals should be a compromise between the resolution and the sample size and must be "sufficiently coards that nearly all generic first and last occurenaces can be unambiguously assigned" \citep{Foote01071994}.
 
 \section{PCO}
-The cladistic matrix is derived into an Euclidean distance matrix.
+The cladistic matrix is derived into an Euclidean distance matrix using Calliez negative Eigenvalues correction \citep{toljagictriassic-jurassic2013}.
 Then a PCO is performed on the new matrix.
 Principal coordinates (PCO) is preferred to principal components (PCA) because it can "better handle missing data and inapplicable characters" \citep{lofgren2003,Wesley-Hunt2005}.
 
@@ -81,6 +81,28 @@ About the construction of the PCO axis:
 -PCO combines information from the character matrix (437 characters) into a smaller and more manageable number of variables (63 axes), with the first axis representing those characters that contribute most to overall disparity, and each additional axis representing characters of successively less significance. (Brusatte et al 2008 Science SOM).
 
 How do you go from 437 characters (437 variables leading to 437 PC axes?) to 63 axes? They are the number of species. PCO is a square matrix number of species 
+
+\section{Upadet 3 - Post SVP/RadExLinSoc}
+\begin{enumerate}
+\item{Disparity = morphological diversity (number of body plans)} \citep{friedmanexplosive2010}
+
+It can be calculated using multivariate statistics test (NPMANOVA with Bonferroni correction) \citep{thorneresetting2011}. A second way to calculate it is to calculate this distance from centroid for each group (including the metagroup containing all the data). It can be scaled on the overall character-space as the relative disparity (ReDi) so that a relative disparity of 1 shows the maximum disparity observable and a relative disparity of 0, the minimal one (= no disparity).
+\item{Diversity = species diversity (number of species)}
+
+It can be calculated using three measures: (1) the number of observed taxa in the time bin/slice; (2) the number of observed taxa + the lazarus taxa ; and (3) the number of observed and lazarus taxa + the ghost lineages \citep{thorneresetting2011}.
+\end{enumerate}
+\subsection{Radiation hypothesis test}
+Test if there is a significant difference in disparity and diversity between two time stages.
+\subsection{Sampling effect}
+Apply a Jackknife procedure to the data with re-sampling with replacement on the data set (from the start of the analysis, redo the ACE and the PCO).
+\subsection{Div. rate shift in the molecular data}
+Test if their is a diversification rate shift in the molecular data around KT using the Silvestro 2011 method \citep{silvestroa2011}.
+
+\section{Discussion elements}
+\begin{enumerate}
+\item{Acantomorphs radiations around after KT \citep{friedmanexplosive2010}}
+\end{enumerate}
+
 
 
 
