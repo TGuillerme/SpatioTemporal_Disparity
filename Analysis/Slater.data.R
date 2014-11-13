@@ -1,8 +1,32 @@
 #Data input (Slater)
+
+#Isolate the morphological data from the raw Slater matrix (UNIX!)
+system("
+    #Changing the matrix dimension
+    sed 's/DIMENSIONS NTAX=246 NCHAR=36049;/DIMENSIONS NTAX=246 NCHAR=445;/' ../Data/2013-Slater-MEE-matrix-raw.nex |
+    #Changing the matrix type
+    sed 's/datatype=mixed(dna:1-35603,standard:35604-36049)/datatype=standard/' |
+    #removing the phylogenetic analysis
+    sed '111652,112050d' |
+    #removing the molecular data
+    sed '7,110167d' |
+    #removing the comments in the header
+    sed '2d' > ../Data/2013-Slater-MEE-matrix-morpho.nex
+")
+
+
+#Read nexus table
+#Slater.nex<-ReadMorphNexus("../Data/2013-Slater-MEE-matrix-morpho.nex") #somehow bugged
+#Error in gsub(gsub("\\?", "\\\\?", paste(row.names, " ", sep = "", collapse = "|")),  : 
+#  assertion 'tree->num_tags == num_tags' failed in executing regexp: file '../../../../../R-3.1.1/src/extra/tre/tre-compile.c', line 634
+#Slater.table<-Slater.nex$matrix
+
+
+#Read tree
+Slater.tree<-read.nexus('../Data/2013-Slater-MEE-TEM.tre')
+
 #Slater.table<-read.table("https://raw.githubusercontent.com/TGuillerme/SpatioTemporal_Disparity/master/Data/2013-Slater-MEE-morpho.table", header=F, sep=" ", row.names=1) 
 Slater.table<-read.table("../Data/2013-Slater-MEE-morpho.table", header=F, sep=" ", row.names=1) 
-#Slater.tree<-read.nexus('https://raw.githubusercontent.com/TGuillerme/SpatioTemporal_Disparity/master/Data/2013-Slater-MEE-TEM.tre')
-Slater.tree<-read.nexus('../Data/2013-Slater-MEE-TEM.tre')
 
 #Remove species with only missing data before hand
 Slater.table<-Slater.table[-c(as.vector(which(apply(as.matrix(Slater.table), 1, function(x) levels(as.factor(x))) == "?"))),]

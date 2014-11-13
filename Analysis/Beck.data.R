@@ -1,7 +1,23 @@
 #Data input (Beck)
-#Beck.table<-read.table("https://raw.githubusercontent.com/TGuillerme/SpatioTemporal_Disparity/master/Data/2014-Beck-ProcB-morpho.table", header=F, sep=" ", row.names=1) 
-Beck.table<-read.table("../Data/2014-Beck-ProcB-morpho.table", header=F, sep=" ", row.names=1) 
-#Beck.tree<-read.nexus('https://raw.githubusercontent.com/TGuillerme/SpatioTemporal_Disparity/master/Data/2014-Beck-ProcB-TEM.tre')
+#Isolate the morphological data from the raw Beck&Lee matrix (UNIX!)
+system("
+    #Changing the matrix dimension
+    sed 's/Dimensions ntax=106 nchar=8959;/Dimensions ntax=106 nchar=421;/' ../Data/2014-Beck-ProcB-matrix-raw.nex |
+    #Changing the matrix type
+    sed 's/datatype=mixed(standard:1-421,DNA:422-8959)/datatype=standard/' |
+    #removing the phylogenetic analysis
+    sed '237,1408d' |
+    #removing the molecular data
+    sed '126,231d' |
+    #removing the comments in the header
+    sed '3,13d' > ../Data/2014-Beck-ProcB-matrix-morpho.nex
+")
+
+#Read nexus table
+Beck.nex<-ReadMorphNexus("../Data/2014-Beck-ProcB-matrix-morpho.nex")
+Beck.table<-Beck.nex$matrix
+
+#Read tree
 Beck.tree<-read.nexus('../Data/2014-Beck-ProcB-TEM.tre')
 
 #Remove species with only missing data before hand
@@ -56,7 +72,7 @@ taxonomy.list<-list("Placental"=153, "Stem_placental"=c(103,153)) #Beck
 cat("Created the taxonomical list as:\ntaxonomy.list\n")
 
 #Age slices
-slices<-c(0, 40, 50, 60, 70, 80, 90, 100, 110) #Beck
+slices<-c(0, 40, 50, 60, 70, 80, 90, 100, 110)
 cat("Created the age slices list as:\nslices\n")
 
 #load("https://raw.githubusercontent.com/TGuillerme/SpatioTemporal_Disparity/master/Data/beck.mat.Rda")
