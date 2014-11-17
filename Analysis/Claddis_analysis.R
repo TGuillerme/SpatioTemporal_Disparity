@@ -21,17 +21,22 @@ source("Beck.data.R")
 #Renaming the Beck nexus file to match with the rest of the workshop
 nexus.data <- Beck.nex
 
+#Include ancestral states
+matrix<-anc.matrix.save$state
+matrix<-ifelse(matrix == '?', NA, matrix)
+nexus.data$matrix<-matrix
+
 #Safe Taxonomic Reduction (Wilkinson 1995; Systematic Biology).
 #Removes taxa we know (under parsimony) can only fall out in particular place(s) in the tree.
 #safe.data <- SafeTaxonomicReduction(nexus.data)
-#save(safe.data, file="../Data/2014-Beck-reduced_tax_matrix.Rda")
-load("../Data/2014-Beck-reduced_tax_matrix.Rda")
+save(safe.data, file="../Data/2014-Beck-reduced_tax_matrix2.Rda")
+#load("../Data/2014-Beck-reduced_tax_matrix2.Rda")
 
 #Distance matrix
 #Detail on the metrics: http://www.slideshare.net/graemelloyd/new-methodologies-for-the-use-of-cladistictype-matrices-to-measure-morphological-disparity-and-evolutionary-rate
 #dist.data <- MorphDistMatrix(nexus.data)
-#save(dist.data, file="../Data/2014-Beck-dist_matrices.Rda")
-load("../Data/2014-Beck-dist_matrices.Rda")
+save(dist.data, file="../Data/2014-Beck-dist_matrices2.Rda")
+#load("../Data/2014-Beck-dist_matrices2.Rda")
 
 #Performs MDS on the GED matrix.
 #warning("MDS on the GED matrix which 'cheats' by filling in those missing character distances.")
