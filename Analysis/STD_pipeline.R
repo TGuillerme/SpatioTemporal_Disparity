@@ -1,4 +1,16 @@
-#Header
+##################################################
+#------------------------------------------------
+#STD pipelined analysis based on Claddis package
+#------------------------------------------------
+##################################################
+
+
+######################
+#Data input
+######################
+
+
+#Setwd
 if(grep("TGuillerme", getwd())) {
     setwd('~/PhD/Projects/SpatioTemporal_Disparity/Analysis')
 } else {
@@ -8,18 +20,30 @@ if(!grep("SpatioTemporal_Disparity/Analysis", getwd())) {
     stop("Wrong directory!\nThe current directory must be:\nSpatioTemporal_Disparity/Analysis/\nYou can clone the whole repository from:\nhttps://github.com/TGuillerme/SpatioTemporal_Disparity")
 }
 
+#Load the functions and the packages
 source("functions.R")
 
-#STD pipelined analysis based on Claddis package
-
-#Data input
+#Load the data
 source("Test.data.R")
+
+
+######################
+#Creating the matrix with ACE
+######################
+
 
 #Renaming the matrix to match with Graeme's workshop
 #Choose one of the following matrices:
 #nexus.data<-euarch.nex #Tips and nodes
 #nexus.data<-STD.nex #Tips and nodes STD method
 nexus.data<-CLADDIS.nex #Tips and nodes CLADDIS method
+#Problem with CLADDIS method: no account for uncertainty
+
+
+######################
+#Running the PCO
+######################
+
 
 #Safe taxonomic reduction
 #safe.data <- SafeTaxonomicReduction(nexus.data) #Removes nodes
@@ -33,16 +57,33 @@ trimmed.max.data <-TrimMorphDistMatrix(dist.data$max.dist.matrix)
 #Run the PCO
 pco.data <- cmdscale(trimmed.max.data$dist.matrix, k=nrow(trimmed.max.data$dist.matrix) - 1, add=T)$points
 
-#Cumsum
-scree.data <- apply(pco.data, 2, var) / sum(apply(pco.data, 2, var)) * 100
+
+######################
+#Selecting the axis
+######################
+
+
+#Axis loading
+axis.load <- apply(pco.data, 2, var) / sum(apply(pco.data, 2, var)) * 100
+
+#Selecting the axis with a 95% threshold
+threshold=95
+selected.axis<-which(cumsum(axis.load) < threshold)
 
 #Plot the cumsum
-plot(scree.data, type="l", xlab="Ordination axis", ylab="Percentage variance")
+op<-par(mfrow=c(1,2))
+plot(axis.load, type="l", xlab="Ordination axis", ylab="Percentage variance")
+barplot(cumsum(axis.load),xlab="Ordination axis", ylab="Proportional cumulative variance")
+abline(h=threshold)
+text(1, 97, paste(threshold, "% of cumulative variance", sep=""), pos=4, cex=0.5)
+text(1, 90, paste(length(which(cumsum(axis.load) < threshold)), "selected axis"), pos=4, cex=0.5)
+par(op)
 
-#Plot the PCO (maybe useless)
-PCOx <- 1 ; PCOy <- 2
-plot(pco.data[, PCOx], pco.data[, PCOy], xlab=paste("PCO ", PCOx, " (", round(scree.data[PCOx], 2), "% variance)", sep=""), ylab=paste("PCO ", PCOy, " (", round(scree.data[PCOy], 2), "% variance)", sep=""), pch=19)
-text(pco.data[, PCOx], pco.data[, PCOy], rownames(pco.data), cex=0.5, pos=3)
+
+######################
+#Plotting the tree
+######################
+
 
 #Renaming the tree
 tree.data<-euarch.tree
@@ -56,7 +97,10 @@ ages.data<-data.frame("FAD"=tree.age(tree)[1:Ntip(tree),1], "LAD"=tree.age(tree)
 #Plot the tree
 geoscalePhylo(ladderize(tree.data), cex.age=0.6, cex.ts=0.8, cex.tip=1)
 
+######################
 #Rates analysis
+######################
+
 do.rate.analysis=FALSE
 if(do.rate.analysis==TRUE) {
     tree.tmp<-tree.data
@@ -75,13 +119,14 @@ if(do.rate.analysis==TRUE) {
     nodelabels(node=rate.data$node.results[, "node"][!is.na(node.color)], pch=21, col="black", bg=node.color[!is.na(node.color)])
 }
 
-#Plot PCO with tree
+
+######################
+#Plotting the results
+######################
+
+
 #tree
 plot.tree<-tree.data
-
-#ace PCO
-#PCOx.anc<-pco.data[-(1:Ntip(tree.data)),1]
-#PCOy.anc<-pco.data[-(1:Ntip(tree.data)),2]
 
 #tips + nodes PCO
 all.PCOx<-pco.data[,1]
@@ -92,32 +137,49 @@ branch.xs <- cbind(all.PCOx[plot.tree$edge[, 1]], all.PCOx[plot.tree$edge[, 2]])
 branch.ys <- cbind(all.PCOy[plot.tree$edge[, 1]], all.PCOy[plot.tree$edge[, 2]])
 
 #Plot
-plot(pco.data[, PCOx], pco.data[, PCOy], xlab=paste("PCO ", PCOx, " (", round(scree.data[PCOx], 2), "% variance)", sep=""), ylab=paste("PCO ", PCOy, " (", round(scree.data[PCOy], 2), "% variance)", sep=""), type="n", main="Euarchontoglires through time - TEST")
+main="Euarchontoglires through time - TEST"
+plot(pco.data[, PCOx], pco.data[, PCOy], xlab=paste("PCO ", PCOx, " (", round(scree.data[PCOx], 2), "% variance)", sep=""), ylab=paste("PCO ", PCOy, " (", round(scree.data[PCOy], 2), "% variance)", sep=""), type="n", main=main)
+#Setting phylogenetic groups
 Glires<-1:9
 Euarchonta<-10:20
+#Plotting the Glires tree
 for(i in 1:nrow(branch.xs[Glires,])){
     lines(x=branch.xs[i,], y=branch.ys[i,], col="lightgreen", lwd=2)
 }
+#Plotting the Euarchonta tree
 for(i in 10:nrow(branch.xs)){
     lines(x=branch.xs[i,], y=branch.ys[i,], col="lightblue", lwd=2)
 }
 
+#Silly ordering for plotting the gradient color
 order.table<-table
 order.table$extant<-table$log_bm
 order.table<-order.table[ do.call(order, order.table), ]
 BM_gradient<-colorRampPalette(c("yellow", "red"))
 order.table$colors<-BM_gradient(length(order.table$extant))[as.numeric(cut(order.table$extant, breaks = nrow(order.table)))]
+#Adding the tips and nodes with their BM values
 points(pco.data[, PCOx], pco.data[, PCOy], pch=19, col=order.table$colors)
 points(pco.data[, PCOx], pco.data[, PCOy], pch=1, col="black")
+#Adding tip/node names
 text(pco.data[, PCOx], pco.data[, PCOy], rownames(pco.data), cex=0.6, pos=3)
 
+#Plotting the Convex Hull per groups
 groups=length(levels(as.factor(table[,5])))
 
+#Plotting the polygons
 for(group in 1:groups) {
     n<-which(table[,5] == levels(as.factor(table[,5]))[group])
     chull.group<-pco.data[n,c(1:2)]
     polygon(chull.group[chull(chull.group),], border="gray", lty=(group+1))
 }
+
+#Global legend
 legend(-1, -0.6, c("Glires", "Euarchontes", "Generalist", "Specialist"), col=c("lightgreen","lightblue","grey", "grey"), lty=c(1,1,2,3), bty="n", cex=0.8)
 legend(-0.5, -0.6, c("Low body mass", "High body mass"), col=c("yellow","red"), pch=19, bty="n", cex=0.8)
+
+
+######################
+#Disparity analysis
+######################
+
 
