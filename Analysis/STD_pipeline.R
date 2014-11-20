@@ -1,3 +1,10 @@
+#Graeme's tips
+#Use MOD distance
+#Use ACE only on nodes, not on tips
+#Time series on the distance matrix, not on the ordination
+
+
+
 ##################################################
 #------------------------------------------------
 #STD pipelined analysis based on Claddis package
@@ -182,4 +189,101 @@ legend(-0.5, -0.6, c("Low body mass", "High body mass"), col=c("yellow","red"), 
 #Disparity analysis
 ######################
 
+#NPMANOVA on diet (check if categories occupy a different position in morphospace (overlap or not)) (e.g. Stayton 2005 and Ruta 2013)
+cat.col=5
+PC.man<-adonis(pco.data[,selected.axis]~table[,cat.col], data=table, permutation=1000, method="euclidean") #vegan - think permutation is doing jackknife
 
+#Distance from centroid
+#Function to calculate mean euclidean distances from the centroid - Sive Finlay 06/05/2014
+euc.dist.cent<-function(PCdata, method="euclidean"){
+    #Centroid (mean score of each PC axis)
+    centroid<-apply(PCdata, 2, mean)
+
+    #Euclidean distances to the centroid
+    cent.dist<-NULL
+    for (j in 1:nrow(PCdata)){
+        cent.dist[j] <- dist(rbind(PCdata[j,], centroid), method=method)
+    }
+    return(cent.dist)
+}
+  
+gene.dist<-euc.dist.cent(pco.data[which(table[,cat.col]=='generalist'), selected.axis])
+spec.dist<-euc.dist.cent(pco.data[which(table[,cat.col]=='specialist'), selected.axis])
+
+
+#Compare the distance from centroid between the categories
+cent.dist<-matrix(nrow=nrow(pco.data[,selected.axis]), ncol=length(levels(as.factor(table[,cat.col]))))
+colnames(cent.dist)<-c("dist", "category")
+cent.dist[,1]<-c(gene.dist, spec.dist)
+cent.dist[,2]<-c(rep("generalist", length(gene.dist)), rep("specialist", length(spec.dist)))
+
+#t-test
+comp.cent2 <- t.test(gene.dist, spec.dist)
+
+#Mean and standard error from distance from centroid
+mean.se<-matrix(nrow=length(levels(as.factor(table[,cat.col]))), ncol=2)
+colnames(mean.se) <- c("mean", "se")
+rownames(mean.se) <- c("generalist", "specialist")
+mean.se[,1] <- c(mean(gene.dist), mean(spec.dist))
+mean.se[,2] <- c(std.error(gmole.cent.dist), std.error(tenrec.cent.dist))
+
+sive=FALSE
+if(sive==TRUE){
+    ##########################
+    #Compare positions in morphospace
+    ########################
+
+    #NPMANOVA of the PC axes  (e.g. Stayton 2005 and Ruta 2013)
+      PC.man <- adonis(PC95axes~sp.fam$Family, data=sp.fam, permutations=999, method="euclidean")
+
+    #################
+    #Diversity of families based on distances to centroid
+    #################
+
+    #Distance from each species to that family's centroid
+      gmole.cent.dist <- euc.dist.cent (gmolePC)
+      tenrec.cent.dist <- euc.dist.cent (tenrecPC)
+      
+    #Compare the distances to centroids in tenrecs and golden moles
+      cent.dist <- matrix(nrow=nrow(PC95axes), ncol=2)
+        colnames(cent.dist) <- c("dist", "group")
+        cent.dist[,1] <- c(gmole.cent.dist, tenrec.cent.dist)
+        cent.dist[,2] <- c(rep("gmole", length(gmole.cent.dist)), rep("tenrec", length(tenrec.cent.dist)))
+
+
+    #Compare the two groups with a t test
+      comp.cent <- t.test(as.numeric(cent.dist[,1]) ~ cent.dist[,2])
+
+      
+    #Mean and standard error of those distances from the centroid
+      mean.se <- matrix(nrow=2, ncol=2)
+        colnames(mean.se) <- c("mean", "se")
+        rownames(mean.se) <- c("gmole", "tenrec")
+      mean.se[,1] <- c(mean(gmole.cent.dist), mean(tenrec.cent.dist))
+      mean.se[,2] <- c(std.error(gmole.cent.dist), std.error(tenrec.cent.dist))
+}
+
+
+#Jackknife permutation test (sample size effect)
+
+sive=FALSE
+if(sive==TRUE){
+    ################################
+    #Pairwise permutation tests
+    ##############################
+    #Check that the significant differences are not just an artefact of differences in sample size
+
+    #Observed differences in the mean
+      obs.mean.diff <- mean.se[2,1] - mean.se[1,1]  
+
+    #Permutation test for significant difference in the mean
+      perm.mean <- group.diff(1000, sp.fam$Family, PC95axes, mean)
+    #Test for significant difference
+      perm.mean.pvalue <- pvalue.dist(perm.mean, obs.mean.diff)
+
+
+    #Summary table of the results
+          perm.res.summary <- matrix(NA, nrow=1, ncol=6)
+            colnames(perm.res.summary) <- c("obs.tenrec", "obs.gmole", "obs.diff", "perm.min", "perm.max", "pvalue") 
+            perm.res.summary[1,] <- c(mean.se[2,1], mean.se[1,1], obs.mean.diff, min(perm.mean), max(perm.mean), perm.mean.pvalue)
+}

@@ -42,6 +42,7 @@ try(if(grep("&", min.vals)) {
 euarch.nex$min.vals<-as.numeric(min.vals)
 
 #Ancestral states
+#DO NOT ESTIMATE THE TIPS (SEE GRAEME'S PRESENTATION)
 #Using STD anc.state function
 #Replacing NAs by "?" in the matrix
 matrix<-ifelse(is.na(euarch.table), '?', euarch.table)
