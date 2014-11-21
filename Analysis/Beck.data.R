@@ -1,7 +1,7 @@
 #Data input (Beck)
 
 #Data cleaning repeatability
-if(length(grep("Windows", Sys.info()["sysname"]) == 1) {
+if(length(grep("Windows", Sys.info()["sysname"]) == 1)) {
     stop("UNIX language based machines only.")
 } else {
     #Isolate the morphological data from the raw Beck&Lee matrix (UNIX!)
