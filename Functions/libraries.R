@@ -1,5 +1,5 @@
 #Installing packages if necessary
-list.of.packages <- c("diversitree", "Claddis", "paleotree", "strap", "ape", "caper", "phytools", "vegan", "grDevices","plotrix," "testthat")
+list.of.packages <- c("diversitree", "Claddis", "paleotree", "strap", "ape", "caper", "phytools", "vegan", "grDevices", "plotrix", "testthat")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 
