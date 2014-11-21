@@ -16,7 +16,6 @@
 #Data input
 ######################
 
-
 #Setwd
 if(grep("TGuillerme", getwd())) {
     setwd('~/PhD/Projects/SpatioTemporal_Disparity/Analysis')
@@ -24,7 +23,9 @@ if(grep("TGuillerme", getwd())) {
     warning("You might have to change the directory!")
 }
 if(!grep("SpatioTemporal_Disparity/Analysis", getwd())) {
-    stop("Wrong directory!\nThe current directory must be:\nSpatioTemporal_Disparity/Analysis/\nYou can clone the whole repository from:\nhttps://github.com/TGuillerme/SpatioTemporal_Disparity")
+    if(!grep("SpatioTemporal_Disparity-master/Analysis", getwd())) {
+        stop("Wrong directory!\nThe current directory must be:\nSpatioTemporal_Disparity/Analysis/ OR SpatioTemporal_Disparity-master/Analysis/\nYou can clone the whole repository from:\nhttps://github.com/TGuillerme/SpatioTemporal_Disparity")
+    }
 }
 
 #Load the functions and the packages
@@ -136,6 +137,8 @@ if(do.rate.analysis==TRUE) {
 plot.tree<-tree.data
 
 #tips + nodes PCO
+PCOx<-1
+PCOy<-2
 all.PCOx<-pco.data[,1]
 all.PCOy<-pco.data[,2]
 
