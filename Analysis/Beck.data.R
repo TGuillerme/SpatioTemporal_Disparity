@@ -1,17 +1,23 @@
 #Data input (Beck)
-#Isolate the morphological data from the raw Beck&Lee matrix (UNIX!)
-system("
-    #Changing the matrix dimension
-    sed 's/Dimensions ntax=106 nchar=8959;/Dimensions ntax=106 nchar=421;/' ../Data/2014-Beck-ProcB-matrix-raw.nex |
-    #Changing the matrix type
-    sed 's/datatype=mixed(standard:1-421,DNA:422-8959)/datatype=standard/' |
-    #removing the phylogenetic analysis
-    sed '237,1408d' |
-    #removing the molecular data
-    sed '126,231d' |
-    #removing the comments in the header
-    sed '3,13d' > ../Data/2014-Beck-ProcB-matrix-morpho.nex
-")
+
+#Data cleaning repeatability
+if(length(grep("Windows", Sys.info()["sysname"]) == 1) {
+    stop("UNIX language based machines only.")
+} else {
+    #Isolate the morphological data from the raw Beck&Lee matrix (UNIX!)
+    system("
+        #Changing the matrix dimension
+        sed 's/Dimensions ntax=106 nchar=8959;/Dimensions ntax=106 nchar=421;/' ../Data/2014-Beck-ProcB-matrix-raw.nex |
+        #Changing the matrix type
+        sed 's/datatype=mixed(standard:1-421,DNA:422-8959)/datatype=standard/' |
+        #removing the phylogenetic analysis
+        sed '237,1408d' |
+        #removing the molecular data
+        sed '126,231d' |
+        #removing the comments in the header
+        sed '3,13d' > ../Data/2014-Beck-ProcB-matrix-morpho.nex
+    ")
+}
 
 #Read nexus table
 Beck.nex<-ReadMorphNexus("../Data/2014-Beck-ProcB-matrix-morpho.nex")
