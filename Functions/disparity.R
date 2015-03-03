@@ -16,14 +16,11 @@
 #guillert(at)tcd.ie 02/03/2015
 ##########################
 
-#DEBUG
-distance<-dist.data$max.dist.matrix
-
 disparity<-function(data, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE) {
 
     #SANITIZING
     #distance
-    check.class(distance, "matrix", " must be a distance matrix.")
+    check.class(data, "matrix", " must be a distance matrix.")
 
     #method
     check.class(method, "character", " must be 'centroid', 'sum.range', 'product.range', 'sum.variance' or/and 'product.variance'.")
@@ -34,13 +31,15 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
 
     #CI
     check.class(CI, "numeric", " must be any value between 1 and 100.")
+    #remove warnings
+    options(warn=-1)
     if(any(CI) < 1) {
         stop("CI must be any value between 1 and 100.")
     }
     if(any(CI) > 100) {
         stop("CI must be any value between 1 and 100.")
     }
-
+    options(warn=0)
     #Bootstrap
     check.class(bootstraps, "numeric", " must be a single (entire) numerical value.")
     check.length(bootstraps, 1, " must be a single (entire) numerical value.")
@@ -56,7 +55,7 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
     #FUNCTIONS
 
     #Performs bootstrap and eventual rarefaction
-    Bootstrap.rarefaction<-function(data, iterations, rarefaction) {
+    Bootstrap.rarefaction<-function(data, bootstraps, rarefaction) {
 
         #Set rarefaction (or not)
         if(rarefaction == TRUE) {
@@ -66,9 +65,11 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
         }
 
         #Rarefaction
+        result<-NULL
+        BSresult<-NULL
         for(rare in rarefaction_max){
             #Bootstraps
-            for(BS in 1:iterations){ #iterations -> bootstraps
+            for(BS in 1:bootstraps){ #bootstraps -> bootstraps
                 #Bootstrap
                 output<-as.matrix(data[sample(1:nrow(data),rare,TRUE),])
                 result[BS] <- list(output)
@@ -112,19 +113,6 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
             }
         }
         return(output)
-    }
-
-    #Centroid Apply
-    centroid.apply<-function(X) {
-        #FUNCTION FROM SIVE, ADD DOI
-        #Centroid (mean score of each PC axis)
-        centroid<-apply(X, 2, mean)
-        #Euclidean distances to the centroid
-        cent.dist<-NULL
-        for (j in 1:nrow(X)){
-            cent.dist[j] <- dist(rbind(X[j,], centroid), method="euclidean")
-        }
-        return(cent.dist)
     }
 
     #Set-up for the NthRoot function in order to scale your products correctly.
@@ -196,10 +184,7 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
 
     #CALCULATING THE DISPARITY
     #Bootstraping the matrix
-    BSresults<-Bootstrap.rarefaction(data, iterations, rarefaction)
-
-    #Calculate the variance for the rarefaction and the bootstrapped matrices
-    variances<-lapply(BSresult, variance.calc)
+    BSresult<-Bootstrap.rarefaction(data, bootstraps, rarefaction)
 
     #CENTROID
     #Distance form centroid
