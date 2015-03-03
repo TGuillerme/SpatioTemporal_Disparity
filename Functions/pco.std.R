@@ -29,7 +29,7 @@ pco.std<-function(anc.matrix, distance="euclidean", scale=FALSE, center=FALSE, n
     require(ape)
 
     #DISCLAIMER
-    warning("This function is in development.\nIf NA's are introduced in the distance matrix they are replaced by the mean distance.\nThis is methodological wrong!")
+    warning("This function is in development.\nIf NA's are introduced in the distance matrix they are replaced by the mean distance.\nThis is methodologically wrong!")
 
     #anc.matrix
     check.class(anc.matrix, "list", " must be a list from anc.state containing three elements: \'state\', \'prob\' and \'rate\'.")
