@@ -17,45 +17,6 @@
 #guillert(at)tcd.ie 04/03/2015
 ##########################
 
-disparity<-function(data, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE) {
-
-    #SANITIZING
-    #distance
-    check.class(data, "matrix", " must be a distance matrix.")
-
-    #method
-    check.class(method, "character", " must be 'centroid', 'sum.range', 'product.range', 'sum.variance' or/and 'product.variance'.")
-    methods_list<-c("centroid", "sum.range", "product.range", "sum.variance", "product.variance")
-    if(all(is.na(match(method, methods_list)))) {
-        stop("method must be 'centroid', 'sum.range', 'product.range', 'sum.variance' or/and 'product.variance'.")
-    }
-
-    #CI
-    check.class(CI, "numeric", " must be any value between 1 and 100.")
-    #remove warnings
-    options(warn=-1)
-    if(any(CI) < 1) {
-        stop("CI must be any value between 1 and 100.")
-    }
-    if(any(CI) > 100) {
-        stop("CI must be any value between 1 and 100.")
-    }
-    options(warn=0)
-    #Bootstrap
-    check.class(bootstraps, "numeric", " must be a single (entire) numerical value.")
-    check.length(bootstraps, 1, " must be a single (entire) numerical value.")
-    #Make sure the bootstrap is a whole number
-    bootstraps<-round(abs(bootstraps))
-
-    #Central tendency
-    check.class(central_tendency, "function", " must be either a function (e.g. 'mean' or 'median'.")
-
-    #rarefaction
-    check.class(rarefaction, "logical", " must be logical.")
-
-    #verbose
-    check.class(verbose, "logical", " must be logical.")
-
     #FUNCTIONS
 
     #Performs bootstrap and eventual rarefaction
@@ -185,15 +146,54 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
         return(Disparity_measure_table)
     }
 
+disparity<-function(data, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE) {
+
+    #SANITIZING
+    #distance
+    check.class(data, "matrix", " must be a distance matrix.")
+
+    #method
+    check.class(method, "character", " must be 'centroid', 'sum.range', 'product.range', 'sum.variance' or/and 'product.variance'.")
+    methods_list<-c("centroid", "sum.range", "product.range", "sum.variance", "product.variance")
+    if(all(is.na(match(method, methods_list)))) {
+        stop("method must be 'centroid', 'sum.range', 'product.range', 'sum.variance' or/and 'product.variance'.")
+    }
+
+    #CI
+    check.class(CI, "numeric", " must be any value between 1 and 100.")
+    #remove warnings
+    options(warn=-1)
+    if(any(CI) < 1) {
+        stop("CI must be any value between 1 and 100.")
+    }
+    if(any(CI) > 100) {
+        stop("CI must be any value between 1 and 100.")
+    }
+    options(warn=0)
+    #Bootstrap
+    check.class(bootstraps, "numeric", " must be a single (entire) numerical value.")
+    check.length(bootstraps, 1, " must be a single (entire) numerical value.")
+    #Make sure the bootstrap is a whole number
+    bootstraps<-round(abs(bootstraps))
+
+    #Central tendency
+    check.class(central_tendency, "function", " must be either a function (e.g. 'mean' or 'median'.")
+
+    #rarefaction
+    check.class(rarefaction, "logical", " must be logical.")
+
+    #verbose
+    check.class(verbose, "logical", " must be logical.")
+
     #CALCULATING THE DISPARITY
     #Bootstraping the matrix
     #verbose
     if(verbose==TRUE) {
-        message("Bootstraping...", appendLF=TRUE)
+        message("Bootstraping...", appendLF=FALSE)
     }
     BSresult<-Bootstrap.rarefaction(data, bootstraps, rarefaction)
     if(verbose==TRUE) {
-        message("Done.\n", appendLF=TRUE)
+        message("Done.", appendLF=TRUE)
     }
 
     #CENTROID
@@ -201,7 +201,7 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
     if(any(method == 'centroid')) {
         #Calculate the distance from centroid for the rarefaction and the bootstrapped matrices
         if(verbose==TRUE) {
-            message("Calculating distance from centroid...", appendLF=TRUE)
+            message("Calculating distance from centroid...", appendLF=FALSE)
         }
         centroids<-lapply(BSresult, centroid.calc)
         #Distance to centroid
@@ -209,7 +209,7 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
         #Renaming the column
         colnames(Centroid_dist_table)[1]<-"Cent.dist"
         if(verbose==TRUE) {
-            message("Done.\n", appendLF=TRUE)
+            message("Done.", appendLF=TRUE)
         }
     }
 
@@ -217,7 +217,7 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
     if(any(grep("range", method))) {
         #Calculate the range for the rarefaction and the bootstrapped matrices
         if(verbose==TRUE) {
-            message("Calculating ranges...", appendLF=TRUE)
+            message("Calculating ranges...", appendLF=FALSE)
         }
         ranges<-lapply(BSresult, range.calc)
 
@@ -237,7 +237,7 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
             colnames(Product_range_table)[1]<-"Prod.range"           
         }
         if(verbose==TRUE) {
-            message("Done.\n", appendLF=TRUE)
+            message("Done.", appendLF=TRUE)
         }
     }
 
@@ -245,7 +245,7 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
     if(any(grep("variance", method))) {
         #Calculate the variance for the rarefaction and the bootstrapped matrices
         if(verbose==TRUE) {
-            message("Calculating variance...", appendLF=TRUE)
+            message("Calculating variance...", appendLF=FALSE)
         }
         variances<-lapply(BSresult, variance.calc)
 
@@ -265,7 +265,7 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
             colnames(Product_variance_table)[1]<-"Prod.var"            
         }
         if(verbose==TRUE) {
-            message("Done.\n", appendLF=TRUE)
+            message("Done.", appendLF=TRUE)
         }
     }
 
