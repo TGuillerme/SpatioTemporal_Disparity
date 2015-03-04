@@ -3,7 +3,7 @@
 ##########################
 #Calculate the disparity as the distance from centroid
 #This function is based on DisparityCalc() from Smith et al. 2014 - Evolution (http://dx.doi.org/10.1111/evo.12435) http://datadryad.org/resource/doi:10.5061/dryad.d380g 
-#v0.1
+#v0.1.1
 ##########################
 #SYNTAX :
 #<distance> the distance matrix
@@ -11,12 +11,13 @@
 #<CI> confidence intervals (default=c(50,95))
 #<bootstraps> the number of boostrap replicates (default=1000)
 #<central_tendency> any function for calculating the central tendency
+#<verbose> whether to be verbose or not
 ##########################
 #----
-#guillert(at)tcd.ie 02/03/2015
+#guillert(at)tcd.ie 04/03/2015
 ##########################
 
-disparity<-function(data, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE) {
+disparity<-function(data, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE) {
 
     #SANITIZING
     #distance
@@ -52,6 +53,9 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
     #rarefaction
     check.class(rarefaction, "logical", " must be logical.")
 
+    #verbose
+    check.class(verbose, "logical", " must be logical.")
+
     #FUNCTIONS
 
     #Performs bootstrap and eventual rarefaction
@@ -63,7 +67,6 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
         } else {
             rarefaction_max<-ncol(data)
         }
-
         #Rarefaction
         result<-NULL
         BSresult<-NULL
@@ -85,7 +88,6 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
             #Removing the n-1 first elements
             BSresult<-BSresult[-c(1:(rarefaction_max-1))]
         }
-
         return(BSresult)
     }
 
@@ -184,22 +186,38 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
 
     #CALCULATING THE DISPARITY
     #Bootstraping the matrix
+    #verbose
+    if(verbose==TRUE) {
+        message("Bootstraping...", appendLF=TRUE)
+    }
     BSresult<-Bootstrap.rarefaction(data, bootstraps, rarefaction)
+    if(verbose==TRUE) {
+        message("Done.\n", appendLF=TRUE)
+    }
 
     #CENTROID
     #Distance form centroid
     if(any(method == 'centroid')) {
         #Calculate the distance from centroid for the rarefaction and the bootstrapped matrices
+        if(verbose==TRUE) {
+            message("Calculating distance from centroid...", appendLF=TRUE)
+        }
         centroids<-lapply(BSresult, centroid.calc)
         #Distance to centroid
         Centroid_dist_table<-Disparity.measure.table(type_function=no.apply, centroids, central_tendency, CI)
         #Renaming the column
         colnames(Centroid_dist_table)[1]<-"Cent.dist"
+        if(verbose==TRUE) {
+            message("Done.\n", appendLF=TRUE)
+        }
     }
 
     #RANGES
     if(any(grep("range", method))) {
         #Calculate the range for the rarefaction and the bootstrapped matrices
+        if(verbose==TRUE) {
+            message("Calculating ranges...", appendLF=TRUE)
+        }
         ranges<-lapply(BSresult, range.calc)
 
         #Sum of ranges
@@ -217,11 +235,17 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
             #Renaming the column
             colnames(Product_range_table)[1]<-"Prod.range"           
         }
+        if(verbose==TRUE) {
+            message("Done.\n", appendLF=TRUE)
+        }
     }
 
     #VARIANCE
     if(any(grep("variance", method))) {
         #Calculate the variance for the rarefaction and the bootstrapped matrices
+        if(verbose==TRUE) {
+            message("Calculating variances...", appendLF=TRUE)
+        }
         variances<-lapply(BSresult, variance.calc)
 
         #Sum of variance
@@ -238,6 +262,9 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
             Product_variance_table<-Disparity.measure.table(type_function=prod.apply, variances, central_tendency, CI)
             #Renaming the column
             colnames(Product_variance_table)[1]<-"Prod.var"            
+        }
+        if(verbose==TRUE) {
+            message("Done.\n", appendLF=TRUE)
         }
     }
 
