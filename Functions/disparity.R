@@ -125,6 +125,7 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
     #Apply loop for calculating the product
     prod.apply<-function(X) {
         output<-NthRoot(apply(X,1,prod))
+        #output<-apply(X,1,prod)
         return(output)
     }
 
@@ -244,7 +245,7 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
     if(any(grep("variance", method))) {
         #Calculate the variance for the rarefaction and the bootstrapped matrices
         if(verbose==TRUE) {
-            message("Calculating variances...", appendLF=TRUE)
+            message("Calculating variance...", appendLF=TRUE)
         }
         variances<-lapply(BSresult, variance.calc)
 
