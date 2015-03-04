@@ -62,7 +62,7 @@ tree.data<-euarch.tree
 ages.data<-tree.age(tree.data)
 tree.data$root.time<-max(ages.data[,1])
 #FAD/LAD
-ages.data<-data.frame("FAD"=tree.age(tree)[1:Ntip(tree),1], "LAD"=tree.age(tree)[1:Ntip(tree),1], row.names=tree.age(tree)[1:Ntip(tree),2])
+ages.data<-data.frame("FAD"=tree.age(tree.data)[1:Ntip(tree),1], "LAD"=tree.age(tree.data)[1:Ntip(tree.data),1], row.names=tree.age(tree.data)[1:Ntip(tree.data),2])
 
 #Plot the tree
 geoscalePhylo(ladderize(tree.data), cex.age=0.6, cex.ts=0.8, cex.tip=1)
@@ -76,10 +76,33 @@ geoscalePhylo(ladderize(tree.data), cex.age=0.6, cex.ts=0.8, cex.tip=1)
 pco.data
 
 #Calculating the rarefaction
-rarefaction<-disparity(pco.data, rarefaction=TRUE)
-plot.disparity(rarefaction, rarefaction=TRUE)
+rarefaction_median<-disparity(pco.data, rarefaction=TRUE, verbose=TRUE, central_tendency=median)
+rarefaction_mean<-disparity(pco.data, rarefaction=TRUE, verbose=TRUE, central_tendency=mean)
+rarefaction_median_Nth<-disparity(pco.data, rarefaction=TRUE, verbose=TRUE, central_tendency=median)
+rarefaction_mean_Nth<-disparity(pco.data, rarefaction=TRUE, verbose=TRUE, central_tendency=mean)
 
 
+dev.new()
+Disparity.Output
+rarefaction<-rarefaction_mean_Nth
+op<-par(mfrow=c(3,2))
+plot.disparity(rarefaction, measure="Cent.dist", rarefaction=TRUE, xlab="Taxa", ylab="Distance from centroid")
+plot.disparity(rarefaction, measure="Sum.range", rarefaction=TRUE, xlab="Taxa", ylab="Sum of ranges")
+plot.disparity(rarefaction, measure="Prod.range", rarefaction=TRUE, xlab="Taxa", ylab="Product of ranges")
+plot.disparity(rarefaction, measure="Sum.var", rarefaction=TRUE, xlab="Taxa", ylab="Sum of variance")
+plot.disparity(rarefaction, measure="Prod.var", rarefaction=TRUE, xlab="Taxa", ylab="Product of variance")
+par(op)
+
+#Making bins
+bins_breaks<-c(80,60,40,20,0)
+pco_binned<-bin.pco(pco.data, tree.data, bins_breaks, include.nodes=FALSE)
+
+disparity_binned<-lapply(pco_binned, disparity, verbose=TRUE)
+
+
+
+ChangesInBins   
+EdgeLengthsInBins
 
 #Slicing the tree
 #set the slices
@@ -106,6 +129,13 @@ colnames(disparity_slices_table)<-names(disparity_slices[[1]])
 
 #Plotting the disparity through time
 plot.disparity(disparity_slices_table, measure="Prod.var", rarefaction=FALSE, xlab="Mya", ylab="Disparity (Distance from centroid)")
+op<-par(mfrow=c(3,2))
+plot.disparity(disparity_slices_table, measure="Cent.dist", rarefaction=FALSE, xlab="Time since present", ylab="Disparity (Distance from centroid)")
+plot.disparity(disparity_slices_table, measure="Sum.range", rarefaction=FALSE, xlab="Time since present", ylab="Disparity (Sum of ranges)")
+plot.disparity(disparity_slices_table, measure="Prod.range", rarefaction=FALSE, xlab="Time since present", ylab="Disparity (Product of ranges)")
+plot.disparity(disparity_slices_table, measure="Sum.var", rarefaction=FALSE, xlab="Time since present", ylab="Disparity (Sum of variance)")
+plot.disparity(disparity_slices_table, measure="Prod.var", rarefaction=FALSE, xlab="Time since present", ylab="Disparity (Product of variance)")
+par(op)
 
 
 
