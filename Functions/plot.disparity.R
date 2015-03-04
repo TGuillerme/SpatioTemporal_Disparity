@@ -42,16 +42,14 @@ plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, .
     CI_length<-(measure_col_tmp-measure_col)
     CI_min<-measure_col+1
     CI_max<-measure_col+CI_length
-    #If there is more than two CI_values, get the intermediate ones
-    if(CI_length > 2) {
-        #number of CI values
-        n_CI<-CI_length/2
-        #extracting all the CI column number pairs in a table
-        CI_pairs<-matrix(nrow=n_CI, ncol=2)
-        for(n in 1:n_CI) {
-            CI_pairs[n,1]<-CI_min+n-1
-            CI_pairs[n,2]<-CI_max-n+1
-        }
+    #Get the eventual intermediate CIs
+    #number of CI values
+    n_CI<-CI_length/2
+    #extracting all the CI column number pairs in a table
+    CI_pairs<-matrix(nrow=n_CI, ncol=2)
+    for(n in 1:n_CI) {
+        CI_pairs[n,1]<-CI_min+n-1
+        CI_pairs[n,2]<-CI_max-n+1
     }
     #Setting the line types for the CIs
     lty_list<-c(44,33,22,21,12)
