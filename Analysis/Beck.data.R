@@ -34,12 +34,12 @@ if (any(apply(as.matrix(Beck.table), 1, function(x) levels(as.factor((x)))) == "
 #Cleaning the tree and the table
 tree<-clean.tree(Beck.tree, Beck.table)
 table<-clean.table(Beck.table, Beck.tree)
-cat("Created the morphological characters table as:\ntable")
+#cat("Created the morphological characters table as:\ntable")
 #Making the tree binary
 tree<-bin.tree(tree)
 #adding node names
 tree$node.label<-paste("n",seq(1:Nnode(tree)), sep="")
-cat("Created the tree as:\ntree")   
+#cat("Created the tree as:\ntree")   
 
 #test
 expect_equal(Ntip(tree), nrow(table))
@@ -71,17 +71,17 @@ character.details<-c("Dentition_general","Incisors","Canine","Premolars","Molars
 Dental<-c(Dentition_general, Incisors, Canine, Premolars, Molars)
 Cranial<-c(Mandible, Rostrum, Palate, Zygoma, Braincase, Orbit, Mesocranium, Basicranium, Occiput)
 PostCranial<-c(Vertebrae, Forelimb, Hindlimb)
-cat("Created the different morphological characters categories as:\nDental\nCranial\nPostCranial\nCharacters details list is available in the object:\ncharacter.details\n")
+#cat("Created the different morphological characters categories as:\nDental\nCranial\nPostCranial\nCharacters details list is available in the object:\ncharacter.details\n")
 
 #taxonomy.list
 taxonomy.list<-list("Placental"=153, "Stem_placental"=c(103,153)) #Beck
-cat("Created the taxonomical list as:\ntaxonomy.list\n")
+#cat("Created the taxonomical list as:\ntaxonomy.list\n")
 
 #Age slices
 slices<-c(0, 40, 50, 60, 70, 80, 90, 100, 110)
-cat("Created the age slices list as:\nslices\n")
+#cat("Created the age slices list as:\nslices\n")
 
 #load("https://raw.githubusercontent.com/TGuillerme/SpatioTemporal_Disparity/master/Data/beck.mat.Rda")
 load("../Data/beck.ML.mat.rda")
 anc.matrix.save<-anc.matrix.beck.ML
-cat("Created the ancestral matrix in \'ML\' as:\nanc.matrix.save\n")
+#cat("Created the ancestral matrix in \'ML\' as:\nanc.matrix.save\n")
