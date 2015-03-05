@@ -1,0 +1,81 @@
+---
+title: "Pipelined STD analysis"
+output: pdf_document
+---
+
+This is a documented example for running the pipelined std analysis.
+
+#Loading the data
+First step is to load the functions and the libraries via:
+```{r}
+source("functions.R")
+```
+We can then load the data via:
+```{r}
+#Loading the data
+source("Beck.data.R")
+#Loading the first and last apparition datum list
+BeckFADLAD<-read.csv("../Data/Beck_FADLAD.csv", row.names=1)
+```
+Finaly, we can load the distance matrix that takes a long time to generate
+```{r}
+#dist.data
+load("../Data/2014-Beck-dist_matrices2.Rda")
+```
+
+#PCO
+Before performing the PCO, we must clean the data with the following steps:
+```{r}
+#Remove the unaplicable characters
+trimmed.max.data <-TrimMorphDistMatrix(dist.data$max.dist.matrix)
+#Remove the droped taxa from the tree
+tree<-drop.tip(tree, trimmed.max.data$removed.taxa)
+#Is there any gap in the matrix?
+any(is.na(trimmed.max.data$dist.matrix))
+```
+We can now run a pco on the cleaned data set from Beck et al:
+```{r}
+pco.data <- cmdscale(trimmed.max.data$dist.matrix,
+                     k=nrow(trimmed.max.data$dist.matrix) - 1,
+                     add=T)$points
+```
+Now we can visualise the data in two different ways, the phylogeny and the changes in disparity through time.
+
+#Phylogeny
+To plot the phylogeny, we can use the following functions
+```{r}
+#Renaming the tree
+tree.data<-tree
+#Tree ages 
+ages.data<-tree.age(tree.data)
+#Adding the root age to the tree
+tree.data$root.time<-max(ages.data[,1])
+#Plot the tree
+geoscalePhylo(ladderize(tree.data), cex.age=0.6, cex.ts=0.8, cex.tip=0.5)
+```
+
+#Disparity through time
+Before measuring the changes in disparity through time, we want to select a series of time bins.
+```{r}
+#Selecting the number of bins
+bins_breaks<-rev(hist(ages.data[,1], plot=FALSE)$breaks)+5 ; bins_breaks[10]<-0
+#Showing our selected bins
+bins_breaks
+```
+We can now sort the pco in the different bins using the following function
+```{r}
+#We can also add to the bin, data on the first and last apparition datum of some of the taxa present in the tree
+pco_binned<-bin.pco(pco.data, tree.data, bins_breaks, include.nodes=TRUE, FAD_LAD=BeckFADLAD)
+```
+Finaly, we can measure the change in disparity per bin. In this example, we are only going to calculate the distance from centroid (default) but we can also calculate any other disparity metric.
+```{r}
+disparity_binned_table<-bin.disparity(pco_binned, method="centroid", verbose=FALSE)
+```
+And we can plot the results.
+```{r}
+#Plotting the results
+plot.disparity(disparity_binned_table, rarefaction=FALSE,
+               xlab="bins (Mya)", ylab="Distance from centroid", measure="Cent.dist")
+#Adding the KT boundary
+abline(v=c(5.5), col="red")
+```
