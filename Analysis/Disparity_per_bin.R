@@ -15,48 +15,65 @@ if(length(grep("SpatioTemporal_Disparity/Analysis", getwd()))==0) {
 #Load the functions and the packages
 source("functions.R")
 
-#Load the data
-source("Test.data.R")
-
-
 ######################
-#Creating the matrix with ACE
+#Testing with Beck data
 ######################
 
+#Reading in the data
+source("Beck.data.R")
 
-#Renaming the matrix to match with Graeme's workshop
-#Choose one of the following matrices:
-#nexus.data<-euarch.nex #Tips and nodes
-#nexus.data<-STD.nex #Tips and nodes STD method
-nexus.data<-CLADDIS.nex #Tips and nodes CLADDIS method
-#Problem with CLADDIS method: no account for uncertainty
+#Renaming the Beck nexus file to match with the rest of the workshop
+nexus.data <- Beck.nex
 
+#Include ancestral states
+#matrix<-anc.matrix.save$state
+#matrix<-ifelse(matrix == '?', NA, matrix)
+#nexus.data$matrix<-matrix
 
-######################
-#Running the PCO
-######################
-
-
-#Safe taxonomic reduction
-#safe.data <- SafeTaxonomicReduction(nexus.data) #Removes nodes
+#Safe Taxonomic Reduction (Wilkinson 1995; Systematic Biology).
+#Removes taxa we know (under parsimony) can only fall out in particular place(s) in the tree.
+#safe.data <- SafeTaxonomicReduction(nexus.data)
+#save(safe.data, file="../Data/2014-Beck-reduced_tax_matrix2.Rda")
+#load("../Data/2014-Beck-reduced_tax_matrix2.Rda")
 
 #Distance matrix
-dist.data <- MorphDistMatrix(nexus.data)
+#Detail on the metrics: http://www.slideshare.net/graemelloyd/new-methodologies-for-the-use-of-cladistictype-matrices-to-measure-morphological-disparity-and-evolutionary-rate
+#dist.data <- MorphDistMatrix(nexus.data)
+#save(dist.data, file="../Data/2014-Beck-dist_matrices2.Rda")
+load("../Data/2014-Beck-dist_matrices2.Rda") #dist.data
 
-#Trim data
+#Performs MDS on the GED matrix.
+#warning("MDS on the GED matrix which 'cheats' by filling in those missing character distances.")
+#cmdscale(dist.data$GED.dist.matrix)
+
+#Remove the unaplicable characters
 trimmed.max.data <-TrimMorphDistMatrix(dist.data$max.dist.matrix)
 
-#Run the PCO
+# We can see what taxa have been removed by typing:
+trimmed.max.data$removed.taxa
+# Remove the droped taxa from the tree
+tree<-drop.tip(tree, trimmed.max.data$removed.taxa)
+
+#Check gaps in the matrix
+any(is.na(trimmed.max.data$dist.matrix))
+
+#PCO
+
+#Performs MDS on the MOD matrix
+#cmdscale(trimmed.max.data$dist.matrix)
+
+# We can maximise our axes by upping the value "k" (an option in the function) to N - 1 (the maximum number of axes for N objects, i.e., N taxa).
+# In addition we want to use another option in the function (add) which gets around the negative eigenvalue problem that can cause downstream problems (e.g., a scree plot with negative values).
+# We can specify these options fairly easily and store our answer in a new variable (pco.data) and this time we will just part of the output ($points) which are the values for our taxa on every ordination axis:
 pco.data <- cmdscale(trimmed.max.data$dist.matrix, k=nrow(trimmed.max.data$dist.matrix) - 1, add=T)$points
 
 
 ######################
-#Plotting the tree
+#Plot the tree
 ######################
 
-
 #Renaming the tree
-tree.data<-euarch.tree
+tree.data<-tree
 
 #Tree ages (useless?)
 ages.data<-tree.age(tree.data)
@@ -72,93 +89,25 @@ geoscalePhylo(ladderize(tree.data), cex.age=0.6, cex.ts=0.8, cex.tip=1)
 #Disparity
 ######################
 
-#Selecting ALL the pco axis
-pco.data
-
 #Calculating the rarefaction
-rarefaction_median<-disparity(pco.data, rarefaction=TRUE, verbose=TRUE, central_tendency=median)
-rarefaction_mean<-disparity(pco.data, rarefaction=TRUE, verbose=TRUE, central_tendency=mean)
-rarefaction_median_Nth<-disparity(pco.data, rarefaction=TRUE, verbose=TRUE, central_tendency=median)
-rarefaction_mean_Nth<-disparity(pco.data, rarefaction=TRUE, verbose=TRUE, central_tendency=mean)
-
-
-dev.new()
-Disparity.Output
-rarefaction<-rarefaction_mean_Nth
-op<-par(mfrow=c(3,2))
-plot.disparity(rarefaction, measure="Cent.dist", rarefaction=TRUE, xlab="Taxa", ylab="Distance from centroid")
-plot.disparity(rarefaction, measure="Sum.range", rarefaction=TRUE, xlab="Taxa", ylab="Sum of ranges")
-plot.disparity(rarefaction, measure="Prod.range", rarefaction=TRUE, xlab="Taxa", ylab="Product of ranges")
-plot.disparity(rarefaction, measure="Sum.var", rarefaction=TRUE, xlab="Taxa", ylab="Sum of variance")
-plot.disparity(rarefaction, measure="Prod.var", rarefaction=TRUE, xlab="Taxa", ylab="Product of variance")
-par(op)
+#rarefaction_median<-disparity(pco.data, rarefaction=TRUE, verbose=TRUE, central_tendency=median)
 
 #Making bins
-bins_breaks<-c(80,60,40,20,0)
-pco_binned<-bin.pco(pco.data, tree.data, bins_breaks, include.nodes=FALSE)
+bins_breaks<-rev(hist(ages.data[,1])$breaks)+5
+bins_breaks[9]<-0
+pco_binned<-bin.pco(pco.data, tree.data, bins_breaks, include.nodes=TRUE)
+#Calculating the disparity per bins
+disparity_binned_table<-bin.disparity(pco_binned, verbose=TRUE)
 
-disparity_binned<-lapply(pco_binned, disparity, verbose=TRUE)
-
-
-
-ChangesInBins   
-EdgeLengthsInBins
-
-#Slicing the tree
-#set the slices
-slices<-seq(from=40, to=80, by=5)
-#set the data as pco.scores
-pco.scores<-list(pco.data)
-names(pco.scores)<-"scores" ; class(pco.scores) <- "pco.scores"
-#slicing
-std.slice_pro<-std.slice(tree.data, pco.scores, slices=slices, method="PROXIMITY")
-#Plot (visual)
-#plot.std(std.slice_pro, legend=FALSE, pars=c(3,4))
-
-
-#Calculate the disparity per time slice
-disparity_slices<-list()
-for (slice in 1:length(slices)){
-    disparity_slices[[slice]]<-disparity(std.slice_pro[[slice]]$sub_scores, rarefaction=FALSE)
-}
-names(disparity_slices)<-slices
-#Transform the results as a matrix
-disparity_slices_table<-matrix(ncol=ncol(disparity_slices[[1]]), data=unlist(disparity_slices), byrow=TRUE)
-disparity_slices_table<-as.data.frame(disparity_slices_table)
-colnames(disparity_slices_table)<-names(disparity_slices[[1]])
-
-#Plotting the disparity through time
-plot.disparity(disparity_slices_table, measure="Prod.var", rarefaction=FALSE, xlab="Mya", ylab="Disparity (Distance from centroid)")
 op<-par(mfrow=c(3,2))
-plot.disparity(disparity_slices_table, measure="Cent.dist", rarefaction=FALSE, xlab="Time since present", ylab="Disparity (Distance from centroid)")
-plot.disparity(disparity_slices_table, measure="Sum.range", rarefaction=FALSE, xlab="Time since present", ylab="Disparity (Sum of ranges)")
-plot.disparity(disparity_slices_table, measure="Prod.range", rarefaction=FALSE, xlab="Time since present", ylab="Disparity (Product of ranges)")
-plot.disparity(disparity_slices_table, measure="Sum.var", rarefaction=FALSE, xlab="Time since present", ylab="Disparity (Sum of variance)")
-plot.disparity(disparity_slices_table, measure="Prod.var", rarefaction=FALSE, xlab="Time since present", ylab="Disparity (Product of variance)")
+plot.disparity(disparity_binned_table, rarefaction=FALSE, xlab="bins (Mya)", ylab="Distance from centroid", measure="Cent.dist")
+abline(v=c(5,6), col="red")
+plot.disparity(disparity_binned_table, rarefaction=FALSE, xlab="bins (Mya)", ylab="Sum of ranges", measure="Sum.range")
+abline(v=c(5,6), col="red")
+plot.disparity(disparity_binned_table, rarefaction=FALSE, xlab="bins (Mya)", ylab="Sum of variance", measure="Sum.var")
+abline(v=c(5,6), col="red")
+plot.disparity(disparity_binned_table, rarefaction=FALSE, xlab="bins (Mya)", ylab="Product of ranges", measure="Prod.range")
+abline(v=c(5,6), col="red")
+plot.disparity(disparity_binned_table, rarefaction=FALSE, xlab="bins (Mya)", ylab="Product of variance", measure="Prod.var")
+abline(v=c(5,6), col="red")
 par(op)
-
-
-
-
-#Calculating the PCO/MDS with a scaled euclidean distance matrix and removing the NAs
-pco<-pco.std(submatrix, distance="euclidean", scale=TRUE, center=FALSE, na.rm=TRUE, correction="none")
-
-#Visualising the axis variance load
-plot.std(pco, legend=TRUE)
-
-#Creating the pco.scores object (containing the axis and the taxonomy)
-#Change the taxonomy list into group list containing not only taxonomic data (BM, etc...).
-pco.scores<-as.pco.scores(tree, pco, n.axis=2, taxonomy.list)
-
-#Full pco plot
-plot.std(pco.scores, legend=TRUE, main="Full character-space")
-
-#Creating the slice list
-std.slice_acc<-std.slice(tree.data, pco.scores, slices, method="ACCTRAN")
-std.slice_del<-std.slice(tree, pco.scores, slices, method="DELTRAN")
-std.slice_pro<-std.slice(tree, pco.scores, slices, method="PROXIMITY")
-
-#Plot the two series of slices
-plot.std(std.slice_acc, legend=TRUE, pars=c(3,3))
-plot.std(std.slice_del, legend=TRUE, pars=c(3,3))
-plot.std(std.slice_pro, legend=TRUE, pars=c(3,3))
