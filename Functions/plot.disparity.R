@@ -13,7 +13,7 @@
 #guillert(at)tcd.ie 03/03/2015
 ##########################
 
-plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, ...){
+plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, xlab="default", ylab="default", col="default", ...){
     #SANITIZING
     #Disparity
     check.class(disparity_data, 'data.frame', " must be a disparity data.frame")
@@ -66,7 +66,17 @@ plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, .
         warning("Only one disparity point is available.")
     }
     options(warn=0)
-    #Plotting the disparity results
+
+    #xlab
+    check.class(xlab, "character", " must be a character string.")
+    check.length(xlab, 1, " must be a character string.", errorif=FALSE)
+    #ylab
+    check.class(ylab, "character", " must be a character string.")
+    check.length(ylab, 1, " must be a character string.", errorif=FALSE)
+    #col
+    check.class(col, "character", " must be a character string.")
+
+    #PLOTTING THE DISPARITY RESULTS
     if(rarefaction == TRUE) {
         #Plotting the rarefaction curve
         plot(disparity_data[,1], disparity_data[,measure_col], type='l', ylim=c(min(disparity_data[,CI_min]),max(disparity_data[,CI_max])) , ...)
@@ -90,10 +100,36 @@ plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, .
                 lines(c(1,1), c(disparity_data[,CI_pairs[n,1]], disparity_data[,CI_pairs[n,2]]), lwd=1+(n-1)*3, lty=lty_list2[n])
             }
         } else {
+            #Setting plot options (defaults)
+            #xlab
+            if(xlab=="default") {
+                xlab="bins"
+            }
+            #ylab
+            if(ylab=="default") {
+                ylab=names(disparity_data)[measure_col]
+            }
+            #colors
+            if(col=="default") {
+                #line color
+                line_color<-"black"
+                #polygon_colors
+                polygon_colors<-c("lightgrey", "grey")
+            } else {
+                #line color
+                line_color<-col[1]
+                #polygon_colors
+                polygon_colors<-col
+            }
+
             #Plotting the curve
-            plot(seq(from=1, to=nrow(disparity_data)), disparity_data[,measure_col], type='l', ylim=c(min(disparity_data[,CI_min]),max(disparity_data[,CI_max])) ,col="white", ...)
-            #Set the polygon colors
-            polygon_colors<-c("lightgrey", "grey")
+            plot(seq(from=1, to=nrow(disparity_data)), disparity_data[,measure_col], type='l', 
+                ylim=c(min(disparity_data[,CI_min]),max(disparity_data[,CI_max])) ,col="white", ylab=ylab, xlab=xlab, xaxt='n' , ...)
+            if(class(disparity_data[,1]) == "character") {
+                axis(side = 1, 1:nrow(disparity_data), disparity_data[,1])
+            } else {
+                axis(side = 1, 1:nrow(disparity_data))
+            }
             #Add the polygons
             for (n in 1:(CI_length/2)) {
                 polygon(c(seq(from=1, to=nrow(disparity_data)), seq(from=nrow(disparity_data), to=1)),
@@ -101,7 +137,7 @@ plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, .
                     col=polygon_colors[n], density=100-(100/(CI_length/2)/2.5*n))
             }
             #Add the central tendency line
-            lines(seq(from=1, to=nrow(disparity_data)), disparity_data[,measure_col], type='l', ylim=c(min(disparity_data[,CI_min]),max(disparity_data[,CI_max])))
+            lines(seq(from=1, to=nrow(disparity_data)), disparity_data[,measure_col], type='l', ylim=c(min(disparity_data[,CI_min]),max(disparity_data[,CI_max], col=line_color)))
         }
     }
 }
