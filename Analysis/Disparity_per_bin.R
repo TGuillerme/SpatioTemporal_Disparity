@@ -21,6 +21,9 @@ source("functions.R")
 
 #Reading in the data
 source("Beck.data.R")
+#Load the F/LAD for Beck
+BeckFADLAD<-read.csv("../Data/Beck_FADLAD.csv", row.names=1)
+
 
 #Renaming the Beck nexus file to match with the rest of the workshop
 nexus.data <- Beck.nex
@@ -78,12 +81,9 @@ tree.data<-tree
 #Tree ages (useless?)
 ages.data<-tree.age(tree.data)
 tree.data$root.time<-max(ages.data[,1])
-#FAD/LAD
-ages.data<-data.frame("FAD"=tree.age(tree.data)[1:Ntip(tree),1], "LAD"=tree.age(tree.data)[1:Ntip(tree.data),1], row.names=tree.age(tree.data)[1:Ntip(tree.data),2])
-
 #Plot the tree
 geoscalePhylo(ladderize(tree.data), cex.age=0.6, cex.ts=0.8, cex.tip=1)
-
+par(op)
 
 ######################
 #Disparity
@@ -95,19 +95,20 @@ geoscalePhylo(ladderize(tree.data), cex.age=0.6, cex.ts=0.8, cex.tip=1)
 #Making bins
 bins_breaks<-rev(hist(ages.data[,1])$breaks)+5
 bins_breaks[9]<-0
-pco_binned<-bin.pco(pco.data, tree.data, bins_breaks, include.nodes=TRUE)
+pco_binned<-bin.pco(pco.data, tree.data, bins_breaks, include.nodes=TRUE, FAD_LAD=BeckFADLAD)
 #Calculating the disparity per bins
 disparity_binned_table<-bin.disparity(pco_binned, verbose=TRUE)
 
+dev.new()
 op<-par(mfrow=c(3,2))
 plot.disparity(disparity_binned_table, rarefaction=FALSE, xlab="bins (Mya)", ylab="Distance from centroid", measure="Cent.dist")
-abline(v=c(5,6), col="red")
+abline(v=c(5.5), col="red")
 plot.disparity(disparity_binned_table, rarefaction=FALSE, xlab="bins (Mya)", ylab="Sum of ranges", measure="Sum.range")
-abline(v=c(5,6), col="red")
+abline(v=c(5.5), col="red")
 plot.disparity(disparity_binned_table, rarefaction=FALSE, xlab="bins (Mya)", ylab="Sum of variance", measure="Sum.var")
-abline(v=c(5,6), col="red")
+abline(v=c(5.5), col="red")
 plot.disparity(disparity_binned_table, rarefaction=FALSE, xlab="bins (Mya)", ylab="Product of ranges", measure="Prod.range")
-abline(v=c(5,6), col="red")
+abline(v=c(5.5), col="red")
 plot.disparity(disparity_binned_table, rarefaction=FALSE, xlab="bins (Mya)", ylab="Product of variance", measure="Prod.var")
-abline(v=c(5,6), col="red")
+abline(v=c(5.5), col="red")
 par(op)
