@@ -34,6 +34,7 @@ bin.pco<-function(pco_data, tree, bins, include.nodes=FALSE, FAD_LAD) {
     if(length(bins) < 2) {
         stop("At least two breaks should be specified for the bins.")
     }
+
     #FAD_LAD
     if(missing(FAD_LAD)) {
         #Create the FAD_LAD table
@@ -118,7 +119,7 @@ bin.pco<-function(pco_data, tree, bins, include.nodes=FALSE, FAD_LAD) {
 
     for (bin in 1:length(bin_elements)) {
         #Matching list
-        matching<-match(bin_elements[[bin]],rownames(pco_data))
+        matching<-match(as.character(bin_elements[[bin]]),as.character(rownames(pco_data)))
         #If only one taxa is matching, make sure it's not a vector
         if(length(matching) == 1) {
             pco_bins[[bin]]<-matrix(data=pco_data[matching,], nrow=1)
