@@ -2,16 +2,16 @@
 #slice.tree
 ##########################
 #Slices a tree given a specific age
-#Modyfied timeSliceTree function from Davd Bapst (paleotrree)
+#Modyfied timeSliceTree function from David Bapst (paleotrree)
 #v0.3
 #Update: added RATES method
 #Update: changed the RATES method into PROXIMITY
+#To do: change the slicing methods
 ##########################
 #SYNTAX :
 #<tree> a 'phylo' object
 #<age> where to slice the tree
-#<method> the slicing method (what becomes of the sliced branches): can be ACCTRAN, DELTRAN or PROXIMITY
-#<anc.matrix> Optional, needed for the RATES method
+#<method> the slicing method (what becomes of the sliced branches): can be acctran, deltran, proximity or random
 ##########################
 #----
 #guillert(at)tcd.ie 20/10/2014
