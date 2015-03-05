@@ -126,7 +126,7 @@ plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, x
             plot(seq(from=1, to=nrow(disparity_data)), disparity_data[,measure_col], type='l', 
                 ylim=c(min(disparity_data[,CI_min]),max(disparity_data[,CI_max])) ,col="white", ylab=ylab, xlab=xlab, xaxt='n' , ...)
             if(class(disparity_data[,1]) == "character") {
-                axis(side = 1, 1:nrow(disparity_data), disparity_data[,1])
+                axis(side = 1, 1:nrow(disparity_data), disparity_data[,1], las=2)
             } else {
                 axis(side = 1, 1:nrow(disparity_data))
             }

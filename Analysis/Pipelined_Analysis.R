@@ -47,6 +47,6 @@ pco_binned<-bin.pco(pco.data, tree.data, bins_breaks, include.nodes=TRUE, FAD_LA
 disparity_binned_table<-bin.disparity(pco_binned, method="centroid", verbose=FALSE)
 #Plotting the results
 plot.disparity(disparity_binned_table, rarefaction=FALSE,
-               xlab="bins (Mya)", ylab="Distance from centroid", measure="Cent.dist")
+               xlab="bins (Mya)", ylab="Distance from centroid", measure="Cent.dist", las=2)
 #Adding the KT boundary
-abline(v=c(5.5), col="red")
+abline(v=c(6.5), col="red")
