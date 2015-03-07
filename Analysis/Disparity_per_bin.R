@@ -94,7 +94,7 @@ par(op)
 
 #Making bins
 bins_breaks<-rev(hist(ages.data[,1])$breaks)+5
-bins_breaks[9]<-0
+bins_breaks[10]<-0
 pco_binned<-bin.pco(pco.data, tree.data, bins_breaks, include.nodes=TRUE, FAD_LAD=BeckFADLAD)
 #Calculating the disparity per bins
 disparity_binned_table<-bin.disparity(pco_binned, verbose=TRUE)
