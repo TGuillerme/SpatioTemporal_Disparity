@@ -20,7 +20,7 @@
 ##########################
 
 
-anc.state<-function(tree, nexus, method='ML', verbose=TRUE, ...){
+anc.state<-function(tree, nexus, method='ML-ape', verbose=TRUE, ...){
 
 #SANITYZING
 
@@ -44,20 +44,20 @@ anc.state<-function(tree, nexus, method='ML', verbose=TRUE, ...){
     }
 
     #method
-    check.class(method, 'character', ' must be \'ML-ape\' or \'ML-Claddis\'.')
+    check.class(method, 'character', ' must be \'ML-ape\' or \'ML-claddis\'.')
     if(method !='ML-ape') {
-        if(method != 'ML-Claddis') {
-            stop('Method must be must be \'ML-ape\' or \'ML-Claddis\'.')
+        if(method != 'ML-claddis') {
+            stop('Method must be must be \'ML-ape\' or \'ML-claddis\'.')
         }
     }
 
     #nexus (again)
-    #$max and min values (if method = 'ML-Claddis')
-    if(method == 'ML-Claddis' & !any(names(nexus) == "max.vals")) {
-        stop('Nexus object needs to contain a \'max.vals\' vector if chosen method is \'ML-Claddis\'.\n Use Claddis::ReadMorphNexus() for generating the proper formatted object.')
+    #$max and min values (if method = 'ML-claddis')
+    if(method == 'ML-claddis' & !any(names(nexus) == "max.vals")) {
+        stop('Nexus object needs to contain a \'max.vals\' vector if chosen method is \'ML-claddis\'.\n Use Claddis::ReadMorphNexus() for generating the proper formatted object.')
     }
-    if(method == 'ML-Claddis' & !any(names(nexus) == "min.vals")) {
-        stop('Nexus object needs to contain a \'min.vals\' vector if chosen method is \'ML-Claddis\'.\n Use Claddis::ReadMorphNexus() for generating the proper formatted object.')
+    if(method == 'ML-claddis' & !any(names(nexus) == "min.vals")) {
+        stop('Nexus object needs to contain a \'min.vals\' vector if chosen method is \'ML-claddis\'.\n Use Claddis::ReadMorphNexus() for generating the proper formatted object.')
     }
 
     #verbose
@@ -69,24 +69,22 @@ anc.state<-function(tree, nexus, method='ML', verbose=TRUE, ...){
     anc.list<-anc.state_ace(tree, nexus, method, verbose, ...)
 
     #Creating the state probability matrix for the nodes and the tips
-    anc.prob<-anc.state_prob(tree, matrix, anc.list)
+    anc.prob<-anc.state_prob(tree, nexus$matrix, anc.list)
 
     #Creating the state matrix for the nodes and the tips
-    anc.state<-anc.state_state(tree, matrix, anc.list)
+    anc.state<-anc.state_state(tree, nexus$matrix, anc.list)
 
     #Creating the rate matrix
-    anc.rate<-anc.state_rate(tree, matrix, anc.list)
+    if(method == 'ML-ape') {
+        anc.rate<-anc.state_rate(tree, nexus$matrix, anc.list)
+    }
 
 #OUTPUT
 
-    anc.matrix<-list("state"=anc.state, "prob"=anc.prob, "rate"=anc.rate)
-    if (save == TRUE) {
-        if(method == 'ML') {
-            save(anc.matrix, files=paste(save.name, ".rda", sep=""))
-        } else {
-            save(anc.matrix, files=paste(save.name, ".rda", sep=""))
-            save(anc.matrix.trace, files=paste(save.name, ".trace", sep=""))
-        }
+    if(method == 'ML-ape') {
+        anc.matrix<-list("state"=anc.state, "prob"=anc.prob, "rate"=anc.rate)
+    } else {
+        anc.matrix<-list("state"=anc.state, "prob"=anc.prob)
     }
     return(anc.matrix)
 
