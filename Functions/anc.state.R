@@ -2,24 +2,25 @@
 #Ancestral state matrix
 ##########################
 #Recreate the ancestral matrix for each node and each character
-#v0.2
+#v1.0
 #Update: allow to use ML Bayesian or Threshold method
 #Update: added a saving option
+#Update: treats multistates characters
+#Update: methods revisited
 ##########################
 #SYNTAX :
 #<tree> a 'phylo' object
-#<matrix> the character matrix
-#<method> the method to use for ancestral state reconstruction ('ML' or 'Bayesian' or 'Threshold')
+#<nexus> a nexus file list containing the matrix and a list of ordering (use ReadMorphNexus{Claddis} for proper format)
+#<method> the method to use for ancestral state reconstruction ('ML-ape' or 'ML-phytools')
 #<verbose> whether to be verbose or not
-#<save> whether to save the matrix or not. If TRUE, the default saving name is "anc.state.save", a name can be provided as save="name".
-#<...> any optional arguments to be passed to anc.Bayes{phytools} or threshBayes{phytools} functions.
+###############################################<...> any optional arguments to be passed to anc.Bayes{phytools} or threshBayes{phytools} functions.
 ##########################
 #----
-#guillert(at)tcd.ie 29/09/2014
+#guillert(at)tcd.ie 06/03/2015
 ##########################
 
 
-anc.state<-function(tree, matrix, method='ML', verbose=TRUE, save=FALSE, ...){
+anc.state<-function(tree, nexus, method='ML', verbose=TRUE, ...){
 
 #SANITYZING
 
@@ -28,40 +29,44 @@ anc.state<-function(tree, matrix, method='ML', verbose=TRUE, save=FALSE, ...){
     #Is binary?
     tree<-bin.tree(tree)
 
-    #matrix
-    if(class(matrix) == 'data.frame') {
-        matrix<-as.matrix(matrix)
+    #nexus
+    check.class(nexus, 'list', ' must be a nexus list.\n Use Claddis::ReadMorphNexus() for generating the proper formatted object.')
+    #matrix element present?
+    #$matrix
+    if(!any(names(nexus) == "matrix")) {
+        stop('nexus must be a nexus list.\n Use Claddis::ReadMorphNexus() for generating the proper formatted object.')
     }
-    check.class(matrix, 'matrix', ' must be a matrix.')
+    #$ordering
+    if(!any(names(nexus) == "ordering")) {
+        message('There was no character ordering list available in the nexus object:\n characters are now all considered as unordered.\n Use Claddis::ReadMorphNexus() for generating the proper formatted object.')
+        #Generate default ordering (none)
+        nexus$ordering<-c(rep("unord", ncol(nexus$matrix)))
+    }
 
     #method
-    check.class(method, 'character', ' must be \'ML\', \'Bayesian\' or \'Threshold\'.')
-    if(method !='ML') {
-        if(method != 'Bayesian') {
-            if(method != 'Threshold') {
-                stop('Method must be \'ML\', \'Bayesian\' or \'Threshold\'.')
-            }
+    check.class(method, 'character', ' must be \'ML-ape\' or \'ML-Claddis\'.')
+    if(method !='ML-ape') {
+        if(method != 'ML-Claddis') {
+            stop('Method must be must be \'ML-ape\' or \'ML-Claddis\'.')
         }
+    }
+
+    #nexus (again)
+    #$max and min values (if method = 'ML-Claddis')
+    if(method == 'ML-Claddis' & !any(names(nexus) == "max.vals")) {
+        stop('Nexus object needs to contain a \'max.vals\' vector if chosen method is \'ML-Claddis\'.\n Use Claddis::ReadMorphNexus() for generating the proper formatted object.')
+    }
+    if(method == 'ML-Claddis' & !any(names(nexus) == "min.vals")) {
+        stop('Nexus object needs to contain a \'min.vals\' vector if chosen method is \'ML-Claddis\'.\n Use Claddis::ReadMorphNexus() for generating the proper formatted object.')
     }
 
     #verbose
     check.class(verbose, 'logical', ' must be logical.')
 
-    #save
-    if(class(save) == 'logical') {
-        if(save == TRUE) {
-            save.name="anc.state.save"
-        }
-    } else {
-        check.class(save, 'character', ' must be \'logical\' or \'character\'')
-        save.name<-save
-        save<-TRUE
-    }
-
 #ESTIMATING THE ANCESTRAL MATRIX FOR EACH CHARATER AND NODE
 
     #Ancestral states estimations from a matrix
-    anc.list<-anc.state_ace(tree, matrix, method, verbose, ...)
+    anc.list<-anc.state_ace(tree, nexus, method, verbose, ...)
 
     #Creating the state probability matrix for the nodes and the tips
     anc.prob<-anc.state_prob(tree, matrix, anc.list)
