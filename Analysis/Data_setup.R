@@ -79,19 +79,26 @@ system(paste("mkdir ",data_path, chain_name, sep=""))
 
 #Distance matrix using tips only
 matrix_tips<-Nexus_data
-message("Calculating the distance matrix for the tips only...", appendLF=FALSE)
+message("\nCalculating the distance matrix for the tips only...", appendLF=FALSE)
 dist_tips<-MorphDistMatrix(matrix_tips)
 message("Done.\n", appendLF=FALSE)
 save(dist_tips, file=paste(data_path, chain_name, "/",chain_name,"_distance-tips.Rda", sep="")) #dist_tips
 
 #Distance matrix using also nodes
 matrix_nodes<-Nexus_data
-matrix_nodes$matrix<-anc_states$states
-message("Calculating the distance matrix for the tips and the nodes...", appendLF=FALSE)
+matrix_nodes$matrix<-anc_states$state
+message("\nCalculating the distance matrix for the tips and the nodes...", appendLF=FALSE)
 dist_nodes<-MorphDistMatrix(matrix_nodes)
 message("Done.\n", appendLF=FALSE)
 save(dist_nodes, file=paste(data_path, chain_name, "/",chain_name,"_distance-nodes.Rda", sep="")) #dist_nodes
 
+#Distance matrix using nodes with 95 CI
+matrix_nodes95<-Nexus_data
+matrix_nodes95$matrix<-anc.unc(anc_states, 0.95, missing=NA)$state
+message("\nCalculating the distance matrix for the tips and the nodes with a 95 CI...", appendLF=FALSE)
+dist_nodes95<-MorphDistMatrix(matrix_nodes95)
+message("Done.\n", appendLF=FALSE)
+save(dist_nodes, file=paste(data_path, chain_name, "/",chain_name,"_distance-nodes95.Rda", sep="")) #dist_nodes95
 
 
 #dist.data <- MorphDistMatrix(nexus.data)
