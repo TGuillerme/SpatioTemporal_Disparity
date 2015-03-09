@@ -2,6 +2,24 @@
 
 #Ancestral states estimations from a matrix
 anc.state_ace<-function(tree, nexus, method, verbose, ...) {
+
+    set.model<-function(nexus, character) {
+        #from claddis:AncStateEstMatrix.
+        if(nexus$ordering[character] == "unord") {
+            model<-"ER"
+        } else {
+            #Set discrete character estimation model if ordered multistate character:
+            #Create all zero matrix:
+            model<-matrix(0, nrow=max(as.numeric(nexus$matrix[character,]), na.rm=TRUE)-min(as.numeric(nexus$matrix[character,]), na.rm=TRUE)+1,
+            ncol=max(as.numeric(nexus$matrix[character,]), na.rm=TRUE)-min(as.numeric(nexus$matrix[character,]), na.rm=TRUE)+1 )
+            #Name rows and columns as states:
+            rownames(model)<-colnames(model)<-min(as.numeric(nexus$matrix[character,]), na.rm=TRUE):max(as.numeric(nexus$matrix[character,]), na.rm=TRUE)
+            #Enter one for all the off-diagonal diagonals (an ordered change model):
+            for(j in 1:(length(model[1, ]) - 1)) model[j + 1, j]<-model[j, j + 1]<-1
+        }
+        return(model)
+    }
+
     #Empty return list
     anc.list<-list()
     
@@ -10,13 +28,6 @@ anc.state_ace<-function(tree, nexus, method, verbose, ...) {
         message("Some ordered characters where found but the chosen method (\'ML-ape\') will count them as unordered.")
     }
 
-    #If method is ML-claddis and some characters are multistate print a warning
-    #if(grep("&", nexus$matrix) > 0 & method == 'ML-claddis') {
-    #   message("Some multistate characters have been detected and chosen method is \'ML-claddis\'.\n
-    #       The ancestral states of these characters will be estimated based on continuous ancestral character estimation (ape::ace)\n
-    #       and the displayed likelihood score corresponds ")
-    #}
-
     #Be verbose
     if(verbose == TRUE) {
         message('Estimating the ancestral states for ', ncol(nexus$matrix), ' characters:', appendLF=FALSE)
@@ -24,11 +35,31 @@ anc.state_ace<-function(tree, nexus, method, verbose, ...) {
 
     if(method == 'ML-ape') {
         for (character in 1:ncol(nexus$matrix)) {
-            #ML
-            anc.list[[character]]<-ace(as.factor(nexus$matrix[,character]), tree, type="d", model="ER", ...)
-            #Be verbose
-            if(verbose == TRUE) {
-                message('.', appendLF=FALSE)
+            #Isolate the character states for the current character
+            character_states<-nexus$matrix[,character]
+            #If any NA, treat all the states as nth state character "?"
+            if(any(is.na(character_states))) {
+                character_states[which(is.na(character_states))]<-"?"
+            }
+            #If character is constant, don't estimate
+            if(all(character_states == character_states[1])) {
+                result<-matrix(rep(1, Nnode(tree)), ncol=1)
+                colnames(result)<-character_states[1]
+                result_list<-list("loglik"=NA, "rates"=0, "se"=NA, "index.matrix"=NA, "lik.anc"=result, call="ace(x = character_states, phy = tree, type = \"d\", model = model)")
+                class(result_list)<-"ace"
+                anc.list[[character]]<-result_list
+            } else {
+                #Setting the different states as factor
+                character_states<-as.factor(character_states)
+                #Setting the model
+                #model<-set.model(nexus, character)
+                model<-"ER"
+                #Estimating ancestral state
+                anc.list[[character]]<-ace(character_states, tree, type="d", model=model, ...)
+                #Be verbose
+                if(verbose == TRUE) {
+                    message('.', appendLF=FALSE)
+                }
             }
         }
     }
@@ -43,29 +74,29 @@ anc.state_ace<-function(tree, nexus, method, verbose, ...) {
 
             #If all character is only NA
             if(is.na(minval) && is.na(maxval)) {
-                anc.lik<-matrix(c(rep(1,Nnode(tree)), rep(0, Nnode(tree))), ncol=2)
+                lik.anc<-matrix(c(rep(1,Nnode(tree)), rep(0, Nnode(tree))), ncol=2)
                 #column names
-                colnames(anc.lik)<-c(NA, 0)
+                colnames(lik.anc)<-c(NA, 0)
                 #rownames
                 if(length(grep(tree$node.label)) > 0) {
-                    rownames(anc.lik)<-tree$node.label
+                    rownames(lik.anc)<-tree$node.label
                 }
                 #Save the result
-                anc.list[[character]]<-list(anc.lik=anc.lik)
+                anc.list[[character]]<-list(lik.anc=lik.anc)
 
             } else {
                 
                 #Check if character is variable (non-constant)
                 if(maxval == minval) {
-                    anc.lik<-matrix(c(rep(1,Nnode(tree)), rep(0, Nnode(tree))), ncol=2)
+                    lik.anc<-matrix(c(rep(1,Nnode(tree)), rep(0, Nnode(tree))), ncol=2)
                     #column names
-                    colnames(anc.lik)<-rep(minval,2)
+                    colnames(lik.anc)<-rep(minval,2)
                     #rownames
-                    if(length(grep(tree$node.label)) > 0) {
-                        rownames(anc.lik)<-tree$node.label
+                    if(length(tree$node.label) > 0) {
+                        rownames(lik.anc)<-tree$node.label
                     }
                     #Save the result
-                    anc.list[[character]]<-list(anc.lik=anc.lik)
+                    anc.list[[character]]<-list(lik.anc=lik.anc)
 
                 } else {
 
@@ -85,21 +116,12 @@ anc.state_ace<-function(tree, nexus, method, verbose, ...) {
                     } else {
                         chartree<-tree
                     }
-                                        #Get tip values for the pruned tree:
+                    
+                    #Get tip values for the pruned tree:
                     tipvals<-nexus$matrix[chartree$tip.label, character]
                                 
                     #Set discrete character estimation model if unordered and or binary character:
-                    if(maxval - minval == 1 || maxval - minval > 1 && nexus$ordering[character] == "unord") {
-                        mymodel<-"ER"
-                    } else {
-                        #Set discrete character estimation model if ordered multistate character:
-                        #Create all zero matrix:
-                        mymodel<-matrix(0, nrow=(maxval - minval) + 1, ncol=(maxval - minval) + 1)
-                        #Name rows and columns as states:
-                        rownames(mymodel)<-colnames(mymodel)<-minval:maxval    
-                        #Enter one for all the off-diagonal diagonals (an ordered change model):
-                        for(j in 1:(length(mymodel[1, ]) - 1)) mymodel[j + 1, j]<-mymodel[j, j + 1]<-1
-                    }
+                    model<-set.model(nexus, character)
                                 
                     #Create matrix to store probabilities of tip values:
                     tipvals.mat<-matrix(0, nrow=length(tipvals), ncol=maxval - minval + 1)
@@ -122,7 +144,7 @@ anc.state_ace<-function(tree, nexus, method, verbose, ...) {
                         #Get list of each state:
                         states<-strsplit(tipvals[j], "&")[[1]]
                             #Make each state equally probable in tip values matrix:
-                            tipvals.mat[j, states]<-1 / length(states)
+                            tipvals.mat[j, states]<- 1 / length(states)
                         }
                     }
 
@@ -130,8 +152,10 @@ anc.state_ace<-function(tree, nexus, method, verbose, ...) {
                     #Remove any potential node labels on the character tree to avoid an error from rerootingMethod():
                     chartree$node.label<-NULL 
                     #Get likelihoods for each state in taxa and ancestors:
-                    state_likelihoods<-rerootingMethod(chartree, tipvals.mat, model=mymodel, ...)$marginal.anc
-
+                    state_likelihoods<-rerootingMethod(chartree, tipvals.mat, model=model, ...)$marginal.anc
+                    #start testing:
+                    #state_likelihoods<-rerootingMethod(chartree, tipvals.mat, model=model)$marginal.anc ; message("remember to disable testing")
+                    #stop testing.
                     #Selecting only the nodes
                     lik.anc<-state_likelihoods[-c(1:Ntip(chartree)),]
                     #adding the node names (if available)
@@ -185,7 +209,7 @@ anc.state_ace<-function(tree, nexus, method, verbose, ...) {
     
 
     if(verbose == TRUE) {
-        message('Done.', appendLF=FALSE)
+        message('Done.\n', appendLF=FALSE)
     }
     return(anc.list)
 
@@ -195,6 +219,7 @@ anc.state_ace<-function(tree, nexus, method, verbose, ...) {
 anc.state_prob<-function(tree, matrix, anc.state_ace) {
     #Creating the empty matrix
     prob.matrix<-matrix(data=1, ncol=ncol(matrix), nrow=(nrow(matrix)+Nnode(tree)))
+    #Adding rownames if available
     if(!is.null(tree$node.label)) {
         row.names(prob.matrix)<-c(row.names(matrix), tree$node.label)
     } else {
