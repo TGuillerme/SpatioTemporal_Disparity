@@ -1,5 +1,20 @@
 #Script for testing the difference between my anc.state function and Graemes AncStateEstMatrix function
 
+#Setwd
+if(length(grep("TGuillerme", getwd()))) {
+    setwd('~/PhD/Projects/SpatioTemporal_Disparity/Analysis')
+} else {
+    warning("You might have to change the directory!")
+}
+if(length(grep("SpatioTemporal_Disparity/Analysis", getwd()))==0) {
+    if(length(grep("SpatioTemporal_Disparity-master/Analysis", getwd()))==0) {
+        stop("Wrong directory!\nThe current directory must be:\nSpatioTemporal_Disparity/Analysis/ OR SpatioTemporal_Disparity-master/Analysis/\nYou can clone the whole repository from:\nhttps://github.com/TGuillerme/SpatioTemporal_Disparity")
+    }
+}
+
+#Load the functions and the packages
+source("functions.R")
+
 #Dummy data
 set.seed(0)
 table<-matrix(data=sample(c(0,1), 100, replace=TRUE), nrow=10)
@@ -18,17 +33,9 @@ table.nex$ordering<-rep("unord", 10) #unordered
 #weighting
 table.nex$weights<-rep(1, 10) #none
 #max values
-max.vals<-apply(table, 2, max, na.rm=TRUE)
-try(if(grep("&", max.vals)) {
-    max.vals[grep("&", max.vals)]<-strsplit(max.vals[grep("&", max.vals)], split="&")[[1]][2]
-}, silent=TRUE)
-table.nex$max.vals<-as.numeric(max.vals)
+table.nex$max.vals<-apply(table, 2, max)
 #min values
-min.vals<-apply(table, 2, min, na.rm=TRUE)
-try(if(grep("&", min.vals)) {
-    min.vals[grep("&", min.vals)]<-strsplit(min.vals[grep("&", min.vals)], split="&")[[1]][2]
-}, silent=TRUE)
-table.nex$min.vals<-as.numeric(min.vals)
+table.nex$min.vals<-apply(table, 2, min)
 #step.matrices
 table.nex$step.matrices<-NULL
 #symbols
@@ -67,3 +74,82 @@ test_claddis_unc<-anc.unc(test_claddis, 0.95)
 #Now the results are equal !
 all(test_ape_unc[[1]][-c(1:Ntip(tree)),] == test_claddis_unc[[1]][-c(1:Ntip(tree)),])
 #But we have a lot of missing data... But at least we're being conservative
+
+
+#Random NAs (25%)
+set.seed(0)
+data=sample(c(0,1), 100, replace=TRUE)
+set.seed(0)
+data[sample(c(1:100), 25)]<-NA
+table<-matrix(data=data, nrow=10)
+rownames(table)<-tree$tip.label
+table.nex$matrix<-table
+
+#Testing with NAs
+#test_ape<-anc.state(tree, table.nex, method='ML-ape', verbose=TRUE)
+#test_claddis<-anc.state(tree, table.nex, method='ML-claddis', verbose=TRUE)
+
+
+#Running the simulations
+try(result_20t_50c_010na<-testing.ace(20, 50, 0.10, 100) , silent=TRUE)
+try(save(result_20t_50c_010na, file="../Data/ace_test/result_20t_50c_010na.Rda")), silent=TRUE)
+
+try(result_20t_50c_025na<-testing.ace(20, 50, 0.25, 100) , silent=TRUE)
+try(save(result_20t_50c_025na, file="../Data/ace_test/result_20t_50c_025na")), silent=TRUE)
+
+try(result_20t_50c_050na<-testing.ace(20, 50, 0.50, 100) , silent=TRUE)
+try(save(result_20t_50c_050na, file="../Data/ace_test/result_20t_50c_050na")), silent=TRUE)
+
+try(result_20t_100c_010na<-testing.ace(20, 100, 0.10, 100) , silent=TRUE)
+try(save(result_20t_100c_010na, file="../Data/ace_test/result_20t_100c_010na")), silent=TRUE)
+
+try(result_20t_100c_025na<-testing.ace(20, 100, 0.25, 100) , silent=TRUE)
+try(save(result_20t_100c_025na, file="../Data/ace_test/result_20t_100c_025na")), silent=TRUE)
+
+try(result_20t_100c_050na<-testing.ace(20, 100, 0.50, 100) , silent=TRUE)
+try(save(result_20t_100c_050na, file="../Data/ace_test/result_20t_100c_050na")), silent=TRUE)
+
+try(result_20t_200c_010na<-testing.ace(20, 200, 0.10, 100) , silent=TRUE)
+try(save(result_20t_200c_010na, file="../Data/ace_test/result_20t_200c_010na")), silent=TRUE)
+
+try(result_20t_200c_025na<-testing.ace(20, 200, 0.25, 100) , silent=TRUE)
+try(save(result_20t_200c_025na, file="../Data/ace_test/result_20t_200c_025na")), silent=TRUE)
+
+try(result_20t_200c_050na<-testing.ace(20, 200, 0.50, 100) , silent=TRUE)
+try(save(result_20t_200c_050na, file="../Data/ace_test/result_20t_200c_050na")), silent=TRUE)
+
+try(result_50t_100c_010na<-testing.ace(50, 100, 0.10, 100) , silent=TRUE)
+try(save(result_50t_100c_010na, file="../Data/ace_test/result_50t_100c_010na")), silent=TRUE)
+
+try(result_50t_100c_025na<-testing.ace(50, 100, 0.25, 100) , silent=TRUE)
+try(save(result_50t_100c_025na, file="../Data/ace_test/result_50t_100c_025na")), silent=TRUE)
+
+try(result_50t_100c_050na<-testing.ace(50, 100, 0.50, 100) , silent=TRUE)
+try(save(result_50t_100c_050na, file="../Data/ace_test/result_50t_100c_050na")), silent=TRUE)
+
+try(result_50t_200c_010na<-testing.ace(50, 200, 0.10, 100) , silent=TRUE)
+try(save(result_50t_200c_010na, file="../Data/ace_test/result_50t_200c_010na")), silent=TRUE)
+
+try(result_50t_200c_025na<-testing.ace(50, 200, 0.25, 100) , silent=TRUE)
+try(save(result_50t_200c_025na, file="../Data/ace_test/result_50t_200c_025na")), silent=TRUE)
+
+try(result_50t_200c_050na<-testing.ace(20, 200, 0.50, 100) , silent=TRUE)
+try(save(result_50t_200c_050na, file="../Data/ace_test/result_50t_200c_050na")), silent=TRUE)
+
+try(result_100t_200c_010na<-testing.ace(100, 200, 0.10, 100) , silent=TRUE)
+try(save(result_100t_200c_010na, file="../Data/ace_test/result_100t_200c_010na")), silent=TRUE)
+
+try(result_100t_200c_025na<-testing.ace(100, 200, 0.25, 100) , silent=TRUE)
+try(save(result_100t_200c_025na, file="../Data/ace_test/result_100t_200c_025na")), silent=TRUE)
+
+try(result_100t_200c_050na<-testing.ace(100, 200, 0.50, 100) , silent=TRUE)
+try(save(result_100t_200c_050na, file="../Data/ace_test/result_100t_200c_050na")), silent=TRUE)
+
+
+#Plotting the results
+#boxplot(results_list$ape$correct, results_list$ape$error, results_list$ape$na,
+#    results_list$ape95$correct, results_list$ape95$error, results_list$ape95$na,
+#    results_list$claddis$correct, results_list$claddis$error, results_list$claddis$na,
+#    results_list$claddis95$correct, results_list$claddis95$error, results_list$claddis95$na,
+#    names=c("ape-co", "ape-er", "ape-na", "a95-co", "a95-er", "a95-na", "cla-co", "cla-er", "cla-na", "c95-co", "c95-er", "c95-na"),
+#    las=2, col=rep(c("green", "red", "grey"), 4))
