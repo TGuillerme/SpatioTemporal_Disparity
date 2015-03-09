@@ -10,11 +10,19 @@
 ##########################
 #SYNTAX :
 #<tree> a 'phylo' object
-#<nexus> a nexus file list containing the matrix and a list of ordering (use ReadMorphNexus{Claddis} for proper format)
-#<method> the method to use for ancestral state reconstruction ('ML-ape' or 'ML-phytools')
+#<nexus> a nexus file list containing the matrix and a list of ordering (use Claddis::ReadMorphNexus for proper format)
+#<method> the method to use for ancestral state reconstruction ('ML-ape' or 'ML-claddis')
 #<verbose> whether to be verbose or not
-###############################################<...> any optional arguments to be passed to anc.Bayes{phytools} or threshBayes{phytools} functions.
+#<...> any optional arguments to be passed to ape::ace or phytools::rerootingMethod
 ##########################
+#Notes:
+#The fundamental difference between 'ML-ape' and 'ML-claddis' method is the way both functions are dealing with missing data.
+#With 'ML-claddis' method, the missing data is considered as an equal probability of being any of the the character states observable for the character
+#(e.g. for a character with two states 0 and 1, a tip with missing data for that character will be coded as 0 AND 1 with p(0)=0.5 and p(1)=0.5).
+#With 'ML-ape' method, the missing data is considered as an unobserved character state coded as ? where p(?)=1.
+#This allows to be more conservative for estimating the character state of the ancestral node.
+#For example, given two tips t1 and t2 with both having missing data, using the 'ML-claddis' method, the state of their ancestor will be equal to 0 AND 1 with p(0)=0.5 and p(1)=0.5).
+#In the case of the 'ML-ape' method, the ancestor of t1 and t2 state's will be equal to ? with p(?)=1.
 #----
 #guillert(at)tcd.ie 06/03/2015
 ##########################
