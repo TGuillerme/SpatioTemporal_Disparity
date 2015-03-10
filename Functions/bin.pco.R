@@ -150,8 +150,10 @@ bin.pco<-function(pco_data, tree, bins, include.nodes=FALSE, FAD_LAD) {
 
     #If any empty bins
     if(!is.null(empty_bins)) {
-        #NA removal from empty_bins vector
-        empty_bins<-empty_bins[-which(is.na(empty_bins))]
+        #NA removal from empty_bins vector (if any)
+        if(any(is.na(empty_bins))) {
+            empty_bins<-empty_bins[-which(is.na(empty_bins))]
+        }
         #Removing the empty bins
         pco_bins<-pco_bins[c(-empty_bins)]
         #Removing the empty bins names
