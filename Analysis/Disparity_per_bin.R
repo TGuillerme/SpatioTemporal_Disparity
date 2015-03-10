@@ -19,41 +19,72 @@ source("functions.R")
 #Testing with Beck data
 ######################
 
-#Reading in the data
-source("Beck.data.R")
+#After running the Data_setup script, load the different results
+
+######################
+#Tree and matrix
+######################
+
+#Selecting the file
+chain_name<-"Beck2014"
+data_path<-"../Data/"
+file_matrix<-"../Data/2014-Beck-ProcB-matrix-morpho.nex"
+file_tree<-"../Data/2014-Beck-ProcB-TEM.tre"
+
+#matrix
+Nexus_data<-ReadMorphNexus(file_matrix)
+Nexus_matrix<-Nexus_data$matrix
+#tree
+Tree_data<-read.nexus(file_tree)
+
+#Cleaning the matrices and the trees
+#Remove species with only missing data before hand
+if (any(apply(as.matrix(Nexus_matrix), 1, function(x) levels(as.factor((x)))) == "?")) {
+    Nexus_matrix<-Nexus_matrix[-c(as.vector(which(apply(as.matrix(Nexus_matrix), 1, function(x) levels(as.factor(x))) == "?"))),]
+}
+
+#Cleaning the tree and the table
+#making the saving folder
+tree<-clean.tree(Tree_data, Nexus_matrix)
+table<-clean.table(Nexus_matrix, Tree_data)
+Nexus_data$matrix<-table
+
+#Forcing the tree to be binary
+tree<-bin.tree(tree)
+
+#Adding node labels to the tree
+tree$node.label<-paste("n",seq(1:Nnode(tree)), sep="")
+
+######################
+#FADLAD file
+######################
+
 #Load the F/LAD for Beck
-BeckFADLAD<-read.csv("../Data/Beck_FADLAD.csv", row.names=1)
+FADLAD<-read.csv("../Data/Beck_FADLAD.csv", row.names=1)
 
+######################
+#Ancestral states reconstruction files
+######################
 
-#Renaming the Beck nexus file to match with the rest of the workshop
-nexus.data <- Beck.nex
+load(paste(data_path, chain_name, "/Beck2014_ancestral_states-claddis.Rda", sep="")) #anc_states
 
-#Include ancestral states
-#matrix<-anc.matrix.save$state
-#matrix<-ifelse(matrix == '?', NA, matrix)
-#nexus.data$matrix<-matrix
+######################
+#Distance matrices
+######################
 
-#Safe Taxonomic Reduction (Wilkinson 1995; Systematic Biology).
-#Removes taxa we know (under parsimony) can only fall out in particular place(s) in the tree.
-#safe.data <- SafeTaxonomicReduction(nexus.data)
-#save(safe.data, file="../Data/2014-Beck-reduced_tax_matrix2.Rda")
-#load("../Data/2014-Beck-reduced_tax_matrix2.Rda")
+load(paste(data_path, chain_name, "/Beck2014_distance-tips.Rda", sep="")) #dist_tips
+load(paste(data_path, chain_name, "/Beck2014_distance-nodes.Rda", sep="")) #dist_nodes
+load(paste(data_path, chain_name, "/Beck2014_distance-nodes95.Rda", sep="")) #dist_nodes95
 
-#Distance matrix
-#Detail on the metrics: http://www.slideshare.net/graemelloyd/new-methodologies-for-the-use-of-cladistictype-matrices-to-measure-morphological-disparity-and-evolutionary-rate
-#dist.data <- MorphDistMatrix(nexus.data)
-#save(dist.data, file="../Data/2014-Beck-dist_matrices2.Rda")
-load("../Data/2014-Beck-dist_matrices2.Rda") #dist.data
-
-#Performs MDS on the GED matrix.
-#warning("MDS on the GED matrix which 'cheats' by filling in those missing character distances.")
-#cmdscale(dist.data$GED.dist.matrix)
+dist.data<-dist_nodes95
+include_nodes<-TRUE
 
 #Remove the unaplicable characters
 trimmed.max.data <-TrimMorphDistMatrix(dist.data$max.dist.matrix)
 
 # We can see what taxa have been removed by typing:
 trimmed.max.data$removed.taxa
+
 # Remove the droped taxa from the tree
 tree<-drop.tip(tree, trimmed.max.data$removed.taxa)
 
@@ -70,7 +101,6 @@ any(is.na(trimmed.max.data$dist.matrix))
 # We can specify these options fairly easily and store our answer in a new variable (pco.data) and this time we will just part of the output ($points) which are the values for our taxa on every ordination axis:
 pco.data <- cmdscale(trimmed.max.data$dist.matrix, k=nrow(trimmed.max.data$dist.matrix) - 1, add=T)$points
 
-
 ######################
 #Plot the tree
 ######################
@@ -82,8 +112,7 @@ tree.data<-tree
 ages.data<-tree.age(tree.data)
 tree.data$root.time<-max(ages.data[,1])
 #Plot the tree
-geoscalePhylo(ladderize(tree.data), cex.age=0.6, cex.ts=0.8, cex.tip=1)
-par(op)
+geoscalePhylo(ladderize(tree.data), cex.age=0.6, cex.ts=0.8, cex.tip=0.5)
 
 ######################
 #Disparity
@@ -95,20 +124,20 @@ par(op)
 #Making bins
 bins_breaks<-rev(hist(ages.data[,1])$breaks)+5
 bins_breaks[10]<-0
-pco_binned<-bin.pco(pco.data, tree.data, bins_breaks, include.nodes=TRUE, FAD_LAD=BeckFADLAD)
+pco_binned<-bin.pco(pco.data, tree.data, bins_breaks, include.nodes=include_nodes, FAD_LAD=FADLAD)
 #Calculating the disparity per bins
 disparity_binned_table<-bin.disparity(pco_binned, verbose=TRUE)
 
 dev.new()
 op<-par(mfrow=c(3,2))
-plot.disparity(disparity_binned_table, rarefaction=FALSE, xlab="bins (Mya)", ylab="Distance from centroid", measure="Cent.dist")
+plot.disparity(disparity_binned_table, rarefaction=FALSE, xlab="", ylab="Distance from centroid", measure="Cent.dist")
 abline(v=c(5.5), col="red")
-plot.disparity(disparity_binned_table, rarefaction=FALSE, xlab="bins (Mya)", ylab="Sum of ranges", measure="Sum.range")
+plot.disparity(disparity_binned_table, rarefaction=FALSE, xlab="", ylab="Sum of ranges", measure="Sum.range")
 abline(v=c(5.5), col="red")
-plot.disparity(disparity_binned_table, rarefaction=FALSE, xlab="bins (Mya)", ylab="Sum of variance", measure="Sum.var")
+plot.disparity(disparity_binned_table, rarefaction=FALSE, xlab="", ylab="Sum of variance", measure="Sum.var")
 abline(v=c(5.5), col="red")
-plot.disparity(disparity_binned_table, rarefaction=FALSE, xlab="bins (Mya)", ylab="Product of ranges", measure="Prod.range")
+plot.disparity(disparity_binned_table, rarefaction=FALSE, xlab="", ylab="Product of ranges", measure="Prod.range")
 abline(v=c(5.5), col="red")
-plot.disparity(disparity_binned_table, rarefaction=FALSE, xlab="bins (Mya)", ylab="Product of variance", measure="Prod.var")
+plot.disparity(disparity_binned_table, rarefaction=FALSE, xlab="", ylab="Product of variance", measure="Prod.var")
 abline(v=c(5.5), col="red")
 par(op)
