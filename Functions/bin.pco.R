@@ -8,7 +8,7 @@
 #<pco_data> the pco data to split in bins.
 #<tree> a 'phylo' object. The tree must be dated.
 #<bins> a series of bins breaks limits.
-#<FAD_LAD> a data.frame containing the first and last apparition datums. If none is provided, or if taxa are missing, taxa are assumed to have the same FOD and LOD
+#<FAD_LAD> a data.frame containing the first and last apparition datums. If none is provided, or if taxa are missing, taxa are assumed to have the same FAD and LAD.
 #<include.nodes> logical, whether to include nodes or not in the bins. default = FALSE. If TRUE, the nodes must be the same name in the pco_data and in the tree.
 ##########################
 #----

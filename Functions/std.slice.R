@@ -2,10 +2,11 @@
 #pco.slice
 ##########################
 #Generates a pco.slice list containing pco.scores through time and taxonomic information
-#Modyfied timeSliceTree function from Davd Bapst (paleotrree)
-#v0.4
+#Modyfied paleotree::timeSliceTree function
+#v1.0
 #Update: added RATES method
 #Update: changed the RATES method into PROXIMITY
+
 ##########################
 #SYNTAX :
 #<tree> a 'phylo' object
