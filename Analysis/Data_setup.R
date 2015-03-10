@@ -70,7 +70,7 @@ system(paste("mkdir ",data_path, chain_name, sep=""))
 #} else {
     anc_states<-anc.state(tree, Nexus_data, method='ML-claddis', verbose=TRUE)
     save(anc_states, file=paste(data_path, chain_name, "/",chain_name,"_ancestral_states-claddis.Rda", sep=""))
-    #load(paste("../Data/",chain_name,"_ancestral_states-claddis.Rda", sep="")) #anc_states
+    #load(paste(data_path, chain_name, "/",chain_name,"_ancestral_states-claddis.Rda", sep="")) #anc_states
 #}
 
 ####################################
@@ -98,7 +98,7 @@ matrix_nodes95$matrix<-anc.unc(anc_states, 0.95, missing=NA)$state
 message("\nCalculating the distance matrix for the tips and the nodes with a 95 CI...", appendLF=FALSE)
 dist_nodes95<-MorphDistMatrix(matrix_nodes95)
 message("Done.\n", appendLF=FALSE)
-save(dist_nodes, file=paste(data_path, chain_name, "/",chain_name,"_distance-nodes95.Rda", sep="")) #dist_nodes95
+save(dist_nodes95, file=paste(data_path, chain_name, "/",chain_name,"_distance-nodes95.Rda", sep="")) #dist_nodes95
 
 
 #dist.data <- MorphDistMatrix(nexus.data)
