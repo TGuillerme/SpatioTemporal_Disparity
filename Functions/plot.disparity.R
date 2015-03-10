@@ -13,7 +13,7 @@
 #guillert(at)tcd.ie 03/03/2015
 ##########################
 
-plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, xlab="default", ylab="default", col="default", ...){
+plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, xlab="default", ylab="default", col="default", las=2, ...){
     #SANITIZING
     #Disparity
     check.class(disparity_data, 'data.frame', " must be a disparity data.frame")
@@ -126,7 +126,7 @@ plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, x
             plot(seq(from=1, to=nrow(disparity_data)), disparity_data[,measure_col], type='l', 
                 ylim=c(min(disparity_data[,CI_min]),max(disparity_data[,CI_max])) ,col="white", ylab=ylab, xlab=xlab, xaxt='n' , ...)
             if(class(disparity_data[,1]) == "character") {
-                axis(side = 1, 1:nrow(disparity_data), disparity_data[,1], las=2)
+                axis(side = 1, 1:nrow(disparity_data), disparity_data[,1], las=las)
             } else {
                 axis(side = 1, 1:nrow(disparity_data))
             }
