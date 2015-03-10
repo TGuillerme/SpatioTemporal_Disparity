@@ -66,6 +66,7 @@ slice.tree<-function(tree, age, method, FAD, LAD) {
     suppressMessages(
         tree_slice<-timeSliceTree(tree, age, drop.extinct=TRUE, plot=FALSE)
     )
+
     #Error with trees with two taxa
     if(Ntip(tree_slice) < 3) {
         stop('To few taxa for the tree slice at age ', age, '!')

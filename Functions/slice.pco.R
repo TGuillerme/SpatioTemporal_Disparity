@@ -10,6 +10,7 @@
 #<slices> slices ages. Can be either a single value (for a single slice) or a series of values (for multiple slices)
 #<method> the slicing method (what becomes of the sliced branches): can be 'random' (default), 'acctran', 'deltran' or 'proximity'.
 #<FAD_LAD> a data.frame containing the first and last apparition datums. If none is provided, or if taxa are missing, taxa are assumed to have the same FAD and LAD.
+#<verbose> whether to be verbose or not.
 ##########################
 #Method details: the slicing methods are the method of the edge to chose when cutting through a branch. At any point of the branch cut, the different method picks either the data of the parent node or one of the offspring node or tip.
 #random: randomly chose between parent and offspring (default);
@@ -20,7 +21,7 @@
 #guillert(at)tcd.ie 10/03/2015
 ##########################
 
-slice.pco<-function(pco_data, tree, slices, method="random", FAD_LAD) {
+slice.pco<-function(pco_data, tree, slices, method="random", FAD_LAD, verbose=FALSE) {
 
     #SANITIZING
 
@@ -70,6 +71,9 @@ slice.pco<-function(pco_data, tree, slices, method="random", FAD_LAD) {
         }
     }
 
+    #verbose
+    check.class(verbose, 'logical', ' must be logical.')
+
     #SLICING THE TREE
     #Number of slices
     n_slices<-length(slices)
@@ -93,15 +97,38 @@ slice.pco<-function(pco_data, tree, slices, method="random", FAD_LAD) {
     slice_list<-NULL
     slice_list<-list()
 
+    #verbose
+    if(verbose == TRUE) {
+        message("Creating ", n_slices, " slices through the tree:",appendLF=FALSE)
+    }
+
     for (slice in 1:n_slices) {
-        #subtree
-        sub_tree<-slice.tree(tree, slices[slice], method, FAD=ages_tree_FAD, LAD=ages_tree_LAD)
+
+        #Don't slice the tree if slice=0, simply drop tips
+        if(slices[slice]==0) {
+            #Select the tips to drop
+            taxa_to_drop<-ages_tree_LAD[which(ages_tree_LAD[1:Ntip(tree),1]!=0),2]
+            #drop the tips
+            sub_tree<-drop.tip(tree, tip=as.character(taxa_to_drop))
+        }  else {
+            #subtree
+            sub_tree<-slice.tree(tree, slices[slice], method, FAD=ages_tree_FAD, LAD=ages_tree_LAD)
+        }
         #subtaxa list
         sub_taxa<-sub_tree$tip.label
         #subpco scores
         sub_pco<-pco_data[sub_taxa,]
         #storing the results
         slice_list[[slice]]<-sub_pco
+        #verbose
+        if(verbose == TRUE) {
+            message(".",appendLF=FALSE)
+        }
+    }
+
+    #verbose
+    if(verbose == TRUE) {
+        message("Done.\n",appendLF=FALSE)
     }
 
     #naming the slices
