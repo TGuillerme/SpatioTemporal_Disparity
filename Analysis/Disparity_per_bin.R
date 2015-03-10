@@ -54,6 +54,9 @@ tree<-bin.tree(tree)
 
 #Adding node labels to the tree
 tree$node.label<-paste("n",seq(1:Nnode(tree)), sep="")
+#Setting the tree root age
+ages_data<-tree.age(tree)
+tree$root.time<-max(ages.data[,1])
 
 ######################
 #FADLAD file
@@ -80,26 +83,20 @@ dist.data<-dist_nodes95
 include_nodes<-TRUE
 
 #Remove the unaplicable characters
-trimmed.max.data <-TrimMorphDistMatrix(dist.data$max.dist.matrix)
-
-# We can see what taxa have been removed by typing:
+trimmed.max.data<-TrimMorphDistMatrix(dist.data$max.dist.matrix)
+#We can see what taxa have been removed by typing:
 trimmed.max.data$removed.taxa
-
-# Remove the droped taxa from the tree
+#Remove the droped taxa from the tree
 tree<-drop.tip(tree, trimmed.max.data$removed.taxa)
-
 #Check gaps in the matrix
 any(is.na(trimmed.max.data$dist.matrix))
 
 #PCO
 
-#Performs MDS on the MOD matrix
-#cmdscale(trimmed.max.data$dist.matrix)
-
 # We can maximise our axes by upping the value "k" (an option in the function) to N - 1 (the maximum number of axes for N objects, i.e., N taxa).
 # In addition we want to use another option in the function (add) which gets around the negative eigenvalue problem that can cause downstream problems (e.g., a scree plot with negative values).
 # We can specify these options fairly easily and store our answer in a new variable (pco.data) and this time we will just part of the output ($points) which are the values for our taxa on every ordination axis:
-pco.data <- cmdscale(trimmed.max.data$dist.matrix, k=nrow(trimmed.max.data$dist.matrix) - 1, add=T)$points
+pco.data<-cmdscale(trimmed.max.data$dist.matrix, k=nrow(trimmed.max.data$dist.matrix) - 1, add=T)$points
 
 ######################
 #Plot the tree
