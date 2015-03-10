@@ -92,64 +92,65 @@ table.nex$matrix<-table
 
 #Running the simulations
 try(result_20t_50c_010na<-testing.ace(20, 50, 0.10, 100) , silent=TRUE)
-try(save(result_20t_50c_010na, file="../Data/ace_test/result_20t_50c_010na.Rda")), silent=TRUE)
+try(save(result_20t_50c_010na, file="../Data/ace_test/result_20t_50c_010na.Rda"), silent=TRUE)
 
 try(result_20t_50c_025na<-testing.ace(20, 50, 0.25, 100) , silent=TRUE)
-try(save(result_20t_50c_025na, file="../Data/ace_test/result_20t_50c_025na")), silent=TRUE)
+try(save(result_20t_50c_025na, file="../Data/ace_test/result_20t_50c_025na.Rda"), silent=TRUE)
 
 try(result_20t_50c_050na<-testing.ace(20, 50, 0.50, 100) , silent=TRUE)
-try(save(result_20t_50c_050na, file="../Data/ace_test/result_20t_50c_050na")), silent=TRUE)
+try(save(result_20t_50c_050na, file="../Data/ace_test/result_20t_50c_050na.Rda"), silent=TRUE)
 
 try(result_20t_100c_010na<-testing.ace(20, 100, 0.10, 100) , silent=TRUE)
-try(save(result_20t_100c_010na, file="../Data/ace_test/result_20t_100c_010na")), silent=TRUE)
+try(save(result_20t_100c_010na, file="../Data/ace_test/result_20t_100c_010na.Rda"), silent=TRUE)
 
 try(result_20t_100c_025na<-testing.ace(20, 100, 0.25, 100) , silent=TRUE)
-try(save(result_20t_100c_025na, file="../Data/ace_test/result_20t_100c_025na")), silent=TRUE)
+try(save(result_20t_100c_025na, file="../Data/ace_test/result_20t_100c_025na.Rda"), silent=TRUE)
 
 try(result_20t_100c_050na<-testing.ace(20, 100, 0.50, 100) , silent=TRUE)
-try(save(result_20t_100c_050na, file="../Data/ace_test/result_20t_100c_050na")), silent=TRUE)
+try(save(result_20t_100c_050na, file="../Data/ace_test/result_20t_100c_050na.Rda"), silent=TRUE)
 
 try(result_20t_200c_010na<-testing.ace(20, 200, 0.10, 100) , silent=TRUE)
-try(save(result_20t_200c_010na, file="../Data/ace_test/result_20t_200c_010na")), silent=TRUE)
+try(save(result_20t_200c_010na, file="../Data/ace_test/result_20t_200c_010na.Rda"), silent=TRUE)
 
 try(result_20t_200c_025na<-testing.ace(20, 200, 0.25, 100) , silent=TRUE)
-try(save(result_20t_200c_025na, file="../Data/ace_test/result_20t_200c_025na")), silent=TRUE)
+try(save(result_20t_200c_025na, file="../Data/ace_test/result_20t_200c_025na.Rda"), silent=TRUE)
 
 try(result_20t_200c_050na<-testing.ace(20, 200, 0.50, 100) , silent=TRUE)
-try(save(result_20t_200c_050na, file="../Data/ace_test/result_20t_200c_050na")), silent=TRUE)
+try(save(result_20t_200c_050na, file="../Data/ace_test/result_20t_200c_050na.Rda"), silent=TRUE)
 
 try(result_50t_100c_010na<-testing.ace(50, 100, 0.10, 100) , silent=TRUE)
-try(save(result_50t_100c_010na, file="../Data/ace_test/result_50t_100c_010na")), silent=TRUE)
+try(save(result_50t_100c_010na, file="../Data/ace_test/result_50t_100c_010na.Rda"), silent=TRUE)
 
 try(result_50t_100c_025na<-testing.ace(50, 100, 0.25, 100) , silent=TRUE)
-try(save(result_50t_100c_025na, file="../Data/ace_test/result_50t_100c_025na")), silent=TRUE)
+try(save(result_50t_100c_025na, file="../Data/ace_test/result_50t_100c_025na.Rda"), silent=TRUE)
 
 try(result_50t_100c_050na<-testing.ace(50, 100, 0.50, 100) , silent=TRUE)
-try(save(result_50t_100c_050na, file="../Data/ace_test/result_50t_100c_050na")), silent=TRUE)
+try(save(result_50t_100c_050na, file="../Data/ace_test/result_50t_100c_050na.Rda"), silent=TRUE)
 
 try(result_50t_200c_010na<-testing.ace(50, 200, 0.10, 100) , silent=TRUE)
-try(save(result_50t_200c_010na, file="../Data/ace_test/result_50t_200c_010na")), silent=TRUE)
+try(save(result_50t_200c_010na, file="../Data/ace_test/result_50t_200c_010na.Rda"), silent=TRUE)
 
 try(result_50t_200c_025na<-testing.ace(50, 200, 0.25, 100) , silent=TRUE)
-try(save(result_50t_200c_025na, file="../Data/ace_test/result_50t_200c_025na")), silent=TRUE)
+try(save(result_50t_200c_025na, file="../Data/ace_test/result_50t_200c_025na.Rda"), silent=TRUE)
 
 try(result_50t_200c_050na<-testing.ace(20, 200, 0.50, 100) , silent=TRUE)
-try(save(result_50t_200c_050na, file="../Data/ace_test/result_50t_200c_050na")), silent=TRUE)
+try(save(result_50t_200c_050na, file="../Data/ace_test/result_50t_200c_050na.Rda"), silent=TRUE)
 
 try(result_100t_200c_010na<-testing.ace(100, 200, 0.10, 100) , silent=TRUE)
-try(save(result_100t_200c_010na, file="../Data/ace_test/result_100t_200c_010na")), silent=TRUE)
+try(save(result_100t_200c_010na, file="../Data/ace_test/result_100t_200c_010na.Rda"), silent=TRUE)
 
 try(result_100t_200c_025na<-testing.ace(100, 200, 0.25, 100) , silent=TRUE)
-try(save(result_100t_200c_025na, file="../Data/ace_test/result_100t_200c_025na")), silent=TRUE)
+try(save(result_100t_200c_025na, file="../Data/ace_test/result_100t_200c_025na.Rda"), silent=TRUE)
 
 try(result_100t_200c_050na<-testing.ace(100, 200, 0.50, 100) , silent=TRUE)
-try(save(result_100t_200c_050na, file="../Data/ace_test/result_100t_200c_050na")), silent=TRUE)
-
+try(save(result_100t_200c_050na, file="../Data/ace_test/result_100t_200c_050na.Rda"), silent=TRUE)
 
 #Plotting the results
-#boxplot(results_list$ape$correct, results_list$ape$error, results_list$ape$na,
-#    results_list$ape95$correct, results_list$ape95$error, results_list$ape95$na,
-#    results_list$claddis$correct, results_list$claddis$error, results_list$claddis$na,
-#    results_list$claddis95$correct, results_list$claddis95$error, results_list$claddis95$na,
-#    names=c("ape-co", "ape-er", "ape-na", "a95-co", "a95-er", "a95-na", "cla-co", "cla-er", "cla-na", "c95-co", "c95-er", "c95-na"),
-#    las=2, col=rep(c("green", "red", "grey"), 4))
+load("../Data/ace_test/result_50t_100c_010na.Rda")
+results_list<-result_50t_100c_010na
+boxplot(results_list$ape$correct, results_list$ape$error, results_list$ape$na,
+    results_list$ape95$correct, results_list$ape95$error, results_list$ape95$na,
+    results_list$claddis$correct, results_list$claddis$error, results_list$claddis$na,
+    results_list$claddis95$correct, results_list$claddis95$error, results_list$claddis95$na,
+    names=c("ape-co", "ape-er", "ape-na", "a95-co", "a95-er", "a95-na", "cla-co", "cla-er", "cla-na", "c95-co", "c95-er", "c95-na"),
+    las=2, col=rep(c("green", "red", "grey"), 4))

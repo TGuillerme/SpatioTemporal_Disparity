@@ -24,9 +24,9 @@
 
         #Set rarefaction (or not)
         if(rarefaction == TRUE) {
-            rarefaction_max<-seq(1:ncol(data))
+            rarefaction_max<-seq(1:nrow(data))
         } else {
-            rarefaction_max<-ncol(data)
+            rarefaction_max<-nrow(data)
         }
         #Rarefaction
         result<-NULL
