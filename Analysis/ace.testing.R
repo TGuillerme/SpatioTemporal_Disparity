@@ -146,8 +146,8 @@ try(result_100t_200c_050na<-testing.ace(100, 200, 0.50, 100) , silent=TRUE)
 try(save(result_100t_200c_050na, file="../Data/ace_test/result_100t_200c_050na.Rda"), silent=TRUE)
 
 #Plotting the results
-load("../Data/ace_test/result_50t_100c_010na.Rda")
-results_list<-result_50t_100c_010na
+load("../Data/ace_test/result_100t_200c_010na.Rda")
+results_list<-result_100t_200c_010na
 boxplot(results_list$ape$correct, results_list$ape$error, results_list$ape$na,
     results_list$ape95$correct, results_list$ape95$error, results_list$ape95$na,
     results_list$claddis$correct, results_list$claddis$error, results_list$claddis$na,
