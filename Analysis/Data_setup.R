@@ -20,10 +20,10 @@ source("functions.R")
 ###################
 
 #Selecting the file
-chain_name<-"Beck2014"
+chain_name<-"Slater2013" #"Beck2014"
 data_path<-"../Data/"
-file_matrix<-"../Data/2014-Beck-ProcB-matrix-morpho.nex"
-file_tree<-"../Data/2014-Beck-ProcB-TEM.tre"
+file_matrix<-"../Data/2013-Slater-MEE-matrix-morpho.nex" #2014-Beck-ProcB-matrix-morpho.nex
+file_tree<-"../Data/2013-Slater-MEE-TEM.tre" #2014-Beck-ProcB-TEM.tre
 
 #matrix
 Nexus_data<-ReadMorphNexus(file_matrix)
@@ -60,18 +60,11 @@ system(paste("mkdir ",data_path, chain_name, sep=""))
 #Ancestral states reconstruction
 ####################################
 
-#WARNING: problem with NAs and ML-ape
+#anc_states<-anc.state(tree, Nexus_data, method='ML-ape', verbose=TRUE)
+#save(anc_states, file=paste("../Data/",chain_name,"_ancestral_states-ape.Rda", sep=""))
 
-#if(all(Nexus_data$ordering == "unord")) {
-    #If no ordered characters
-#    anc_states<-anc.state(tree, Nexus_data, method='ML-ape', verbose=TRUE)
-#    save(anc_states, file=paste("../Data/",chain_name,"_ancestral_states-ape.Rda", sep=""))
-    #load(paste("../Data/",chain_name,"_ancestral_states-ape.Rda", sep="")) #anc_states
-#} else {
-    anc_states<-anc.state(tree, Nexus_data, method='ML-claddis', verbose=TRUE)
-    save(anc_states, file=paste(data_path, chain_name, "/",chain_name,"_ancestral_states-claddis.Rda", sep=""))
-    #load(paste(data_path, chain_name, "/",chain_name,"_ancestral_states-claddis.Rda", sep="")) #anc_states
-#}
+anc_states<-anc.state(tree, Nexus_data, method='ML-claddis', verbose=TRUE)
+save(anc_states, file=paste(data_path, chain_name, "/",chain_name,"_ancestral_states-claddis.Rda", sep=""))
 
 ####################################
 #Distance matrix
