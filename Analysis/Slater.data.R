@@ -3,7 +3,7 @@
 #Isolate the morphological data from the raw Slater matrix (UNIX!)
 system("
     #Changing the matrix dimension
-    sed 's/DIMENSIONS NTAX=246 NCHAR=36049;/DIMENSIONS NTAX=246 NCHAR=445;/' ../Data/2013-Slater-MEE-matrix-raw.nex |
+    sed 's/DIMENSIONS NTAX=246 NCHAR=36049;/DIMENSIONS NTAX=246 NCHAR=446;/' ../Data/2013-Slater-MEE-matrix-raw.nex |
     #Changing the matrix type
     sed 's/datatype=mixed(dna:1-35603,standard:35604-36049)/datatype=standard/' |
     #removing the phylogenetic analysis
