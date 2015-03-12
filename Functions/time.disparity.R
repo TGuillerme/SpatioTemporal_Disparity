@@ -1,5 +1,5 @@
 ##########################
-#bin.disparity
+#time.disparity
 ##########################
 #Calculates the disparity for binned pco.data and output a bin.disparity table object
 #v0.1
@@ -12,7 +12,7 @@
 #guillert(at)tcd.ie 06/03/2014
 ##########################
 
-bin.disparity<-function(pco_binned, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE) {
+time.disparity<-function(pco_binned, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE) {
     #SANITIZING
     #pco_binned
     check.class(pco_binned, "list", " must be a list of binned pco data.")
