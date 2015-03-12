@@ -123,6 +123,7 @@ plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, x
             }
 
             #Plotting the curve
+            op<-par(oma=c(0.1,0.1,0.1,0.1))
             plot(seq(from=1, to=nrow(disparity_data)), disparity_data[,measure_col], type='l', 
                 ylim=c(min(disparity_data[,CI_min]),max(disparity_data[,CI_max])) ,col="white", ylab=ylab, xlab=xlab, xaxt='n' , ...)
             if(class(disparity_data[,1]) == "character") {
@@ -138,6 +139,7 @@ plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, x
             }
             #Add the central tendency line
             lines(seq(from=1, to=nrow(disparity_data)), disparity_data[,measure_col], type='l', ylim=c(min(disparity_data[,CI_min]),max(disparity_data[,CI_max], col=line_color)))
+            par<-op
         }
     }
 }

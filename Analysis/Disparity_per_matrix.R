@@ -38,7 +38,7 @@ int_breaks<-rev(hist(ages_data[,1])$breaks)+5
 int_breaks[10]<-0
 slices<-rev(seq(from=0, to=150, by=10))
 KT_bin=5.5
-KT_sli=5.5
+KT_sli=9.5
 
 ######################
 #Tree and matrix
@@ -145,7 +145,7 @@ pco_slices_nodes95<-list()
 for (type in 1:length(methods)) {
     pco_slices_nodes95[[type]]<-slice.pco(pco_data_nodes95, tree_nodes95, slices, method=methods[[type]], FAD_LAD=FADLAD, verbose=TRUE)
 }
-names(pco_slices_nodes)<-paste(methods, "95", sep="")
+names(pco_slices_nodes95)<-paste(methods, "95", sep="")
 
 #Calculating the disparity per interval per list
 #nodes
@@ -167,9 +167,9 @@ names(disp_slices_nodes95)<-names(pco_slices_nodes95)
 ######################
 
 #The following is a "BIG" plot of 
-quartz(width = 8.3, height = 5.8) #A5 landscape
+quartz(width = 22.4, height = 15.6) #A5 landscape
 #Windows dimensions
-op<-par(mfrow=c(5, 11), bty="l", oma=c(0,0,0,0))
+op<-par(mfrow=c(5, 11), bty="l", oma=c(0.1,0.1,0.1,0.1))# c(bottom, left, top, right)
 #Centroid
 plot.disparity(disp_int_tips, rarefaction=FALSE, xlab="", ylab="Distance from centroid", measure="Cent.dist", main="Intervals: tips")
 abline(v= KT_bin, col="red")
