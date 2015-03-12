@@ -1,7 +1,7 @@
 ##########################
 #int.pco
 ##########################
-#Select the number of taxa per bin.
+#Select the number of taxa per intervals
 #v0.2
 ##########################
 #SYNTAX :
@@ -101,56 +101,56 @@ int.pco<-function(pco_data, tree, intervals, include.nodes=FALSE, FAD_LAD) {
         }
     }
 
-    #Empty list element per bin
+    #Empty list element per interval
     int_elements<-NULL
     int_elements<-list()
 
-    #Attribute each taxa/node to it's bin
+    #Attribute each taxa/node to it's interval
     for (interval in 1:(length(intervals)-1)) {
-        #Select the elements of one bin
-        int_elements[[bin]]<-ages_tree_FAD$edges[which(ages_tree_FAD$ages >= intervals[bin+1] & ages_tree_LAD$ages <= intervals[bin])]
+        #Select the elements of one interval
+        int_elements[[interval]]<-ages_tree_FAD$edges[which(ages_tree_FAD$ages >= intervals[interval+1] & ages_tree_LAD$ages <= intervals[interval])]
     }
     
     #Remove the nodes (if necessary)
     if(include.nodes==FALSE) {
         for (interval in 1:length(int_elements)) {
         #Remove nomatch with tree$tip.label
-            int_elements[[bin]]<-int_elements[[bin]][match(tree$tip.label, int_elements[[bin]])[-which(is.na(match(tree$tip.label, int_elements[[bin]])))]]
+            int_elements[[interval]]<-int_elements[[interval]][match(tree$tip.label, int_elements[[interval]])[-which(is.na(match(tree$tip.label, int_elements[[interval]])))]]
         }
     }
 
-    #Making the pco binned list
+    #Making the pco interval list
     pco_intervals<-NULL
     pco_intervals<-list()
 
     for (interval in 1:length(int_elements)) {
         #Matching list
-        matching<-match(as.character(int_elements[[bin]]),as.character(rownames(pco_data)))
+        matching<-match(as.character(int_elements[[interval]]),as.character(rownames(pco_data)))
         #If only one taxa is matching, make sure it's not a vector
         if(length(matching) == 1) {
-            pco_intervals[[bin]]<-matrix(data=pco_data[matching,], nrow=1)
-            rownames(pco_intervals[[bin]])<-rownames(pco_data)[matching]
+            pco_intervals[[interval]]<-matrix(data=pco_data[matching,], nrow=1)
+            rownames(pco_intervals[[interval]])<-rownames(pco_data)[matching]
         } else {
-            pco_intervals[[bin]]<-pco_data[matching,]
+            pco_intervals[[interval]]<-pco_data[matching,]
         }
     }
 
     #Naming the intervals
     name_list<-NULL
     for(interval in 1:length(int_elements)) {
-        name_list[bin]<-paste(intervals[bin], intervals[bin+1], sep="-")
+        name_list[interval]<-paste(intervals[interval], intervals[interval+1], sep="-")
     }
     
-    #If interval is empty, send warning and delete the bin
+    #If interval is empty, send warning and delete the interval
     #list of empty intervals (empty)
     empty_intervals<-NULL
     for (interval in 1:length(pco_intervals)) {
-        if(length(pco_intervals[[bin]]) == 0) {
-            #Remove the bin
-            empty_intervals[bin]<-bin
-            #Select the empty bin
-            empty_bin<-paste(intervals[bin], intervals[bin+1], sep="-")
-            message("The following interval is empty: ", empty_bin, ".")
+        if(length(pco_intervals[[interval]]) == 0) {
+            #Remove the interval
+            empty_intervals[interval]<-interval
+            #Select the empty interval
+            empty_interval<-paste(intervals[interval], intervals[interval+1], sep="-")
+            message("The following interval is empty: ", empty_interval, ".")
         }
     }
 
