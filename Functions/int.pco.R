@@ -40,11 +40,11 @@ int.pco<-function(pco_data, tree, intervals, include.nodes=FALSE, FAD_LAD) {
     if(missing(FAD_LAD)) {
         #Create the FAD_LAD table
         FAD_LAD<-data.frame("FAD"=tree.age(tree)[1:Ntip(tree),1], "LAD"=tree.age(tree)[1:Ntip(tree),1], row.names=tree.age(tree)[1:Ntip(tree),2])
-        message("No FAD_LAD table has been provided so every tip is assumed to bin single points in time.")
+        message("No FAD_LAD table has been provided so every tip is assumed to interval single points in time.")
     } else {
         #Check if the FAD_LAD contains all taxa
         if(any(tree$tip.label %in% rownames(FAD_LAD) == FALSE)) {
-            message("Some tips have FAD/LAD and are assumed to bin single points in time.")
+            message("Some tips have FAD/LAD and are assumed to interval single points in time.")
             #If not generate the FAD_LAD for the missing taxa
             missing_FADLAD<-which(is.na(match(tree$tip.label, rownames(FAD_LAD))))
             add_FAD_LAD<-data.frame(tree.age(tree)[missing_FADLAD,1], tree.age(tree)[missing_FADLAD,1], row.names=tree.age(tree)[missing_FADLAD,2])
@@ -102,20 +102,20 @@ int.pco<-function(pco_data, tree, intervals, include.nodes=FALSE, FAD_LAD) {
     }
 
     #Empty list element per bin
-    bin_elements<-NULL
-    bin_elements<-list()
+    int_elements<-NULL
+    int_elements<-list()
 
     #Attribute each taxa/node to it's bin
-    for (bin in 1:(length(intervals)-1)) {
+    for (interval in 1:(length(intervals)-1)) {
         #Select the elements of one bin
-        bin_elements[[bin]]<-ages_tree_FAD$edges[which(ages_tree_FAD$ages >= intervals[bin+1] & ages_tree_LAD$ages <= intervals[bin])]
+        int_elements[[bin]]<-ages_tree_FAD$edges[which(ages_tree_FAD$ages >= intervals[bin+1] & ages_tree_LAD$ages <= intervals[bin])]
     }
     
     #Remove the nodes (if necessary)
     if(include.nodes==FALSE) {
-        for (bin in 1:length(bin_elements)) {
+        for (interval in 1:length(int_elements)) {
         #Remove nomatch with tree$tip.label
-            bin_elements[[bin]]<-bin_elements[[bin]][match(tree$tip.label, bin_elements[[bin]])[-which(is.na(match(tree$tip.label, bin_elements[[bin]])))]]
+            int_elements[[bin]]<-int_elements[[bin]][match(tree$tip.label, int_elements[[bin]])[-which(is.na(match(tree$tip.label, int_elements[[bin]])))]]
         }
     }
 
@@ -123,9 +123,9 @@ int.pco<-function(pco_data, tree, intervals, include.nodes=FALSE, FAD_LAD) {
     pco_intervals<-NULL
     pco_intervals<-list()
 
-    for (bin in 1:length(bin_elements)) {
+    for (interval in 1:length(int_elements)) {
         #Matching list
-        matching<-match(as.character(bin_elements[[bin]]),as.character(rownames(pco_data)))
+        matching<-match(as.character(int_elements[[bin]]),as.character(rownames(pco_data)))
         #If only one taxa is matching, make sure it's not a vector
         if(length(matching) == 1) {
             pco_intervals[[bin]]<-matrix(data=pco_data[matching,], nrow=1)
@@ -137,20 +137,20 @@ int.pco<-function(pco_data, tree, intervals, include.nodes=FALSE, FAD_LAD) {
 
     #Naming the intervals
     name_list<-NULL
-    for(bin in 1:length(bin_elements)) {
+    for(interval in 1:length(int_elements)) {
         name_list[bin]<-paste(intervals[bin], intervals[bin+1], sep="-")
     }
     
-    #If bin is empty, send warning and delete the bin
+    #If interval is empty, send warning and delete the bin
     #list of empty intervals (empty)
     empty_intervals<-NULL
-    for (bin in 1:length(pco_intervals)) {
+    for (interval in 1:length(pco_intervals)) {
         if(length(pco_intervals[[bin]]) == 0) {
             #Remove the bin
             empty_intervals[bin]<-bin
             #Select the empty bin
             empty_bin<-paste(intervals[bin], intervals[bin+1], sep="-")
-            message("The following bin is empty: ", empty_bin, ".")
+            message("The following interval is empty: ", empty_bin, ".")
         }
     }
 
