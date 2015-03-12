@@ -2,7 +2,7 @@
 #bin.pco
 ##########################
 #Select the number of taxa per bin.
-#v0.1
+#v0.2
 ##########################
 #SYNTAX :
 #<pco_data> the pco data to split in bins.
@@ -11,8 +11,9 @@
 #<FAD_LAD> a data.frame containing the first and last apparition datums. If none is provided, or if taxa are missing, taxa are assumed to have the same FAD and LAD.
 #<include.nodes> logical, whether to include nodes or not in the bins. default = FALSE. If TRUE, the nodes must be the same name in the pco_data and in the tree.
 ##########################
+#Update: fixed FAD_LAD to me more plastic: if input FAD_LAD contains extra taxa, they are now being discarded from the analysis.
 #----
-#guillert(at)tcd.ie 05/03/2014
+#guillert(at)tcd.ie 12/03/2014
 ##########################
 
 bin.pco<-function(pco_data, tree, bins, include.nodes=FALSE, FAD_LAD) {
@@ -50,6 +51,11 @@ bin.pco<-function(pco_data, tree, bins, include.nodes=FALSE, FAD_LAD) {
             colnames(add_FAD_LAD)<-colnames(FAD_LAD)
             FAD_LAD<-rbind(FAD_LAD, add_FAD_LAD)
         }
+        #Remove FAD_LAD taxa not present in the tree
+        if(nrow(FAD_LAD) != Ntip(tree)) {
+            FAD_LAD<-FAD_LAD[-c(which(is.na(match(rownames(FAD_LAD), tree$tip.label)))),]
+        }
+
     }
 
     #include.nodes
