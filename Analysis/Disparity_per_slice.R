@@ -107,10 +107,10 @@ pco_sliced_acc<-slice.pco(pco.data, tree, slices, method="acctran", FAD_LAD=FADL
 pco_sliced_del<-slice.pco(pco.data, tree, slices, method="deltran", FAD_LAD=FADLAD, verbose=TRUE)
 pco_sliced_pro<-slice.pco(pco.data, tree, slices, method="proximity", FAD_LAD=FADLAD, verbose=TRUE)
 #Calculating the disparity per bins
-disparity_ran_table<-bin.disparity(pco_sliced_ran, verbose=TRUE)
-disparity_acc_table<-bin.disparity(pco_sliced_acc, verbose=TRUE)
-disparity_del_table<-bin.disparity(pco_sliced_del, verbose=TRUE)
-disparity_pro_table<-bin.disparity(pco_sliced_pro, verbose=TRUE)
+disparity_ran_table<-time.disparity(pco_sliced_ran, verbose=TRUE)
+disparity_acc_table<-time.disparity(pco_sliced_acc, verbose=TRUE)
+disparity_del_table<-time.disparity(pco_sliced_del, verbose=TRUE)
+disparity_pro_table<-time.disparity(pco_sliced_pro, verbose=TRUE)
 
 #Plot
 disparity_data<-disparity_acc_table

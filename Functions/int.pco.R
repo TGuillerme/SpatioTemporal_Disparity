@@ -1,22 +1,22 @@
 ##########################
-#bin.pco
+#int.pco
 ##########################
 #Select the number of taxa per bin.
 #v0.2
 ##########################
 #SYNTAX :
-#<pco_data> the pco data to split in bins.
+#<pco_data> the pco data to split in intervals.
 #<tree> a 'phylo' object. The tree must be dated.
-#<bins> a series of bins breaks limits.
+#<intervals> a series of intervals breaks limits.
 #<FAD_LAD> a data.frame containing the first and last apparition datums. If none is provided, or if taxa are missing, taxa are assumed to have the same FAD and LAD.
-#<include.nodes> logical, whether to include nodes or not in the bins. default = FALSE. If TRUE, the nodes must be the same name in the pco_data and in the tree.
+#<include.nodes> logical, whether to include nodes or not in the intervals. default = FALSE. If TRUE, the nodes must be the same name in the pco_data and in the tree.
 ##########################
 #Update: fixed FAD_LAD to me more plastic: if input FAD_LAD contains extra taxa, they are now being discarded from the analysis.
 #----
 #guillert(at)tcd.ie 12/03/2014
 ##########################
 
-bin.pco<-function(pco_data, tree, bins, include.nodes=FALSE, FAD_LAD) {
+int.pco<-function(pco_data, tree, intervals, include.nodes=FALSE, FAD_LAD) {
 
     #SANITIZING
     #pco
@@ -29,11 +29,11 @@ bin.pco<-function(pco_data, tree, bins, include.nodes=FALSE, FAD_LAD) {
         stop("Tree must be a dated tree with $root.time.")
     }
 
-    #bins
-    check.class(bins, 'numeric', ' must be numeric.')
+    #intervals
+    check.class(intervals, 'numeric', ' must be numeric.')
     #length must be greater than one
-    if(length(bins) < 2) {
-        stop("At least two breaks should be specified for the bins.")
+    if(length(intervals) < 2) {
+        stop("At least two breaks should be specified for the intervals.")
     }
 
     #FAD_LAD
@@ -106,9 +106,9 @@ bin.pco<-function(pco_data, tree, bins, include.nodes=FALSE, FAD_LAD) {
     bin_elements<-list()
 
     #Attribute each taxa/node to it's bin
-    for (bin in 1:(length(bins)-1)) {
+    for (bin in 1:(length(intervals)-1)) {
         #Select the elements of one bin
-        bin_elements[[bin]]<-ages_tree_FAD$edges[which(ages_tree_FAD$ages >= bins[bin+1] & ages_tree_LAD$ages <= bins[bin])]
+        bin_elements[[bin]]<-ages_tree_FAD$edges[which(ages_tree_FAD$ages >= intervals[bin+1] & ages_tree_LAD$ages <= intervals[bin])]
     }
     
     #Remove the nodes (if necessary)
@@ -120,53 +120,53 @@ bin.pco<-function(pco_data, tree, bins, include.nodes=FALSE, FAD_LAD) {
     }
 
     #Making the pco binned list
-    pco_bins<-NULL
-    pco_bins<-list()
+    pco_intervals<-NULL
+    pco_intervals<-list()
 
     for (bin in 1:length(bin_elements)) {
         #Matching list
         matching<-match(as.character(bin_elements[[bin]]),as.character(rownames(pco_data)))
         #If only one taxa is matching, make sure it's not a vector
         if(length(matching) == 1) {
-            pco_bins[[bin]]<-matrix(data=pco_data[matching,], nrow=1)
-            rownames(pco_bins[[bin]])<-rownames(pco_data)[matching]
+            pco_intervals[[bin]]<-matrix(data=pco_data[matching,], nrow=1)
+            rownames(pco_intervals[[bin]])<-rownames(pco_data)[matching]
         } else {
-            pco_bins[[bin]]<-pco_data[matching,]
+            pco_intervals[[bin]]<-pco_data[matching,]
         }
     }
 
-    #Naming the bins
+    #Naming the intervals
     name_list<-NULL
     for(bin in 1:length(bin_elements)) {
-        name_list[bin]<-paste(bins[bin], bins[bin+1], sep="-")
+        name_list[bin]<-paste(intervals[bin], intervals[bin+1], sep="-")
     }
     
     #If bin is empty, send warning and delete the bin
-    #list of empty bins (empty)
-    empty_bins<-NULL
-    for (bin in 1:length(pco_bins)) {
-        if(length(pco_bins[[bin]]) == 0) {
+    #list of empty intervals (empty)
+    empty_intervals<-NULL
+    for (bin in 1:length(pco_intervals)) {
+        if(length(pco_intervals[[bin]]) == 0) {
             #Remove the bin
-            empty_bins[bin]<-bin
+            empty_intervals[bin]<-bin
             #Select the empty bin
-            empty_bin<-paste(bins[bin], bins[bin+1], sep="-")
+            empty_bin<-paste(intervals[bin], intervals[bin+1], sep="-")
             message("The following bin is empty: ", empty_bin, ".")
         }
     }
 
-    #If any empty bins
-    if(!is.null(empty_bins)) {
-        #NA removal from empty_bins vector (if any)
-        if(any(is.na(empty_bins))) {
-            empty_bins<-empty_bins[-which(is.na(empty_bins))]
+    #If any empty intervals
+    if(!is.null(empty_intervals)) {
+        #NA removal from empty_intervals vector (if any)
+        if(any(is.na(empty_intervals))) {
+            empty_intervals<-empty_intervals[-which(is.na(empty_intervals))]
         }
-        #Removing the empty bins
-        pco_bins<-pco_bins[c(-empty_bins)]
-        #Removing the empty bins names
-        name_list<-name_list[-empty_bins]
+        #Removing the empty intervals
+        pco_intervals<-pco_intervals[c(-empty_intervals)]
+        #Removing the empty intervals names
+        name_list<-name_list[-empty_intervals]
     }
     
-    names(pco_bins)<-name_list
+    names(pco_intervals)<-name_list
 
-    return(pco_bins)
+    return(pco_intervals)
 }
