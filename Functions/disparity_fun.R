@@ -60,14 +60,13 @@ variance.calc<-function(list_table) {
 }
 
 #Set-up for the NthRoot function in order to scale your products correctly.
-NthRoot<-function(x=data, n=ncol(data)){
-   x^(1/n)
+nth.root<-function(x, n){
+    x^(1/n)
 }
 
 #Apply loop for calculating the product
 prod.apply<-function(X) {
-    output<-NthRoot(apply(X,1,prod))
-    #output<-apply(X,1,prod)
+    output<-nth.root(apply(X,1,prod), n=ncol(X))
     return(output)
 }
 

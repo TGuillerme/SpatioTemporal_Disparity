@@ -30,23 +30,27 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
         stop("method must be 'centroid', 'sum.range', 'product.range', 'sum.variance' or/and 'product.variance'.")
     }
 
-    #CI
-    check.class(CI, "numeric", " must be any value between 1 and 100.")
-    #remove warnings
-    options(warn=-1)
-    if(any(CI) < 1) {
-        stop("CI must be any value between 1 and 100.")
-    }
-    if(any(CI) > 100) {
-        stop("CI must be any value between 1 and 100.")
-    }
-    options(warn=0)
     #Bootstrap
     check.class(bootstraps, "numeric", " must be a single (entire) numerical value.")
     check.length(bootstraps, 1, " must be a single (entire) numerical value.")
     #Make sure the bootstrap is a whole number
     bootstraps<-round(abs(bootstraps))
 
+    #CI
+    #only relevant if bootstrap != 0)
+    if(bootstraps != 0) {
+        check.class(CI, "numeric", " must be any value between 1 and 100.")
+        #remove warnings
+        options(warn=-1)
+        if(any(CI) < 1) {
+            stop("CI must be any value between 1 and 100.")
+        }
+        if(any(CI) > 100) {
+            stop("CI must be any value between 1 and 100.")
+        }
+        options(warn=0)
+    }
+    
     #Central tendency
     check.class(central_tendency, "function", " must be either a function (e.g. 'mean' or 'median'.")
 
@@ -105,7 +109,7 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
             #Product of range
             Product_range_table<-Disparity.measure.table(type_function=prod.apply, ranges, central_tendency, CI)
             #Renaming the column
-            colnames(Product_range_table)[1]<-"Prod.range"           
+            colnames(Product_range_table)[1]<-"Prod.range"
         }
         if(verbose==TRUE) {
             message("Done.", appendLF=TRUE)
