@@ -2,17 +2,17 @@
 #time.disparity
 ##########################
 #Calculates the disparity for binned pco.data and output a bin.disparity table object
-#v0.1
+#v0.2
 ##########################
 #SYNTAX :
 #<time_pco> time intervals or slices from a pco
 #<...> disparity arguments (see ?disparity for information)
 ##########################
 #----
-#guillert(at)tcd.ie 06/03/2014
+#guillert(at)tcd.ie 16/03/2014
 ##########################
 
-time.disparity<-function(time_pco, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE) {
+time.disparity<-function(time_pco, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE, rm.last.axis=FALSE) {
     #SANITIZING
     #time_pco
     check.class(time_pco, "list", " must be a list of binned pco data.")
@@ -26,7 +26,7 @@ time.disparity<-function(time_pco, method=c("centroid", "sum.range", "product.ra
     }
 
     #CALCULATING THE DISPARITY FOR EACH BIN
-    disparity_interval<-lapply(time_pco, disparity, method=method, CI=CI, bootstraps=bootstraps, central_tendency=central_tendency, rarefaction=rarefaction, verbose=verbose)
+    disparity_interval<-lapply(time_pco, disparity, method=method, CI=CI, bootstraps=bootstraps, central_tendency=central_tendency, rarefaction=rarefaction, verbose=verbose, rm.last.axis=rm.last.axis)
 
     #Sorting the data as a table
     if(rarefaction == FALSE) {

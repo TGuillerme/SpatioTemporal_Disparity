@@ -3,7 +3,7 @@
 ##########################
 #Calculate the disparity as the distance from centroid
 #This function is based on DisparityCalc() from Smith et al. 2014 - Evolution (http://dx.doi.org/10.1111/evo.12435) http://datadryad.org/resource/doi:10.5061/dryad.d380g 
-#v0.1.1
+#v0.2
 ##########################
 #SYNTAX :
 #<distance> the distance matrix
@@ -12,12 +12,13 @@
 #<bootstraps> the number of boostrap replicates (default=1000)
 #<central_tendency> any function for calculating the central tendency
 #<verbose> whether to be verbose or not
+#<verbose> whether to remove the last axis from the pco data. Can be a threshold value
 ##########################
 #----
-#guillert(at)tcd.ie 04/03/2015
+#guillert(at)tcd.ie 16/03/2015
 ##########################
 
-disparity<-function(data, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE) {
+disparity<-function(data, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE, rm.last.axis=FALSE) {
 
     #SANITIZING
     #distance
@@ -60,7 +61,43 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
     #verbose
     check.class(verbose, "logical", " must be logical.")
 
+    #rm.last.axis
+    if(class(rm.last.axis) == "logical") {
+        if(rm.last.axis == FALSE) {
+            rm.axis<-FALSE
+        } else {
+            rm.axis<-TRUE
+            last.axis<-0.95
+        }
+    } else {
+        check.class(rm.last.axis, "numeric", " must be logical or a probability threshold value.")
+        check.length(rm.last.axis, 1, " must be logical or a probability threshold value.", errorif=FALSE)
+        if(rm.last.axis < 0) {
+            stop("rm.last.axis must be logical or a probability threshold value.")
+        } else {
+            if(rm.last.axis > 1) {
+                stop("rm.last.axis must be logical or a probability threshold value.")
+            } else {
+                rm.axis<-TRUE
+                last.axis<-rm.last.axis
+            }
+        }
+    }
+
     #CALCULATING THE DISPARITY
+
+    #Removing the last pco axis
+    if(rm.axis==TRUE) {
+        #calculate the cumulative variance per axis
+        scree_data<-cumsum(apply(data, 2, var) / sum(apply(data, 2, var)))
+        #extract the axis  below the threshold value
+        axis_selected<-length(which(scree_data < last.axis))
+        #remove the extra axis
+        data<-data[,c(1:axis_selected)]
+        #warning
+        message(paste("The", length(scree_data)-axis_selected, "last axis have been removed from the pco data."))
+    }
+
     #Bootstraping the matrix
     #verbose
     if(verbose==TRUE) {
