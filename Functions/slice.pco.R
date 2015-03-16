@@ -18,7 +18,7 @@
 #deltran: always chose parent;
 #prozimity: chose between the parent or the offspring based on branch length. If the cut is equal to more than half the branch length, the offspring is chosen, else the parent.
 #----
-#guillert(at)tcd.ie 10/03/2015
+#guillert(at)tcd.ie 16/03/2015
 ##########################
 
 slice.pco<-function(pco_data, tree, slices, method="random", FAD_LAD, verbose=FALSE) {
@@ -58,17 +58,22 @@ slice.pco<-function(pco_data, tree, slices, method="random", FAD_LAD, verbose=FA
     if(missing(FAD_LAD)) {
         #Create the FAD_LAD table
         FAD_LAD<-data.frame("FAD"=tree.age(tree)[1:Ntip(tree),1], "LAD"=tree.age(tree)[1:Ntip(tree),1], row.names=tree.age(tree)[1:Ntip(tree),2])
-        message("No FAD_LAD table has been provided so every tip is assumed to bin single points in time.")
+        message("No FAD_LAD table has been provided so every tip is assumed to interval single points in time.")
     } else {
         #Check if the FAD_LAD contains all taxa
         if(any(tree$tip.label %in% rownames(FAD_LAD) == FALSE)) {
-            message("Some tips have FAD/LAD and are assumed to bin single points in time.")
+            message("Some tips have FAD/LAD and are assumed to interval single points in time.")
             #If not generate the FAD_LAD for the missing taxa
             missing_FADLAD<-which(is.na(match(tree$tip.label, rownames(FAD_LAD))))
             add_FAD_LAD<-data.frame(tree.age(tree)[missing_FADLAD,1], tree.age(tree)[missing_FADLAD,1], row.names=tree.age(tree)[missing_FADLAD,2])
             colnames(add_FAD_LAD)<-colnames(FAD_LAD)
             FAD_LAD<-rbind(FAD_LAD, add_FAD_LAD)
         }
+        #Remove FAD_LAD taxa not present in the tree
+        if(nrow(FAD_LAD) != Ntip(tree)) {
+            FAD_LAD<-FAD_LAD[-c(which(is.na(match(rownames(FAD_LAD), tree$tip.label)))),]
+        }
+
     }
 
     #verbose
