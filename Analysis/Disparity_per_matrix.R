@@ -39,7 +39,7 @@ file_tree<-"../Data/2014-Beck-ProcB-TEM.tre"
 int_breaks<-rev(seq(from=0, to=150, by=20))+5
 int_breaks[length(int_breaks)]<-0
 slices<-rev(seq(from=0, to=150, by=10))
-KT_bin=5.5
+KT_bin=4.5
 KT_sli=9.5
 
 ######################
