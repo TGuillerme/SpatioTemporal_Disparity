@@ -1,5 +1,10 @@
 MorphDistMatrix.verbose <- function(morph.matrix, transform.proportional.distances="arcsine_sqrt", verbose=TRUE) {
 
+  #verbose
+  if(verbose == TRUE) {
+    message("This is a verbose version of Claddis::MorphDistMatrix function v0.1.\n", appendLF=FALSE)
+  }
+
   # Check format of transform.proportional.distances:
   if(transform.proportional.distances != "none" && transform.proportional.distances != "sqrt" && transform.proportional.distances != "arcsine_sqrt") {
 
