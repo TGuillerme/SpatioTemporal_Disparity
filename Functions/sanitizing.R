@@ -108,3 +108,10 @@ states.count<-function(character) {
     #Count the number of states
     return(length(states))
 }
+
+#Generating random tree parameters (birth death)
+gen.param.tree<-function(x=1) {
+    lambda<-runif(x)
+    mu<-runif(x,0,lambda)
+    return(cbind(lambda, mu))
+}
