@@ -10,7 +10,6 @@
 #<replicates> number of random replicates.
 #<verbose> whether to be verbose or not.
 #<n.tips> optional. If tree is not a "phylo" object and matrix is not a "matrix" object, the number of tips in the tree and in the matrix.
-#<root.time> optional. If tree is not a "phylo" object, the age of the root of the simulated trees.
 #<matrix.model> optional. If matrix argument is a value or a vector, can be either "random" (default) or "sim.char" (see details). If argument is "sim.char", the optional argument "max.mat.rate" can be given as a maximum rate value.
 #<max.mat.rate> optional. If matrix model is "sim.char", must be a maximal rate value <= 1. Default = 0.5.
 #<tre.par.fun> optional. A function for generating the "birth-death" tree parameters (if missing, the parameters are randomly generate with birth parameter > death parameter).
@@ -24,7 +23,7 @@
 #guillert(at)tcd.ie 18/03/2015
 ##########################
 
-null.data<-function(tree, matrix, replicates=100, verbose=TRUE, n.tips, root.time, tre.par.fun, matrix.model, max.mat.rate) {
+null.data<-function(tree, matrix, replicates=100, verbose=TRUE, n.tips, tre.par.fun, matrix.model, max.mat.rate) {
     #SANITIZING
     #tree
     if(class(tree) != "phylo") {
@@ -40,17 +39,6 @@ null.data<-function(tree, matrix, replicates=100, verbose=TRUE, n.tips, root.tim
         }
     } else {
         build_tree<-FALSE
-    }
-
-    #root.time
-    if(build_tree == FALSE) {
-        if(is.null(tree$root.time)) {
-            stop("No root time found in the given tree.")
-        }
-        root.time<-tree$root.time
-    } else {
-        check.class(root.time, "numeric", " must be a single numerical value.")
-        check.length(root.time, 1, " must be a single numerical value.", errorif=FALSE)
     }
 
     #tree.par.fun
