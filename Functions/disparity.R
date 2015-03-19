@@ -3,7 +3,7 @@
 ##########################
 #Calculate the disparity as the distance from centroid
 #This function is based on DisparityCalc() from Smith et al. 2014 - Evolution (http://dx.doi.org/10.1111/evo.12435) http://datadryad.org/resource/doi:10.5061/dryad.d380g 
-#v0.2
+#v0.2.1
 ##########################
 #SYNTAX :
 #<distance> the distance matrix
@@ -12,13 +12,14 @@
 #<bootstraps> the number of boostrap replicates (default=1000)
 #<central_tendency> any function for calculating the central tendency
 #<verbose> whether to be verbose or not
-#<verbose> whether to remove the last axis from the pco data. Can be a threshold value
+#<rm.last.axis> whether to remove the last axis from the pco data. Can be a threshold value.
+#<save.all> whether to save all the disparity values (TRUE) or just the quantiles (FALSE (default)).
 ##########################
 #----
 #guillert(at)tcd.ie 16/03/2015
 ##########################
 
-disparity<-function(data, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE, rm.last.axis=FALSE) {
+disparity<-function(data, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE, rm.last.axis=FALSE, save.all=FALSE) {
 
     #SANITIZING
     #distance
@@ -84,6 +85,9 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
         }
     }
 
+    #verbose
+    check.class(save.all, "logical", " must be logical.")
+
     #CALCULATING THE DISPARITY
 
     #Removing the last pco axis
@@ -117,9 +121,17 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
         }
         centroids<-lapply(BSresult, centroid.calc)
         #Distance to centroid
-        Centroid_dist_table<-Disparity.measure.table(type_function=no.apply, centroids, central_tendency, CI)
-        #Renaming the column
-        colnames(Centroid_dist_table)[1]<-"Cent.dist"
+        Centroid_dist_table<-Disparity.measure.table(type_function=no.apply, centroids, central_tendency, CI, save.all)
+        #Results type
+        if(save.all == FALSE) {
+            #Renaming the column
+            colnames(Centroid_dist_table)[1]<-"Cent.dist"
+        } else {
+            #Isolating the data parts
+            Centroid_values<-Centroid_dist_table[[2]]
+            Centroid_dist_table<-Centroid_dist_table[[1]]
+            colnames(Centroid_dist_table)[1]<-"Cent.dist"
+        }
         if(verbose==TRUE) {
             message("Done.", appendLF=TRUE)
         }
@@ -136,17 +148,37 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
         #Sum of ranges
         if(any(method == 'sum.range')) {
             #Sum of range
-            Sum_range_table<-Disparity.measure.table(type_function=sum.apply, ranges, central_tendency, CI)
-            #Renaming the column
-            colnames(Sum_range_table)[1]<-"Sum.range"
+            Sum_range_table<-Disparity.measure.table(type_function=sum.apply, ranges, central_tendency, CI, save.all)
+
+            #Results type
+            if(save.all == FALSE) {
+                #Renaming the column
+                colnames(Sum_range_table)[1]<-"Sum.range"
+            } else {
+                #Isolating the data parts
+                Sum_range_values<-Sum_range_table[[2]]
+                Sum_range_table<-Sum_range_table[[1]]
+                colnames(Sum_range_table)[1]<-"Sum.range"
+            }
+
         }
 
         #Product of ranges
         if(any(method == 'product.range')) {
             #Product of range
-            Product_range_table<-Disparity.measure.table(type_function=prod.apply, ranges, central_tendency, CI)
-            #Renaming the column
-            colnames(Product_range_table)[1]<-"Prod.range"
+            Product_range_table<-Disparity.measure.table(type_function=prod.apply, ranges, central_tendency, CI, save.all)
+
+            #Results type
+            if(save.all == FALSE) {
+                #Renaming the column
+                colnames(Product_range_table)[1]<-"Prod.range"
+            } else {
+                #Isolating the data parts
+                Prod_range_values<-Product_range_table[[2]]
+                Product_range_table<-Product_range_table[[1]]
+                colnames(Product_range_table)[1]<-"Prod.range"
+            }
+
         }
         if(verbose==TRUE) {
             message("Done.", appendLF=TRUE)
@@ -164,17 +196,37 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
         #Sum of variance
         if(any(method == 'sum.variance')) {
             #Sum of variance
-            Sum_variance_table<-Disparity.measure.table(type_function=sum.apply, variances, central_tendency, CI)
-            #Renaming the column
-            colnames(Sum_variance_table)[1]<-"Sum.var"   
+            Sum_variance_table<-Disparity.measure.table(type_function=sum.apply, variances, central_tendency, CI, save.all)
+
+            #Results type
+            if(save.all == FALSE) {
+                #Renaming the column
+                colnames(Sum_variance_table)[1]<-"Sum.var"
+            } else {
+                #Isolating the data parts
+                Sum_variance_values<-Sum_variance_table[[2]]
+                Sum_variance_table<-Sum_variance_table[[1]]
+                colnames(Sum_variance_table)[1]<-"Sum.var"
+            }
+  
         }
 
         #Product of variance
         if(any(method == 'product.variance')) {
             #Product of variance
-            Product_variance_table<-Disparity.measure.table(type_function=prod.apply, variances, central_tendency, CI)
-            #Renaming the column
-            colnames(Product_variance_table)[1]<-"Prod.var"            
+            Product_variance_table<-Disparity.measure.table(type_function=prod.apply, variances, central_tendency, CI, save.all)
+
+            #Results type
+            if(save.all == FALSE) {
+                #Renaming the column
+                colnames(Product_variance_table)[1]<-"Prod.var"
+            } else {
+                #Isolating the data parts
+                Prod_variance_values<-Product_variance_table[[2]]
+                Product_variance_table<-Product_variance_table[[1]]
+                colnames(Product_variance_table)[1]<-"Prod.var"
+            }
+        
         }
         if(verbose==TRUE) {
             message("Done.", appendLF=TRUE)
@@ -217,7 +269,41 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
         output<-cbind(output, Product_variance_table)   
     }
 
-    return(output)
+    if(save.all == FALSE) {
+        #Quantiles only
+        return(output)
+    } else {
+        #Quantiles and values
+        output<-list("table"=output)
+        #Add the values of each metric
+        #centroid
+        if(any(method == 'centroid')) {
+            output[[length(output)+1]]<-Centroid_values
+            names(output)[length(output)]<-"centroid"
+        }
+        #Sum of sum.range
+        if(any(method == 'sum.range')) {
+            output[[length(output)+1]]<-Sum_range_values
+            names(output)[length(output)]<-"sum.range"
+        }
+        #Product of ranges
+        if(any(method == 'product.range')) {
+            output[[length(output)+1]]<-Prod_range_values
+            names(output)[length(output)]<-"product.range"
+        }
+        #Sum of variance
+        if(any(method == 'sum.variance')) {
+            output[[length(output)+1]]<-Sum_variance_values
+            names(output)[length(output)]<-"sum.variance"
+        }
+        #Product of variance
+        if(any(method == 'product.variance')) {
+            output[[length(output)+1]]<-Prod_variance_values
+            names(output)[length(output)]<-"product.variance"
+        }
+
+        return(output)
+    }
 
 #End
 }

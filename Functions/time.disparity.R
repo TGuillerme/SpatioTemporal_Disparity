@@ -1,8 +1,8 @@
 ##########################
 #time.disparity
 ##########################
-#Calculates the disparity for binned pco.data and output a bin.disparity table object
-#v0.2
+#Calculates the disparity for intervalned pco.data and output a interval.disparity table object
+#v0.2.1
 ##########################
 #SYNTAX :
 #<time_pco> time intervals or slices from a pco
@@ -12,12 +12,12 @@
 #guillert(at)tcd.ie 16/03/2014
 ##########################
 
-time.disparity<-function(time_pco, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE, rm.last.axis=FALSE) {
+time.disparity<-function(time_pco, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE, rm.last.axis=FALSE, save.all=FALSE) {
     #SANITIZING
     #time_pco
-    check.class(time_pco, "list", " must be a list of binned pco data.")
+    check.class(time_pco, "list", " must be a list of time sections of pco data.")
     if(length(names(time_pco))!=length(time_pco)) {
-        stop("time_pco data must have bins names.")
+        stop("time_pco data must have time sections names.")
     }
 
     #rarefaction
@@ -26,32 +26,82 @@ time.disparity<-function(time_pco, method=c("centroid", "sum.range", "product.ra
     }
 
     #CALCULATING THE DISPARITY FOR EACH BIN
-    disparity_interval<-lapply(time_pco, disparity, method=method, CI=CI, bootstraps=bootstraps, central_tendency=central_tendency, rarefaction=rarefaction, verbose=verbose, rm.last.axis=rm.last.axis)
+    disparity_interval<-lapply(time_pco, disparity, method=method, CI=CI, bootstraps=bootstraps, central_tendency=central_tendency, rarefaction=rarefaction, verbose=verbose, rm.last.axis=rm.last.axis, save.all=save.all)
 
-    #Sorting the data as a table
-    if(rarefaction == FALSE) {
-        #create the table's first row
-        disparity_intervals_table<-disparity_interval[[1]]
-        #Loop through the other elements of the table
-        for(bin in 2:length(disparity_interval)) {
-            disparity_intervals_table<-rbind(disparity_intervals_table, disparity_interval[[bin]])
+    #Return the table only
+    if(save.all == FALSE) {
+        #Sorting the data as a table
+        if(rarefaction == FALSE) {
+            #create the table's first row
+            disparity_intervals_table<-disparity_interval[[1]]
+            #Loop through the other elements of the table
+            for(interval in 2:length(disparity_interval)) {
+                disparity_intervals_table<-rbind(disparity_intervals_table, disparity_interval[[interval]])
+            }
+            #Renaming the rarefaction column interval
+            colnames(disparity_intervals_table)[1]<-"time section"
+            #Saving the interval names
+            disparity_intervals_table[,1]<-names(time_pco)
+
+        } else {
+
+            #If rarefaction has been calculated, only get the last element of each rarefaction table
+            #create the table's first row
+            disparity_intervals_table<-disparity_interval[[1]][nrow(disparity_interval[[1]]),]
+            #Loop through the other elements of the table
+            for(interval in 2:length(disparity_interval)) {
+                disparity_intervals_table<-rbind(disparity_intervals_table, disparity_interval[[interval]][nrow(disparity_interval[[interval]]),])
+            }
+            #Renaming the rarefaction column interval
+            colnames(disparity_intervals_table)[1]<-"time section"
+            #Saving the interval names
+            disparity_intervals_table[,1]<-names(time_pco)
         }
-        #Renaming the rarefaction column bin
-        colnames(disparity_intervals_table)[1]<-"time section"
-        #Saving the bin names
-        disparity_intervals_table[,1]<-names(time_pco)
+        return(disparity_intervals_table)
+    
     } else {
-        #If rarefaction has been calculated, only get the last element of each rarefaction table
-        #create the table's first row
-        disparity_intervals_table<-disparity_interval[[1]][nrow(disparity_interval[[1]]),]
-        #Loop through the other elements of the table
-        for(bin in 2:length(disparity_interval)) {
-            disparity_intervals_table<-rbind(disparity_intervals_table, disparity_interval[[bin]][nrow(disparity_interval[[bin]]),])
+
+        #Sorting the data as a table
+        if(rarefaction == FALSE) {
+            #Creating the quantile table
+            #create the table's first row
+            disparity_intervals_table<-disparity_interval[[1]][[1]]
+            #Loop through the other elements of the table
+            for(interval in 2:length(disparity_interval)) {
+                disparity_intervals_table<-rbind(disparity_intervals_table, disparity_interval[[interval]][[1]])
+            }
+            #Renaming the rarefaction column interval
+            colnames(disparity_intervals_table)[1]<-"time section"
+            #Saving the interval names
+            disparity_intervals_table[,1]<-names(time_pco)
+
+        } else {
+
+            #If rarefaction has been calculated, only get the last element of each rarefaction table
+            #create the table's first row
+            disparity_intervals_table<-disparity_interval[[1]][[1]][nrow(disparity_interval[[1]][[1]]),]
+            #Loop through the other elements of the table
+            for(interval in 2:length(disparity_interval)) {
+                disparity_intervals_table<-rbind(disparity_intervals_table, disparity_interval[[interval]][[1]][nrow(disparity_interval[[interval]][[1]]),])
+            }
+            #Renaming the rarefaction column interval
+            colnames(disparity_intervals_table)[1]<-"time section"
+            #Saving the interval names
+            disparity_intervals_table[,1]<-names(time_pco)
+
         }
-        #Renaming the rarefaction column bin
-        colnames(disparity_intervals_table)[1]<-"time section"
-        #Saving the bin names
-        disparity_intervals_table[,1]<-names(time_pco)
+
+        #saving the results per time section
+        disparity_intervals_values<-list()
+        #Loop through all the elements of the list to extract the values
+        for(interval in 1:length(disparity_interval)) {
+            disparity_intervals_values[[interval]]<-disparity_interval[[interval]][[2]]
+        }
+        #Renaming the list elements
+        names(disparity_intervals_values)<-names(time_pco)
+
+        #output
+        output<-list("quantiles"=disparity_intervals_table, "values"=disparity_intervals_values)
+        return(output)
     }
-    return(disparity_intervals_table)
 }

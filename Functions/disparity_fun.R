@@ -106,7 +106,7 @@ CI.converter<-function(CI) {
 }
 
 #Calculate product for the central tendency and the CIs for variance or range
-Disparity.measure.table<-function(type_function, distribution_variable, central_tendency, CI) {
+Disparity.measure.table<-function(type_function, distribution_variable, central_tendency, CI, save.all) {
 
     #Products/Sum of distribution_variable (correct by the NthRoot)
     Disparity_measure<-lapply(distribution_variable, type_function)
@@ -123,5 +123,12 @@ Disparity.measure.table<-function(type_function, distribution_variable, central_
     #Add the CIs names
     colnames(Disparity_measure_table)[-1]<-paste(CI.converter(CI)*100, "%", sep="")
 
-    return(Disparity_measure_table)
+    #return only the quantile table
+    if(save.all == FALSE) {
+        return(Disparity_measure_table)
+    } else {
+        output<-list("quantiles"=Disparity_measure_table, "values"=Disparity_measure[[1]])
+        return(output)
+    }
+
 }
