@@ -2,18 +2,19 @@
 #Plotting disparity results
 ##########################
 #Plots the disparity results
-#v0.1
+#v0.2
 ##########################
 #SYNTAX :
 #<disparity> disparity data
 #<measure> the name of the column containing the disparity measurement. If set to 'default' the measure will be the first measure (second column) of the table.
 #<rarefaction> whether to plot the rarefaction results or not
+#<diversity> optional. Must be a vector of the same length as disparity_data.
 ##########################
 #----
-#guillert(at)tcd.ie 03/03/2015
+#guillert(at)tcd.ie 19/03/2015
 ##########################
 
-plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, xlab="default", ylab="default", col="default", las=2, ...){
+plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, xlab="default", ylab="default", col="default", las=2, diversity, ...){
     #SANITIZING
     #Disparity
     check.class(disparity_data, 'data.frame', " must be a disparity data.frame")
@@ -76,6 +77,15 @@ plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, x
     #col
     check.class(col, "character", " must be a character string.")
 
+    #diversity
+    if(missing(diversity)) {
+        plot.diversity<-FALSE
+    } else {
+        plot.diversity<-TRUE
+        check.class(diversity, "integer", " must be a numeric vector of the same number of rows as disparity_data.")
+        check.length(diversity, nrow(disparity_data), " must be a numeric vector of the same number of rows as disparity_data.")
+    }
+
     #PLOTTING THE DISPARITY RESULTS
     if(rarefaction == TRUE) {
         #Plotting the rarefaction curve
@@ -125,6 +135,7 @@ plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, x
             #Plotting the curve
             plot(seq(from=1, to=nrow(disparity_data)), disparity_data[,measure_col], type='l', 
                 ylim=c(min(disparity_data[,CI_min]),max(disparity_data[,CI_max])) ,col="white", ylab=ylab, xlab=xlab, xaxt='n' , ...)
+                #ylim=c(min(disparity_data[,CI_min]),max(disparity_data[,CI_max])) ,col="white", ylab=ylab, xlab=xlab, xaxt='n'); warning("debug")
             if(class(disparity_data[,1]) == "character") {
                 axis(side = 1, 1:nrow(disparity_data), disparity_data[,1], las=las)
             } else {
@@ -138,6 +149,13 @@ plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, x
             }
             #Add the central tendency line
             lines(seq(from=1, to=nrow(disparity_data)), disparity_data[,measure_col], type='l', ylim=c(min(disparity_data[,CI_min]),max(disparity_data[,CI_max], col=line_color)))
+
+            #Add the diversity (optional)
+            if(plot.diversity==TRUE) {
+                par(new=TRUE)
+                plot(diversity, type="l", lty=2, xaxt="n",yaxt="n",xlab="",ylab="")
+                axis(4)
+            }
         }
     }
 }

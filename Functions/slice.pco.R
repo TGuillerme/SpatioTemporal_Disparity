@@ -2,7 +2,7 @@
 #slice.pco
 ##########################
 #Select the number of taxa and pco data per slice.
-#v0.1
+#v0.2
 ##########################
 #SYNTAX :
 #<pco_data> the pco data to split in bins.
@@ -11,6 +11,7 @@
 #<method> the slicing method (what becomes of the sliced branches): can be 'random' (default), 'acctran', 'deltran' or 'proximity'.
 #<FAD_LAD> a data.frame containing the first and last apparition datums. If none is provided, or if taxa are missing, taxa are assumed to have the same FAD and LAD.
 #<verbose> whether to be verbose or not.
+#<diversity> logical, whether to count the number of taxa in each slice.
 ##########################
 #Method details: the slicing methods are the method of the edge to chose when cutting through a branch. At any point of the branch cut, the different method picks either the data of the parent node or one of the offspring node or tip.
 #random: randomly chose between parent and offspring (default);
@@ -18,10 +19,10 @@
 #deltran: always chose parent;
 #prozimity: chose between the parent or the offspring based on branch length. If the cut is equal to more than half the branch length, the offspring is chosen, else the parent.
 #----
-#guillert(at)tcd.ie 16/03/2015
+#guillert(at)tcd.ie 19/03/2015
 ##########################
 
-slice.pco<-function(pco_data, tree, slices, method="random", FAD_LAD, verbose=FALSE) {
+slice.pco<-function(pco_data, tree, slices, method="random", FAD_LAD, verbose=FALSE, diversity=FALSE) {
 
     #SANITIZING
 
@@ -78,6 +79,9 @@ slice.pco<-function(pco_data, tree, slices, method="random", FAD_LAD, verbose=FA
 
     #verbose
     check.class(verbose, 'logical', ' must be logical.')
+
+    #diversity
+    check.class(diversity, "logical", " must be logical.")
 
     #SLICING THE TREE
     #Number of slices
@@ -138,6 +142,18 @@ slice.pco<-function(pco_data, tree, slices, method="random", FAD_LAD, verbose=FA
 
     #naming the slices
     names(slice_list)<-slices
+
+    #Diversity
+    if(diversity == TRUE) {
+        #count the elements per intervals
+        diversity_counts<-unlist(lapply(slice_list, nrow))
+        #Output
+        output<-list("pco_slices"=slice_list, "diversity"=diversity_counts)
+        return(output)
+    
+    } else {
+        return(pco_intervals)
+    }
 
     return(slice_list)
 #End   

@@ -2,7 +2,7 @@
 #int.pco
 ##########################
 #Select the number of taxa per intervals
-#v0.2
+#v0.2.1
 ##########################
 #SYNTAX :
 #<pco_data> the pco data to split in intervals.
@@ -10,13 +10,14 @@
 #<intervals> a series of intervals breaks limits.
 #<FAD_LAD> a data.frame containing the first and last apparition datums. If none is provided, or if taxa are missing, taxa are assumed to have the same FAD and LAD.
 #<include.nodes> logical, whether to include nodes or not in the intervals. default = FALSE. If TRUE, the nodes must be the same name in the pco_data and in the tree.
+#<diversity> logical, whether to count the number of taxa in each interval.
 ##########################
 #Update: fixed FAD_LAD to me more plastic: if input FAD_LAD contains extra taxa, they are now being discarded from the analysis.
 #----
-#guillert(at)tcd.ie 12/03/2014
+#guillert(at)tcd.ie 19/03/2014
 ##########################
 
-int.pco<-function(pco_data, tree, intervals, include.nodes=FALSE, FAD_LAD) {
+int.pco<-function(pco_data, tree, intervals, FAD_LAD, include.nodes=FALSE, diversity=FALSE) {
 
     #SANITIZING
     #pco
@@ -84,6 +85,10 @@ int.pco<-function(pco_data, tree, intervals, include.nodes=FALSE, FAD_LAD) {
             message("Some rows in pco_data are not present in the tree!")
         }
     }
+
+    #diversity
+    check.class(diversity, "logical", " must be logical.")
+
 
     #BINING THE PCO
     #ages of tips/nodes + FAD/LAD
@@ -168,5 +173,18 @@ int.pco<-function(pco_data, tree, intervals, include.nodes=FALSE, FAD_LAD) {
     
     names(pco_intervals)<-name_list
 
-    return(pco_intervals)
+    #Diversity
+    if(diversity == TRUE) {
+        #count the elements per intervals
+        diversity_counts<-unlist(lapply(int_elements, length))
+        #add the interval names
+        names(diversity_counts)<-name_list
+
+        #Output
+        output<-list("pco_intervals"=pco_intervals, "diversity"=diversity_counts)
+        return(output)
+    
+    } else {
+        return(pco_intervals)
+    }
 }
