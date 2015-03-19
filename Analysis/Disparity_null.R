@@ -101,8 +101,31 @@ for (replicate in 1:length(null_mat_rand_dist)) {
 
 #Remove the dropped taxa from the tree
 tree_tips<-drop.tip(tree, trimmed_max_data_tips$removed.taxa)
-tree_rand<-lapply(max_nul_rand_rm, function(x) drop.tip(tree, x))
-tree_simc<-lapply(max_nul_simc_rm, function(x) drop.tip(tree, x))
+tree_rand<-list()
+tree_simc<-list()
+if(length(max_null_rand_rm) == 0) {
+    tree_rand<-rep(tree, length(null_mat_rand_dist))
+} else {
+    for (replicate in 1:length(null_mat_rand_dist)) {
+        tree_rand[[replicate]]<-drop.tip(tree, max_null_rand_rm[[replicate]])
+    }
+}
+
+if(length(max_null_simc_rm) == 0) {
+    tree_simc<-rep(tree, length(null_mat_rand_dist))
+} else {
+    for (replicate in 1:length(null_mat_rand_dist)) {
+        tree_simc[[replicate]]<-drop.tip(tree, max_null_simc_rm[[replicate]])
+    }
+}
+
+#Extracting a list of trimmed matrices
+trimmed_mat_max_null_rand<-list()
+trimmed_mat_max_null_simc<-list()
+for (replicate in 1:length(null_mat_rand_dist)) {
+    trimmed_mat_max_null_rand[[replicate]]<-trimmed_max_null_rand[[replicate]]$dist.matrix
+    trimmed_mat_max_null_simc[[replicate]]<-trimmed_max_null_simc[[replicate]]$dist.matrix
+}
 
 #List of trees
 #trees<-list("tips"=tree_tips, "nodes"=tree_nodes, "nodes95"=tree_nodes95)
@@ -112,8 +135,10 @@ tree_simc<-lapply(max_nul_simc_rm, function(x) drop.tip(tree, x))
 ######################
 
 pco_data_tips<-cmdscale(trimmed_max_data_tips$dist.matrix, k=nrow(trimmed_max_data_tips$dist.matrix) - 1, add=T)$points
-pco_null_rand<-lapply(trimmed_max_null_rand, cmdscale, k=nrow(trimmed_max_null_rand) - 1, add=T)
-pco_null_simc<-lapply(trimmed_max_null_simc, cmdscale, k=nrow(trimmed_max_null_simc) - 1, add=T)
+krows<-nrow(trimmed_mat_max_null_rand[[1]])
+pco_null_rand<-lapply(trimmed_mat_max_null_rand, cmdscale, k=krows - 1, add=T)
+krows<-nrow(trimmed_mat_max_null_simc[[1]])
+pco_null_simc<-lapply(trimmed_mat_max_null_simc, cmdscale, k=krows - 1, add=T)
 
 #Isolate only the pco scores for the lists
 for (replicate in 1:length(null_mat_rand_dist)) {
@@ -137,15 +162,68 @@ pco_int_tips<-int.pco(pco_data_tips, tree_tips, int_breaks, include.nodes=FALSE,
 pco_int_null_rand<-list()
 pco_int_null_simc<-list()
 for (replicate in 1:length(null_mat_rand_dist)) {
-    pco_int_null_rand[[replicate]]<-int.pco(pco_int_null_rand[[replicate]], tree_rand[[replicate]], int_breaks, include.nodes=FALSE, FAD_LAD=FADLAD)
-    pco_int_null_simc[[replicate]]<-int.pco(pco_int_null_simc[[replicate]], tree_simc[[replicate]], int_breaks, include.nodes=FALSE, FAD_LAD=FADLAD)
+    pco_int_null_rand[[replicate]]<-int.pco(pco_null_rand[[replicate]], tree_rand[[replicate]], int_breaks, include.nodes=FALSE, FAD_LAD=FADLAD)
+    pco_int_null_simc[[replicate]]<-int.pco(pco_null_simc[[replicate]], tree_simc[[replicate]], int_breaks, include.nodes=FALSE, FAD_LAD=FADLAD)
 }
 
-#Calculating the disparity per intervals
-disp_int_tips<-time.disparity(pco_int_tips, method="centroid", verbose=TRUE)
-disp_int_null_rand<-lapply(pco_int_null_rand, time.disparity, , method="centroid", verbose=TRUE)
-disp_int_null_simc<-lapply(pco_int_null_simc, time.disparity, , method="centroid", verbose=TRUE)
 
-#Combining the list data together
+#Calculating the disparity per intervals
+disp_int_tips<-time.disparity(pco_int_tips, method="centroid", verbose=TRUE, save.all=TRUE)
+disp_int_null_rand<-lapply(pco_int_null_rand, time.disparity, method="centroid", verbose=TRUE, save.all=TRUE)
+disp_int_null_simc<-lapply(pco_int_null_simc, time.disparity, method="centroid", verbose=TRUE, save.all=TRUE)
+
+#Isolating the values and the quantiles
+disp_tips_values<-disp_int_tips[[2]] ; disp_tips_quantiles<-disp_int_tips[[1]]
+rand_quantiles<-list()
+rand_values<-list()
+simc_quantiles<-list()
+simc_values<-list()
+for (replicate in 1:length(null_mat_rand_dist)) {
+    rand_quantiles[[replicate]]<-disp_int_null_rand[[replicate]][[1]]
+    rand_values[[replicate]]<-disp_int_null_rand[[replicate]][[2]]
+    simc_quantiles[[replicate]]<-disp_int_null_simc[[replicate]][[1]]
+    simc_values[[replicate]]<-disp_int_null_simc[[replicate]][[2]]
+}
+
+#Combining the list data together (average among all the replicates)
+disp_int_rand<-rand_quantiles[[1]]
+disp_int_simc<-simc_quantiles[[1]]
+for (replicate in 2:length(null_mat_rand_dist)) {
+    disp_int_rand[,2:ncol(disp_int_rand)]<-( disp_int_rand[,2:ncol(disp_int_rand)]+rand_quantiles[[replicate]][,2:ncol(disp_int_rand)] ) /2
+    disp_int_simc[,2:ncol(disp_int_simc)]<-( disp_int_simc[,2:ncol(disp_int_simc)]+simc_quantiles[[replicate]][,2:ncol(disp_int_simc)] ) /2
+}
+
+#Comparing the distribution for each slice using Bhattacharya
+#Creating vector lists
+for(interval in 1:length(disp_tips_values)) {
+    disp_tips_values[[interval]]<-as.vector(disp_tips_values[[interval]])
+}
+rand_values_list<-list()
+simc_values_list<-list()
+for(interval in 1:length(rand_values[[1]])) {
+    for(replicate in 1:length(rand_values)) {
+        rand_values_list[[interval]]<-as.vector(rand_values[[replicate]][[interval]])
+        simc_values_list[[interval]]<-as.vector(simc_values[[replicate]][[interval]])
+    }
+}
+
+#Calculating the Bhattacharrya coefficients
+rand_vs_simc<-pair.bhatt.coeff(rand_values_list, simc_values_list)
+rand_vs_obs<-pair.bhatt.coeff(rand_values_list, disp_tips_values)
+simc_vs_obs<-pair.bhatt.coeff(simc_values_list, disp_tips_values)
 
 #Plotting the different models
+op<-par(mfrow=c(2, 2), bty="l")# oma=c(bottom, left, top, right)
+#Centroid
+plot.disparity(disp_tips_quantiles, rarefaction=FALSE, xlab="", ylab="Distance from centroid", measure="Cent.dist", main="Observed")
+plot.disparity(disp_int_rand, rarefaction=FALSE, xlab="", ylab="Distance from centroid", measure="Cent.dist", main="Random")
+plot.disparity(disp_int_simc, rarefaction=FALSE, xlab="", ylab="Distance from centroid", measure="Cent.dist", main="Simulated")
+#Bhattacharrya
+plot(rand_vs_simc, type="l", ylim=c(0,1), col="black", ylab="Bhattacharrya coefficient", xaxt='n', xlab="")
+abline(h=0.975, col="grey", lty=3)
+abline(h=0.025, col="grey", lty=3)
+axis(side = 1, at=1:length(disp_tips_values), labels=names(disp_tips_values), las=2)
+points(rand_vs_obs, type="l", col="red")
+points(simc_vs_obs, type="l", col="blue")
+xaxis()
+par(op)
