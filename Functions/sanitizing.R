@@ -88,3 +88,9 @@ bin.tree<-function(tree){
     }
     return(tree)
 }
+
+#Replacing a value to be NA
+replace.na<-function(x, y="?") {
+    x[which(x == y)] <- NA
+    return(x)
+}

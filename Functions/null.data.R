@@ -13,6 +13,7 @@
 #<matrix.model> optional. If matrix argument is a value or a vector, can be either "random" (default) or "sim.char" (see details). If argument is "sim.char", the optional argument "max.mat.rate" can be given as a maximum rate value.
 #<max.mat.rate> optional. If matrix model is "sim.char", must be a maximal rate value <= 1. Default = 0.5.
 #<tre.par.fun> optional. A function for generating the "birth-death" tree parameters (if missing, the parameters are randomly generate with birth parameter > death parameter).
+#<root.time> optional. A value for the root age of the trees (is ignored if tree is class "phylo").
 ##########################
 #Details:
 #tree="yule" will generate yule trees using the ape::rtree function
@@ -23,7 +24,7 @@
 #guillert(at)tcd.ie 18/03/2015
 ##########################
 
-null.data<-function(tree, matrix, replicates=100, verbose=TRUE, n.tips, tre.par.fun, matrix.model, max.mat.rate) {
+null.data<-function(tree, matrix, replicates=100, verbose=TRUE, n.tips, tre.par.fun, matrix.model, max.mat.rate, root.time=1) {
     #SANITIZING
     #tree
     if(class(tree) != "phylo") {
@@ -133,6 +134,10 @@ null.data<-function(tree, matrix, replicates=100, verbose=TRUE, n.tips, tre.par.
 
     #verbose
     check.class(verbose, 'logical', " must be logical.")
+
+    #root.time
+    check.class(root.time, 'numeric', " must be a single numeric value.")
+    check.length(root.time, 1, " must be a single numeric value.", errorif=FALSE)
 
     #CREATING THE NULL MODELS DATA
 
