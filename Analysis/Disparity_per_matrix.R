@@ -21,26 +21,26 @@ source("functions.R")
 
 #Selecting the file
 #SLATER 2013 MEE
-#chain_name<-"Slater2013"
-#data_path<-"../Data/"
-#file_matrix<-"../Data/2013-Slater-MEE-matrix-morpho.nex"
-#file_tree<-"../Data/2013-Slater-MEE-TEM.tre"
-#int_breaks<-rev(seq(from=0, to=250, by=32.5))
-#slices<-rev(seq(from=0, to=250, by=20))+5
-#slices[length(slices)]<-0
-#KT_bin=5.5
-#KT_sli=10
+chain_name<-"Slater2013"
+data_path<-"../Data/"
+file_matrix<-"../Data/2013-Slater-MEE-matrix-morpho.nex"
+file_tree<-"../Data/2013-Slater-MEE-TEM.tre"
+int_breaks<-rev(seq(from=0, to=250, by=32.5))
+slices<-rev(seq(from=0, to=250, by=20))+5
+slices[length(slices)]<-0
+KT_bin=5.5
+KT_sli=10
 
 #BECK 2014 ProcB
-chain_name<-"Beck2014"
-data_path<-"../Data/"
-file_matrix<-"../Data/2014-Beck-ProcB-matrix-morpho.nex"
-file_tree<-"../Data/2014-Beck-ProcB-TEM.tre"
-int_breaks<-rev(seq(from=0, to=150, by=20))+5
-int_breaks[length(int_breaks)]<-0
-slices<-rev(seq(from=0, to=150, by=10))
-KT_bin=4.5
-KT_sli=9.5
+#chain_name<-"Beck2014"
+#data_path<-"../Data/"
+#file_matrix<-"../Data/2014-Beck-ProcB-matrix-morpho.nex"
+#file_tree<-"../Data/2014-Beck-ProcB-TEM.tre"
+#int_breaks<-rev(seq(from=0, to=150, by=20))+5
+#int_breaks[length(int_breaks)]<-0
+#slices<-rev(seq(from=0, to=150, by=10))
+#KT_bin=4.5
+#KT_sli=9.5
 
 ######################
 #Tree and matrix
@@ -70,8 +70,7 @@ tree<-bin.tree(tree)
 #Adding node labels to the tree
 tree$node.label<-paste("n",seq(1:Nnode(tree)), sep="")
 #Setting the tree root age
-ages_data<-tree.age(tree)
-tree$root.time<-max(ages_data[,1])
+tree$root.time<-max(tree.age(tree)[,1])
 
 ######################
 #FADLAD file
@@ -98,10 +97,10 @@ load(paste(data_path, chain_name, "/", chain_name, "_distance-nodes95.Rda", sep=
 trimmed_max_data_tips<-TrimMorphDistMatrix(dist_tips$max.dist.matrix)
 trimmed_max_data_nodes<-TrimMorphDistMatrix(dist_nodes$max.dist.matrix)
 trimmed_max_data_nodes95<-TrimMorphDistMatrix(dist_nodes95$max.dist.matrix)
-#Remove the dropped taxa from the tree
-tree_tips<-drop.tip(tree, trimmed_max_data_tips$removed.taxa)
-tree_nodes<-drop.tip(tree, trimmed_max_data_nodes$removed.taxa)
-tree_nodes95<-drop.tip(tree, trimmed_max_data_nodes95$removed.taxa)
+#Remove the dropped taxa from the tree ; and resetting the root age
+tree_tips<-drop.tip(tree, trimmed_max_data_tips$removed.taxa) ; tree_tips$root.time<-max(tree.age(tree_tips)[,1])
+tree_nodes<-drop.tip(tree, trimmed_max_data_nodes$removed.taxa) ; tree_nodes$root.time<-max(tree.age(tree_nodes)[,1])
+tree_nodes95<-drop.tip(tree, trimmed_max_data_nodes95$removed.taxa) ; tree_nodes95$root.time<-max(tree.age(tree_nodes95)[,1])
 #Remove the eventual inapplicable nodes
 trimmed_max_data_nodes$dist.matrix<-trimmed_max_data_nodes$dist.matrix[c(tree_nodes$tip.label, tree_nodes$node.label),c(tree_nodes$tip.label, tree_nodes$node.label)]
 trimmed_max_data_nodes95$dist.matrix<-trimmed_max_data_nodes95$dist.matrix[c(tree_nodes$tip.label, tree_nodes$node.label),c(tree_nodes95$tip.label, tree_nodes95$node.label)]
