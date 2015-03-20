@@ -74,7 +74,6 @@ slice.pco<-function(pco_data, tree, slices, method="random", FAD_LAD, verbose=FA
         if(nrow(FAD_LAD) != Ntip(tree)) {
             FAD_LAD<-FAD_LAD[-c(which(is.na(match(rownames(FAD_LAD), tree$tip.label)))),]
         }
-
     }
 
     #verbose
@@ -112,7 +111,6 @@ slice.pco<-function(pco_data, tree, slices, method="random", FAD_LAD, verbose=FA
     }
 
     for (slice in 1:n_slices) {
-
         #Don't slice the tree if slice=0, simply drop tips
         if(slices[slice]==0) {
             #Select the tips to drop
