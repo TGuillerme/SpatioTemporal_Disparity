@@ -217,24 +217,24 @@ intpco_ran.mat_obs.tre<-intpco_sim.mat_obs.tre<-intpco_obs.mat_yul.tre<-intpco_o
 div_ran.mat_obs.tre<-div_sim.mat_obs.tre<-div_obs.mat_yul.tre<-div_obs.mat_bde.tre<-list()
 for (replicate in 1:length(dist_ran.mat_obs.tre)) {
     intpco_ran.mat_obs.tre<-int.pco(pco_ran.mat_obs.tre[[replicate]], observed_tree, int_breaks, include.nodes=TRUE, FAD_LAD=FADLAD, diversity=TRUE)
-    div_ran.mat_obs.tre[[replicate]]<-intpco_obs.mat_obs.tre[[2]] ; intpco_obs.mat_obs.tre[[replicate]]<-intpco_obs.mat_obs.tre[[1]]
+    div_ran.mat_obs.tre[[replicate]]<-intpco_ran.mat_obs.tre[[2]] ; intpco_ran.mat_obs.tre[[replicate]]<-intpco_ran.mat_obs.tre[[1]]
 
     intpco_sim.mat_obs.tre<-int.pco(pco_sim.mat_obs.tre[[replicate]], observed_tree, int_breaks, include.nodes=TRUE, FAD_LAD=FADLAD, diversity=TRUE)
     div_sim.mat_obs.tre[[replicate]]<-intpco_sim.mat_obs.tre[[2]] ; intpco_sim.mat_obs.tre[[replicate]]<-intpco_sim.mat_obs.tre[[1]]
 
-    intpco_obs.mat_yul.tre<-int.pco(pco_obs.mat_yul.tre[[replicate]], obs.mat_yul.tre_init[[replicate]], int_breaks, include.nodes=TRUE, FAD_LAD=FADLAD, diversity=TRUE)
-    div_obs.mat_yul.tre[[replicate]]<-intpco_obs.mat_yul.tre[[2]] ; intpco_obs.mat_yul.tre[[replicate]]<-intpco_obs.mat_yul.tre[[1]]
+    #intpco_obs.mat_yul.tre<-int.pco(pco_obs.mat_yul.tre[[replicate]], obs.mat_yul.tre_init[[replicate]], int_breaks, include.nodes=TRUE, FAD_LAD=FADLAD, diversity=TRUE)
+    #div_obs.mat_yul.tre[[replicate]]<-intpco_obs.mat_yul.tre[[2]] ; intpco_obs.mat_yul.tre[[replicate]]<-intpco_obs.mat_yul.tre[[1]]
 
-    intpco_obs.mat_bde.tre<-int.pco(pco_obs.mat_bde.tre[[replicate]], obs.mat_bde.tre_init[[replicate]], int_breaks, include.nodes=TRUE, FAD_LAD=FADLAD, diversity=TRUE)
-    div_obs.mat_bde.tre[[replicate]]<-intpco_obs.mat_bde.tre[[2]] ; intpco_obs.mat_bde.tre[[replicate]]<-intpco_obs.mat_bde.tre[[1]]
+    #intpco_obs.mat_bde.tre<-int.pco(pco_obs.mat_bde.tre[[replicate]], obs.mat_bde.tre_init[[replicate]], int_breaks, include.nodes=TRUE, FAD_LAD=FADLAD, diversity=TRUE)
+    #div_obs.mat_bde.tre[[replicate]]<-intpco_obs.mat_bde.tre[[2]] ; intpco_obs.mat_bde.tre[[replicate]]<-intpco_obs.mat_bde.tre[[1]]
 }
 
 #Calculating the disparity per intervals
 disp_obs.mat_obs.tre<-time.disparity(intpco_obs.mat_obs.tre, method="centroid", verbose=TRUE, save.all=TRUE)
 disp_ran.mat_obs.tre<-lapply(intpco_ran.mat_obs.tre, time.disparity, method="centroid", verbose=TRUE, save.all=TRUE)
 disp_sim.mat_obs.tre<-lapply(intpco_sim.mat_obs.tre, time.disparity, method="centroid", verbose=TRUE, save.all=TRUE)
-disp_obs.mat_yul.tre<-lapply(intpco_obs.mat_yul.tre, time.disparity, method="centroid", verbose=TRUE, save.all=TRUE)
-disp_obs.mat_bde.tre<-lapply(intpco_obs.mat_bde.tre, time.disparity, method="centroid", verbose=TRUE, save.all=TRUE)
+#disp_obs.mat_yul.tre<-lapply(intpco_obs.mat_yul.tre, time.disparity, method="centroid", verbose=TRUE, save.all=TRUE)
+#disp_obs.mat_bde.tre<-lapply(intpco_obs.mat_bde.tre, time.disparity, method="centroid", verbose=TRUE, save.all=TRUE)
 
 #Isolating the values and the quantiles
 values_obs.mat_obs.tre<-disp_obs.mat_obs.tre[[2]] ; quantiles_obs.mat_obs.tre<-disp_obs.mat_obs.tre[[1]]
@@ -245,21 +245,21 @@ quantiles_ran.mat_obs.tre<-quantiles_sim.mat_obs.tre<-quantiles_obs.mat_yul.tre<
 for (replicate in 1:length(dist_ran.mat_obs.tre)) {
     values_ran.mat_obs.tre[[replicate]]<-disp_ran.mat_obs.tre[[replicate][[2]] ; quantiles_ran.mat_obs.tre[[replicate]]<-disp_ran.mat_obs.tre[[replicate][[1]]
     values_sim.mat_obs.tre[[replicate]]<-disp_sim.mat_obs.tre[[replicate][[2]] ; quantiles_sim.mat_obs.tre[[replicate]]<-disp_sim.mat_obs.tre[[replicate][[1]]
-    values_obs.mat_yul.tre[[replicate]]<-disp_obs.mat_yul.tre[[replicate][[2]] ; quantiles_obs.mat_yul.tre[[replicate]]<-disp_obs.mat_yul.tre[[replicate][[1]]
-    values_obs.mat_bde.tre[[replicate]]<-disp_obs.mat_bde.tre[[replicate][[2]] ; quantiles_obs.mat_bde.tre[[replicate]]<-disp_obs.mat_bde.tre[[replicate][[1]]
+    #values_obs.mat_yul.tre[[replicate]]<-disp_obs.mat_yul.tre[[replicate][[2]] ; quantiles_obs.mat_yul.tre[[replicate]]<-disp_obs.mat_yul.tre[[replicate][[1]]
+    #values_obs.mat_bde.tre[[replicate]]<-disp_obs.mat_bde.tre[[replicate][[2]] ; quantiles_obs.mat_bde.tre[[replicate]]<-disp_obs.mat_bde.tre[[replicate][[1]]
 }
 
 #Combining the list data together (average among all the replicates)
 quant_ran.mat_obs.tre<-quantiles_ran.mat_obs.tre[[1]]
 quant_sim.mat_obs.tre<-quantiles_sim.mat_obs.tre[[1]]
-quant_obs.mat_yul.tre<-quantiles_obs.mat_yul.tre[[1]]
-quant_obs.mat_bde.tre<-quantiles_obs.mat_bde.tre[[1]]
+#quant_obs.mat_yul.tre<-quantiles_obs.mat_yul.tre[[1]]
+#quant_obs.mat_bde.tre<-quantiles_obs.mat_bde.tre[[1]]
 
 for (replicate in 2:length(dist_ran.mat_obs.tre)) {
     quant_ran.mat_obs.tre[, 2:ncol(quant_ran.mat_obs.tre)]<-( quant_ran.mat_obs.tre[, 2:ncol(quant_ran.mat_obs.tre)] + quantiles_ran.mat_obs.tre[[replicate]][, 2:ncol(quant_ran.mat_obs.tre)] ) /2
     quant_sim.mat_obs.tre[, 2:ncol(quant_sim.mat_obs.tre)]<-( quant_sim.mat_obs.tre[, 2:ncol(quant_sim.mat_obs.tre)] + quantiles_sim.mat_obs.tre[[replicate]][, 2:ncol(quant_sim.mat_obs.tre)] ) /2
-    quant_obs.mat_yul.tre[, 2:ncol(quant_obs.mat_yul.tre)]<-( quant_obs.mat_yul.tre[, 2:ncol(quant_obs.mat_yul.tre)] + quantiles_obs.mat_yul.tre[[replicate]][, 2:ncol(quant_obs.mat_yul.tre)] ) /2
-    quant_obs.mat_bde.tre[, 2:ncol(quant_obs.mat_bde.tre)]<-( quant_obs.mat_bde.tre[, 2:ncol(quant_obs.mat_bde.tre)] + quantiles_obs.mat_bde.tre[[replicate]][, 2:ncol(quant_obs.mat_bde.tre)] ) /2
+    #quant_obs.mat_yul.tre[, 2:ncol(quant_obs.mat_yul.tre)]<-( quant_obs.mat_yul.tre[, 2:ncol(quant_obs.mat_yul.tre)] + quantiles_obs.mat_yul.tre[[replicate]][, 2:ncol(quant_obs.mat_yul.tre)] ) /2
+    #quant_obs.mat_bde.tre[, 2:ncol(quant_obs.mat_bde.tre)]<-( quant_obs.mat_bde.tre[, 2:ncol(quant_obs.mat_bde.tre)] + quantiles_obs.mat_bde.tre[[replicate]][, 2:ncol(quant_obs.mat_bde.tre)] ) /2
 }
 
 #Comparing the distribution for each slice using Bhattacharya
@@ -294,11 +294,11 @@ for(replicate in 1:length(val_obs.mat_bde.tre)) {
 #Calculating the Bhattacharrya coefficients
 obs_vs_ran.mat<-pair.bhatt.coeff(val_obs.mat_obs.tre, val_ran.mat_obs.tre)
 obs_vs_sim.mat<-pair.bhatt.coeff(val_obs.mat_obs.tre, val_sim.mat_obs.tre)
-obs_vs_yul.tre<-pair.bhatt.coeff(val_obs.mat_obs.tre, val_obs.mat_yul.tre)
-obs_vs_bde.tre<-pair.bhatt.coeff(val_obs.mat_obs.tre, val_obs.mat_bde.tre)
+#obs_vs_yul.tre<-pair.bhatt.coeff(val_obs.mat_obs.tre, val_obs.mat_yul.tre)
+#obs_vs_bde.tre<-pair.bhatt.coeff(val_obs.mat_obs.tre, val_obs.mat_bde.tre)
 #
 sim_vs_ran.mat<-pair.bhatt.coeff(val_sim.mat_obs.tre, val_ran.mat_obs.tre)
-bde_vs_yul.tre<-pair.bhatt.coeff(val_obs.mat_bde.tre, val_obs.mat_yul.tre)
+#bde_vs_yul.tre<-pair.bhatt.coeff(val_obs.mat_bde.tre, val_obs.mat_yul.tre)
 
 
 
