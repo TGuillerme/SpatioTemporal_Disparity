@@ -2,7 +2,7 @@
 #int.pco
 ##########################
 #Select the number of taxa per intervals
-#v0.2.1
+#v0.2.2
 ##########################
 #SYNTAX :
 #<pco_data> the pco data to split in intervals.
@@ -176,9 +176,9 @@ int.pco<-function(pco_data, tree, intervals, FAD_LAD, include.nodes=FALSE, diver
     #Diversity
     if(diversity == TRUE) {
         #count the elements per intervals
-        diversity_counts<-unlist(lapply(int_elements, length))
+        diversity_counts<-unlist(lapply(int_elements[c(-empty_intervals)], length))
         #add the interval names
-        names(diversity_counts)<-name_list
+        names(diversity_counts)<-name_list[-empty_intervals]
 
         #Output
         output<-list("pco_intervals"=pco_intervals, "diversity"=diversity_counts)
