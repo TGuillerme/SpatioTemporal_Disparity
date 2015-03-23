@@ -178,7 +178,7 @@ int.pco<-function(pco_data, tree, intervals, FAD_LAD, include.nodes=FALSE, diver
         #count the elements per intervals
         diversity_counts<-unlist(lapply(int_elements[c(-empty_intervals)], length))
         #add the interval names
-        names(diversity_counts)<-name_list[-empty_intervals]
+        names(diversity_counts)<-name_list
 
         #Output
         output<-list("pco_intervals"=pco_intervals, "diversity"=diversity_counts)
