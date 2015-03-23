@@ -42,7 +42,7 @@ time.disparity<-function(time_pco, method=c("centroid", "sum.range", "product.ra
         #Creating the new time_pco data
         new_time_pco<-time_pco ; names(new_time_pco)<-names(time_pco)
         #replacing the wrong interval
-        new_time_pco[[host_interval]<-new_interval
+        new_time_pco[[host_interval]]<-new_interval
         #renaming the interval
         if(wrong_intervals[1] != length(time_pco)) {
             names(new_time_pco)[host_interval]<-paste(strsplit(names(new_time_pco)[wrong_intervals[1]], split="-")[[1]][1],strsplit(names(new_time_pco)[host_interval], split="-")[[1]][2],sep="-")
