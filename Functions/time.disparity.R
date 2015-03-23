@@ -1,8 +1,8 @@
 ##########################
 #time.disparity
 ##########################
-#Calculates the disparity for intervalned pco.data and output a interval.disparity table object
-#v0.2.1
+#Calculates the disparity for interval pco.data and output a interval.disparity table object
+#v0.2.2
 ##########################
 #SYNTAX :
 #<time_pco> time intervals or slices from a pco
@@ -23,6 +23,35 @@ time.disparity<-function(time_pco, method=c("centroid", "sum.range", "product.ra
     #rarefaction
     if(rarefaction == TRUE) {
         message("Rarefaction is calculated and slows down the disparity calculation.\nUse Rarefaction=FALSE to speed up the calculations.")
+    }
+
+    #Managing bins with only one data point
+    while(any(unlist(lapply(time_pco, nrow)) < 2)) {
+        wrong_intervals<-which(unlist(lapply(time_pco, nrow)) < 2)
+        #Moving the first wrong interval to the next interval in time (unless the wrong interval is the last one)
+        if(wrong_intervals[1] != length(time_pco)) {
+            host_interval<-wrong_intervals[1]+1
+            message("Intervals ", names(time_pco)[wrong_intervals[1]], " and ", names(time_pco)[host_interval], " are combined due to insufficient data.")
+        } else {
+            #Moving the wrong interval in the preceding one
+            host_interval<-wrong_intervals[1]-1
+            message("Intervals ", names(time_pco)[host_interval], " and ", names(time_pco)[wrong_intervals[1]], " are combined due to insufficient data.")
+        }
+        #Creating the new interval
+        new_interval<-rbind(time_pco[[wrong_intervals[1]]], time_pco[[host_interval]])
+        #Creating the new time_pco data
+        new_time_pco<-time_pco ; names(new_time_pco)<-names(time_pco)
+        #replacing the wrong interval
+        new_time_pco[[wrong_intervals[1]+1]]<-new_interval
+        #renaming the interval
+        if(wrong_intervals[1] != length(time_pco)) {
+            names(new_time_pco)[wrong_intervals[1]+1]<-paste(strsplit(names(new_time_pco)[wrong_intervals[1]], split="-")[[1]][1],strsplit(names(new_time_pco)[host_interval], split="-")[[1]][2],sep="-")
+        } else {
+            names(new_time_pco)[wrong_intervals[1]+1]<-paste(strsplit(names(new_time_pco)[host_interval], split="-")[[1]][1],strsplit(names(new_time_pco)[wrong_intervals[1]], split="-")[[1]][2],sep="-")
+        }
+        #removing empty interval
+        new_time_pco[[wrong_intervals[1]]]<-NULL
+        time_pco<-new_time_pco
     }
 
     #CALCULATING THE DISPARITY FOR EACH BIN

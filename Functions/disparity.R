@@ -3,7 +3,7 @@
 ##########################
 #Calculate the disparity as the distance from centroid
 #This function is based on DisparityCalc() from Smith et al. 2014 - Evolution (http://dx.doi.org/10.1111/evo.12435) http://datadryad.org/resource/doi:10.5061/dryad.d380g 
-#v0.2.1
+#v0.2.2
 ##########################
 #SYNTAX :
 #<distance> the distance matrix
@@ -24,6 +24,11 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
     #SANITIZING
     #distance
     check.class(data, "matrix", " must be a distance matrix.")
+
+    #Test if applicable (> 2 rows)
+    if(nrow(data) < 2) {
+        stop("Disparity can not be calculated because less than two taxa are present in the data!")
+    } 
 
     #method
     check.class(method, "character", " must be 'centroid', 'sum.range', 'product.range', 'sum.variance' or/and 'product.variance'.")
