@@ -244,7 +244,7 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
         output<-matrix(nrow=1, data=rep(NA, 1))
         colnames(output)[1]<-"rarefaction"
     } else {
-        output<-matrix(nrow=(ncol(data)-1), data=seq(from=2, to=ncol(data)))
+        output<-matrix(nrow=(nrow(data)-1), data=seq(from=2, to=nrow(data)))
         colnames(output)[1]<-"rarefaction"
     }
 
