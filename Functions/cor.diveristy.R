@@ -11,7 +11,7 @@
 #guillert(at)tcd.ie 23/03/2015
 ##########################
 
-cor.disparity<-function(diversity) {
+cor.diversity<-function(diversity) {
     #SANITIZING
     check.class(diversity, "integer", " must be a vector of taxa counts.")
     if(is.null(names(diversity))) {
