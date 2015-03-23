@@ -75,7 +75,6 @@ ages_data<-tree.age(tree)
 tree$root.time<-max(ages_data[,1])
 
 #submatrix
-match(tree$tip.label, rownames(Nexus_data$matrix))
 Nexus_data$matrix<-Nexus_data$matrix[match(tree$tip.label, rownames(Nexus_data$matrix)) ,]
 
 #Isolating the states list
@@ -199,7 +198,7 @@ save(dist_sim.mat_obs.tre, file=paste("../Data/",chain_name,"/dist_sim.mat_obs.t
 #Distance matrix using also nodes95
 #Distance matrix using also nodes
 dist_obs.mat_obs.tre95<-MorphDistMatrix.verbose(observed_mat, verbose=TRUE)
-save(dist_obs.mat_obs.tree95, file=paste("../Data/",chain_name,"/dist_obs.mat_obs.tree95.Rda", sep=""))
+save(dist_obs.mat_obs.tre95, file=paste("../Data/",chain_name,"/dist_obs.mat_obs.tree95.Rda", sep=""))
 
 dist_ran.mat_obs.tre95<-lapply(ran.mat_obs.tre95, MorphDistMatrix.verbose, verbose=TRUE)
 save(dist_ran.mat_obs.tre95, file=paste("../Data/",chain_name,"/dist_ran.mat_obs.tree95.Rda", sep=""))
