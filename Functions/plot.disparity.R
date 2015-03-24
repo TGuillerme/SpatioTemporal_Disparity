@@ -9,12 +9,13 @@
 #<measure> the name of the column containing the disparity measurement. If set to 'default' the measure will be the first measure (second column) of the table.
 #<rarefaction> whether to plot the rarefaction results or not
 #<diversity> optional. Must be a vector of the same length as disparity_data.
+#<add> optional. Whether to add the a previous called graph
 ##########################
 #----
 #guillert(at)tcd.ie 19/03/2015
 ##########################
 
-plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, xlab="default", ylab="default", col="default", las=2, diversity, ...){
+plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, xlab="default", ylab="default", col="default", las=2, diversity, add=FALSE, ylim, ...){
     #SANITIZING
     #Disparity
     check.class(disparity_data, 'data.frame', " must be a disparity data.frame")
@@ -34,6 +35,7 @@ plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, x
             stop("measure column not found in disparity_data.\nUse the disparity() function to generate the proper formatted data.frame.")
         }
     }
+
     #Get the Confidence intervals columns
     measure_col_tmp<-measure_col
     while(length(grep("%", colnames(disparity_data)[(measure_col_tmp+1)]))==1) {
@@ -56,7 +58,7 @@ plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, x
     lty_list<-c(44,33,22,21,12)
 
     #Rarefaction
-    check.class(rarefaction, 'logical', " must be logical.")
+    check.class(rarefaction, 'logical')
     #Check if rarefaction data is available
     options(warn=-1)
     if(rarefaction == TRUE & is.na(disparity_data[,1])) {
@@ -86,76 +88,102 @@ plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, x
         check.length(diversity, nrow(disparity_data), " must be a numeric vector of the same number of rows as disparity_data.")
     }
 
+    #add
+    check.class(add, "logical")
+
     #PLOTTING THE DISPARITY RESULTS
-    if(rarefaction == TRUE) {
-        #Plotting the rarefaction curve
-        plot(disparity_data[,1], disparity_data[,measure_col], type='l', ylim=c(min(disparity_data[,CI_min]),max(disparity_data[,CI_max])) , ...)
-        #Add the CIs
-        for (n in 1:(CI_length/2)) {
-            #Add both lines
-            lines(disparity_data[,1], disparity_data[,CI_pairs[n,1]], type='l', lty=lty_list[n+1])
-            lines(disparity_data[,1], disparity_data[,CI_pairs[n,2]], type='l', lty=lty_list[n+1])
-        }
-
-    } else {
-        #Plotting the disparity curve
-        if(nrow(disparity_data) == 1) {
-            #If only one data point is available, do box plot style
-            plot(1,1, xlab='', ylab='', ylim=c(min(disparity_data[,CI_min]),max(disparity_data[,CI_max])), type='n', xaxt='n')
-            points(1,disparity_data[,measure_col], pch=19)
-            #line types for this one
-            lty_list2<-c(44,1,1,1,1,1)
-            for (n in 1:(CI_length/2)) {
-                #Add CIs lines
-                lines(c(1,1), c(disparity_data[,CI_pairs[n,1]], disparity_data[,CI_pairs[n,2]]), lwd=1+(n-1)*3, lty=lty_list2[n])
+    if(add == FALSE) {
+        if(rarefaction == TRUE) {
+            #ylim
+            if(missing(ylim)) {
+                ylim=c(min(disparity_data[,CI_min]),max(disparity_data[,CI_max]))
             }
+            #Plotting the rarefaction curve
+            plot(disparity_data[,1], disparity_data[,measure_col], type='l', ylim=ylim , ...)
+            #Add the CIs
+            for (n in 1:(CI_length/2)) {
+                #Add both lines
+                lines(disparity_data[,1], disparity_data[,CI_pairs[n,1]], type='l', lty=lty_list[n+1])
+                lines(disparity_data[,1], disparity_data[,CI_pairs[n,2]], type='l', lty=lty_list[n+1])
+            }
+
         } else {
-            #Setting plot options (defaults)
-            #xlab
-            if(xlab=="default") {
-                xlab="bins"
-            }
-            #ylab
-            if(ylab=="default") {
-                ylab=names(disparity_data)[measure_col]
-            }
-            #colors
-            if(col=="default") {
-                #line color
-                line_color<-"black"
-                #polygon_colors
-                polygon_colors<-c("lightgrey", "grey")
+            #Plotting the disparity curve
+            if(nrow(disparity_data) == 1) {
+                #ylim
+                if(missing(ylim)) {
+                    ylim=c(min(disparity_data[,CI_min]),max(disparity_data[,CI_max]))
+                }
+                #If only one data point is available, do box plot style
+                plot(1,1, xlab='', ylab='', ylim=ylim, type='n', xaxt='n')
+                points(1,disparity_data[,measure_col], pch=19)
+                #line types for this one
+                lty_list2<-c(44,1,1,1,1,1)
+                for (n in 1:(CI_length/2)) {
+                    #Add CIs lines
+                    lines(c(1,1), c(disparity_data[,CI_pairs[n,1]], disparity_data[,CI_pairs[n,2]]), lwd=1+(n-1)*3, lty=lty_list2[n])
+                }
             } else {
-                #line color
-                line_color<-col[1]
-                #polygon_colors
-                polygon_colors<-col
-            }
+                #Setting plot options (defaults)
+                #xlab
+                if(xlab=="default") {
+                    xlab="bins"
+                }
+                #ylab
+                if(ylab=="default") {
+                    ylab=names(disparity_data)[measure_col]
+                }
+                #colors
+                if(col=="default") {
+                    #line color
+                    line_color<-"black"
+                    #polygon_colors
+                    polygon_colors<-c("lightgrey", "grey")
+                } else {
+                    #line color
+                    line_color<-col[1]
+                    #polygon_colors
+                    polygon_colors<-col
+                }
 
-            #Plotting the curve
-            plot(seq(from=1, to=nrow(disparity_data)), disparity_data[,measure_col], type='l', 
-                ylim=c(min(disparity_data[,CI_min]),max(disparity_data[,CI_max])) ,col="white", ylab=ylab, xlab=xlab, xaxt='n' , ...)
-                #ylim=c(min(disparity_data[,CI_min]),max(disparity_data[,CI_max])) ,col="white", ylab=ylab, xlab=xlab, xaxt='n'); warning("debug")
-            if(class(disparity_data[,1]) == "character") {
-                axis(side = 1, 1:nrow(disparity_data), disparity_data[,1], las=las)
-            } else {
-                axis(side = 1, 1:nrow(disparity_data))
-            }
-            #Add the polygons
-            for (n in 1:(CI_length/2)) {
-                polygon(c(seq(from=1, to=nrow(disparity_data)), seq(from=nrow(disparity_data), to=1)),
-                    c(disparity_data[,CI_pairs[n,1]], rev(disparity_data[,CI_pairs[n,2]])),
-                    col=polygon_colors[n], density=100-(100/(CI_length/2)/2.5*n))
-            }
-            #Add the central tendency line
-            lines(seq(from=1, to=nrow(disparity_data)), disparity_data[,measure_col], type='l', ylim=c(min(disparity_data[,CI_min]),max(disparity_data[,CI_max], col=line_color)))
+                #ylim
+                if(missing(ylim)){
+                    ylim=c(min(disparity_data[,CI_min]),max(disparity_data[,CI_max]))
+                }
 
-            #Add the diversity (optional)
-            if(plot.diversity==TRUE) {
-                par(new=TRUE)
-                plot(diversity, type="l", lty=2, xaxt="n",yaxt="n",xlab="",ylab="")
-                axis(4)
+                #Plotting the curve
+                plot(seq(from=1, to=nrow(disparity_data)), disparity_data[,measure_col], type='l', 
+                    ylim=ylim ,col="white", ylab=ylab, xlab=xlab, xaxt='n' , ...)
+                    #ylim=ylim ,col="white", ylab=ylab, xlab=xlab, xaxt='n'); warning("debug")
+                if(class(disparity_data[,1]) == "character") {
+                    axis(side = 1, 1:nrow(disparity_data), disparity_data[,1], las=las)
+                } else {
+                    axis(side = 1, 1:nrow(disparity_data))
+                }
+                #Add the polygons
+                for (n in 1:(CI_length/2)) {
+                    polygon(c(seq(from=1, to=nrow(disparity_data)), seq(from=nrow(disparity_data), to=1)),
+                        c(disparity_data[,CI_pairs[n,1]], rev(disparity_data[,CI_pairs[n,2]])),
+                        col=polygon_colors[n], density=100-(100/(CI_length/2)/2.5*n))
+                }
+                #ylim
+                if(missing(ylim)){
+                    ylim=c(min(disparity_data[,CI_min]),max(disparity_data[,CI_max]))
+                }
+                #Add the central tendency line
+                lines(seq(from=1, to=nrow(disparity_data)), disparity_data[,measure_col], type='l', ylim=ylim, col=line_color)
+
+                #Add the diversity (optional)
+                if(plot.diversity==TRUE) {
+                    par(new=TRUE)
+                    plot(diversity, type="l", lty=2, xaxt="n",yaxt="n",xlab="",ylab="")
+                    axis(4)
+                }
             }
         }
+    } else {
+
+        #Adding to the existing plot
+        stop("add=TRUE option in development.")
     }
 }
