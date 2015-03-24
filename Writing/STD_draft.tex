@@ -1,0 +1,204 @@
+%LaTeX template : http://systbio.org/files/SB_LaTeX_Template_txt_extension.txt
+%Author instructions: http://www.oxfordjournals.org/our_journals/sysbio/for_authors/ms_preparation.html
+
+\documentclass[12pt,letterpaper]{article}
+
+%Packages
+\usepackage{pdflscape}
+\usepackage{fixltx2e}
+\usepackage{textcomp}
+\usepackage{fullpage}
+\usepackage{natbib}
+\usepackage{float}
+\usepackage{latexsym}
+\usepackage{url}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{array}
+\usepackage[version=3]{mhchem}
+\usepackage{ifthen}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{amsthm}
+\usepackage{amstext}
+\usepackage{enumerate}
+\usepackage[osf]{mathpazo}
+\usepackage{dcolumn}
+\usepackage{lineno}
+\pagenumbering{arabic}
+
+
+%Pagination style and stuff
+\linespread{2}
+\raggedright
+\setlength{\parindent}{0.5in}
+\setcounter{secnumdepth}{0} 
+\renewcommand{\section}[1]{%
+\bigskip
+\begin{center}
+\begin{Large}
+\normalfont\scshape #1
+\medskip
+\end{Large}
+\end{center}}
+\renewcommand{\subsection}[1]{%
+\bigskip
+\begin{center}
+\begin{large}
+\normalfont\itshape #1
+\end{large}
+\end{center}}
+\renewcommand{\subsubsection}[1]{%
+\vspace{2ex}
+\noindent
+\textit{#1.}---}
+\renewcommand{\tableofcontents}{}
+\bibpunct{(}{)}{;}{a}{}{,}
+
+%---------------------------------------------
+%
+%       START
+%
+%---------------------------------------------
+
+\begin{document}
+
+%Running head
+\begin{flushright}
+Version dated: \today
+\end{flushright}
+\bigskip
+\noindent RH: Tempo and mode in mammals evolution
+
+\bigskip
+\medskip
+\begin{center}
+
+\noindent{\Large \bf Tempo and mode in mammals morphological evolution around the K-Pg boundary}
+
+\bigskip
+
+\noindent {\normalsize \sc Thomas Guillerme$^1$$^,$$^2$$^*$, and Natalie Cooper$^1$$^,$$^2$}\\
+\noindent {\small \it 
+$^1$School of Natural Sciences, Trinity College Dublin, Dublin 2, Ireland.\\
+$^2$Trinity Centre for Biodiversity Research, Trinity College Dublin, Dublin 2, Ireland.}\\
+\end{center}
+\medskip
+\noindent{*\bf Corresponding author.} \textit{Zoology Building, Trinity College Dublin, Dublin 2, Ireland; E-mail: guillert@tcd.ie; Fax: +353 1 6778094; Tel: +353 1 896 2571.}\\
+\vspace{1in}
+
+%Line numbering
+\modulolinenumbers[1]
+\linenumbers
+
+%---------------------------------------------
+%
+%       ABSTRACT
+%
+%---------------------------------------------
+
+\newpage
+\begin{abstract}
+The Cretaceous-Paleogene boundary (K-T; 66Mya) represents a drastic global change in biodiversity. This event is linked to an extraterrestrial impact and a major volcanism event. Traditionally the K-Pg event was viewed as the extinction of dinosaurs and the rise of mammals. However, the last three decades of field palaeontology and macroevolutionary studies have weakened this simplistic view. Exceptionally diverse mammals appeared prior to the Paleogene and there is overwhelming evidence for a radiation of the avian-dinosaurs in the latest Cretaceous.
+
+In this study, we use a character-space approach on multiple data sets of living and fossil mammals to investigate the variations in disparity and diversity in mammals since the Jurassic. We show that maximal disparity is achieved prior to the Paleogene and that there is no significant increase in diversity across the K-T boundary.
+
+\end{abstract}
+
+\noindent (Keywords: morphological characters, Bayesian, Maximum Likelihood, topology, fossil, living)\\
+
+\vspace{1.5in}
+
+\newpage 
+
+%---------------------------------------------
+%
+%       INTRODUCTION
+%
+%---------------------------------------------
+
+\section{Introduction}
+
+%---------------------------------------------
+%
+%       METHODS
+%
+%---------------------------------------------
+
+\section{Methods}
+\subsection{Data collection}
+Mammal matrices with the product of character states superior to the number of taxa (to avoid an overfull character space) and an associated phylogenetic tree.
+List of publications associated with the matrices is available in the supplementary data.
+First and Last occurence datum for the total amount of taxa present in all the data sets downloaded from the paleo database.
+
+\subsection{Character-space estimation}
+Similarly to a morpho-space, the character-space is a theoretical n dimension object that encompasses the variability of the data. However, because the character-space is based on phylogenetic informative finite characters, the character-space is also a finite n dimension object where the number of dimensions is equal to the product of the number of character states. Link with phylogeny
+
+\subsubsection{Ancestral states reconstruction}
+In order to estimate the full size of the character-space, we need also to incorporate the cladistic shape of the hypothetical ancestors to the create the character-space.
+We use Claddis ace method to deal with NAs.
+\subsubsection{Distance matrix}
+We then create the distance between each taxa and nodes using the MOD distance.
+\subsubsection{Distances ordination}
+We then use principal components ordination to summarize the distance matrix and create the n dimensions of our character-space.
+
+\subsection{Temporal division}
+We then divide our observed total character-space into sub character-spaces representing the filling of the character-space at various points in time.
+\subsubsection{Time intervals}
+We count all the nodes/tips present in a given time interval.
+Classic but artificially grouping data. The minimal bin size should contain at least two nodes/tips and sometime that involves having time intervals spanning accross tens of millions of years. Such long duration time intervals have no real biological meaning since it is unlikely that all of the nodes/tips present in the time interval did ever coexisted and had ever biological interactions together.
+\subsubsection{Time slices}
+We count all the branches/nodes/tips present a given point in time. This method has the advantage on the previous method to give a finer grain insight of the evolution through time. Also, no bias is included by bining taxa and artificially emphasizing on certain time intervals since each slice slicing through more than one branch (excluding only the branch leading to the first bifurcation in a dichotomous tree). Because evolution is darwinian (descent with modification), at each slice, we can be really confident that the number of taxa was at least equal to the number of sliced branches.
+
+\subsection{Tempo an mode}
+\subsubsection{Diversity}
+Defined here as the number of taxonomic elements (OTUs) available in each matrix through time.
+\subsubsection{Disparity}
+Defined here as the mean euclidean distance between each species and the centroid of the n dimension character-space.
+\subsubsection{Rarefaction}
+To avoid bias due to diversity (disparity is expected to be smaller by chance when diversity decrease) we resample each time bin/slice to be equal to the minimal number of taxa available for all the bins/slices.
+\subsubsection{Difference to null}
+To test the statistical validity of the pattern in our data, we compared it to a null model where the character-space is generated randomly or under a constant birth death model. We compared the observed data to our null model for each time slice using the Bhattacharrya  coefficient (explain). We considered the observed disparity to be significantly different to the null models when less that 5\% of the distributions overlap (BC=0.05). Inversely, we considered them to be the same when 95\% of the data overlap (BC=0.95).
+
+%---------------------------------------------
+%
+%       RESULTS
+%
+%---------------------------------------------
+
+\section{Results}
+
+%---------------------------------------------
+%
+%       DISCUSSION
+%
+%---------------------------------------------
+
+\section{Discussion}
+
+%---------------------------------------------
+%
+%       CONCLUSION
+%
+%---------------------------------------------
+
+\section{Conclusion}
+
+
+%---------------------------------------------
+
+\section{Data availability and reproducibility}
+
+\section{Acknowledgments}
+Graeme Lloyd. 
+
+\section{Funding}
+This work was funded by a European Commission CORDIS Seventh Framework Programme (FP7) Marie Curie CIG grant (proposal number: 321696).
+
+\bibliographystyle{sysbio}
+\bibliography{/References}
+
+\end{document}
