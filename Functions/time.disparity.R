@@ -2,7 +2,7 @@
 #time.disparity
 ##########################
 #Calculates the disparity for interval pco.data and output a interval.disparity table object
-#v0.2.2
+#v0.2.3
 ##########################
 #SYNTAX :
 #<time_pco> time intervals or slices from a pco
@@ -68,24 +68,35 @@ time.disparity<-function(time_pco, method=c("centroid", "sum.range", "product.ra
                 disparity_intervals_table<-rbind(disparity_intervals_table, disparity_interval[[interval]])
             }
             #Renaming the rarefaction column interval
-            colnames(disparity_intervals_table)[1]<-"time section"
+            colnames(disparity_intervals_table)[1]<-"time"
             #Saving the interval names
             disparity_intervals_table[,1]<-names(time_pco)
 
         } else {
 
             #If rarefaction has been calculated, only get the last element of each rarefaction table
-            #create the table's first row
-            disparity_intervals_table<-disparity_interval[[1]][nrow(disparity_interval[[1]]),]
-            #Loop through the other elements of the table
-            for(interval in 2:length(disparity_interval)) {
-                disparity_intervals_table<-rbind(disparity_intervals_table, disparity_interval[[interval]][nrow(disparity_interval[[interval]]),])
+
+            #create an interval row
+            interval_row<-matrix(nrow=(nrow(disparity_interval[[1]])), data=rep(names(time_pco)[[1]]))
+            #add the disparity results (with rarefaction)
+            interval_tab<-cbind(interval_row, disparity_interval[[1]])
+            #binding the interval table
+            disparity_intervals_table<-rbind(interval_tab)
+
+            #Loop through the other intervals
+            for(interval in 2:length(time_pco)) {
+                #create an interval row
+                interval_row<-matrix(nrow=(nrow(disparity_interval[[interval]])), data=rep(names(time_pco)[[interval]]))
+                #add the disparity results (with rarefaction)
+                interval_tab<-cbind(interval_row, disparity_interval[[interval]])
+                #binding the interval table
+                disparity_intervals_table<-rbind(disparity_intervals_table, interval_tab)
             }
+
             #Renaming the rarefaction column interval
-            colnames(disparity_intervals_table)[1]<-"time section"
-            #Saving the interval names
-            disparity_intervals_table[,1]<-names(time_pco)
+            colnames(disparity_intervals_table)[1]<-"time"
         }
+
         return(disparity_intervals_table)
     
     } else {
@@ -100,24 +111,33 @@ time.disparity<-function(time_pco, method=c("centroid", "sum.range", "product.ra
                 disparity_intervals_table<-rbind(disparity_intervals_table, disparity_interval[[interval]][[1]])
             }
             #Renaming the rarefaction column interval
-            colnames(disparity_intervals_table)[1]<-"time section"
+            colnames(disparity_intervals_table)[1]<-"time"
             #Saving the interval names
             disparity_intervals_table[,1]<-names(time_pco)
 
         } else {
 
             #If rarefaction has been calculated, only get the last element of each rarefaction table
-            #create the table's first row
-            disparity_intervals_table<-disparity_interval[[1]][[1]][nrow(disparity_interval[[1]][[1]]),]
-            #Loop through the other elements of the table
-            for(interval in 2:length(disparity_interval)) {
-                disparity_intervals_table<-rbind(disparity_intervals_table, disparity_interval[[interval]][[1]][nrow(disparity_interval[[interval]][[1]]),])
-            }
-            #Renaming the rarefaction column interval
-            colnames(disparity_intervals_table)[1]<-"time section"
-            #Saving the interval names
-            disparity_intervals_table[,1]<-names(time_pco)
 
+            #create an interval row
+            interval_row<-matrix(nrow=(nrow(disparity_interval[[1]][[1]])), data=rep(names(time_pco)[[1]]))
+            #add the disparity results (with rarefaction)
+            interval_tab<-cbind(interval_row, disparity_interval[[1]][[1]])
+            #binding the interval table
+            disparity_intervals_table<-rbind(interval_tab)
+
+            #Loop through the other intervals
+            for(interval in 2:length(time_pco)) {
+                #create an interval row
+                interval_row<-matrix(nrow=(nrow(disparity_interval[[interval]][[1]])), data=rep(names(time_pco)[[interval]]))
+                #add the disparity results (with rarefaction)
+                interval_tab<-cbind(interval_row, disparity_interval[[interval]][[1]])
+                #binding the interval table
+                disparity_intervals_table<-rbind(disparity_intervals_table, interval_tab)
+            }
+
+            #Renaming the rarefaction column interval
+            colnames(disparity_intervals_table)[1]<-"time"
         }
 
         #saving the results per time section
