@@ -314,3 +314,49 @@ plot.disparity(disp_sli_nodes95_com, rarefaction=FALSE, xlab="", ylab="", measur
 abline(v= KT_sli, col="red")
 
 par(op)
+
+
+######################
+#Rarefaction
+######################
+#Calculating the disparity per intervals with rarefaction
+rar_int_tips_max<-time.disparity(int_pco_tips_max_dist, method="centroid",verbose=TRUE, bootstraps=100, rarefaction=TRUE)
+rar_int_nodes_max<-time.disparity(int_pco_nodes_max_dist, method="centroid",verbose=TRUE, bootstraps=100, rarefaction=TRUE)
+rar_int_nodes95_max<-time.disparity(int_pco_nodes95_max_dist, method="centroid",verbose=TRUE, bootstraps=100, rarefaction=TRUE)
+rar_sli_nodes_max<-time.disparity(sli_pco_nodes_max_dist, method="centroid",verbose=TRUE, bootstraps=100, rarefaction=TRUE)
+rar_sli_nodes95_max<-time.disparity(sli_pco_nodes95_max_dist, method="centroid",verbose=TRUE, bootstraps=100, rarefaction=TRUE)
+
+#Selecting the same amount of species for each rarefaction
+
+op<-par(mfrow=c(3, 4), bty="l")# oma=c(bottom, left, top, right)
+
+plot.disparity(disp_int_tips_max, rarefaction=FALSE, xlab="", ylab="Centroid Distance", measure="Cent.dist", main="Intervals: tips", diversity=int_div_tips_max_dist)
+abline(v= KT_bin, col="red")
+data<-rar_int_tips_max[which(rar_int_tips_max$rarefaction == min(int_div_tips_raw_dist)),]
+plot.disparity(data, rarefaction=FALSE, xlab="", ylab="Centroid Distance", measure="Cent.dist", main=paste("Rarefaction (int:tips)", min(int_div_tips_raw_dist), "taxa"))
+abline(v= KT_bin, col="red")
+
+plot.disparity(disp_int_nodes_max, rarefaction=FALSE, xlab="", ylab="Centroid Distance", measure="Cent.dist", main="Intervals: nodes", diversity=int_div_nodes_max_dist)
+abline(v= KT_bin, col="red")
+data<-rar_int_nodes_max[which(rar_int_nodes_max$rarefaction == min(int_div_nodes_raw_dist)),]
+plot.disparity(data, rarefaction=FALSE, xlab="", ylab="Centroid Distance", measure="Cent.dist", main=paste("Rarefaction (int:nodes)", min(int_div_nodes_raw_dist), "taxa"))
+abline(v= KT_bin, col="red")
+
+plot.disparity(disp_int_nodes95_max, rarefaction=FALSE, xlab="", ylab="", measure="Cent.dist", main="Intervals: nodes(95)", diversity=int_div_nodes95_max_dist)
+abline(v= KT_bin, col="red")
+data<-rar_int_nodes95_max[which(rar_int_nodes95_max$rarefaction == min(int_div_nodes95_raw_dist)),]
+plot.disparity(data, rarefaction=FALSE, xlab="", ylab="Centroid Distance", measure="Cent.dist", main=paste("Rarefaction (int:nodes95)", min(int_div_nodes95_raw_dist), "taxa"))
+abline(v= KT_bin, col="red")
+
+plot.disparity(disp_sli_nodes_max, rarefaction=FALSE, xlab="", ylab="", measure="Cent.dist", main="Slices: random", diversity=sli_div_nodes_max_dist)
+abline(v= KT_sli, col="red")
+data<-rar_sli_nodes_max[which(rar_sli_nodes_max$rarefaction == min(sli_div_nodes_raw_dist)),]
+plot.disparity(data, rarefaction=FALSE, xlab="", ylab="Centroid Distance", measure="Cent.dist", main=paste("Rarefaction (sli:nodes)", min(sli_div_nodes_raw_dist), "taxa"))
+abline(v= KT_sli, col="red")
+
+plot.disparity(disp_sli_nodes95_max, rarefaction=FALSE, xlab="", ylab="", measure="Cent.dist", main="Slices: random (95)", diversity=sli_div_nodes95_max_dist)
+abline(v= KT_sli, col="red")
+data<-rar_sli_nodes95_max[which(rar_sli_nodes95_max$rarefaction == min(sli_div_nodes95_raw_dist)),]
+plot.disparity(data, rarefaction=FALSE, xlab="", ylab="Centroid Distance", measure="Cent.dist", main=paste("Rarefaction (sli:nodes95)", min(sli_div_nodes95_raw_dist), "taxa"))
+abline(v= KT_sli, col="red")
+par(op)
