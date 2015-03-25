@@ -41,7 +41,11 @@ slice.pco<-function(pco_data, tree, slices, method="random", FAD_LAD, verbose=FA
     }
 
     #slices
-    check.class(slices, 'numeric', ' must be numeric.')
+    if(class(slices) != 'numeric') {
+        if(class(slices) != 'integer') {
+            stop("slices must be numeric.")
+        }
+    }
     #slice cannot be older than the root age
     if(any(slices > tree$root.time)) {
         stop("Slices cannot be older than the tree's root age.")

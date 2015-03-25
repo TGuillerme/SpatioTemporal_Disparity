@@ -31,7 +31,11 @@ int.pco<-function(pco_data, tree, intervals, FAD_LAD, include.nodes=FALSE, diver
     }
 
     #intervals
-    check.class(intervals, 'numeric', ' must be numeric.')
+    if(class(intervals) != 'numeric') {
+        if(class(intervals) != 'integer') {
+            stop("intervals must be numeric.")
+        }
+    }
     #length must be greater than one
     if(length(intervals) < 2) {
         stop("At least two breaks should be specified for the intervals.")
