@@ -7,6 +7,7 @@
 #SYNTAX :
 #<tree> can be either a given phylogenetic tree or one of the following: "yule" or "bd" (see details). If "bd", an optional argument tree.par.fun can be given.
 #<matrix> can be either a cladistic matrix or a single value as the number of characters in the matrix or a vector of characters states. If matrix argument is a single value or a vector, the optional argument matrix.model is needed.
+#<include.nodes> logical, whether to include the nodes or not in the matrix
 #<replicates> number of random replicates.
 #<verbose> whether to be verbose or not.
 #<n.tips> optional. If tree is not a "phylo" object and matrix is not a "matrix" object, the number of tips in the tree and in the matrix.
@@ -24,7 +25,7 @@
 #guillert(at)tcd.ie 18/03/2015
 ##########################
 
-null.data<-function(tree, matrix, replicates=100, verbose=TRUE, n.tips, tre.par.fun, matrix.model, max.mat.rate, root.time=1) {
+null.data<-function(tree, matrix, include.nodes, replicates=100, verbose=TRUE, n.tips, tre.par.fun, matrix.model, max.mat.rate, root.time=1) {
     #SANITIZING
     #tree
     if(class(tree) != "phylo") {
@@ -81,6 +82,9 @@ null.data<-function(tree, matrix, replicates=100, verbose=TRUE, n.tips, tre.par.
             stop("matrix must be either a 'matrix', a numerical value or a integer vector.")
         }
     }
+
+    #include nodes
+    check.class(include.nodes, "logical")
 
     #matrix.model
     if(missing(matrix.model)) {
@@ -144,6 +148,7 @@ null.data<-function(tree, matrix, replicates=100, verbose=TRUE, n.tips, tre.par.
     ###################################
     #Building the random trees
     ###################################
+
     if(build_tree == TRUE) {
         #be verbose
         if(verbose == TRUE) {
@@ -194,6 +199,7 @@ null.data<-function(tree, matrix, replicates=100, verbose=TRUE, n.tips, tre.par.
     ###################################
     #Building the random matrix
     ###################################
+
     if(build_matrix == TRUE) {
         #be verbose
         if(verbose == TRUE) {
@@ -206,7 +212,7 @@ null.data<-function(tree, matrix, replicates=100, verbose=TRUE, n.tips, tre.par.
             #Looping the matrices
             for (rep in 1:replicates) {
                 #Generating the random states
-                rand_matrices[[rep]]<-random.mat(n.tips=n.tips, characters=matrix_characters, states=matrix_states)
+                rand_matrices[[rep]]<-random.mat(tree, characters=matrix_characters, states=matrix_states, include.nodes=include.nodes)
                 #be verbose
                 if(verbose == TRUE) {
                     message(".", appendLF=FALSE)
@@ -227,7 +233,7 @@ null.data<-function(tree, matrix, replicates=100, verbose=TRUE, n.tips, tre.par.
                     phy<-tree
                 }
                 #Generating the simulated matrix
-                rand_matrices[[rep]]<-simulate.mat(phy=phy, n.tips=n.tips, matrix_characters=matrix_characters, matrix_states=matrix_states, max.mat.rate=max.mat.rate)
+                rand_matrices[[rep]]<-simulate.mat(tree, matrix_characters=matrix_characters, matrix_states=matrix_states, max.mat.rate=max.mat.rate, include.nodes=include.nodes)
                 #be verbose
                 if(verbose == TRUE) {
                     message(".", appendLF=FALSE)
@@ -236,15 +242,15 @@ null.data<-function(tree, matrix, replicates=100, verbose=TRUE, n.tips, tre.par.
         }
         
         #Renaming the column names for all the matrices
-        if(build_tree == FALSE) {
-            #taxa names from the original tree
-            rand_matrices<-lapply(rand_matrices, renaming.rows, names=tree$tip.label)
-        } else {
-            #tip labels from all the generated trees
-            for(rep in 1:replicates) {
-                rownames(rand_matrices[[rep]])<-rand_trees[[rep]]$tip.label
-            }
-        }
+        #if(build_tree == FALSE) {
+        #    #taxa names from the original tree
+        #    rand_matrices<-lapply(rand_matrices, renaming.rows, names=tree$tip.label)
+        #} else {
+        #    #tip labels from all the generated trees
+        #    for(rep in 1:replicates) {
+        #        rownames(rand_matrices[[rep]])<-rand_trees[[rep]]$tip.label
+        #    }
+        #}
         #be verbose
         if(verbose == TRUE) {
             message("Done.\n", appendLF=FALSE)

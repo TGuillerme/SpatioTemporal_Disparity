@@ -45,13 +45,26 @@ Q.matrix<-function(states, rate) {
 
 
 #Generates a fully random matrix
-random.mat<-function(n.tips, characters, states) {
-    #creates and empty matrix
-    rand_matrix<-matrix(nrow=n.tips, ncol=characters, data=NA)
+random.mat<-function(tree, characters, states, include.nodes) {
+    #include nodes?
+    if(include.nodes == TRUE) {
+        rows<-Ntip(tree)+Nnode(tree)
+    } else {
+        rows<-Ntip(tree)
+    }
+    #creates and empty matri
+    rand_matrix<-matrix(nrow=rows, ncol=characters, data=NA)
     #loop through the characters
     for (character in 1:characters) {
-        rand_matrix[,character]<-sample(0:(states[character]-1), size=n.tips, replace=TRUE)
+        rand_matrix[,character]<-sample(0:(states[character]-1), size=rows, replace=TRUE)
     }
+    #Add rownames
+    if(include.nodes == TRUE) {
+        rownames(rand_matrix)<-c(tree$tip.label, tree$node.label)
+    } else {
+        rownames(rand_matrix)<-tree$tip.label
+    }
+
     return(rand_matrix)
 }
 
@@ -62,22 +75,45 @@ renaming.rows<-function(matrix, names) {
 }
 
 #Generates a simulated matrix
-simulate.mat<-function(phy, n.tips, matrix_characters, matrix_states, max.mat.rate) {
+simulate.mat<-function(tree, matrix_characters, matrix_states, max.mat.rate, include.nodes) {
+    #include nodes?
+    if(include.nodes == TRUE) {
+        rows<-Ntip(tree)+Nnode(tree)
+    } else {
+        rows<-Ntip(tree)
+    }    
     #Creating the empty matrix
-    rand_matrix<-matrix(nrow=n.tips, ncol=matrix_characters, data=NA)
+    rand_matrix<-matrix(nrow=rows, ncol=matrix_characters, data=NA)
     #character loop
     for(character in 1:matrix_characters) {
         if(matrix_states[character] == 2) {
             #binary
-            rand_matrix[,character]<-sim.character(phy, rep(runif(1, 0, max.mat.rate),2), x0=sample(0:1, 1), model="mk2")
+            nodes_states<-attr(tips_states<-sim.character(tree, rep(runif(1, 0, max.mat.rate),2), x0=sample(0:1, 1), model="mk2"), "node.state")
+            if(include.nodes == TRUE) {
+                rand_matrix[,character]<-c(tips_states, nodes_states)
+            } else {
+                rand_matrix[,character]<-tips_states
+            }
+            
         } else {
             #Create a Q matrix
             Q_mat<-Q.matrix(matrix_states[[character]], runif(1, 0, max.mat.rate))
             #Change the states from 0:k to 1:k+1
             rownames(Q_mat)<-colnames(Q_mat)<-as.numeric(colnames(Q_mat))+1
             #not binary
-            rand_matrix[,character]<-sim.character(phy, Q_mat, x0=sample(1:matrix_states[character], 1), model="mkn")-1
+            nodes_states<-attr(tips_states<-sim.character(tree, Q_mat, x0=sample(1:matrix_states[character], 1), model="mkn")-1, "node.state")-1
+            if(include.nodes == TRUE) {
+                rand_matrix[,character]<-c(tips_states, nodes_states)
+            } else {
+                rand_matrix[,character]<-tips_states
+            }
         }
+    }
+    #Add rownames
+    if(include.nodes == TRUE) {
+        rownames(rand_matrix)<-c(tree$tip.label, tree$node.label)
+    } else {
+        rownames(rand_matrix)<-tree$tip.label
     }
     return(rand_matrix)
 }
