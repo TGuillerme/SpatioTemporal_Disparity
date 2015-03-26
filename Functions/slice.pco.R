@@ -47,8 +47,8 @@ slice.pco<-function(pco_data, tree, slices, method="random", FAD_LAD, verbose=FA
         }
     }
     #slice cannot be older than the root age
-    if(any(slices > tree$root.time)) {
-        stop("Slices cannot be older than the tree's root age.")
+    if(any(slices >= tree$root.time)) {
+        stop("Slices cannot be older or equal to the tree's root age.")
     }
 
     #method
@@ -81,10 +81,10 @@ slice.pco<-function(pco_data, tree, slices, method="random", FAD_LAD, verbose=FA
     }
 
     #verbose
-    check.class(verbose, 'logical', ' must be logical.')
+    check.class(verbose, 'logical')
 
     #diversity
-    check.class(diversity, "logical", " must be logical.")
+    check.class(diversity, 'logical')
 
     #SLICING THE TREE
     #Number of slices
