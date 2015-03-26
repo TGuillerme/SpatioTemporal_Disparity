@@ -84,7 +84,7 @@ plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, x
         plot.diversity<-FALSE
     } else {
         plot.diversity<-TRUE
-        check.class(diversity, "integer", " must be a numeric vector of the same number of rows as disparity_data.")
+        #check.class(diversity, "integer", " must be a numeric vector of the same number of rows as disparity_data.")
         check.length(diversity, nrow(disparity_data), " must be a numeric vector of the same number of rows as disparity_data.")
     }
 
