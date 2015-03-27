@@ -29,14 +29,14 @@ slice.tree<-function(tree, age, method, FAD, LAD) {
 
     #SANITIZING
     #tree
-    check.class(tree, 'phylo', ' must be a phylo object.')
+    check.class(tree, 'phylo')
     #must have node labels
     if(is.null(tree$node.label)) {
         stop('The tree must have node label names.')
     }
 
     #age
-    check.class(age, 'numeric', " must be numeric.")
+    check.class(age, 'numeric')
     #age must be at least higher than the root age
     if(age > tree$root.time) {
         stop("age cannot be older than the tree's root age.")
