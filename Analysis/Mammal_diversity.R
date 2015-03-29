@@ -26,7 +26,7 @@ slices<-rev(seq(from=0, to=100, by=1))
 slice_count<-NULL
 slice_count<-list()
 
-for(slice in 1:lentgh(slices)) {
+for(slice in 1:length(slices)) {
     sub_tree<-timeSliceTree(tree, slices[slice], drop.extinct=TRUE, plot=FALSE)
     slice_count[slice]<-Ntip(sub_tree)
     message(".", appendLF=FALSE)
