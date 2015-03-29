@@ -26,18 +26,8 @@ slices<-rev(seq(from=0, to=100, by=1))
 slice_count<-NULL
 slice_count<-list()
 
-for (slice in 1:length(slices)) {
-    #Don't slice the tree if slice=0, simply drop tips
-    if(slices[slice]==0) {
-        #Select the tips to drop
-        taxa_to_drop<-ages_tree_LAD[which(ages_tree_LAD[1:Ntip(tree),1]!=0),2]
-        #drop the tips
-        sub_tree<-drop.tip(tree, tip=as.character(taxa_to_drop))
-    }  else {
-        #subtree
-        sub_tree<-slice.tree(tree, slices[slice], method="proximity", FAD=tree.age(tree), LAD=tree.age(tree))
-        message(".", apendLF=FALSE)
-    }
-    #storing the results
-    slice_count[[slice]]<-length(sub_tree$tip.label)
+for(slice in 1:lentgh(slices)) {
+    sub_tree<-timeSliceTree(tree, slices[slice], drop.extinct=TRUE, plot=FALSE)
+    slice_count[slice]<-Ntip(sub_tree)
+    message(".", appendLF=FALSE)
 }
