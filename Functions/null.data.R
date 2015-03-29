@@ -11,8 +11,8 @@
 #<replicates> number of random replicates.
 #<verbose> whether to be verbose or not.
 #<n.tips> optional. If tree is not a "phylo" object and matrix is not a "matrix" object, the number of tips in the tree and in the matrix.
-#<matrix.model> optional. If matrix argument is a value or a vector, can be either "random" (default) or "sim.char" (see details). If argument is "sim.char", the optional argument "max.mat.rate" can be given as a maximum rate value.
-#<max.mat.rate> optional. If matrix model is "sim.char", must be a maximal rate value <= 1. Default = 0.5.
+#<matrix.model> optional. If matrix argument is a value or a vector, can be either "random" (default) or "sim.char" (see details). If argument is "sim.char", the optional argument "max.rate" can be given as a maximum rate value.
+#<max.rate> optional. If matrix model is "sim.char", must be a maximal rate value <= 1. Default = 0.5.
 #<tre.par.fun> optional. A function for generating the "birth-death" tree parameters (if missing, the parameters are randomly generate with birth parameter > death parameter).
 #<root.time> optional. A value for the root age of the trees (is ignored if tree is class "phylo").
 ##########################
@@ -25,7 +25,7 @@
 #guillert(at)tcd.ie 18/03/2015
 ##########################
 
-null.data<-function(tree, matrix, include.nodes, replicates=100, verbose=TRUE, n.tips, tre.par.fun, matrix.model, max.mat.rate, root.time=1) {
+null.data<-function(tree, matrix, include.nodes, replicates=100, verbose=TRUE, n.tips, tre.par.fun, matrix.model, max.rate, root.time=1) {
     #SANITIZING
     #tree
     if(class(tree) != "phylo") {
@@ -98,20 +98,20 @@ null.data<-function(tree, matrix, include.nodes, replicates=100, verbose=TRUE, n
         }
     }
 
-    #max.mat.rate
-    if(missing(max.mat.rate)) {
-        max.mat.rate<-0.5
+    #max.rate
+    if(missing(max.rate)) {
+        max.rate<-0.5
     }
-    check.class(max.mat.rate, "numeric", " must be a numerical value between 0 and 1.")
-    check.length(max.mat.rate, 1, " must be a numerical value between 0 and 1.", errorif=FALSE)
-    if(max.mat.rate < 0 | max.mat.rate > 1) {
-        stop("max.mat.rate must be a numerical value between 0 and 1.")
+    check.class(max.rate, "numeric", " must be a numerical value between 0 and 1.")
+    check.length(max.rate, 1, " must be a numerical value between 0 and 1.", errorif=FALSE)
+    if(max.rate < 0 | max.rate > 1) {
+        stop("max.rate must be a numerical value between 0 and 1.")
     }
-    if(max.mat.rate == 0) {
-        stop("max.mat.rate cannot be 0!")
+    if(max.rate == 0) {
+        stop("max.rate cannot be 0!")
     }
-    if(max.mat.rate > 0.5) {
-        message("max.mat.rate is higher than 0.5: this can slow down the function.")
+    if(max.rate > 0.5) {
+        message("max.rate is higher than 0.5: this can slow down the function.")
     }
 
     #n.tips
@@ -233,7 +233,7 @@ null.data<-function(tree, matrix, include.nodes, replicates=100, verbose=TRUE, n
                     phy<-tree
                 }
                 #Generating the simulated matrix
-                rand_matrices[[rep]]<-simulate.mat(tree, matrix_characters=matrix_characters, matrix_states=matrix_states, max.mat.rate=max.mat.rate, include.nodes=include.nodes)
+                rand_matrices[[rep]]<-simulate.mat(tree, matrix_characters=matrix_characters, matrix_states=matrix_states, max.rate=max.rate, include.nodes=include.nodes)
                 #be verbose
                 if(verbose == TRUE) {
                     message(".", appendLF=FALSE)

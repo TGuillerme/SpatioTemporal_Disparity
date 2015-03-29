@@ -55,7 +55,7 @@ renaming.rows<-function(matrix, names) {
 }
 
 #Generates a simulated matrix
-simulate.mat<-function(tree, matrix_characters, matrix_states, max.mat.rate, include.nodes) {
+simulate.mat<-function(tree, matrix_characters, matrix_states, max.rate, include.nodes) {
     #include nodes?
     if(include.nodes == TRUE) {
         rows<-Ntip(tree)+Nnode(tree)
@@ -68,7 +68,7 @@ simulate.mat<-function(tree, matrix_characters, matrix_states, max.mat.rate, inc
     for(character in 1:matrix_characters) {
         if(matrix_states[character] == 2) {
             #binary
-            nodes_states<-attr(tips_states<-sim.character(tree, rep(runif(1, 0, max.mat.rate),2), x0=sample(0:1, 1), model="mk2"), "node.state")
+            nodes_states<-attr(tips_states<-sim.character(tree, rep(runif(1, 0, max.rate),2), x0=sample(0:1, 1), model="mk2"), "node.state")
             if(include.nodes == TRUE) {
                 rand_matrix[,character]<-c(tips_states, nodes_states)
             } else {
@@ -77,7 +77,7 @@ simulate.mat<-function(tree, matrix_characters, matrix_states, max.mat.rate, inc
             
         } else {
             #Create a Q matrix
-            Q_mat<-Q.matrix(matrix_states[[character]], runif(1, 0, max.mat.rate))
+            Q_mat<-Q.matrix(matrix_states[[character]], runif(1, 0, max.rate))
             #Change the states from 0:k to 1:k+1
             rownames(Q_mat)<-colnames(Q_mat)<-as.numeric(colnames(Q_mat))+1
             #not binary
