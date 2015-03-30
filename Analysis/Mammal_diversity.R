@@ -31,3 +31,7 @@ for(slice in 1:length(slices)) {
     slice_count[slice]<-Ntip(sub_tree)
     message(".", appendLF=FALSE)
 }
+
+plot(slice, type="l", ylab="species richness (log scale)", xlab="Million years ago", xaxt="n", log="y")
+axis(1, rev(seq(0, 100, by=10)), seq(0, 100, by=10))
+abline(v=100-66, col="red")
