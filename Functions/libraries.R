@@ -27,3 +27,5 @@ if(length(new.packages)) install_github("graemetlloyd/Claddis")
 suppressMessages({
 library(Claddis)
 })
+
+#install.packages(c("diversitree", "devtools", "paleotree", "strap", "ape", "caper", "phytools", "vegan", "grDevices", "plotrix", "testthat"))
