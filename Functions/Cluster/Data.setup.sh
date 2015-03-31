@@ -3,7 +3,7 @@
 #Shell script for setting up the data for disparity analysis.
 ##########################
 #SYNTAX:
-#sh Data.setup.sh <chain> <method> <moduleslist> <split>
+#sh Data.setup.sh <chain> <path> <matrix> <tree> <ace>
 #with:
 #<chain> the name of the chain to generate task files for
 #<path> the path where the data will be stored under the chain name
@@ -243,8 +243,8 @@ fi
 if echo $ace | grep 'TRUE' > /dev/null
 then
     #Shell R jobs
-    echo "R --no-save < R_script_ace_ape" > R_script_ace_ape.sh
-    echo "R --no-save < R_script_ace_claddis" > R_script_ace_claddis.sh
+    echo "R --no-save < R_script_ace_ape.R" > R_script_ace_ape.sh
+    echo "R --no-save < R_script_ace_claddis.R" > R_script_ace_claddis.sh
     echo "R --no-save < R_script_dist_tips.R" > R_script_dist_tips.sh
     echo "R --no-save < R_script_dist_nodes_ape.R" > R_script_dist_nodes_ape.sh
     echo "R --no-save < R_script_dist_nodes95_ape.R" > R_script_dist_nodes95_ape.sh
@@ -261,20 +261,20 @@ then
     echo "3 sh R_script_dist_nodes95_claddis.sh" >> Rjob${chain}-2.config
     #Preparing the batch file (1)
     echo "#!/bin/sh
-    #SBATCH -n 8
-    #SBATCH -t 4-00:00:00
-    #SBATCH -p compute
-    #SBATCH -J ${chain}-1
-    srun --multi-prog Rjob${chain}-1.config" > Rjob${chain}-1.sh
+#SBATCH -n 8
+#SBATCH -t 3-00:00:00
+#SBATCH -p compute
+#SBATCH -J ${chain}-1
+srun --multi-prog Rjob${chain}-1.config" > Rjob${chain}-1.sh
     #Preparing the batch file (2)
     echo "#!/bin/sh
-    #SBATCH -n 8
-    #SBATCH -t 4-00:00:00
-    #SBATCH -p compute
-    #SBATCH -J ${chain}-2
-    srun --multi-prog Rjob${chain}-2.config" > Rjob${chain}-2.sh
+#SBATCH -n 8
+#SBATCH -t 3-00:00:00
+#SBATCH -p compute
+#SBATCH -J ${chain}-2
+srun --multi-prog Rjob${chain}-2.config" > Rjob${chain}-2.sh
     echo 'Running the R tasks:'
-    echo 'sbatch Rjob${chain}-1.sh ; sbatch Rjob${chain}-2.sh'
+    echo "sbatch Rjob${chain}-1.sh ; sbatch Rjob${chain}-2.sh"
 
 else
     #Shell R jobs
@@ -287,13 +287,13 @@ else
     echo "2 sh R_script_dist_nodes95.sh" >> Rjob${chain}.config
     #Preparing the batch file
     echo "#!/bin/sh
-    #SBATCH -n 8
-    #SBATCH -t 4-00:00:00
-    #SBATCH -p compute
-    #SBATCH -J ${chain}
-    srun --multi-prog Rjob${chain}.config" > Rjob${chain}.sh
+#SBATCH -n 8
+#SBATCH -t 3-00:00:00
+#SBATCH -p compute
+#SBATCH -J ${chain}
+srun --multi-prog Rjob${chain}.config" > Rjob${chain}.sh
     echo 'Running the R tasks:'
-    echo 'sbatch Rjob${chain}.sh'
+    echo "sbatch Rjob${chain}.sh"
 fi
 
 #Remove template
