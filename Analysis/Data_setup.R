@@ -20,10 +20,10 @@ source("functions.R")
 ###################
 
 #Selecting the file
-chain_name<-"Slater2013" #"Beck2014"
+chain_name<-"Slater2013" #"Beck2014" #"Slater2013"
 data_path<-"../Data/"
-file_matrix<-"../Data/2013-Slater-MEE-matrix-morpho.nex" #2014-Beck-ProcB-matrix-morpho.nex
-file_tree<-"../Data/2013-Slater-MEE-TEM.tre" #2014-Beck-ProcB-TEM.tre
+file_matrix<-"../Data/2013-Slater-MEE-matrix-morpho.nex" #2014-Beck-ProcB-matrix-morpho.nex #"../Data/2013-Slater-MEE-matrix-morpho.nex"
+file_tree<-"../Data/2013-Slater-MEE-TEM.tre" #2014-Beck-ProcB-TEM.tre #"../Data/2013-Slater-MEE-TEM.tre"
 
 #matrix
 Nexus_data<-ReadMorphNexus(file_matrix)
@@ -73,7 +73,7 @@ save(anc_states, file=paste(data_path, chain_name, "/",chain_name,"_ancestral_st
 #Distance matrix using tips only
 matrix_tips<-Nexus_data
 message("\nCalculating the distance matrix for the tips only...", appendLF=FALSE)
-dist_tips<-MorphDistMatrix(matrix_tips)
+dist_tips<-MorphDistMatrix.verbose(matrix_tips, verbose=TRUE)
 message("Done.\n", appendLF=FALSE)
 save(dist_tips, file=paste(data_path, chain_name, "/",chain_name,"_distance-tips.Rda", sep="")) #dist_tips
 
@@ -81,7 +81,7 @@ save(dist_tips, file=paste(data_path, chain_name, "/",chain_name,"_distance-tips
 matrix_nodes<-Nexus_data
 matrix_nodes$matrix<-anc_states$state
 message("\nCalculating the distance matrix for the tips and the nodes...", appendLF=FALSE)
-dist_nodes<-MorphDistMatrix(matrix_nodes)
+dist_nodes<-MorphDistMatrix.verbose(matrix_nodes, verbose=TRUE)
 message("Done.\n", appendLF=FALSE)
 save(dist_nodes, file=paste(data_path, chain_name, "/",chain_name,"_distance-nodes.Rda", sep="")) #dist_nodes
 
@@ -89,9 +89,8 @@ save(dist_nodes, file=paste(data_path, chain_name, "/",chain_name,"_distance-nod
 matrix_nodes95<-Nexus_data
 matrix_nodes95$matrix<-anc.unc(anc_states, 0.95, missing=NA)$state
 message("\nCalculating the distance matrix for the tips and the nodes with a 95 CI...", appendLF=FALSE)
-dist_nodes95<-MorphDistMatrix(matrix_nodes95)
+dist_nodes95<-MorphDistMatrix.verbose(matrix_nodes95, verbose=TRUE)
 message("Done.\n", appendLF=FALSE)
 save(dist_nodes95, file=paste(data_path, chain_name, "/",chain_name,"_distance-nodes95.Rda", sep="")) #dist_nodes95
 
 
-#dist.data <- MorphDistMatrix(nexus.data)
