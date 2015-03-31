@@ -98,23 +98,23 @@ save(disp_ran_int, file=paste(data_path, chain_name, '/',chain_name,'-diparity_n
 for ((rep=1 ;  rep<=8 ;  rep+=1))
 do  
     #make the replicate files
-    sed 's/<REPLICATES>/13/g' disparity.null.template.tmp | sed 's/<NAME>/'"${rep}"'/g' > ${chain}-null_${disparity}.${rep}.R
+    sed 's/<REPLICATES>/13/g' disparity.null.template.tmp | sed 's/<NAME>/'"${rep}"'/g' > ${chain}-${type}_${disparity}.${rep}.R
     #make the shell files
-    echo "R --no-save < ${chain}-disparity.null.${rep}.R" > ${chain}-null_${disparity}.${rep}.sh
+    echo "R --no-save < ${chain}-disparity.null.${rep}.R" > ${chain}-${type}_${disparity}.${rep}.sh
     #making the config file
     n=$(( $rep - 1 )) 
-    echo "$n sh ${chain}-disparity.null.${rep}.sh" >> ${chain}-null_${disparity}.config
+    echo "$n sh ${chain}-disparity.null.${rep}.sh" >> ${chain}-${type}_${disparity}.config
 done
 
 #Remove the template
 rm disparity.null.template.tmp
 
 echo "#!/bin/sh
-#SBATCH -n 11
+#SBATCH -n 8
 #SBATCH -t 4-00:00:00
 #SBATCH -p compute
 #SBATCH -J D-${chain}
-srun --multi-prog ${chain}-null_${disparity}.config" > ${chain}-null_${disparity}-launcher.sh
+srun --multi-prog ${chain}-null_${disparity}.config" > ${chain}-${type}_${disparity}-launcher.sh
 
 echo 'Running the R tasks:'
-echo "sbatch ${chain}-null_${disparity}-launcher.sh"
+echo "sbatch ${chain}-${type}_${disparity}-launcher.sh"
