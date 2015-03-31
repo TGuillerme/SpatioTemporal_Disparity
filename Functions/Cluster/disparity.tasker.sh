@@ -3,12 +3,15 @@
 #Shell script for Calculating the disparity per chain for a cluster
 ##########################
 #SYNTAX:
-#sh disparity.tasker.sh <chain> <path> <matrix> <tree> <ace>
+#sh disparity.tasker.sh <chain> <path> <matrix> <tree> <intervals> <slices> <FADLAD>
 #with:
 #<chain> the name of the chain to generate task files for
 #<path> the path where the data will be stored under the chain name
 #<matrix> the path to the morphological matrix (can be relative)
 #<tree> the path to the phylogenetic tree (can be relative)
+#<intervals> a series of time intervals
+#<slices> a series of time slices
+#<FADLAD> a csv file with FADLAD data
 #########################
 #version 0.1
 #----
