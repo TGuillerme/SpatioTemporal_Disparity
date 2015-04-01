@@ -75,8 +75,8 @@ tree\$node.label<-paste('n',seq(1:Nnode(tree)), sep='')
 if echo $ace | grep 'TRUE' > /dev/null
 then
     #Use the R template
-    cp R_template.R R_script_ace_ape.R
-    cp R_template.R R_script_ace_claddis.R
+    cp R_template.R ${chain}_ace_ape.R
+    cp R_template.R ${chain}_ace_claddis.R
 
     #Add the APE ace
     echo "
@@ -85,7 +85,7 @@ then
     ####################################
     anc_states<-anc.state(tree, Nexus_data, method='ML-ape', verbose=TRUE)
     save(anc_states, file=paste('../Data/',chain_name,'_ancestral_states-ape.Rda', sep=''))
-    " >> R_script_ace_ape.R
+    " >> ${chain}_ace_ape.R
 
     #Add the Claddis ace
     echo "
@@ -94,7 +94,7 @@ then
     ####################################
     anc_states<-anc.state(tree, Nexus_data, method='ML-claddis', verbose=TRUE)
     save(anc_states, file=paste(data_path, chain_name, '/',chain_name,'_ancestral_states-claddis.Rda', sep=''))
-    " >> R_script_ace_claddis.R
+    " >> ${chain}_ace_claddis.R
 else
     #Just add the ace path to the template
     echo"
@@ -108,11 +108,11 @@ fi
 #Distance matrices
 if echo $ace | grep 'TRUE' > /dev/null
 then
-    cp R_template.R R_script_dist_tips.R
-    cp R_template.R R_script_dist_nodes_ape.R
-    cp R_template.R R_script_dist_nodes95_ape.R
-    cp R_template.R R_script_dist_nodes_claddis.R
-    cp R_template.R R_script_dist_nodes95_claddis.R
+    cp R_template.R ${chain}_dist_tips.R
+    cp R_template.R ${chain}_dist_nodes_ape.R
+    cp R_template.R ${chain}_dist_nodes95_ape.R
+    cp R_template.R ${chain}_dist_nodes_claddis.R
+    cp R_template.R ${chain}_dist_nodes95_claddis.R
     
     #Add the distance script (tips)
     echo "
@@ -124,7 +124,7 @@ then
     dist_tips<-MorphDistMatrix.verbose(matrix_tips, verbose=TRUE)
     message('Done.\\n', appendLF=FALSE)
     save(dist_tips, file=paste(data_path, chain_name, '/',chain_name,'_distance-tips.Rda', sep='')) #dist_tips
-    " >> R_script_dist_tips.R
+    " >> ${chain}_dist_tips.R
 
     #Add the distance script (nodes-ape)
     echo "
@@ -140,7 +140,7 @@ then
     dist_nodes<-MorphDistMatrix.verbose(matrix_nodes, verbose=TRUE)
     message('Done.\\n', appendLF=FALSE)
     save(dist_nodes, file=paste(data_path, chain_name, '/',chain_name,'_distance-nodes-ape.Rda', sep='')) #dist_nodes
-    " >> R_script_dist_nodes_ape.R
+    " >> ${chain}_dist_nodes_ape.R
 
     #Add the distance script (nodes95-ape)
     echo "
@@ -156,7 +156,7 @@ then
     dist_nodes95<-MorphDistMatrix.verbose(matrix_nodes95, verbose=TRUE)
     message('Done.\\n', appendLF=FALSE)
     save(dist_nodes95, file=paste(data_path, chain_name, '/',chain_name,'_distance-nodes95-ape.Rda', sep='')) #dist_nodes95
-    " >> R_script_dist_nodes95_ape.R
+    " >> ${chain}_dist_nodes95_ape.R
 
     #Add the distance script (nodes-claddis)
     echo "
@@ -172,7 +172,7 @@ then
     dist_nodes<-MorphDistMatrix.verbose(matrix_nodes, verbose=TRUE)
     message('Done.\\n', appendLF=FALSE)
     save(dist_nodes, file=paste(data_path, chain_name, '/',chain_name,'_distance-nodes-claddis.Rda', sep='')) #dist_nodes
-    " >> R_script_dist_nodes_claddis.R
+    " >> ${chain}_dist_nodes_claddis.R
 
     #Add the distance script (nodes95-claddis)
     echo "
@@ -188,13 +188,13 @@ then
     dist_nodes95<-MorphDistMatrix.verbose(matrix_nodes95, verbose=TRUE)
     message('Done.\\n', appendLF=FALSE)
     save(dist_nodes95, file=paste(data_path, chain_name, '/',chain_name,'_distance-nodes95-claddis.Rda', sep='')) #dist_nodes95
-    " >> R_script_dist_nodes95_claddis.R
+    " >> ${chain}_dist_nodes95_claddis.R
 
 
 else
-    cp R_template.R R_script_dist_tips.R
-    cp R_template.R R_script_dist_nodes.R
-    cp R_template.R R_script_dist_nodes95.R
+    cp R_template.R ${chain}_dist_tips.R
+    cp R_template.R ${chain}_dist_nodes.R
+    cp R_template.R ${chain}_dist_nodes95.R
 
     #Add the distance script (tips)
     echo "
@@ -206,7 +206,7 @@ else
     dist_tips<-MorphDistMatrix.verbose(matrix_tips, verbose=TRUE)
     message('Done.\\n', appendLF=FALSE)
     save(dist_tips, file=paste(data_path, chain_name, '/',chain_name,'_distance-tips.Rda', sep='')) #dist_tips
-    " >> R_script_dist_tips.R
+    " >> ${chain}_dist_tips.R
 
     #Add the distance script (nodes)
     echo "
@@ -220,7 +220,7 @@ else
     dist_nodes<-MorphDistMatrix.verbose(matrix_nodes, verbose=TRUE)
     message('Done.\\n', appendLF=FALSE)
     save(dist_nodes, file=paste(data_path, chain_name, '/',chain_name,'_distance-nodes.Rda', sep='')) #dist_nodes
-    " >> R_script_dist_nodes_ape.R
+    " >> ${chain}_dist_nodes_ape.R
 
     #Add the distance script (nodes95)
     echo "
@@ -234,7 +234,7 @@ else
     dist_nodes95<-MorphDistMatrix.verbose(matrix_nodes95, verbose=TRUE)
     message('Done.\\n', appendLF=FALSE)
     save(dist_nodes95, file=paste(data_path, chain_name, '/',chain_name,'_distance-nodes95.Rda', sep='')) #dist_nodes95
-    " >> R_script_dist_nodes95_ape.R
+    " >> ${chain}_dist_nodes95_ape.R
 
 fi
 
@@ -243,57 +243,57 @@ fi
 if echo $ace | grep 'TRUE' > /dev/null
 then
     #Shell R jobs
-    echo "R --no-save < R_script_ace_ape.R" > R_script_ace_ape.sh
-    echo "R --no-save < R_script_ace_claddis.R" > R_script_ace_claddis.sh
-    echo "R --no-save < R_script_dist_tips.R" > R_script_dist_tips.sh
-    echo "R --no-save < R_script_dist_nodes_ape.R" > R_script_dist_nodes_ape.sh
-    echo "R --no-save < R_script_dist_nodes95_ape.R" > R_script_dist_nodes95_ape.sh
-    echo "R --no-save < R_script_dist_nodes_claddis.R" > R_script_dist_nodes_claddis.sh
-    echo "R --no-save < R_script_dist_nodes_claddis.R" > R_script_dist_nodes_claddis.sh
+    echo "R --no-save < ${chain}_ace_ape.R" > ${chain}_ace_ape.sh
+    echo "R --no-save < ${chain}_ace_claddis.R" > ${chain}_ace_claddis.sh
+    echo "R --no-save < ${chain}_dist_tips.R" > ${chain}_dist_tips.sh
+    echo "R --no-save < ${chain}_dist_nodes_ape.R" > ${chain}_dist_nodes_ape.sh
+    echo "R --no-save < ${chain}_dist_nodes95_ape.R" > ${chain}_dist_nodes95_ape.sh
+    echo "R --no-save < ${chain}_dist_nodes_claddis.R" > ${chain}_dist_nodes_claddis.sh
+    echo "R --no-save < ${chain}_dist_nodes_claddis.R" > ${chain}_dist_nodes_claddis.sh
     #Shell R jobs config (1)
-    echo "0 sh R_script_ace_ape.sh" >> Rjob${chain}-1.config
-    echo "1 sh R_script_ace_claddis.sh" >> Rjob${chain}-1.config
-    echo "2 sh R_script_dist_tips.sh" >> Rjob${chain}-1.config
+    echo "0 sh ${chain}_ace_ape.sh" >> ${chain}-1.config
+    echo "1 sh ${chain}_ace_claddis.sh" >> ${chain}-1.config
+    echo "2 sh ${chain}_dist_tips.sh" >> ${chain}-1.config
     #Shell R jobs config (2)
-    echo "0 sh R_script_dist_nodes_ape.sh" >> Rjob${chain}-2.config
-    echo "1 sh R_script_dist_nodes95_ape.sh" >> Rjob${chain}-2.config
-    echo "2 sh R_script_dist_nodes_claddis.sh" >> Rjob${chain}-2.config
-    echo "3 sh R_script_dist_nodes95_claddis.sh" >> Rjob${chain}-2.config
+    echo "0 sh ${chain}_dist_nodes_ape.sh" >> ${chain}-2.config
+    echo "1 sh ${chain}_dist_nodes95_ape.sh" >> ${chain}-2.config
+    echo "2 sh ${chain}_dist_nodes_claddis.sh" >> ${chain}-2.config
+    echo "3 sh ${chain}_dist_nodes95_claddis.sh" >> ${chain}-2.config
     #Preparing the batch file (1)
     echo "#!/bin/sh
 #SBATCH -n 8
 #SBATCH -t 3-00:00:00
 #SBATCH -p compute
 #SBATCH -J ${chain}-1
-srun --multi-prog Rjob${chain}-1.config" > Rjob${chain}-1.sh
+srun --multi-prog ${chain}-1.config" > ${chain}-1.launcher.sh
     #Preparing the batch file (2)
     echo "#!/bin/sh
 #SBATCH -n 8
 #SBATCH -t 3-00:00:00
 #SBATCH -p compute
 #SBATCH -J ${chain}-2
-srun --multi-prog Rjob${chain}-2.config" > Rjob${chain}-2.sh
+srun --multi-prog ${chain}-2.config" > ${chain}-2.launcher.sh
     echo 'Running the R tasks:'
-    echo "sbatch Rjob${chain}-1.sh ; sbatch Rjob${chain}-2.sh"
+    echo "sbatch ${chain}-1.sh ; sbatch ${chain}-2.sh"
 
 else
     #Shell R jobs
-    echo "R --no-save < R_script_dist_tips.R" > R_script_dist_tips.sh
-    echo "R --no-save < R_script_dist_nodes.R" > R_script_dist_nodes.sh
-    echo "R --no-save < R_script_dist_nodes95.R" > R_script_dist_nodes95.sh
+    echo "R --no-save < ${chain}_dist_tips.R" > ${chain}_dist_tips.sh
+    echo "R --no-save < ${chain}_dist_nodes.R" > ${chain}_dist_nodes.sh
+    echo "R --no-save < ${chain}_dist_nodes95.R" > ${chain}_dist_nodes95.sh
     #Shell R jobs config
-    echo "0 sh R_script_dist_tips.sh" >> Rjob${chain}.config
-    echo "1 sh R_script_dist_nodes.sh" >> Rjob${chain}.config
-    echo "2 sh R_script_dist_nodes95.sh" >> Rjob${chain}.config
+    echo "0 sh ${chain}_dist_tips.sh" >> ${chain}.config
+    echo "1 sh ${chain}_dist_nodes.sh" >> ${chain}.config
+    echo "2 sh ${chain}_dist_nodes95.sh" >> ${chain}.config
     #Preparing the batch file
     echo "#!/bin/sh
 #SBATCH -n 8
 #SBATCH -t 3-00:00:00
 #SBATCH -p compute
 #SBATCH -J ${chain}
-srun --multi-prog Rjob${chain}.config" > Rjob${chain}.sh
+srun --multi-prog ${chain}.config" > ${chain}.launcher.sh
     echo 'Running the R tasks:'
-    echo "sbatch Rjob${chain}.sh"
+    echo "sbatch ${chain}.sh"
 fi
 
 #Remove template

@@ -100,10 +100,10 @@ do
     #make the replicate files
     sed 's/<REPLICATES>/13/g' disparity.null.template.tmp | sed 's/<NAME>/'"${rep}"'/g' > ${chain}-${type}_${disparity}.${rep}.R
     #make the shell files
-    echo "R --no-save < ${chain}-disparity.null.${rep}.R" > ${chain}-${type}_${disparity}.${rep}.sh
+    echo "R --no-save < ${chain}-${type}_${disparity}.${rep}.R" > ${chain}-${type}_${disparity}.${rep}.sh
     #making the config file
     n=$(( $rep - 1 )) 
-    echo "$n sh ${chain}-disparity.null.${rep}.sh" >> ${chain}-${type}_${disparity}.config
+    echo "$n sh ${chain}-${type}_${disparity}.${rep}.sh" >> ${chain}-${type}_${disparity}.config
 done
 
 #Remove the template
