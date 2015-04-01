@@ -261,20 +261,24 @@ then
     echo "3 sh ${chain}_dist_nodes95_claddis.sh" >> ${chain}-2.config
     #Preparing the batch file (1)
     echo "#!/bin/sh
-#SBATCH -n 8
+#SBATCH -n 3
 #SBATCH -t 3-00:00:00
 #SBATCH -p compute
 #SBATCH -J ${chain}-1
+source /etc/profile.d/modules.sh
+export http_proxy=http://proxy.tchpc.tcd.ie:8080
 srun --multi-prog ${chain}-1.config" > ${chain}-1.launcher.sh
     #Preparing the batch file (2)
     echo "#!/bin/sh
-#SBATCH -n 8
+#SBATCH -n 4
 #SBATCH -t 3-00:00:00
 #SBATCH -p compute
 #SBATCH -J ${chain}-2
+source /etc/profile.d/modules.sh
+export http_proxy=http://proxy.tchpc.tcd.ie:8080
 srun --multi-prog ${chain}-2.config" > ${chain}-2.launcher.sh
     echo 'Running the R tasks:'
-    echo "sbatch ${chain}-1.sh ; sbatch ${chain}-2.sh"
+    echo "sbatch ${chain}-1.launcher.sh ; sbatch ${chain}-2.launcher.sh"
 
 else
     #Shell R jobs
@@ -287,13 +291,15 @@ else
     echo "2 sh ${chain}_dist_nodes95.sh" >> ${chain}.config
     #Preparing the batch file
     echo "#!/bin/sh
-#SBATCH -n 8
+#SBATCH -n 3
 #SBATCH -t 3-00:00:00
 #SBATCH -p compute
 #SBATCH -J ${chain}
+source /etc/profile.d/modules.sh
+export http_proxy=http://proxy.tchpc.tcd.ie:8080
 srun --multi-prog ${chain}.config" > ${chain}.launcher.sh
     echo 'Running the R tasks:'
-    echo "sbatch ${chain}.sh"
+    echo "sbatch ${chain}.launcher.sh"
 fi
 
 #Remove template

@@ -73,7 +73,7 @@ tree<-lapply.root(tree, max(tree.age(tree)\$age))
 #Calculating null disparity
 ######################################
 
-rand_data<-null.data(tree=step_tree, matrix=apply(Nexus_data$matrix, 2, states.count), matrix.model='${type}', replicates=<REPLICATES>, verbose=TRUE, include.nodes=TRUE)
+rand_data<-null.data(tree=tree, matrix=apply(Nexus_data\$matrix, 2, states.count), matrix.model='${type}', replicates=<REPLICATES>, verbose=TRUE, include.nodes=TRUE)
 ran_matrix<-lapply(rand_data, make.nexus)
 #distance
 dist_ran<-lapply(ran_matrix, MorphDistMatrix.verbose, verbose=TRUE)
@@ -81,9 +81,9 @@ dist_ran<-lapply(dist_ran, extract.dist, distance='max.dist.matrix')
 #pco
 pco_ran<-lapply(dist_ran, function(X) cmdscale(X, k=nrow(X)-1, add=TRUE)\$points)
 #intervals
-pco_ran_int<-lapply(pco_ran, function(X) int.pco(X, step_tree, intervals, include.nodes=TRUE))
+pco_ran_int<-lapply(pco_ran, function(X) int.pco(X, tree, intervals, include.nodes=TRUE))
 #diversity
-div_ran_int<-int.pco(pco_ran[[1]], step_tree, intervals, include.nodes=TRUE, diversity=TRUE)[[2]]
+div_ran_int<-int.pco(pco_ran[[1]], tree, intervals, include.nodes=TRUE, diversity=TRUE)[[2]]
 #disparity
 disp_ran_int<-lapply(pco_ran_int, time.disparity, verbose=TRUE, method='${disparity}', save.all=TRUE)
 #Combine results
@@ -114,7 +114,9 @@ echo "#!/bin/sh
 #SBATCH -t 4-00:00:00
 #SBATCH -p compute
 #SBATCH -J D-${chain}
-srun --multi-prog ${chain}-null_${disparity}.config" > ${chain}-${type}_${disparity}-launcher.sh
+source /etc/profile.d/modules.sh
+export http_proxy=http://proxy.tchpc.tcd.ie:8080
+srun --multi-prog ${chain}-${type}_${disparity}.config" > ${chain}-${type}_${disparity}-launcher.sh
 
 echo 'Running the R tasks:'
 echo "sbatch ${chain}-${type}_${disparity}-launcher.sh"
