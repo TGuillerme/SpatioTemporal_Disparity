@@ -72,6 +72,13 @@ tree$node.label<-paste("n",seq(1:Nnode(tree)), sep="")
 #Setting the tree root age
 tree$root.time<-max(tree.age(tree)[,1])
 
+
+#Tree ages (useless?)
+#Tree_data$root.time<-max(tree.age(Tree_data)$age)
+#Plot the tree
+#geoscalePhylo(ladderize(Tree_data), cex.age=0.6, cex.ts=0.8, cex.tip=0.5)
+
+
 ######################
 #FADLAD file
 ######################
