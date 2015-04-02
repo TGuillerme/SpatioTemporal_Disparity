@@ -102,6 +102,9 @@ $^2$Trinity Centre for Biodiversity Research, Trinity College Dublin, Dublin 2, 
 
 \newpage
 \begin{abstract}
+
+Massive global extinctions events are known to lead to major changes in ecosystems, especially with major shifts in species composition and species richness.
+
 The Cretaceous-Paleogene boundary (K-T; 66Mya) represents a drastic global change in biodiversity. This event is linked to an extraterrestrial impact and a major volcanism event. Traditionally the K-Pg event was viewed as the extinction of dinosaurs and the rise of mammals. However, the last three decades of field palaeontology and macroevolutionary studies have weakened this simplistic view. Exceptionally diverse mammals appeared prior to the Paleogene and there is overwhelming evidence for a radiation of the avian-dinosaurs in the latest Cretaceous.
 
 In this study, we use a character-space approach on multiple data sets of living and fossil mammals to investigate the variations in disparity and diversity in mammals since the Jurassic. We show that maximal disparity is achieved prior to the Paleogene and that there is no significant increase in diversity across the K-T boundary.
@@ -122,6 +125,18 @@ In this study, we use a character-space approach on multiple data sets of living
 
 \section{Introduction}
 
+-Macroevolution / niches / crisis in biodiversity
+
+-Diversity in mammals is known to increase blablabla (Stadler)
+
+%Cheeky selling line: in the context of the anthropocene extinction event, blabalbal
+
+-However, not much is known about the disparity. We think disparity is a more functional measure of biodiversity since it is expected that more disparate species occupies more disparate niches and therefore have a globally more important role in the ecosystems.
+
+-We use a novel approach for looking at disparity as the spread of the data in a N dimensional character-space (centroid - Finlay Cooper)
+
+-Problem with timing the events (O'Leary vs Meredith). Here we look at disparity on total evidence trees that contain morphological information but are backed-up by molecular data.
+
 %---------------------------------------------
 %
 %       METHODS
@@ -129,25 +144,33 @@ In this study, we use a character-space approach on multiple data sets of living
 %---------------------------------------------
 
 \section{Methods}
-\subsection{Data collection}
-Mammal matrices with the product of character states superior to the number of taxa (to avoid an overfull character space) and an associated phylogenetic tree.
-List of publications associated with the matrices is available in the supplementary data.
-First and Last occurence datum for the total amount of taxa present in all the data sets downloaded from the paleo database.
+\subsection{Data}
+For exploring the tempo and mode in mammalian evolution, we used the morphological matrices and total evidence tip dated trees \cite{ronquista2012} from \cite{MEE3:MEE312084} (103 taxa and 446 morphological characters) and \cite{beckancient2014} (102 taxa and 421 morphological characters). Both studies respectively ranges from the 310 Million years ago (Mya - Late Carboniferous) and 170 Mya (Middle Jurassic) to the present and focusing Mammaliamorpha up to the family level \cite{MEE3:MEE312084} and focusing on Eutheria up to a genus level \cite{beckancient2014}. We chose these two data sets because they both have similar cladistic properties (i.e. similar number of taxa and morphological characters) and both use the same phylogenetic method (total evidence tip dated trees \cite{ronquista2012}). However, both matrix differs on their taxonomic focus (Mammaliamorpha \textit{vs.} Eutheria) and their temporal range (310 to 0 Mya \textit{vs.} 170 to 0 Mya). To include the @span@ of each taxa in our analysis, we collected all the first and last occurrences datum for each taxa that occurred for more than our minimal time resolution (one million year, see below). This data were collected from the Paleobiology Database on @date@. Additionally, because both datasets don't sample the full diversity through time (and, to our knowledge, none does), we used the supertree from \cite{fritzdiversity2013} that is the most complete species level phylogeny of living mammals (93\% of the 5416 living mammals \cite{wilson2005mammal}) to calculate the changes in diversity through time in living mammals (see below).
+
+\subsection{Ancestral states estimation}
+For both matrices \cite{MEE3:MEE312084,beckancient2014}, we estimated the ancestral state of each character at every node in the tree. We used two slightly different Maximum Likelihood approaches to estimate the ancestral states. We preferred Maximum Likelihood methods on Bayesian methods because both methods have been shown to yield to similar results \cite{royer-carenzichoosing2013} but Maximum Likelihood methods are several orders of magnitude faster than Bayesian ones. We used both the \texttt{ace} function from the R package ape v. 3.2 \cite{paradisape:2004} and the 
+\texttt{rerootingMethod} function from the R package phytools 0.4-45 \cite{phytools}. Both method perform a maximum likelihood estimation of the ancestral values and the variance of a Brownian motion process based on the re-rooting method of \cite{Yang01121995}. The two methods differ slightly in the calculation of the normalized conditional likelihoods but mainly on the way to treat missing data. We optimised the \texttt{ace} function for fast estimation by treating missing data in the matrix as an extra character (e.g. if a character has two observed tips states 0 and 1 and a third tip has missing data (NA), the ancestor of these three tips can be estimated between the three following states: 0, 1 and NA). For the \texttt{rerootingMethod}, we followed \cite{Claddis} method and treated the missing in the tips as any possible observed state (e.g. if a character has two observed tips states 0 and 1 and a third tip has missing data (NA), the third tip will be considered as multi-state (0&1) and the ancestor of these three tips can be estimated between the two following states: 0 and 1). Both methods perform similarly but the implementation of the \texttt{ace} function has a slightly lower accuracy  but is three times faster than the one for the \texttt{rerootingMethod} function (see supplementaries).
+
 
 \subsection{Character-space estimation}
-Similarly to a morpho-space, the character-space is a theoretical n dimension object that encompasses the variability of the data. However, because the character-space is based on phylogenetic informative finite characters, the character-space is also a finite n dimension object where the number of dimensions is equal to the product of the number of character states. Link with phylogeny
+To explore the variation in mammals shapes through time, we use a cladistic-space approach \cite{Foote01071994,Foote29111996,Wesley-Hunt2005,Brusatte12092008,friedmanexplosive2010,toljagictriassic-jurassic2013}. Similarly to a morphospace analysis based on continuous morphological data(e.g. \cite{finlay2015morphological}), the cladistic-space is based on cladistic (or phenetic) data. Therefore, the cladistic-space is likely to be more influenced by the phylogeny than the morphospace \citep{Foote29111996,Wagner01011997}. However, discrete cladistic characters are still the best source for quantifying overall morphology for large and diverse groups \citep{Brusatte12092008}. Also, because of it's inherent combinatory properties, a cladistic-space is a finite theoretical space limited by the product of the number of character states. In fact, a cladistic-space will be overloaded if the number of taxa is higher than the product of the number of character states. Therefore it is straightforward to make sure that the character space does not contain more taxa than it's maximal capacity.
 
-\subsubsection{Ancestral states reconstruction}
-In order to estimate the full size of the character-space, we need also to incorporate the cladistic shape of the hypothetical ancestors to the create the character-space.
-We use Claddis ace method to deal with NAs.
 \subsubsection{Distance matrix}
+The first step for creating the cladistic-space is to calculate the pairwise distance matrix between all taxa. 
+
+
 We then create the distance between each taxa and nodes using the MOD distance.
 \subsubsection{Distances ordination}
 We then use principal components ordination to summarize the distance matrix and create the n dimensions of our character-space.
+%The cladistic matrix is derived into an Euclidean distance matrix using Calliez negative Eigenvalues correction \citep{toljagictriassic-jurassic2013}.
+%Then a PCO is performed on the new matrix.
+%Principal coordinates (PCO) is preferred to principal components (PCA) because it can "better handle missing data and inapplicable characters" \citep{lofgren2003,Wesley-Hunt2005}.
 
 \subsection{Temporal division}
 We then divide our observed total character-space into sub character-spaces representing the filling of the character-space at various points in time.
 \subsubsection{Time intervals}
+%The intervals should be a compromise between the resolution and the sample size and must be "sufficiently coards that nearly all generic first and last occurenaces can be unambiguously assigned" \citep{Foote01071994}.
+Time intervals from 100Mya (Earliest Cenomanian, Late Cretaceous) to the present.
 We count all the nodes/tips present in a given time interval.
 Classic but artificially grouping data. The minimal bin size should contain at least two nodes/tips and sometime that involves having time intervals spanning accross tens of millions of years. Such long duration time intervals have no real biological meaning since it is unlikely that all of the nodes/tips present in the time interval did ever coexisted and had ever biological interactions together.
 \subsubsection{Time slices}
@@ -155,9 +178,11 @@ We count all the branches/nodes/tips present a given point in time. This method 
 
 \subsection{Tempo an mode}
 \subsubsection{Diversity}
-Defined here as the number of taxonomic elements (OTUs) available in each matrix through time.
+Defined here as the number of taxonomic elements (OTUs) available in each matrix through time. We use as a base line, the diversity per million year 
 \subsubsection{Disparity}
 Defined here as the mean euclidean distance between each species and the centroid of the n dimension character-space.
+%Disparity metrics should be calculated using a small number of PCO axes (12 \citep{Brusatte12092008}) encompassing a majority of the cumulative variance (63\% \citep{Brusatte12092008})
+%Four disparity metrics can be calculated, the sum and product of the ranges and variance on the selected axes \citep{Wills1994}.
 \subsubsection{Rarefaction}
 To avoid bias due to diversity (disparity is expected to be smaller by chance when diversity decrease) we resample each time bin/slice to be equal to the minimal number of taxa available for all the bins/slices.
 \subsubsection{Difference to null}
@@ -194,11 +219,16 @@ To test the statistical validity of the pattern in our data, we compared it to a
 
 \section{Acknowledgments}
 Graeme Lloyd. 
+Simulations used the Lonsdale cluster maintained by the Trinity Centre for High Performance Computing and funded through grants from Science Foundation Ireland.
 
 \section{Funding}
 This work was funded by a European Commission CORDIS Seventh Framework Programme (FP7) Marie Curie CIG grant (proposal number: 321696).
 
 \bibliographystyle{sysbio}
-\bibliography{/References}
+\bibliography{References}
+
+\section{supplementaries}
+
+\subsection{Ancestral states estimation}
 
 \end{document}
