@@ -20,10 +20,10 @@ source("functions.R")
 ###################
 
 #Selecting the file
-chain_name<-"Slater2013" #"Beck2014" #"Slater2013"
+chain_name<-"Beck2014" #"Beck2014" #"Slater2013"
 data_path<-"../Data/"
-file_matrix<-"../Data/2013-Slater-MEE-matrix-morpho.nex" #2014-Beck-ProcB-matrix-morpho.nex #"../Data/2013-Slater-MEE-matrix-morpho.nex"
-file_tree<-"../Data/2013-Slater-MEE-TEM.tre" #2014-Beck-ProcB-TEM.tre #"../Data/2013-Slater-MEE-TEM.tre"
+file_matrix<-"../Data/2014-Beck-ProcB-matrix-morpho.nex" #2014-Beck-ProcB-matrix-morpho.nex #"../Data/2013-Slater-MEE-matrix-morpho.nex"
+file_tree<-"../Data/2014-Beck-ProcB-TEM.tre" #2014-Beck-ProcB-TEM.tre #"../Data/2013-Slater-MEE-TEM.tre"
 
 #matrix
 Nexus_data<-ReadMorphNexus(file_matrix)
@@ -60,11 +60,11 @@ system(paste("mkdir ",data_path, chain_name, sep=""))
 #Ancestral states reconstruction
 ####################################
 
-anc_states<-anc.state(tree, Nexus_data, method='ML-ape', verbose=TRUE)
-save(anc_states, file=paste("../Data/",chain_name,"_ancestral_states-ape.Rda", sep=""))
+#anc_states<-anc.state(tree, Nexus_data, method='ML-ape', verbose=TRUE)
+#save(anc_states, file=paste("../Data/",chain_name,"_ancestral_states-ape.Rda", sep=""))
 
 anc_states<-anc.state(tree, Nexus_data, method='ML-claddis', verbose=TRUE)
-save(anc_states, file=paste(data_path, chain_name, "/",chain_name,"_ancestral_states-claddis.Rda", sep=""))
+save(anc_states, file=paste(data_path, chain_name, "/",chain_name,"Claddis_ancestral_states.Rda", sep=""))
 
 ####################################
 #Distance matrix
@@ -75,7 +75,7 @@ matrix_tips<-Nexus_data
 message("\nCalculating the distance matrix for the tips only...", appendLF=FALSE)
 dist_tips<-MorphDistMatrix.verbose(matrix_tips, verbose=TRUE)
 message("Done.\n", appendLF=FALSE)
-save(dist_tips, file=paste(data_path, chain_name, "/",chain_name,"_distance-tips.Rda", sep="")) #dist_tips
+save(dist_tips, file=paste(data_path, chain_name, "/",chain_name,"Claddis_distance-tips.Rda", sep="")) #dist_tips
 
 #Distance matrix using also nodes
 matrix_nodes<-Nexus_data
@@ -83,7 +83,7 @@ matrix_nodes$matrix<-anc_states$state
 message("\nCalculating the distance matrix for the tips and the nodes...", appendLF=FALSE)
 dist_nodes<-MorphDistMatrix.verbose(matrix_nodes, verbose=TRUE)
 message("Done.\n", appendLF=FALSE)
-save(dist_nodes, file=paste(data_path, chain_name, "/",chain_name,"_distance-nodes.Rda", sep="")) #dist_nodes
+save(dist_nodes, file=paste(data_path, chain_name, "/",chain_name,"Claddis_distance-nodes.Rda", sep="")) #dist_nodes
 
 #Distance matrix using nodes with 95 CI
 matrix_nodes95<-Nexus_data
@@ -91,6 +91,6 @@ matrix_nodes95$matrix<-anc.unc(anc_states, 0.95, missing=NA)$state
 message("\nCalculating the distance matrix for the tips and the nodes with a 95 CI...", appendLF=FALSE)
 dist_nodes95<-MorphDistMatrix.verbose(matrix_nodes95, verbose=TRUE)
 message("Done.\n", appendLF=FALSE)
-save(dist_nodes95, file=paste(data_path, chain_name, "/",chain_name,"_distance-nodes95.Rda", sep="")) #dist_nodes95
+save(dist_nodes95, file=paste(data_path, chain_name, "/",chain_name,"Claddis_distance-nodes95.Rda", sep="")) #dist_nodes95
 
 
