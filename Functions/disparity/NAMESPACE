@@ -1,0 +1,21 @@
+##Functions
+export(anc.state)
+export(anc.unc)
+export(bhatt.coeff)
+export(pair.bhatt.coeff)
+export(disparity)
+export(int.pco)
+export(MorphDistMatrix.verbose)
+export(null.data)
+export(slice.tree)
+export(time.disparity)
+export(tree.age)
+export(make.nexus) #utilities
+export(cor.diversity) #utilities
+export(states.count) #utilities
+export(extract.dist) #utilities
+export(combine.disp) #utilities
+
+##Data
+
+##S3 methods

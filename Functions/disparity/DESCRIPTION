@@ -1,0 +1,14 @@
+Package: disparity
+Title: disparity paper.
+Authors: Thomas Guillerme <guillert@tcd.ie>
+Maintainer: Thomas Guillerme <guillert@tcd.ie>
+Version: 0.0.1
+Date: 2015-04-08
+Description: series of disparity function for disparity paper
+Depends:
+    R (>= 3.1.2),
+    ape,
+    caper,
+    Claddis,
+    phytools,
+License: GPL (>= 2)
