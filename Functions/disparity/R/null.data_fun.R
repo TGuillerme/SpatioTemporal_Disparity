@@ -5,13 +5,6 @@ gen.param.tree<-function(x=1) {
     return(cbind(lambda, mu))
 }
 
-#Adding a root time and node labels to a tree (for lapply loops)
-lapply.root<-function(tree, root) {
-    tree$root.time<-root
-    tree$node.label<-paste("n",seq(1:Nnode(tree)), sep="")
-    return(tree)
-}
-
 #Generates a Q matrix
 Q.matrix<-function(states, rate) {
     #Creating the empty matrix

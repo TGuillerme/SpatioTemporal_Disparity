@@ -224,3 +224,12 @@ combine.disp<-function(disp.list) {
 
     return(output)
 }
+
+
+
+#Adding a root time and node labels to a tree (for lapply loops)
+lapply.root<-function(tree, root) {
+    tree$root.time<-root
+    tree$node.label<-paste("n",seq(1:Nnode(tree)), sep="")
+    return(tree)
+}

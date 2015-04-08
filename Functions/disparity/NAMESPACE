@@ -15,6 +15,10 @@ export(cor.diversity) #utilities
 export(states.count) #utilities
 export(extract.dist) #utilities
 export(combine.disp) #utilities
+export(lapply.root) #utilities
+export(clean.tree) #sanitizing
+export(clean.table) #sanitizing
+export(bin.tree) #sanitizing
 
 ##Data
 
