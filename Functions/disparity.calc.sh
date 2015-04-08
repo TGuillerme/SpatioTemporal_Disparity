@@ -52,8 +52,8 @@ file_matrix='${matrix}'
 file_tree='${tree}'
 file_dist='${file_dist}'
 distance='${distance}'
-intervals='${intervals}'
-slices='${slices}'
+intervals=as.numeric(strsplit(c(noquote('${intervals}')), split=',')[[1]])
+slices=as.numeric(strsplit(c(noquote('${slices}')), split=',')[[1]])
 FADLAD='${FADLAD}'
 
 #matrix
@@ -95,13 +95,13 @@ dist_mat<-extract.dist(get(mat_name), distance)
 ######################
 #Trim the matrix and the tree (if necessary)
 ######################
-#trimmed_data<-TrimMorphDistMatrix(distance)
-#tree<-(tree, trimmed_data\$removed.taxa) ; tree\$root.time<-max(tree.age(tree_tips)[,1])
+trimmed_data<-TrimMorphDistMatrix(dist_mat)
+tree<-drop.tip(tree, trimmed_data\$removed.taxa) ; tree\$root.time<-max(tree.age(tree)[,1])
 
 ######################
 #pco
 ######################
-pco_data<-cmdscale(dist_mat, k=nrow(dist_mat) - 1, add=T)\$points
+pco_data<-cmdscale(trimmed_data\$dist.matrix, k=nrow(trimmed_data\$dist.matrix) - 1, add=T)\$points
 
 ######################
 #Disparity
