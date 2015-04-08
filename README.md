@@ -1,19 +1,17 @@
-SpatioTemporal_Disparity
+Tempo and mode in mammals evolution (or something like that)
 ========================
 
-Some Spation Temporal Disparity stuff
-
-Pipelined analysis based on [CLADDIS](https://github.com/graemetlloyd/Claddis)
+Some Spatio Temporal Disparity stuff based on [Claddis](https://github.com/graemetlloyd/Claddis)
 -------
 
-* Set the right directory which should be something like:
-    ".../SpatioTemporal_Disparity/Analysis/"
-or
-    ".../SpatioTemporal_Disparity-master/Analysis/"
-
-* Then go through the file:
-   "STD_pipeline.R"
-
-* The script should load/install the dependecies; load/test the functions and generate/load the data.
+To load all the functions:
+------------------
+```r
+#install.packages("devtools")
+library(devtools)
+install_github("TGuillerme/SpatioTemporal_Disparity/Functions/disparity")
+library(disparity)
+```
+Note that the following "package" is not a real package, just a set of functions to be use to reproduce the Spatio Temporal Disparity analysis.
 
 [Thomas Guillerme](http://tguillerme.github.io)
