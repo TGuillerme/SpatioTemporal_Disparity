@@ -1,0 +1,5 @@
+intervals="170,155,140,125,110,95,80,65,50,35,20,0"
+slices="170,165,160,155,150,145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50,45,40,35,30,25,20,15,10,5,0"
+sh disparity.calc.sh "Beck2014" "../Data/" "../Data/2014-Beck-ProcB-matrix-morpho.nex" "../Data/2014-Beck-ProcB-TEM.tre" "../Data/Beck2014/Beck2014Claddis_distance-nodes.Rda" "gower.dist.matrix" $intervals $slices "../Data/Beck2014_FADLAD.csv"
+
+sh disparity.calc.sh "Beck2014" "../Data/" "../Data/2014-Beck-ProcB-matrix-morpho.nex" "../Data/2014-Beck-ProcB-TEM.tre" "../Data/Beck2014/Beck2014Claddis_distance-nodes.Rda" "gower.dist.matrix" $intervals $slices "../Data/Beck2014_FADLAD.csv"
