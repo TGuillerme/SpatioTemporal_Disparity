@@ -2,7 +2,7 @@
 #slice.pco
 ##########################
 #Select the number of taxa and pco data per slice.
-#v0.2
+#v0.2.1
 ##########################
 #SYNTAX :
 #<pco_data> the pco data to split in bins.
@@ -19,7 +19,7 @@
 #deltran: always chose parent;
 #prozimity: chose between the parent or the offspring based on branch length. If the cut is equal to more than half the branch length, the offspring is chosen, else the parent.
 #----
-#guillert(at)tcd.ie 19/03/2015
+#guillert(at)tcd.ie 08/04/2015
 ##########################
 
 slice.pco<-function(pco_data, tree, slices, method="random", FAD_LAD, verbose=FALSE, diversity=FALSE) {
@@ -154,7 +154,7 @@ slice.pco<-function(pco_data, tree, slices, method="random", FAD_LAD, verbose=FA
         return(output)
     
     } else {
-        return(pco_intervals)
+        return(slice_list)
     }
 
     return(slice_list)
