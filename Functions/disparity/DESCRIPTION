@@ -6,9 +6,16 @@ Version: 0.0.1
 Date: 2015-04-08
 Description: series of disparity function for disparity paper
 Depends:
-    R (>= 3.1.2),
+    R (>= 3.0.0),
     ape,
     caper,
     Claddis,
     phytools,
+    diversitree,
+    paleotree,
+    strap,
+    vegan,
+    grDevices,
+    plotrix,
+    testthat,
 License: GPL (>= 2)
