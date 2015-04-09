@@ -125,18 +125,40 @@ In this study, we use a character-space approach on multiple data sets of living
 
 \section{Introduction}
 
--Macroevolution / niches / crisis in biodiversity
-
--Diversity in mammals is known to increase blablabla (Stadler)
-
+%-Macroevolution / niches / crisis in biodiversity
+%-Diversity in mammals is known to increase blablabla (Stadler)
 %Cheeky selling line: in the context of the anthropocene extinction event, blabalbal
+%-However, not much is known about the disparity. We think disparity is a more functional measure of biodiversity since it is expected that more disparate species occupies more disparate niches and therefore have a globally more important role in the ecosystems.
+%-We use a novel approach for looking at disparity as the spread of the data in a N dimensional character-space (centroid - Finlay Cooper)
+%-Problem with timing the events (O'Leary vs Meredith). Here we look at disparity on total evidence trees that contain morphological information but are backed-up by molecular data.
 
--However, not much is known about the disparity. We think disparity is a more functional measure of biodiversity since it is expected that more disparate species occupies more disparate niches and therefore have a globally more important role in the ecosystems.
 
--We use a novel approach for looking at disparity as the spread of the data in a N dimensional character-space (centroid - Finlay Cooper)
+Abiotic and biotic changes can have a cascade effect on biodiversity and lead to drastic changes in species richness and composition. %Cheeky first line?
+%Mass extinction leads to species turnovers.
+Mass extinctions events leads to the extinction of entire clades (e.g. Ammonoidea at the end of the Cretaceous) but also leads to radiation of new clades (e.g. whatever formaminifera \cite{Erwin1998344} during the Cenozoic).
+These biodiversity turn-over are consider to be due to niche replacement where the clades that suffers mass extinction (e.g. Brachipoda during the Permian-Triassic extinction event) leads vacant ecological niches that can be filled by a new unrelated clade that undergoes an adaptive radiation (e.g. Bivalvia after the Permian-Triassic extinction).  
 
--Problem with timing the events (O'Leary vs Meredith). Here we look at disparity on total evidence trees that contain morphological information but are backed-up by molecular data.
+However, this niches emptying/refilling concept is vague (cite cite cite) and the timing of the extinction event is crucial to determine if clades go exctinct and radiate due to niches emptying/filling.
+%But it's complicated to determine if the clade after the extinction event undergoes an adaptive radiation because of the timing. Theoretically, the clade radiating in the empty niche should be significantly more specious after the extinction of the other clade.
+It is therefore crucial to understand the real tempo and mode of a clade's evolution through time to be able to determine if it radiates because of niche availability let vacant by previous extinctions. Therefore, in a context of current global biotic and abiotic changes, resolving this question is crucial to understand the effect of mass extinction events on biodiversity.
 
+The most recent mass extinction event, the Creatceous-Paleogene (K-Pg) extinction is really well studied geological with accurate dating of the events (cite) as well as the various causes and effects (cite).
+%The Cretaceous-Paleogene (K-Pg) extinction is really well studied (cite cite cite) with good information on the timing of the event (66 Mya (cite)) and the causes of the extinction. But more is known about invertebrates than about vertebrates %The effect on invertebrates is also well understood.
+However, there is still debate on the effect of the extinction on certain vertebrate groups (e.g. birds, crocodiles, mammals).
+
+Within mammals, it still debated whether the eutherian group (crown and stem placentals) radiated after the K-Pg extinction because of the niche vacancy due to the extinction of non-avian dinosaurs (cite cite cite) or if eutherian mammals diversified during the Cretaceous and where not significantly affected by the K-Pg extinction (cite cite cite).
+%Differences in interpretation of mammal tempo and mode is probably due to the data and the methods
+The different views on the tempo and mode of diversification of placental mammals (post or pre K-Pg) is probably due to the differences in data and in methods. Studies advocating a pre K-Pg radiation are usually based on neontological data and probabilistic phylogenetic methods (Meredith and others) as post K-Pg radiation studies are based on palaeontological data and cladistic methods (O'Leary and others). Also it is important to note that, in the context of a niche filling (i.e. adaptive) radiation, diversity and speciation are only indirect proxys for looking at niche occupancy (i.e. the more speciation events, the more a clade should be succesfull in a niche).
+
+One solution to resolving this apparent conflict is to use all the data available with the state-of-the art methods in phylogenetics along with better methods to measure the niche occupancy.
+%Solution = use TEM (tip dated) and disparity
+Another way to look at the tempo and mode in mammals evolution is to use all the data available to look at the diversification pattern (Total Evidence and tip dating) and to look at the diversity in morphologies (i.e. disparity) as a better proxy for niche occupancy (i.e. the more diverse morphologies, the more diverse niches are expected to be occupied).
+
+In this study, we apply a new disparity through time (DTT) approach based on morphological data and phylogenetic time slicing. We apply this methods to data sets containing morphological data for both living and fossil taxa as well as molecular data for living taxa (TEM) and phylogenetic trees using Total Evidence data and dated using the tip-dating method. 
+%In this study, we use integrative phylogenetic data (Total Evidence and tip dating) and a disparity through time approach to look at the changes in disparity in mammals around the K-Pg boundary. + null models of evolution (brownian)
+We test if the K-Pg event let to a adaptive radiation of eutherian mammals into the vacant morphological niches that followed the extinction event. We expect to see a significant increase in disparity during the Cenozoic if the eutherian mammals did actually underwent an adaptive radiation.
+
+We found that there is no increase in cladistic disparity after the K-Pg event and that actually the disparity in mammals picked during the K-Pg event.
 %---------------------------------------------
 %
 %       METHODS
@@ -144,12 +166,22 @@ In this study, we use a character-space approach on multiple data sets of living
 %---------------------------------------------
 
 \section{Methods}
+
+%To put somewhere:
+%Methodological improvements
+%Distance matrix: we use Graeme's MORD that more accurately reflects distances between taxa
+%Disparity: we use the centroid distance \cite{finlay2015morphological} that is a clear and easily-interpretable method that is less dependent from diversity (see supplementaries)
+%Time: we use Total Evidence Tip dated trees that are more accurate because they use probabilistic methods to estimate morphological phylogenetic distance (Wright) and provide more accurate ages of diversification events (Ronquist).
+%Disparity through time: Finally, we use a novel method (to our knowledge) to look at the diversity through time. Instead of calculating the disparity of all species present in a time interval (e.g. Butler and Brusatte), we calculate disparity at a set of arbitrary and equidistant points in time. This new method provides a finer grain resolution of the evolution of diversity through time as well as two well defined models of character evolution (equilibrium - random, acctran, deltran - and continuous - proximity) contrary to the time interval method that assumes only punctuated equilibrium as a evolutionary model for morphological characters.
+
+
+
 \subsection{Data}
 For exploring the tempo and mode in mammalian evolution, we used the morphological matrices and total evidence tip dated trees \cite{ronquista2012} from \cite{MEE3:MEE312084} (103 taxa and 446 morphological characters) and \cite{beckancient2014} (102 taxa and 421 morphological characters). Both studies respectively ranges from the 310 Million years ago (Mya - Late Carboniferous) and 170 Mya (Middle Jurassic) to the present and focusing Mammaliamorpha up to the family level \cite{MEE3:MEE312084} and focusing on Eutheria up to a genus level \cite{beckancient2014}. We chose these two data sets because they both have similar cladistic properties (i.e. similar number of taxa and morphological characters) and both use the same phylogenetic method (total evidence tip dated trees \cite{ronquista2012}). However, both matrix differs on their taxonomic focus (Mammaliamorpha \textit{vs.} Eutheria) and their temporal range (310 to 0 Mya \textit{vs.} 170 to 0 Mya). To include the @span@ of each taxa in our analysis, we collected all the first and last occurrences datum for each taxa that occurred for more than our minimal time resolution (one million year, see below). This data were collected from the Paleobiology Database on @date@. Additionally, because both datasets don't sample the full diversity through time (and, to our knowledge, none does), we used the supertree from \cite{fritzdiversity2013} that is the most complete species level phylogeny of living mammals (93\% of the 5416 living mammals \cite{wilson2005mammal}) to calculate the changes in diversity through time in living mammals (see below).
 
 \subsection{Ancestral states estimation}
 For both matrices \cite{MEE3:MEE312084,beckancient2014}, we estimated the ancestral state of each character at every node in the tree. We used two slightly different Maximum Likelihood approaches to estimate the ancestral states. We preferred Maximum Likelihood methods on Bayesian methods because both methods have been shown to yield to similar results \cite{royer-carenzichoosing2013} but Maximum Likelihood methods are several orders of magnitude faster than Bayesian ones. We used both the \texttt{ace} function from the R package ape v. 3.2 \cite{paradisape:2004} and the 
-\texttt{rerootingMethod} function from the R package phytools 0.4-45 \cite{phytools}. Both method perform a maximum likelihood estimation of the ancestral values and the variance of a Brownian motion process based on the re-rooting method of \cite{Yang01121995}. The two methods differ slightly in the calculation of the normalized conditional likelihoods but mainly on the way to treat missing data. We optimised the \texttt{ace} function for fast estimation by treating missing data in the matrix as an extra character (e.g. if a character has two observed tips states 0 and 1 and a third tip has missing data (NA), the ancestor of these three tips can be estimated between the three following states: 0, 1 and NA). For the \texttt{rerootingMethod}, we followed \cite{Claddis} method and treated the missing in the tips as any possible observed state (e.g. if a character has two observed tips states 0 and 1 and a third tip has missing data (NA), the third tip will be considered as multi-state (0&1) and the ancestor of these three tips can be estimated between the two following states: 0 and 1). Both methods perform similarly but the implementation of the \texttt{ace} function has a slightly lower accuracy  but is three times faster than the one for the \texttt{rerootingMethod} function (see supplementaries).
+\texttt{rerootingMethod} function from the R package phytools 0.4-45 \cite{phytools}. Both method perform a maximum likelihood estimation of the ancestral values and the variance of a Brownian motion process based on the re-rooting method of \cite{Yang01121995}. The two methods differ slightly in the calculation of the normalized conditional likelihoods but mainly on the way to treat missing data. We optimised the \texttt{ace} function for fast estimation by treating missing data in the matrix as an extra character (e.g. if a character has two observed tips states 0 and 1 and a third tip has missing data (NA), the ancestor of these three tips can be estimated between the three following states: 0, 1 and NA). For the \texttt{rerootingMethod}, we followed \cite{Claddis} method and treated the missing in the tips as any possible observed state (e.g. if a character has two observed tips states 0 and 1 and a third tip has missing data (NA), the third tip will be considered as multi-state (0\&1) and the ancestor of these three tips can be estimated between the two following states: 0 and 1). Both methods perform similarly but the implementation of the \texttt{ace} function has a slightly lower accuracy  but is three times faster than the one for the \texttt{rerootingMethod} function (see supplementaries).
 
 
 \subsection{Character-space estimation}
@@ -203,7 +235,10 @@ To test the statistical validity of the pattern in our data, we compared it to a
 %---------------------------------------------
 
 \section{Discussion}
-
+%Biases:
+%-internal versus terminal branches
+%-ancestral states reconstruction (solved by being conservative?)
+%-poor sampling of living taxa (Guillerme & Cooper)
 %---------------------------------------------
 %
 %       CONCLUSION
@@ -219,7 +254,7 @@ To test the statistical validity of the pattern in our data, we compared it to a
 
 \section{Acknowledgments}
 Graeme Lloyd. 
-Simulations used the Lonsdale cluster maintained by the Trinity Centre for High Performance Computing and funded through grants from Science Foundation Ireland.
+%Simulations used the Lonsdale cluster maintained by the Trinity Centre for High Performance Computing and funded through grants from Science Foundation Ireland. %TG: I think they won't in the end
 
 \section{Funding}
 This work was funded by a European Commission CORDIS Seventh Framework Programme (FP7) Marie Curie CIG grant (proposal number: 321696).
@@ -230,5 +265,6 @@ This work was funded by a European Commission CORDIS Seventh Framework Programme
 \section{supplementaries}
 
 \subsection{Ancestral states estimation}
+\subsection{Centroid distance}
 
 \end{document}
