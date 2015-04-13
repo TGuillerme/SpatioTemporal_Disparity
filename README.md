@@ -15,15 +15,15 @@ library(devtools)
 install_github("TGuillerme/SpatioTemporal_Disparity/Functions/disparity")
 library(disparity)
 ```
-Note that the following "package" is not a real package, just a set of functions to be use to reproduce this paper's analysis.
+Note that the following "package" is not a real package, just a set of functions to be used to reproduce this paper's analysis.
 
 ## Data
 All the data will be available once every analysis is run (hopefully that means 'soon').
 
 ## Analysis
-Here are the following steps for the running the full analysis (`shell` version only - a thorough `R` version should be coming soon.)
+Here are the following steps for running the full analysis (`shell` version only - a thorough `R` version should be coming soon.)
 ####Estimating ancestral characters and calculating the distance matrices (`shell`)
-The [`Data.setup.sh`](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/Data.setup.sh) script allows to generate the proper `R` script to run. The analysis may take a bit long on certain machines so I advice to run it as a back ground task on a terminal using the following script (as an example):
+The [`Data.setup.sh`](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/Data.setup.sh) script allows you to generate the proper `R` script to run. The analysis may take a bit long on certain machines so I advise to run it as a background task on a terminal using the following script (as an example):
 
 ```
 # Generating the R script
@@ -34,7 +34,7 @@ R --no-save < Data_setup_Beck_Claddis.R > /dev/null
 ```
 
 ####Calculating the disparity (`shell` version only - a thorough `R` version should be coming soon.)
-The [`disparity.calc.sh`](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity.calc.sh) script generates the `R` script. The analysis also takes some time so same advice as above. Here's a following up example:
+The [`disparity.calc.sh`](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity.calc.sh) script generates the `R` script. The analysis also takes some time so the same advice applies as above. Here's a follow up example:
 
 ```
 # Setting the intervals and the slices values
@@ -49,7 +49,7 @@ R --no-save < Beck2014-disparity-Claddis_distance-nodes95-gower.dist.matrix.R > 
 ```
 
 ####Null data (`shell` version only)
-In the mean time you can calculate the expected null disparity using the [`disparity.null.sh`](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity.null.sh) script. Note that this is a single core version, to make faster (up to 24 cores at the moment), use the [cluster version](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/Cluster/disparity.null.sh) using [`slurm`](https://en.wikipedia.org/wiki/Slurm_Workload_Manager). Here is an example for calcualting the expected null centroid distance disparity for the previous examples under a Mkn model (Brownian):
+In the mean time you can calculate the expected null disparity using the [`disparity.null.sh`](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity.null.sh) script. Note that this is a single core version, to make it faster (up to 24 cores at the moment), use the [cluster version](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/Cluster/disparity.null.sh) using [`slurm`](https://en.wikipedia.org/wiki/Slurm_Workload_Manager). Here is an example for calcualting the expected null centroid distance disparity based on the previous examples but under a Mkn model (Brownian):
 
 ```
 # Setting the intervals and the slices values
