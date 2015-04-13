@@ -5,8 +5,6 @@ sh Data.setup.sh "Slater2013" "../Data/" "../Data/2013-Slater-MEE-matrix-morpho.
 #In null/
 intervals="170,155,140,125,110,95,80,65,50,35,20,0"
 slices="170,165,160,155,150,145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50,45,40,35,30,25,20,15,10,5,0"
-
-
 sh disparity.null.sh "Beck2014" "../Data/" "../Data/2014-Beck-ProcB-matrix-morpho.nex" "../Data/2014-Beck-ProcB-TEM.tre" "centroid" "random" $intervals $slices 
 sh disparity.null.sh "Beck2014" "../Data/" "../Data/2014-Beck-ProcB-matrix-morpho.nex" "../Data/2014-Beck-ProcB-TEM.tre" "product.range" "random" $intervals $slices
 sh disparity.null.sh "Beck2014" "../Data/" "../Data/2014-Beck-ProcB-matrix-morpho.nex" "../Data/2014-Beck-ProcB-TEM.tre" "product.variance" "random" $intervals $slices
@@ -18,6 +16,9 @@ sh disparity.null.sh "Beck2014" "../Data/" "../Data/2014-Beck-ProcB-matrix-morph
 sh disparity.null.sh "Beck2014" "../Data/" "../Data/2014-Beck-ProcB-matrix-morpho.nex" "../Data/2014-Beck-ProcB-TEM.tre" "sum.range" "sim.char" $intervals $slices
 sh disparity.null.sh "Beck2014" "../Data/" "../Data/2014-Beck-ProcB-matrix-morpho.nex" "../Data/2014-Beck-ProcB-TEM.tre" "sum.variance" "sim.char" $intervals $slices
 
+
+intervals="170,155,140,125,110,95,80,65,50,35,20,0"
+slices="170,165,160,155,150,145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50,45,40,35,30,25,20,15,10,5,0"
 sh disparity.null.sh "Slater2013" "../Data/" "../Data/2013-Slater-MEE-matrix-morpho.nex" "../Data/2013-Slater-MEE-TEM.tre" "centroid" "random" $intervals $slices
 sh disparity.null.sh "Slater2013" "../Data/" "../Data/2013-Slater-MEE-matrix-morpho.nex" "../Data/2013-Slater-MEE-TEM.tre" "product.range" "random" $intervals $slices
 sh disparity.null.sh "Slater2013" "../Data/" "../Data/2013-Slater-MEE-matrix-morpho.nex" "../Data/2013-Slater-MEE-TEM.tre" "product.variance" "random" $intervals $slices
