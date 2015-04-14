@@ -259,18 +259,19 @@ lapply.root<-function(tree, root, prefix="n") {
 #SYNTAX :
 #<disp.data> a disparity data.frame with a "time" and a "rarefaction" column name
 #<rarefaction> which rarefaction value to extract
+#<plot.format> removes the time column to be in a proper plotting format
 #----
-extract.disp<-function(disp.data, rarefaction) {
+extract.disp<-function(disp.data, rarefaction, plot.format=TRUE) {
     #SANITIZING
     #disparity
-    #check.class(disp.data)
+    check.class(disp.data)
     if(any(is.na(match(c("time", "rarefaction"), colnames(disp.data))))) {
         stop("disp.data must have at least one column called 'time' and one called 'rarefaction'.")
     }
 
     #rarefaction
     if(class(rarefaction) != 'numeric') {
-        #check.class(rarefaction, 'character')
+        check.class(rarefaction, 'character')
         if(rarefaction == "min") {
             rar.val<-min(table(disp.data$time))+1
             is.fun<-FALSE
@@ -282,10 +283,13 @@ extract.disp<-function(disp.data, rarefaction) {
             }
         }
     } else {
-        #check.class(rarefaction, 'character')
+        check.class(rarefaction, 'character')
         is.fun<-FALSE
         rar.val<-rarefaction
     }
+
+    #plot.format
+    check.class(plot.format, 'logical')
 
     #EXTRACTING THE RIGHT RAREFACTION VALUE
 
@@ -331,6 +335,9 @@ extract.disp<-function(disp.data, rarefaction) {
     #bind the results
     disp.data.sort<-rbind(disp.data.sort, new_line)
     }
+
+    #Plot format?
+    disp.data.sort$time<-NULL
 
     return(disp.data.sort)
 }
