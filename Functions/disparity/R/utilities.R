@@ -264,14 +264,14 @@ lapply.root<-function(tree, root, prefix="n") {
 extract.disp<-function(disp.data, rarefaction, plot.format=TRUE) {
     #SANITIZING
     #disparity
-    check.class(disp.data)
+    #check.class(disp.data)
     if(any(is.na(match(c("time", "rarefaction"), colnames(disp.data))))) {
         stop("disp.data must have at least one column called 'time' and one called 'rarefaction'.")
     }
 
     #rarefaction
     if(class(rarefaction) != 'numeric') {
-        check.class(rarefaction, 'character')
+        #check.class(rarefaction, 'character')
         if(rarefaction == "min") {
             rar.val<-min(table(disp.data$time))+1
             is.fun<-FALSE
@@ -289,7 +289,7 @@ extract.disp<-function(disp.data, rarefaction, plot.format=TRUE) {
     }
 
     #plot.format
-    check.class(plot.format, 'logical')
+    #check.class(plot.format, 'logical')
 
     #EXTRACTING THE RIGHT RAREFACTION VALUE
 
