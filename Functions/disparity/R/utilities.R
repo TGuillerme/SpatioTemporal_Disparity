@@ -226,10 +226,111 @@ combine.disp<-function(disp.list) {
 }
 
 
-
+##########################
+#lapply.root
+##########################
 #Adding a root time and node labels to a tree (for lapply loops)
-lapply.root<-function(tree, root) {
+#----
+#SYNTAX :
+#<tree> input tree
+#<root> a root age (if default, root age is automatically calculated using tree.age function)
+#<node> a node prefix (default = "n")
+#----
+lapply.root<-function(tree, root, prefix="n") {
+    
+    #calculate the root (optional)
+    if(missing(root)) {
+        root<-max(tree.age(tree)$ages)
+    }
+
+    #add the root
     tree$root.time<-root
-    tree$node.label<-paste("n",seq(1:Nnode(tree)), sep="")
+
+    #add the node labels
+    tree$node.label<-paste(prefix,seq(1:Nnode(tree)), sep="")
     return(tree)
+}
+
+##########################
+#extract.disp
+##########################
+#extract a series of disparity measurement using a number of taxa (can be max or min) 
+#----
+#SYNTAX :
+#<disp.data> a disparity data.frame with a "time" and a "rarefaction" column name
+#<rarefaction> which rarefaction value to extract
+#----
+extract.disp<-function(disp.data, rarefaction) {
+    #SANITIZING
+    #disparity
+    #check.class(disp.data)
+    if(any(is.na(match(c("time", "rarefaction"), colnames(disp.data))))) {
+        stop("disp.data must have at least one column called 'time' and one called 'rarefaction'.")
+    }
+
+    #rarefaction
+    if(class(rarefaction) != 'numeric') {
+        #check.class(rarefaction, 'character')
+        if(rarefaction == "min") {
+            rar.val<-min(table(disp.data$time))+1
+            is.fun<-FALSE
+        } else {
+            if(rarefaction == "max") {
+                is.fun<-TRUE
+            } else {
+                stop("rarefaction must be either a numerical value or 'min' or 'max'.")
+            }
+        }
+    } else {
+        #check.class(rarefaction, 'character')
+        is.fun<-FALSE
+        rar.val<-rarefaction
+    }
+
+    #EXTRACTING THE RIGHT RAREFACTION VALUE
+
+    #Set the first row
+    sub_samp<-disp.data[which(disp.data$time == levels(disp.data$time)[1]),]
+    #Extract the rarefaction level
+    if(is.fun == TRUE) {
+        disp.data.sort<-sub_samp[which(sub_samp$rarefaction == max(sub_samp$rarefaction)),]
+    } else {
+        #Check if rarefaction level exists
+        if(length(which(sub_samp$rarefaction == rar.val)) == 1) {
+            #Extract the value
+            disp.data.sort<-sub_samp[which(sub_samp$rarefaction == rar.val),]
+        } else {
+            #If the rarefaction level doesn't exists, extract the max or min
+            if(all(rar.val > sub_samp$rarefaction)) {
+                disp.data.sort<-sub_samp[which(sub_samp$rarefaction == max(sub_samp$rarefaction)),]
+            } else {
+                disp.data.sort<-sub_samp[which(sub_samp$rarefaction == min(sub_samp$rarefaction)),]
+            }
+        }
+    }
+
+    #Do the same for the other levels
+    for (time in 2:length(levels(dis_ran$time))) {
+        sub_samp<-dis_ran[which(dis_ran$time == levels(dis_ran$time)[time]),]
+        if(is.fun == TRUE) {
+            new_line<-sub_samp[which(sub_samp$rarefaction == max(sub_samp$rarefaction)),]
+        } else {
+            #Check if rarefaction level exists
+            if(length(which(sub_samp$rarefaction == rar.val)) == 1) {
+                #Extract the value
+                new_line<-sub_samp[which(sub_samp$rarefaction == rar.val),]
+            } else {
+                #If the rarefaction level doesn't exists, extract the max or min
+                if(all(rar.val > sub_samp$rarefaction)) {
+                    new_line<-sub_samp[which(sub_samp$rarefaction == max(sub_samp$rarefaction)),]
+                } else {
+                    new_line<-sub_samp[which(sub_samp$rarefaction == min(sub_samp$rarefaction)),]
+                }
+            }
+        }
+    #bind the results
+    disp.data.sort<-rbind(disp.data.sort, new_line)
+    }
+
+    return(disp.data.sort)
 }
