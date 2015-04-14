@@ -75,7 +75,7 @@ ages_data<-tree.age(tree)
 tree$root.time<-max(ages_data[,1])
 
 #submatrix
-Nexus_data$matrix<-Nexus_data$matrix[match(rownames(Nexus_data$matrix), tree$tip.label, nomatch=0),]
+Nexus_data$matrix<-Nexus_data$matrix[match(tree$tip.label, rownames(Nexus_data$matrix)) ,]
 
 #Isolating the states list
 states_list<-apply(Nexus_data$matrix, 2, states.count) #states.count function is available in the sanitizing functions
@@ -89,8 +89,8 @@ observed_tree<-tree
 
 load(file=paste("../Data/",chain_name,"/ran.mat_obs.tre_init.Rda", sep=""))
 load(file=paste("../Data/",chain_name,"/sim.mat_obs.tre_init.Rda", sep=""))
-load(file=paste("../Data/",chain_name,"/obs.mat_yul.tre_init.Rda", sep=""))
-load(file=paste("../Data/",chain_name,"/obs.mat_bde.tre_init.Rda", sep=""))
+#load(file=paste("../Data/",chain_name,"/obs.mat_yul.tre_init.Rda", sep=""))
+#load(file=paste("../Data/",chain_name,"/obs.mat_bde.tre_init.Rda", sep=""))
 
 #ran.mat_yul.tre_init<-null.data(tree="yule", matrix=states_list, matrix.model="random", replicates=1, verbose=TRUE, root.time=tree$root.time, n.tips=Ntip(tree))
 #ran.mat_bde.tre_init<-null.data(tree="bd", matrix=states_list, matrix.model="random", replicates=1, verbose=TRUE, root.time=tree$root.time, n.tips=Ntip(tree))
@@ -104,8 +104,8 @@ load(file=paste("../Data/",chain_name,"/obs.mat_bde.tre_init.Rda", sep=""))
 load(file=paste("../Data/",chain_name,"/ace_obs.mat_obs.tre.Rda", sep=""))
 load(file=paste("../Data/",chain_name,"/ace_ran.mat_obs.tre.Rda", sep=""))
 load(file=paste("../Data/",chain_name,"/ace_sim.mat_obs.tre.Rda", sep=""))
-load(file=paste("../Data/",chain_name,"/ace_obs.mat_yul.tre.Rda", sep=""))
-load(file=paste("../Data/",chain_name,"/ace_obs.mat_bde.tre.Rda", sep=""))
+#load(file=paste("../Data/",chain_name,"/ace_obs.mat_yul.tre.Rda", sep=""))
+#load(file=paste("../Data/",chain_name,"/ace_obs.mat_bde.tre.Rda", sep=""))
 
 ####################################
 #Distance matrix
@@ -115,15 +115,15 @@ load(file=paste("../Data/",chain_name,"/ace_obs.mat_bde.tre.Rda", sep=""))
 load(file=paste("../Data/",chain_name,"/dist_obs.mat_obs.tre.Rda", sep=""))
 load(file=paste("../Data/",chain_name,"/dist_ran.mat_obs.tre.Rda", sep=""))
 load(file=paste("../Data/",chain_name,"/dist_sim.mat_obs.tre.Rda", sep=""))
-load(file=paste("../Data/",chain_name,"/dist_obs.mat_yul.tre.Rda", sep=""))
-load(file=paste("../Data/",chain_name,"/dist_obs.mat_bde.tre.Rda", sep=""))
+#load(file=paste("../Data/",chain_name,"/dist_obs.mat_yul.tre.Rda", sep=""))
+#load(file=paste("../Data/",chain_name,"/dist_obs.mat_bde.tre.Rda", sep=""))
 
 #Distance matrix using also nodes95
-load(file=paste("../Data/",chain_name,"/dist_obs.mat_obs.tre95.Rda", sep=""))
-load(file=paste("../Data/",chain_name,"/dist_ran.mat_obs.tre95.Rda", sep=""))
-load(file=paste("../Data/",chain_name,"/dist_sim.mat_obs.tre95.Rda", sep=""))
-load(file=paste("../Data/",chain_name,"/dist_obs.mat_yul.tre95.Rda", sep=""))
-load(file=paste("../Data/",chain_name,"/dist_obs.mat_bde.tre95.Rda", sep=""))
+#load(file=paste("../Data/",chain_name,"/dist_obs.mat_obs.tre95.Rda", sep=""))
+#load(file=paste("../Data/",chain_name,"/dist_ran.mat_obs.tre95.Rda", sep=""))
+#load(file=paste("../Data/",chain_name,"/dist_sim.mat_obs.tre95.Rda", sep=""))
+#load(file=paste("../Data/",chain_name,"/dist_obs.mat_yul.tre95.Rda", sep=""))
+#load(file=paste("../Data/",chain_name,"/dist_obs.mat_bde.tre95.Rda", sep=""))
 
 ######################
 #Distance matrices
@@ -136,16 +136,16 @@ max_ran.mat_obs.tre<-max_sim.mat_obs.tre<-max_obs.mat_yul.tre<-max_obs.mat_bde.t
 for (replicate in 1:length(dist_ran.mat_obs.tre)) {
     max_ran.mat_obs.tre[[replicate]]<-dist_ran.mat_obs.tre[[replicate]]$max.dist.matrix
     max_sim.mat_obs.tre[[replicate]]<-dist_sim.mat_obs.tre[[replicate]]$max.dist.matrix
-    max_obs.mat_yul.tre[[replicate]]<-dist_obs.mat_yul.tre[[replicate]]$max.dist.matrix
-    max_obs.mat_bde.tre[[replicate]]<-dist_obs.mat_bde.tre[[replicate]]$max.dist.matrix
+    #max_obs.mat_yul.tre[[replicate]]<-dist_obs.mat_yul.tre[[replicate]]$max.dist.matrix
+    #max_obs.mat_bde.tre[[replicate]]<-dist_obs.mat_bde.tre[[replicate]]$max.dist.matrix
 }
 
 #Remove the inapplicable characters
 trimmed_obs.mat_obs.tre<-TrimMorphDistMatrix(max_obs.mat_obs.tre)
 trimmed_ran.mat_obs.tre<-lapply(max_ran.mat_obs.tre, TrimMorphDistMatrix)
 trimmed_sim.mat_obs.tre<-lapply(max_sim.mat_obs.tre, TrimMorphDistMatrix)
-trimmed_obs.mat_yul.tre<-lapply(max_obs.mat_yul.tre, TrimMorphDistMatrix)
-trimmed_obs.mat_bde.tre<-lapply(max_obs.mat_bde.tre, TrimMorphDistMatrix)
+#trimmed_obs.mat_yul.tre<-lapply(max_obs.mat_yul.tre, TrimMorphDistMatrix)
+#trimmed_obs.mat_bde.tre<-lapply(max_obs.mat_bde.tre, TrimMorphDistMatrix)
 
 #Extracting list of removed taxa
 #max_null_rand_rm<-list()
@@ -181,8 +181,8 @@ matrix_ran.mat_obs.tre<-matrix_sim.mat_obs.tre<-matrix_obs.mat_yul.tre<-matrix_o
 for (replicate in 1:length(dist_ran.mat_obs.tre)) {
     matrix_ran.mat_obs.tre[[replicate]]<-trimmed_ran.mat_obs.tre[[replicate]]$dist.matrix
     matrix_sim.mat_obs.tre[[replicate]]<-trimmed_sim.mat_obs.tre[[replicate]]$dist.matrix
-    matrix_obs.mat_yul.tre[[replicate]]<-trimmed_obs.mat_yul.tre[[replicate]]$dist.matrix
-    matrix_obs.mat_bde.tre[[replicate]]<-trimmed_obs.mat_bde.tre[[replicate]]$dist.matrix
+    #matrix_obs.mat_yul.tre[[replicate]]<-trimmed_obs.mat_yul.tre[[replicate]]$dist.matrix
+    #matrix_obs.mat_bde.tre[[replicate]]<-trimmed_obs.mat_bde.tre[[replicate]]$dist.matrix
 }
 
 #List of trees
@@ -195,32 +195,32 @@ for (replicate in 1:length(dist_ran.mat_obs.tre)) {
 pco_obs.mat_obs.tre<-cmdscale(matrix_obs.mat_obs.tre, k=nrow(matrix_obs.mat_obs.tre) - 1, add=TRUE)$points
 pco_ran.mat_obs.tre<-lapply(matrix_ran.mat_obs.tre, function(X) cmdscale(X, k=nrow(X)-1, add=TRUE))
 pco_sim.mat_obs.tre<-lapply(matrix_sim.mat_obs.tre, function(X) cmdscale(X, k=nrow(X)-1, add=TRUE))
-pco_obs.mat_yul.tre<-lapply(matrix_obs.mat_yul.tre, function(X) cmdscale(X, k=nrow(X)-1, add=TRUE))
-pco_obs.mat_bde.tre<-lapply(matrix_obs.mat_bde.tre, function(X) cmdscale(X, k=nrow(X)-1, add=TRUE))
+#pco_obs.mat_yul.tre<-lapply(matrix_obs.mat_yul.tre, function(X) cmdscale(X, k=nrow(X)-1, add=TRUE))
+#pco_obs.mat_bde.tre<-lapply(matrix_obs.mat_bde.tre, function(X) cmdscale(X, k=nrow(X)-1, add=TRUE))
 
 #Isolate only the pco scores for the lists
 for (replicate in 1:length(dist_ran.mat_obs.tre)) {
     pco_ran.mat_obs.tre[[replicate]]<-pco_ran.mat_obs.tre[[replicate]]$points
     pco_sim.mat_obs.tre[[replicate]]<-pco_sim.mat_obs.tre[[replicate]]$points
-    pco_obs.mat_yul.tre[[replicate]]<-pco_obs.mat_yul.tre[[replicate]]$points
-    pco_obs.mat_bde.tre[[replicate]]<-pco_obs.mat_bde.tre[[replicate]]$points
+    #pco_obs.mat_yul.tre[[replicate]]<-pco_obs.mat_yul.tre[[replicate]]$points
+    #pco_obs.mat_bde.tre[[replicate]]<-pco_obs.mat_bde.tre[[replicate]]$points
 }
 ######################
 #Disparity - per interval only for now - centroid only for now #PROBLEM WITH INTERVALS!
 ######################
 
 #Generating the different intervals PCOs
-intpco_obs.mat_obs.tre<-int.pco(pco_obs.mat_obs.tre, observed_tree, int_breaks, include.nodes=TRUE, FAD_LAD=FADLAD, diversity=TRUE)
+intpco_obs.mat_obs.tre<-int.pco(pco_obs.mat_obs.tre, observed_tree, int_breaks, include.nodes=FALSE, FAD_LAD=FADLAD, diversity=TRUE)
 div_obs.mat_obs.tre<-intpco_obs.mat_obs.tre[[2]] ; intpco_obs.mat_obs.tre<-intpco_obs.mat_obs.tre[[1]]
 
 intpco_ran.mat_obs.tre<-intpco_sim.mat_obs.tre<-intpco_obs.mat_yul.tre<-intpco_obs.mat_bde.tre<-list()
 div_ran.mat_obs.tre<-div_sim.mat_obs.tre<-div_obs.mat_yul.tre<-div_obs.mat_bde.tre<-list()
 for (replicate in 1:length(dist_ran.mat_obs.tre)) {
-    intpco_ran.mat_obs.tre<-int.pco(pco_ran.mat_obs.tre[[replicate]], observed_tree, int_breaks, include.nodes=TRUE, FAD_LAD=FADLAD, diversity=TRUE)
-    div_ran.mat_obs.tre[[replicate]]<-intpco_ran.mat_obs.tre[[2]] ; intpco_ran.mat_obs.tre[[replicate]]<-intpco_ran.mat_obs.tre[[1]]
+    tmp_ran.mat_obs.tre<-int.pco(pco_ran.mat_obs.tre[[replicate]], observed_tree, int_breaks, include.nodes=FALSE, FAD_LAD=FADLAD, diversity=TRUE)
+    div_ran.mat_obs.tre[[replicate]]<-tmp_ran.mat_obs.tre[[2]] ; intpco_ran.mat_obs.tre[[replicate]]<-tmp_ran.mat_obs.tre[[1]]
 
-    intpco_sim.mat_obs.tre<-int.pco(pco_sim.mat_obs.tre[[replicate]], observed_tree, int_breaks, include.nodes=TRUE, FAD_LAD=FADLAD, diversity=TRUE)
-    div_sim.mat_obs.tre[[replicate]]<-intpco_sim.mat_obs.tre[[2]] ; intpco_sim.mat_obs.tre[[replicate]]<-intpco_sim.mat_obs.tre[[1]]
+    tmp_sim.mat_obs.tre<-int.pco(pco_sim.mat_obs.tre[[replicate]], observed_tree, int_breaks, include.nodes=FALSE, FAD_LAD=FADLAD, diversity=TRUE)
+    div_sim.mat_obs.tre[[replicate]]<-tmp_sim.mat_obs.tre[[2]] ; intpco_sim.mat_obs.tre[[replicate]]<-tmp_sim.mat_obs.tre[[1]]
 
     #intpco_obs.mat_yul.tre<-int.pco(pco_obs.mat_yul.tre[[replicate]], obs.mat_yul.tre_init[[replicate]], int_breaks, include.nodes=TRUE, FAD_LAD=FADLAD, diversity=TRUE)
     #div_obs.mat_yul.tre[[replicate]]<-intpco_obs.mat_yul.tre[[2]] ; intpco_obs.mat_yul.tre[[replicate]]<-intpco_obs.mat_yul.tre[[1]]
@@ -243,10 +243,10 @@ values_ran.mat_obs.tre<-values_sim.mat_obs.tre<-values_obs.mat_yul.tre<-values_o
 quantiles_ran.mat_obs.tre<-quantiles_sim.mat_obs.tre<-quantiles_obs.mat_yul.tre<-quantiles_obs.mat_bde.tre<-list()
 
 for (replicate in 1:length(dist_ran.mat_obs.tre)) {
-    values_ran.mat_obs.tre[[replicate]]<-disp_ran.mat_obs.tre[[replicate][[2]] ; quantiles_ran.mat_obs.tre[[replicate]]<-disp_ran.mat_obs.tre[[replicate][[1]]
-    values_sim.mat_obs.tre[[replicate]]<-disp_sim.mat_obs.tre[[replicate][[2]] ; quantiles_sim.mat_obs.tre[[replicate]]<-disp_sim.mat_obs.tre[[replicate][[1]]
-    #values_obs.mat_yul.tre[[replicate]]<-disp_obs.mat_yul.tre[[replicate][[2]] ; quantiles_obs.mat_yul.tre[[replicate]]<-disp_obs.mat_yul.tre[[replicate][[1]]
-    #values_obs.mat_bde.tre[[replicate]]<-disp_obs.mat_bde.tre[[replicate][[2]] ; quantiles_obs.mat_bde.tre[[replicate]]<-disp_obs.mat_bde.tre[[replicate][[1]]
+    values_ran.mat_obs.tre[[replicate]]<-disp_ran.mat_obs.tre[[replicate]][[2]] ; quantiles_ran.mat_obs.tre[[replicate]]<-disp_ran.mat_obs.tre[[replicate]][[1]]
+    values_sim.mat_obs.tre[[replicate]]<-disp_sim.mat_obs.tre[[replicate]][[2]] ; quantiles_sim.mat_obs.tre[[replicate]]<-disp_sim.mat_obs.tre[[replicate]][[1]]
+    #values_obs.mat_yul.tre[[replicate]]<-disp_obs.mat_yul.tre[[replicate]][[2]] ; quantiles_obs.mat_yul.tre[[replicate]]<-disp_obs.mat_yul.tre[[replicate]][[1]]
+    #values_obs.mat_bde.tre[[replicate]]<-disp_obs.mat_bde.tre[[replicate]][[2]] ; quantiles_obs.mat_bde.tre[[replicate]]<-disp_obs.mat_bde.tre[[replicate]][[1]]
 }
 
 #Combining the list data together (average among all the replicates)
@@ -270,26 +270,26 @@ for(interval in 1:length(values_obs.mat_obs.tre)) {
 }
 
 val_ran.mat_obs.tre<-val_sim.mat_obs.tre<-val_obs.mat_yul.tre<-val_obs.mat_bde.tre<-list()
-for(replicate in 1:length(val_ran.mat_obs.tre)) {
-    for(interval in 1:length(val_ran.mat_obs.tre[[replicate]])) {
-        val_ran.mat_obs.tre[[interval]]<-as.vector(val_ran.mat_obs.tre[[replicate]][[interval]])
+for(replicate in 1:length(values_ran.mat_obs.tre)) {
+    for(interval in 1:length(values_ran.mat_obs.tre[[replicate]])) {
+        val_ran.mat_obs.tre[[interval]]<-as.vector(values_ran.mat_obs.tre[[replicate]][[interval]])
     }
 }
-for(replicate in 1:length(val_sim.mat_obs.tre)) {
-    for(interval in 1:length(val_sim.mat_obs.tre[[replicate]])) {
-        val_sim.mat_obs.tre[[interval]]<-as.vector(val_sim.mat_obs.tre[[replicate]][[interval]])
+for(replicate in 1:length(values_sim.mat_obs.tre)) {
+    for(interval in 1:length(values_sim.mat_obs.tre[[replicate]])) {
+        val_sim.mat_obs.tre[[interval]]<-as.vector(values_sim.mat_obs.tre[[replicate]][[interval]])
     }
 }
-for(replicate in 1:length(val_obs.mat_yul.tre)) {
-    for(interval in 1:length(val_obs.mat_yul.tre[[replicate]])) {
-        val_obs.mat_yul.tre[[interval]]<-as.vector(val_obs.mat_yul.tre[[replicate]][[interval]])
-    }
-}
-for(replicate in 1:length(val_obs.mat_bde.tre)) {
-    for(interval in 1:length(val_obs.mat_bde.tre[[replicate]])) {
-        val_obs.mat_bde.tre[[interval]]<-as.vector(val_obs.mat_bde.tre[[replicate]][[interval]])
-    }
-}
+#for(replicate in 1:length(val_obs.mat_yul.tre)) {
+#    for(interval in 1:length(val_obs.mat_yul.tre[[replicate]])) {
+#        val_obs.mat_yul.tre[[interval]]<-as.vector(val_obs.mat_yul.tre[[replicate]][[interval]])
+#    }
+#}
+#for(replicate in 1:length(val_obs.mat_bde.tre)) {
+#    for(interval in 1:length(val_obs.mat_bde.tre[[replicate]])) {
+#        val_obs.mat_bde.tre[[interval]]<-as.vector(val_obs.mat_bde.tre[[replicate]][[interval]])
+#    }
+#}
 
 #Calculating the Bhattacharrya coefficients
 obs_vs_ran.mat<-pair.bhatt.coeff(val_obs.mat_obs.tre, val_ran.mat_obs.tre)
@@ -305,15 +305,14 @@ sim_vs_ran.mat<-pair.bhatt.coeff(val_sim.mat_obs.tre, val_ran.mat_obs.tre)
 #Plotting the different models
 op<-par(mfrow=c(2, 2), bty="l")# oma=c(bottom, left, top, right)
 #Centroid
-plot.disparity(disp_tips_quantiles, rarefaction=FALSE, xlab="", ylab="Distance from centroid", measure="Cent.dist", main="Observed")
-plot.disparity(disp_int_rand, rarefaction=FALSE, xlab="", ylab="Distance from centroid", measure="Cent.dist", main="Random")
-plot.disparity(disp_int_simc, rarefaction=FALSE, xlab="", ylab="Distance from centroid", measure="Cent.dist", main="Simulated")
+plot.disparity(quantiles_obs.mat_obs.tre, rarefaction=FALSE, xlab="", ylab="Distance from centroid", measure="Cent.dist", main="Observed", diversity=cor.diversity(div_obs.mat_obs.tre))
+plot.disparity(quant_ran.mat_obs.tre, rarefaction=FALSE, xlab="", ylab="Distance from centroid", measure="Cent.dist", main="Random", diversity=cor.diversity(div_ran.mat_obs.tre[[1]]))
+plot.disparity(quant_sim.mat_obs.tre, rarefaction=FALSE, xlab="", ylab="Distance from centroid", measure="Cent.dist", main="Simulated", diversity=cor.diversity(div_sim.mat_obs.tre[[1]]))
 #Bhattacharrya
-plot(rand_vs_simc, type="l", ylim=c(0,1), col="black", ylab="Bhattacharrya coefficient", xaxt='n', xlab="")
-abline(h=0.975, col="grey", lty=3)
-abline(h=0.025, col="grey", lty=3)
+plot(sim_vs_ran.mat, type="l", ylim=c(0,1), col="black", ylab="Bhattacharrya coefficient", xlab="")
+abline(h=0.95, col="grey", lty=3)
+abline(h=0.05, col="grey", lty=3)
 axis(side = 1, at=1:length(disp_tips_values), labels=names(disp_tips_values), las=2)
-points(rand_vs_obs, type="l", col="red")
-points(simc_vs_obs, type="l", col="blue")
-xaxis()
+points(obs_vs_ran.mat, type="l", col="red")
+points(obs_vs_sim.mat, type="l", col="blue")
 par(op)

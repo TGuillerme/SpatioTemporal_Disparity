@@ -4,17 +4,14 @@
 # Function for loading raw scripts from GitHub 
 #############################
 # Just loading the whole bunch of functions. I you want to look at them in detail, I've added the GitHub links for each individual function as I call them through this script
-source("Claddis-suggestion-scripts.R")
+library(devtools)
+install_github("TGuillerme/SpatioTemporal_Disparity/Functions/disparity")
+library(disparity)
 
 #############################
 # Data loading
 #############################
 # This is just exactly your workshop script up until the distance matrix calculations (without the "install.packages")
-
-# Libraries
-library(Claddis)
-library(paleotree)
-library(strap)
 
 # Load the morphological matrix
 nexus.data <- ReadMorphNexus("http://www.graemetlloyd.com/nexus/Cullen_etal_2013a.nex")
@@ -44,7 +41,7 @@ dist.data <- MorphDistMatrix(nexus.data)
 # For small datasets this is instantly but I'm playing around with reasonably big ones (100 taxa * 400 characters) and some can take a day or so to compute.
 # To make sure the script is not frozen, I've just added a verbose function.
 # I clumsily renamed it MorphDistMatrix.verbose to avoid any confusion.
-browseURL("https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/MorphDistMatrix.verbose.R")
+browseURL("https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity/R/MorphDistMatrix.verbose.R")
 
 # The function is exactly the same but can take an optional additional argument: verbose (TRUE (default) or FALSE)
 # With verbose = FALSE, the function is exactly the same
@@ -74,7 +71,7 @@ pco.data <- cmdscale(trimmed.max.data$dist.matrix, k=nrow(trimmed.max.data$dist.
 #############################
 
 # So here is a series of function for calculating different measures of disparity. I think it might be nice to add that to the package.
-browseURL("https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity.R")
+browseURL("https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity/R/disparity.R")
 
 # The function intakes multiple arguments that allows to calculate various metrics of disparity (sum of ranges, prod of ranges, etc...), bootstrap, do rarefaction curves and remove some pco axis
 # The first argument must be a pco matrix (output from cmdscale).
@@ -116,7 +113,7 @@ all_the_values$centroid
 
 # Another series of functions is to look at the disparity through time.
 # I came up with various functions on how to look at diversity through time but here's the simplest one.
-browseURL("https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/int.pco.R")
+browseURL("https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity/R/int.pco.R")
 
 # It just classically put species in bins (time intervals) and makes a list of them using the pco.data
 # It takes as first argument the pco.data calculated by the cmdscale function.
@@ -143,7 +140,7 @@ pco_in_bins$pco_intervals
 pco_in_bins$diversity
 
 # We can now calculate the disparity for each slice using a lapply wrapping function for the disparity function that uses the same arguments as the disparity function
-browseURL("https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/time.disparity.R")
+browseURL("https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity/R/time.disparity.R")
 
 # This function just takes the binned pco data from int.pco.
 # Let's just calculate an easy (the default options)
@@ -157,7 +154,7 @@ disparity_per_bin
 ############################# 
 
 # Finally I'm working on a last series of functions on plotting the results, it's still in a more "drafty" part than the rest but this can give you an idea.
-browseURL("https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/plot.disparity.R")
+browseURL("https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity/R/plot.disparity.R")
 # The idea is to make a plot S3 method that recognise the data you input and gives a nice plot with the default plotting option (xlim, main, col, etc...)
 # The function takes the data to plot (one of the disparity tables), which disparity metric to plot and various graphical options.
 # The disparity measure to plot can be set to default which will be the first column of the table ("Cent.dist" by default)
