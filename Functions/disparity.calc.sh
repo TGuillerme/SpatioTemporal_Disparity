@@ -15,10 +15,11 @@
 #<slices> a series of time slices
 #<FADLAD> a csv file with FADLAD data
 #########################
-#version 0.2
+#version 0.3
 #Update: matching trimmed data with tree
+#Update: now saving all the results
 #----
-#guillert(at)tcd.ie - 13/04/2015
+#guillert(at)tcd.ie - 14/04/2015
 ###########################
 
 #INPUT
@@ -126,7 +127,7 @@ pco_int<-int.pco(pco_data, tree, intervals, include.nodes=incl_nodes, FAD_LAD=FA
 diversity_int<-pco_int[[2]] ; pco_int<-pco_int[[1]] 
 
 #Calculating the disparity per intervals
-disp_int<-time.disparity(pco_int, verbose=TRUE, rarefaction=TRUE)
+disp_int<-time.disparity(pco_int, verbose=TRUE, rarefaction=TRUE, save.all=TRUE)
 
 #Saving
 disparity_intervals<-list('disparity'=disp_int, 'diversity'=diversity_int)
@@ -142,19 +143,19 @@ if(incl_nodes==TRUE) {
     pco_sli_pro<-slice.pco(pco_data, tree, slices, method='proximity', FAD_LAD=FADLAD, verbose=TRUE)
 
     #Calculating the disparity per interval
-    disp_sli_ran<-time.disparity(pco_sli_ran, verbose=TRUE, rarefaction=TRUE)
+    disp_sli_ran<-time.disparity(pco_sli_ran, verbose=TRUE, rarefaction=TRUE, save.all=TRUE)
     disparity_sli_ran<-list('disparity'=disp_sli_ran, 'diversity'=diversity_sli)
     save(disparity_sli_ran, file=paste(data_path, chain_name, '/',chain_name,'_disparity-sli_ran', mat_name,'-',distance ,'.Rda', sep=''))
 
-    disp_sli_del<-time.disparity(pco_sli_del, verbose=TRUE, rarefaction=TRUE)
+    disp_sli_del<-time.disparity(pco_sli_del, verbose=TRUE, rarefaction=TRUE, save.all=TRUE)
     disparity_sli_del<-list('disparity'=disp_sli_del, 'diversity'=diversity_sli)
     save(disparity_sli_del, file=paste(data_path, chain_name, '/',chain_name,'_disparity-sli_del', mat_name,'-',distance ,'.Rda', sep=''))
 
-    disp_sli_acc<-time.disparity(pco_sli_acc, verbose=TRUE, rarefaction=TRUE)
+    disp_sli_acc<-time.disparity(pco_sli_acc, verbose=TRUE, rarefaction=TRUE, save.all=TRUE)
     disparity_sli_acc<-list('disparity'=disp_sli_acc, 'diversity'=diversity_sli)
     save(disparity_sli_acc, file=paste(data_path, chain_name, '/',chain_name,'_disparity-sli_acc', mat_name,'-',distance ,'.Rda', sep=''))
 
-    disp_sli_pro<-time.disparity(pco_sli_pro, verbose=TRUE, rarefaction=TRUE)
+    disp_sli_pro<-time.disparity(pco_sli_pro, verbose=TRUE, rarefaction=TRUE, save.all=TRUE)
     disparity_sli_pro<-list('disparity'=disp_sli_pro, 'diversity'=diversity_sli)
     save(disparity_sli_pro, file=paste(data_path, chain_name, '/',chain_name,'_disparity-sli_pro', mat_name,'-',distance ,'.Rda', sep=''))
 }
