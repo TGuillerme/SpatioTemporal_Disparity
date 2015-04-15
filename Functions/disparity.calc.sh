@@ -15,11 +15,11 @@
 #<slices> a series of time slices
 #<FADLAD> a csv file with FADLAD data
 #########################
-#version 0.3
+#version 0.3.1
 #Update: matching trimmed data with tree
 #Update: now saving all the results
 #----
-#guillert(at)tcd.ie - 14/04/2015
+#guillert(at)tcd.ie - 15/04/2015
 ###########################
 
 #INPUT
@@ -100,7 +100,7 @@ dist_mat<-extract.dist(get(mat_name), distance)
 trimmed_data<-TrimMorphDistMatrix(dist_mat)
 tree<-drop.tip(tree, trimmed_data\$removed.taxa) ; tree\$root.time<-max(tree.age(tree)[,1])
 #drop nodes from the distance matrix
-if(length(trimmed_data\$removed.data) != 0) {
+if(length(trimmed_data\$removed.taxa) != 0) {
     trimmed_data\$dist.matrix<-trimmed_data\$dist.matrix[-which(is.na(match(rownames(trimmed_data\$dist.matrix), c(tree\$tip.label, tree\$node.label)))),-which(is.na(match(rownames(trimmed_data\$dist.matrix), c(tree\$tip.label, tree\$node.label))))]
 }
 
