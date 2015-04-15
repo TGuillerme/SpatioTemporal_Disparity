@@ -278,12 +278,12 @@ extract.disp<-function(disp.data, rarefaction, plot.format=TRUE) {
         } else {
             if(rarefaction == "max") {
                 is.fun<-TRUE
-            } else {
-                stop("rarefaction must be either a numerical value or 'min' or 'max'.")
-            }
+            #} else {
+            #    stop("rarefaction must be either a numerical value or 'min' or 'max'.")
+            #}
         }
     } else {
-        check.class(rarefaction, 'character')
+        #check.class(rarefaction, 'character')
         is.fun<-FALSE
         rar.val<-rarefaction
     }
