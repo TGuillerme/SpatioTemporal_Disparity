@@ -1,3 +1,7 @@
+# Cluster unsorted files #
+Cluster/Beck2014/*.Rda
+Cluster/Slater2013/*.Rda
+
 # Mails#
 *-mail.txt
 # Illustrator figures#
