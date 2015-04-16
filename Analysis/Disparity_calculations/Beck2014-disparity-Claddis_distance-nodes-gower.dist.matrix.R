@@ -11,7 +11,7 @@ chain_name='Beck2014'
 data_path='../Data/'
 file_matrix='../Data/2014-Beck-ProcB-matrix-morpho.nex'
 file_tree='../Data/2014-Beck-ProcB-TEM.tre'
-file_dist='../Data/Beck2014/Beck2014Claddis_distance-nodes95.Rda'
+file_dist='../Data/Beck2014/Beck2014Claddis_distance-nodes.Rda'
 distance='gower.dist.matrix'
 intervals=as.numeric(strsplit(c(noquote('170,155,140,125,110,95,80,65,50,35,20,0')), split=',')[[1]])
 slices=as.numeric(strsplit(c(noquote('170,165,160,155,150,145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50,45,40,35,30,25,20,15,10,5,0')), split=',')[[1]])

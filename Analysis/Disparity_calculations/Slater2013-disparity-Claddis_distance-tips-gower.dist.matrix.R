@@ -7,15 +7,15 @@ library(disparity)
 ######################
 
 #Selecting the file
-chain_name='Beck2014'
+chain_name='Slater2013'
 data_path='../Data/'
-file_matrix='../Data/2014-Beck-ProcB-matrix-morpho.nex'
-file_tree='../Data/2014-Beck-ProcB-TEM.tre'
-file_dist='../Data/Beck2014/Beck2014Claddis_distance-nodes95.Rda'
+file_matrix='../Data/2013-Slater-MEE-matrix-morpho.nex'
+file_tree='../Data/2013-Slater-MEE-TEM.tre'
+file_dist='../Data/Slater2013/Slater2013Claddis_distance-tips.Rda'
 distance='gower.dist.matrix'
 intervals=as.numeric(strsplit(c(noquote('170,155,140,125,110,95,80,65,50,35,20,0')), split=',')[[1]])
 slices=as.numeric(strsplit(c(noquote('170,165,160,155,150,145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50,45,40,35,30,25,20,15,10,5,0')), split=',')[[1]])
-FADLAD='../Data/Beck2014_FADLAD.csv'
+FADLAD='../Data/Slater2013_FADLAD.csv'
 
 #matrix
 Nexus_data<-ReadMorphNexus(file_matrix)

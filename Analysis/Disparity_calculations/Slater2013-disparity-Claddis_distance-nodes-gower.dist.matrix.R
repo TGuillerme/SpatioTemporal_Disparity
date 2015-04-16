@@ -1,4 +1,5 @@
 
+
 #Load the functions and the packages
 library(disparity)
 
@@ -7,15 +8,15 @@ library(disparity)
 ######################
 
 #Selecting the file
-chain_name='Beck2014'
+chain_name='Slater2013'
 data_path='../Data/'
-file_matrix='../Data/2014-Beck-ProcB-matrix-morpho.nex'
-file_tree='../Data/2014-Beck-ProcB-TEM.tre'
-file_dist='../Data/Beck2014/Beck2014Claddis_distance-tips.Rda'
+file_matrix='../Data/2013-Slater-MEE-matrix-morpho.nex'
+file_tree='../Data/2013-Slater-MEE-TEM.tre'
+file_dist='../Data/Slater2013/Slater2013Claddis_distance-nodes.Rda'
 distance='gower.dist.matrix'
 intervals=as.numeric(strsplit(c(noquote('170,155,140,125,110,95,80,65,50,35,20,0')), split=',')[[1]])
 slices=as.numeric(strsplit(c(noquote('170,165,160,155,150,145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50,45,40,35,30,25,20,15,10,5,0')), split=',')[[1]])
-FADLAD='../Data/Beck2014_FADLAD.csv'
+FADLAD='../Data/Slater2013_FADLAD.csv'
 
 #matrix
 Nexus_data<-ReadMorphNexus(file_matrix)
@@ -59,7 +60,7 @@ dist_mat<-extract.dist(get(mat_name), distance)
 trimmed_data<-TrimMorphDistMatrix(dist_mat)
 tree<-drop.tip(tree, trimmed_data$removed.taxa) ; tree$root.time<-max(tree.age(tree)[,1])
 #drop nodes from the distance matrix
-if(length(trimmed_data$removed.data) != 0) {
+if(length(trimmed_data$removed.taxa) != 0) {
     trimmed_data$dist.matrix<-trimmed_data$dist.matrix[-which(is.na(match(rownames(trimmed_data$dist.matrix), c(tree$tip.label, tree$node.label)))),-which(is.na(match(rownames(trimmed_data$dist.matrix), c(tree$tip.label, tree$node.label))))]
 }
 
@@ -86,7 +87,7 @@ pco_int<-int.pco(pco_data, tree, intervals, include.nodes=incl_nodes, FAD_LAD=FA
 diversity_int<-pco_int[[2]] ; pco_int<-pco_int[[1]] 
 
 #Calculating the disparity per intervals
-disp_int<-time.disparity(pco_int, verbose=TRUE, rarefaction=TRUE)
+disp_int<-time.disparity(pco_int, verbose=TRUE, rarefaction=TRUE, save.all=TRUE)
 
 #Saving
 disparity_intervals<-list('disparity'=disp_int, 'diversity'=diversity_int)
@@ -102,19 +103,19 @@ if(incl_nodes==TRUE) {
     pco_sli_pro<-slice.pco(pco_data, tree, slices, method='proximity', FAD_LAD=FADLAD, verbose=TRUE)
 
     #Calculating the disparity per interval
-    disp_sli_ran<-time.disparity(pco_sli_ran, verbose=TRUE, rarefaction=TRUE)
+    disp_sli_ran<-time.disparity(pco_sli_ran, verbose=TRUE, rarefaction=TRUE, save.all=TRUE)
     disparity_sli_ran<-list('disparity'=disp_sli_ran, 'diversity'=diversity_sli)
     save(disparity_sli_ran, file=paste(data_path, chain_name, '/',chain_name,'_disparity-sli_ran', mat_name,'-',distance ,'.Rda', sep=''))
 
-    disp_sli_del<-time.disparity(pco_sli_del, verbose=TRUE, rarefaction=TRUE)
+    disp_sli_del<-time.disparity(pco_sli_del, verbose=TRUE, rarefaction=TRUE, save.all=TRUE)
     disparity_sli_del<-list('disparity'=disp_sli_del, 'diversity'=diversity_sli)
     save(disparity_sli_del, file=paste(data_path, chain_name, '/',chain_name,'_disparity-sli_del', mat_name,'-',distance ,'.Rda', sep=''))
 
-    disp_sli_acc<-time.disparity(pco_sli_acc, verbose=TRUE, rarefaction=TRUE)
+    disp_sli_acc<-time.disparity(pco_sli_acc, verbose=TRUE, rarefaction=TRUE, save.all=TRUE)
     disparity_sli_acc<-list('disparity'=disp_sli_acc, 'diversity'=diversity_sli)
     save(disparity_sli_acc, file=paste(data_path, chain_name, '/',chain_name,'_disparity-sli_acc', mat_name,'-',distance ,'.Rda', sep=''))
 
-    disp_sli_pro<-time.disparity(pco_sli_pro, verbose=TRUE, rarefaction=TRUE)
+    disp_sli_pro<-time.disparity(pco_sli_pro, verbose=TRUE, rarefaction=TRUE, save.all=TRUE)
     disparity_sli_pro<-list('disparity'=disp_sli_pro, 'diversity'=diversity_sli)
     save(disparity_sli_pro, file=paste(data_path, chain_name, '/',chain_name,'_disparity-sli_pro', mat_name,'-',distance ,'.Rda', sep=''))
 }
