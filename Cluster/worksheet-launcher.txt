@@ -29,3 +29,17 @@ sh disparity.null.sh "Slater2013" "../Data/" "../Data/2013-Slater-MEE-matrix-mor
 sh disparity.null.sh "Slater2013" "../Data/" "../Data/2013-Slater-MEE-matrix-morpho.nex" "../Data/2013-Slater-MEE-TEM.tre" "product.variance" "sim.char" $intervals $slices
 sh disparity.null.sh "Slater2013" "../Data/" "../Data/2013-Slater-MEE-matrix-morpho.nex" "../Data/2013-Slater-MEE-TEM.tre" "sum.range" "sim.char" $intervals $slices
 sh disparity.null.sh "Slater2013" "../Data/" "../Data/2013-Slater-MEE-matrix-morpho.nex" "../Data/2013-Slater-MEE-TEM.tre" "sum.variance" "sim.char" $intervals $slices
+
+
+intervals="170,155,140,125,110,95,80,65,50,35,20,0"
+slices="170,165,160,155,150,145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50,45,40,35,30,25,20,15,10,5,0"
+sh disparity.null.sh "Slater2013" "../Data/" "../Data/2013-Slater-MEE-matrix-morpho.nex" "../Data/2013-Slater-MEE-trimmed.tre" "centroid" "random" $intervals $slices
+sh disparity.null.sh "Slater2013" "../Data/" "../Data/2013-Slater-MEE-matrix-morpho.nex" "../Data/2013-Slater-MEE-trimmed.tre" "product.range" "random" $intervals $slices
+sh disparity.null.sh "Slater2013" "../Data/" "../Data/2013-Slater-MEE-matrix-morpho.nex" "../Data/2013-Slater-MEE-trimmed.tre" "product.variance" "random" $intervals $slices
+sh disparity.null.sh "Slater2013" "../Data/" "../Data/2013-Slater-MEE-matrix-morpho.nex" "../Data/2013-Slater-MEE-trimmed.tre" "sum.range" "random" $intervals $slices
+sh disparity.null.sh "Slater2013" "../Data/" "../Data/2013-Slater-MEE-matrix-morpho.nex" "../Data/2013-Slater-MEE-trimmed.tre" "sum.variance" "random" $intervals $slices
+sh disparity.null.sh "Slater2013" "../Data/" "../Data/2013-Slater-MEE-matrix-morpho.nex" "../Data/2013-Slater-MEE-trimmed.tre" "centroid" "sim.char" $intervals $slices
+sh disparity.null.sh "Slater2013" "../Data/" "../Data/2013-Slater-MEE-matrix-morpho.nex" "../Data/2013-Slater-MEE-trimmed.tre" "product.range" "sim.char" $intervals $slices
+sh disparity.null.sh "Slater2013" "../Data/" "../Data/2013-Slater-MEE-matrix-morpho.nex" "../Data/2013-Slater-MEE-trimmed.tre" "product.variance" "sim.char" $intervals $slices
+sh disparity.null.sh "Slater2013" "../Data/" "../Data/2013-Slater-MEE-matrix-morpho.nex" "../Data/2013-Slater-MEE-trimmed.tre" "sum.range" "sim.char" $intervals $slices
+sh disparity.null.sh "Slater2013" "../Data/" "../Data/2013-Slater-MEE-matrix-morpho.nex" "../Data/2013-Slater-MEE-trimmed.tre" "sum.variance" "sim.char" $intervals $slices
