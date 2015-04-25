@@ -2,6 +2,10 @@
 Cluster/Beck2014/*.Rda
 Cluster/Slater2013/*.Rda
 
+#Null data
+Data/Beck2014/Beck2014-disparity_null-*.Rda
+Data/Slater2013/Slater2013-disparity_null-*.Rda
+
 # Mails#
 *-mail.txt
 # Illustrator figures#
