@@ -1,0 +1,144 @@
+\documentclass[12pt,letterpaper]{article}
+
+%Packages
+\usepackage{pdflscape}
+\usepackage{fixltx2e}
+\usepackage{textcomp}
+\usepackage{fullpage}
+\usepackage{float}
+\usepackage{latexsym}
+\usepackage{url}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{array}
+\usepackage[version=3]{mhchem}
+\usepackage{ifthen}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{amsthm}
+\usepackage{amstext}
+\usepackage{enumerate}
+\usepackage[osf]{mathpazo}
+\usepackage{dcolumn}
+\usepackage{lineno}
+\pagenumbering{arabic}
+
+%Pagination style and stuff
+\linespread{2}
+\raggedright
+\setlength{\parindent}{0.5in}
+\setcounter{secnumdepth}{0} 
+\renewcommand{\section}[1]{%
+\bigskip
+\begin{center}
+\begin{Large}
+\normalfont\scshape #1
+\medskip
+\end{Large}
+\end{center}}
+\renewcommand{\subsection}[1]{%
+\bigskip
+\begin{center}
+\begin{large}
+\normalfont\itshape #1
+\end{large}
+\end{center}}
+\renewcommand{\subsubsection}[1]{%
+\vspace{2ex}
+\noindent
+\textit{#1.}---}
+\renewcommand{\tableofcontents}{}
+
+\begin{document}
+
+\section{Problems with calculating disparity}
+
+\begin{enumerate}
+\item{Removing the last PC axis: no real valid justification}
+\item{Product of variance (and of ranges?)}
+\item{Sum of variance (and of ranges?)}
+\end{enumerate}
+
+\subsection{Product of variance}
+
+The product of variance is calculated classically \cite{Wills1994} as follow for a $n$ dimension volume (PCO/PCA):
+\begin{equation}
+\prod\limits_{X=1}^n \sigma^2 = \sigma_{X1}^2 \times \sigma_{X2}^2 \times ... \times \sigma_{Xn}^2
+\end{equation}
+However, this is only correct if each axis of the $n$ object are independent, which is by definition not the case for a $n$ dimension volume from a PCO/PCA because the matrix is transformed using the covariance matrix. %is that right?
+
+The problem with these methods is that they assume the data is multivariate normal and independent. Both assumptions are easily violated. In this paper we propose a new view of the whole thing. Where we can measure the volume and the spread within the $n$ dimension space.
+
+
+Two other ways to calculate the variation in the data is: (1) the distance from centroid \cite{finlay2015morphological} representing the spread of the data in the $n$ dimension volume and (2) the $n$ dimension ellipsoid volume \cite{DonohueDim} representing the occupancy of the data in the $n$ dimension volume.
+
+1-The average distance from centroid is defined as follow:
+\begin{equation}
+Distance=\frac{\sqrt{\sum\limits_{i=1}^k(x_{in}-\bar{x}_{n})^2}}{k}
+\end{equation}
+
+Where $k$ is the size of the distance matrix; $n$ us the number of dimensions; $x_{in}$ are all the values observed in the $n^th$ dimension and $\bar{x}_{n}$ is the mean value observed in the $n^th$ dimension.
+%\begin{equation}
+%\bar{x_n}={\sum\limits_{i=1}^k(x_{in})}/k
+%\end{equation}
+
+2-The $n$ dimension ellipsoid volume is defined as follow:
+\begin{equation}
+Volume={{\pi^{n/2}} \over {\Gamma({n\over2}+1)}}\prod\limits{i=1}^n(\lambda_{i}^{0.5})
+\end{equation}
+Where $n$ is the number of dimensions; $\Gamma$ is a gamma distribution and $\lambda_i$ is the $i^{th}$ eigen value of the covariance matrix.1.
+
+
+
+
+\section{Problems with calculating disparity through time}
+
+\begin{enumerate}
+\item{Using bio-stratigraphy for time bins}
+\end{enumerate}
+
+\subsection{Using bio-stratigraphy for time bins}
+
+It's baaaad.
+
+\subsection{New time slicing}
+
+It's better!
+
+\begin{table}[ht]
+\caption{Comparison of Cladisto-space studies methods}
+\centering
+\begin{tabular}{cccccccc}
+  \hline
+    Date & Author      & Distance  & Ordination & Binning    & Disparity   & Difference & cite \\ %
+  \hline
+         & this study  & Gower     & PCO        & Time slice & centroid    & NPMANOVA?  & \\
+    2014 & Benson      &           &            & Equal bins & Wills 1994* & NPMANOVA   & \cite{bensonfaunal2014} \\
+    2014 & Brusatte    & Euclidean & PCO        &            &             &            & \cite{brusattegradual2014} \\
+    2014 & Benton      & Euclidean & PCO        & Biostrat   & Wills 1994* & NPMANOVA   & \cite{bentonmodels2014} \\
+    2013 & Hopkins     &           &            & Equal bins & Wills 1994* &            & \cite{hopkinsdecoupling2013} \\             
+    2013 & Ruta        & GED       & PCO        & Biostrat   & Wills 1994* & NPMANOVA   & \cite{ruta2013} \\
+    2013 & Hughes      & Euclidean & PCO        & Biostrat   & Sum of var  &            & \cite{Hughes20082013} \\
+    2013 & Toljagic    & Euclidean & PCO        & Biostrat   & Wills 1994* & NPMANOVA   & \cite{toljagictriassic-jurassic2013} \\
+    2012 & Brusatte    & Euclidean & PCO        & Biostrat   & Wills 1994* & CI overlap & \cite{brusattedinosaur2012} \\
+    2012 & Anderson    & Gower     & PCO        &            &             &            & \cite{anderson2012using} \\
+    2010 & Prentice    & Euclidean & PCO        & Biostrat   & Wills 1994* & NPMANOVA   & \cite{prentice2011} \\
+    2011 & Thorne      & Euclidean & PCO        & Biostrat   &             & NPMANOVA   & \cite{thorneresetting2011} \\
+    2010 & Cisneros    & Euclidean & PCO        & Biostrat   & Wills 1994* & NPMANOVA   & \cite{cisneros2010} \\
+    2008 & Brusatte    & Euclidean & PCO        & Biostrat   & Wills 1994* & NPMANOVA   & \cite{brusatte50} \\
+    2008 & Brusatte    & Euclidean & PCO        & Biostrat   & Wills 1994* & NPMANOVA   & \cite{Brusatte12092008} \\
+    2005 & Wesley-Hunt &           & PCO        &            & Foote 1992  & t-test     & \cite{Wesley-Hunt2005} \\
+  \hline
+\end{tabular}
+\end{table}
+* The 4 sum and product of range and variance
+
+\bibliographystyle{vancouver}
+\bibliography{References}
+
+%END
+\end{document}
+
