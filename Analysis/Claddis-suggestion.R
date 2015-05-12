@@ -51,7 +51,7 @@ dist.data.verbose <- MorphDistMatrix.verbose(nexus.data, verbose=FALSE)
 dist.data.verbose <- MorphDistMatrix.verbose(nexus.data, verbose=TRUE)
 
 # Just for the sake of testing the differences
-for (different_distances in 1:length(dist.data1)) {
+for (different_distances in 1:length(dist.data)) {
     print( all( (dist.data.verbose[[different_distances]] == dist.data[[different_distances]]), na.rm=TRUE) )
 }
 
