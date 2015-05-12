@@ -2,7 +2,7 @@
 
 #Performs bootstrap and eventual rarefaction
 Bootstrap.rarefaction<-function(data, bootstraps, rarefaction) {
-
+    #This function is based on DisparityCalc() from Smith et al. 2014 - Evolution (http://dx.doi.org/10.1111/evo.12435) http://datadryad.org/resource/doi:10.5061/dryad.d380g 
     #Set rarefaction (or not)
     if(rarefaction == TRUE) {
         rarefaction_max<-seq(1:nrow(data))
@@ -35,6 +35,7 @@ Bootstrap.rarefaction<-function(data, bootstraps, rarefaction) {
 
 #Range Calculations
 range.calc<-function(list_table) {
+    #This function is based on DisparityCalc() from Smith et al. 2014 - Evolution (http://dx.doi.org/10.1111/evo.12435) http://datadryad.org/resource/doi:10.5061/dryad.d380g 
     #Empty matrix (for output)
     output<-matrix(nrow=length(list_table), ncol=ncol(list_table[[1]]))
     #Looping through columns and rows
@@ -48,6 +49,7 @@ range.calc<-function(list_table) {
 
 #Variance calculation
 variance.calc<-function(list_table) {
+    #This function is based on DisparityCalc() from Smith et al. 2014 - Evolution (http://dx.doi.org/10.1111/evo.12435) http://datadryad.org/resource/doi:10.5061/dryad.d380g 
     #Empty matrix (for output)
     output<-matrix(nrow=length(list_table), ncol=ncol(list_table[[1]]))
     #Looping through columns and rows
@@ -83,7 +85,7 @@ no.apply<-function(X) {
 
 #Apply loop for calculating the centroid
 centroid.apply<-function(X) {
-    #FUNCTION FROM SIVE, ADD DOI
+    #This function is based on euc.dist.cent() from Finlay & Cooper 2015 - PeerJ (https://github.com/SiveFinlay/Diversity_Paper/blob/master/functions/Morpho_diversity_functions.r) 
     #Centroid (mean score of each PC axis)
     centroid<-apply(X, 2, mean)
     #Euclidean distances to the centroid
@@ -97,8 +99,17 @@ centroid.apply<-function(X) {
 #Lapply loop for calculating the centroid
 centroid.calc<-function(X) {
     Y<-lapply(X, centroid.apply)
-    return(matrix(nrow=10, data=unlist(Y), byrow=TRUE))
+    return(matrix(nrow=length(X), data=unlist(Y), byrow=TRUE))
 }
+
+#Separate centroid calculation to spread (distance from centroid calculation) and add mean spread.
+
+#Volume calculation
+volume<-function(n, eigen) {
+    vol<-pi^(n/2)/gamma((n/2)+1)*prod(eigen^(0.5))
+}
+
+
 
 #Converts one or more CI into a quantile probabilities
 CI.converter<-function(CI) {
