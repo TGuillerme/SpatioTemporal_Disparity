@@ -84,8 +84,12 @@ no.apply<-function(X) {
 }
 
 #Apply loop for calculating the centroid
+
 centroid.apply<-function(X) {
+    #Euclidean distances to the centroid
     #This function is based on euc.dist.cent() from Finlay & Cooper 2015 - PeerJ (https://github.com/SiveFinlay/Diversity_Paper/blob/master/functions/Morpho_diversity_functions.r) 
+    #I'm not sure this is mathematically correct...
+
     #Centroid (mean score of each PC axis)
     centroid<-apply(X, 2, mean)
     #Euclidean distances to the centroid
@@ -102,12 +106,68 @@ centroid.calc<-function(X) {
     return(matrix(nrow=length(X), data=unlist(Y), byrow=TRUE))
 }
 
-#Separate centroid calculation to spread (distance from centroid calculation) and add mean spread.
+
+dispersion.apply<-function(X) {
+
+    warning("Dispersion calculation in development.")
+
+    #Centroid (mean score of each PC axis)
+    centroid<-apply(X, 2, mean)
+
+    dispersion<-X
+    for(n in 1:length(centroid)) {
+        #Euclidean distance from each data point to the centroid in each dimension
+        dispersion[,n]<-sqrt( ( X[,n]-centroid[n] )^2 )
+    }
+
+    #Calculating the mean spread (mean distance to the centroid across all the dimensions)
+    mean.dispersion<-apply(dispersion, 1, mean)
+
+    return(list(mean.dispersion, dispersion))
+}
+
+#Lapply loop for calculating the dispersion
+dispersion.calc<-function(X, save.all) {
+    
+    warning("Dispersion calculation in development.")
+
+    Y<-lapply(X, dispersion.apply)
+    mean.Y<-Y[][[1]]
+    mean.dispersions<-(matrix(nrow=length(X), data=unlist(Y), byrow=TRUE)
+    return(matrix(nrow=length(X), data=unlist(Y), byrow=TRUE))
+}
+
 
 #Volume calculation
-volume<-function(n, eigen) {
-    vol<-pi^(n/2)/gamma((n/2)+1)*prod(eigen^(0.5))
+volume.fast<-function(X, eigen.val) {
+    #Correct calculation of the volume (using the eigen values)
+    #remove the eigen values for the eigen vectors not present in X
+    eigen.val<-eigen.val[1:ncol(X)]
+
+    #dimensionality (where k (or n in Donohue et al 2013) is the size of the covariance matrix but if corrected is the size of the covariance matrix - 2 (n=k-2))
+    n<-ncol(X)
+    #volume
+    vol<-pi^(n/2)/gamma((n/2)+1)*prod(eigen.val^(0.5))
+    return(vol)
+
+    #For volume through time use the eigenvectors??
 }
+
+volume<-function(X) {
+    #Calcualtion of the volume by using the variance/covariance matrix (slightly slower)
+    #dimensions
+    n<-ncol(X)
+    #distance matrix size
+    k<-nrow(X)
+
+    #The eigen value is equal to the sum of the variance/covariance within each axis multiplied by the maximum number of dimensions (k-1)
+    eigen.value<-apply(var(X),2, sum)*(k-1)
+
+    #volume
+    vol<-pi^(n/2)/gamma((n/2)+1)*prod(eigen.value^(0.5))
+    return(vol)
+}
+
 
 
 
