@@ -15,8 +15,21 @@ Bootstrap.rarefaction<-function(data, bootstraps, rarefaction) {
     for(rare in rarefaction_max){
         #Bootstraps
         for(BS in 1:bootstraps){ #bootstraps -> bootstraps
-            #Bootstrap
-            output<-as.matrix(data[sample(1:nrow(data),rare,TRUE),])
+            #Bootstrap 
+            
+            #full resampling method: for each bootstrap, resample all the rows from the available rows (for n rows, can randomly resample n times the same row).
+            #output<-as.matrix(data[sample(1:nrow(data),rare,TRUE),])
+            
+            #single resampling method: for each boostrap, select one row and replace it by a randomly chosen left one (for n rows, only one row can be present two times).
+            #First remove n row if rarefaction is true
+            output<-data[sample(1:nrow(data),rare,FALSE),]
+            #Then randomly chose a row to remove and to replace (different)
+            row.out.in<-sample(1:nrow(data),2,FALSE)
+            #Finaly replace the selected row out by the selected row in 
+            output[row.out.in[1],]<-output[row.out.in[2],] ; rownames(output)[row.out.in[1]]<-rownames(output)[row.out.in[2]]
+            
+            #Or use method in between? 10% of resampling?
+
             result[BS] <- list(output)
         }
         #Rarefaction + BS results
@@ -161,14 +174,19 @@ volume<-function(X) {
     k<-nrow(X)
 
     #The eigen value is equal to the sum of the variance/covariance within each axis multiplied by the maximum number of dimensions (k-1)
-    eigen.value<-apply(var(X),2, sum)*(k-1)
+    eigen.value<-abs(apply(var(X),2, sum)*(k-1))
 
     #volume
     vol<-pi^(n/2)/gamma((n/2)+1)*prod(eigen.value^(0.5))
     return(vol)
 }
 
+volume.calc<-function(X) {
+    Y<-lapply(X, volume)
+    return(Y)
+}
 
+#volumes<-unlist(lapply(BSresult, volume.calc))
 
 
 #Converts one or more CI into a quantile probabilities
