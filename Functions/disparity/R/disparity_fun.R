@@ -183,7 +183,7 @@ volume<-function(X) {
 
 volume.calc<-function(X) {
     Y<-lapply(X, volume)
-    return(Y)
+    return(unlist(Y))
 }
 
 #volumes<-unlist(lapply(BSresult, volume.calc))
