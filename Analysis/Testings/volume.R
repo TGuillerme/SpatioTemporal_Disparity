@@ -66,18 +66,16 @@ tree.data<-drop.tip(tree.data, trimmed.max.data$removed.taxa)
 # PCO on MOD distance
 pco <- cmdscale(trimmed.max.data$dist.matrix, k=nrow(trimmed.max.data$dist.matrix) - 1, add=T, eig=TRUE)
 
+#########################
+# ABOUT THE PC
+#########################
+
 # Difference between pcoa and cmdscale??
 cmd <- cmdscale(trimmed.max.data$dist.matrix, k=9, add=F, eig=TRUE)
 pcoa<- pcoa(trimmed.max.data$dist.matrix)
 
 round(cmd$eig, digit=10) == round(pcoa$values$Eigenvalues, digit=10)
 as.matrix(round(cmd$points, digit=10)) == as.matrix(round(pcoa$vectors, digit=10)) #weirdly the 7th dimension is reversed???
-
-
-
-
-
-
 
 #In cmdscale the add=T uses a Cailliez (1983) correction correcting for negative eigenvalues. 
 #To maximise the variance in our analysis, we create a space of n dimensions where n cam be represented by exactly in at most k-1 dimensions. Here we use k-2 dimensions because the two last eigenvalues are null (following Cailliez correction) 
@@ -89,16 +87,9 @@ pcoa<- pcoa(trimmed.max.data$dist.matrix, correction="cailliez")
 all(round(cmd$eig, digit=10) == round(pcoa$values$Corr_eig, digit=10))
 as.matrix(round(cmd$points[,-13], digit=10)) == as.matrix(round(pcoa$vectors.cor, digit=10)) #weirdly the 8th and 9th dimension are reversed???
 
-# Do the proper Multidimensional Scaling (corrected for negative eigenvalues)
-pco <- cmdscale(trimmed.max.data$dist.matrix, k=nrow(trimmed.max.data$dist.matrix) - 2, add=T, eig=TRUE)
-pco.data <- pco$points #generates k-2 eigenvectors (=n cladistic space dimensions)
-pco.eigen<- pco$eig #generates k eigenvalues (including two null eigenvalues)
-
-#Calculate the hyper-dimensional volume (i.e. size of the cladistic-space)
-
-volume.fast(pco.data, pco.eigen)
-volume(pco.data)
-
+#########################
+# VOLUME
+#########################
 
 #Dummy test
 clad.mat<-matrix(data=c(0,0,0,1,0,0,1,1,0,1,1,1), nrow=3) ; rownames(clad.mat) <- letters[1:3]
@@ -108,88 +99,62 @@ pco.data<-pco$points
 pco.eig<-pco$eig
 plot(pco.data)
 
-volume.fast(pco.data, pco.eig)
-volume(pco.data)
+round(pco.eig[-3], digit=10) == round(apply(cov(pco.data),2,sum)*2, digit=10)
 
+#volume.fast(pco.data, pco.eig)
+#volume(pco.data)
+disparity(pco.data, "volume")
 
 #ok for this simple case
 
 #Dummy test 2
-clad.mat<-matrix(data=sample(0:1,100, replace=TRUE), nrow=10)
+clad.mat<-matrix(data=sample(0:1,1000, replace=TRUE), nrow=20)
 dist.mat<-as.matrix(dist(clad.mat, diag=TRUE))
 pco<-cmdscale(dist.mat, k=nrow(dist.mat)-1, eig=TRUE, add=F)
 pco.data<-pco$points
 pco.eig<-pco$eig
 plot(pco.data)
 
-volume.fast(pco.data, pco.eig)
-volume(pco.data)
+round(pco.eig[-20], digit=10) == round(apply(cov(pco.data),2,sum)*19, digit=10)
+
+#volume.fast(pco.data, pco.eig)
+#volume(pco.data)
+disparity(pco.data, "volume")
 
 #volume increases with the number of characters (increased distances)
 
+# Do the proper Multidimensional Scaling (corrected for negative eigenvalues)
+pco <- cmdscale(trimmed.max.data$dist.matrix, k=nrow(trimmed.max.data$dist.matrix) - 2, add=T, eig=TRUE)
+pco.data <- pco$points #generates k-2 eigenvectors (=n cladistic space dimensions)
+pco.eigen<- pco$eig #generates k eigenvalues (including two null eigenvalues)
 
+#Calculate the hyper-dimensional volume (i.e. size of the cladistic-space)
 
+#volume.fast(pco.data, pco.eigen)
+#volume(pco.data)
+disparity(pco.data, "volume")
 
+#Relation between eigen value and eigen vectors
 
+set.seed(0)
+X<-abs(matrix(rnorm(9),3,3))
+diag(X)<-0
+X[upper.tri(X)]<-X[lower.tri(X)]
+first<-eigen(cov(X))
+second<- apply(cov(first$vectors),2, sum)
+#eigen(cov(X))$values != cmdscale(X, eig=TRUE)$eig #problem here?
 
+eig.val<-cmdscale(X, eig=TRUE)$eig
+eig.vec<-cmdscale(X, eig=TRUE)$points
 
+round(eig.val[-3], digit=10) == round(apply(cov(eig.vec),2,sum)*2, digit=10)
+
+#Works only for a distance matrix and when vectors are reported as in the cmdscale/pcoa algorithm?
 
 
 #############################
-# Disparity
-#############################
-
-# So here is a series of function for calculating different measures of disparity. I think it might be nice to add that to the package.
-browseURL("https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity/R/disparity.R")
-
-# The function intakes multiple arguments that allows to calculate various metrics of disparity (sum of ranges, prod of ranges, etc...), bootstrap, do rarefaction curves and remove some pco axis
-# The first argument must be a pco matrix (output from cmdscale).
-# The second argument, method, are which disparity metrics to calculate, it can calculate any metric among these: "centroid", "sum.range", "product.range", "sum.variance", "product.variance"
-# More than one can be calculate at the same time. (default = all of them)
-# The third argument is the number of bootstraps to do run (default = 1000)
-# The forth argument is the size of the confidence intervals to report for the bootstraps (default = 50 and 95)
-# The fifth argument is the central tendency to report. It can be any function like median or mean or anything else the user can come with (default = median)
-# Then there is a series of logical arguments:
-# Whether to run a rarefaction analysis (i.e. run the bootstraps n-1 times with each time removing randomly one taxa)
-# Whether to be verbose (I like it for big datasets ;))
-# Whether to remove the last pco axis (TRUE removes every axis beyond 95% of the variance but any value can be given as a threshold by the user(e.g. rm.last.axis=75 for 75%))
-# However, as you said, this is just a non justifiable way to remove outliers from the dataset.
-# Finaly the last argument (save.all) is whether to save all the values of the bootstraps/rarefaction draws. 
-
-# For example, to calculate the 4 "classic" (but not excellent statistically) measures of disparity with all the other default options:
-disparity(pco.data, method=c("sum.range", "product.range", "sum.variance", "product.variance"))
-
-# We can also change the confidence interval and the central tendency for all the disparity metrics:
-disparity(pco.data, CI=75, central_tendency=mean)
-
-# Or including rarefaction and being verbose:
-rarefaction_results<-disparity(pco.data, rarefaction=TRUE, verbose=TRUE)
-rarefaction_results
-
-# As you can see, the output is a table of the central tendency and the confidence intervals.
-# But you can also save all the values using save.all
-all_the_values<-disparity(pco.data, method="centroid", bootstraps=10, save.all=TRUE)
-
-# This outputs a list of one table as before...
-all_the_values$table
-
-# As well as a matrix of all the bootstraps for the disparity metric (here 10 bootstraps for 14 taxa)
-all_the_values$centroid
-
-#############################
-# Disparity through time
+# Volume through time
 ############################# 
-
-# Another series of functions is to look at the disparity through time.
-# I came up with various functions on how to look at diversity through time but here's the simplest one.
-browseURL("https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity/R/int.pco.R")
-
-# It just classically put species in bins (time intervals) and makes a list of them using the pco.data
-# It takes as first argument the pco.data calculated by the cmdscale function.
-# Then it needs a tree, a list of intervals and an optional FAD-LAD table.
-# Note that if some taxa (or none) are not present in the FAD-LAD table, it will consider that their age is just the branch length and that they don't span through time.
-# Then two options: whether to include nodes (let's leave that one for now)
-# And whether to calculate the taxonomic diversity per interval (counting the taxa)
 
 # Let's first make a vector of intervals boundaries let's make it very simple: 3 bins with at least three taxa.
 bins<-rev(seq(from=0, to=100, by=20))
@@ -208,12 +173,10 @@ pco_in_bins$pco_intervals
 # And of the taxonomic counts per bins
 pco_in_bins$diversity
 
-# We can now calculate the disparity for each slice using a lapply wrapping function for the disparity function that uses the same arguments as the disparity function
-browseURL("https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity/R/time.disparity.R")
 
 # This function just takes the binned pco data from int.pco.
 # Let's just calculate an easy (the default options)
-disparity_per_bin<-time.disparity(pco_in_bins$pco_intervals)
+disparity_per_bin<-time.disparity(pco_in_bins$pco_intervals, relative=FALSE, verbose=TRUE, bootstraps=1000)
 
 # Et voilà!
 disparity_per_bin
@@ -246,7 +209,9 @@ plot.disparity(disparity_per_bin)
 plot.disparity(disparity_per_bin, diversity=pco_in_bins$diversity)
 
 # Or for the other disparity metrics
-op<-par(mfrow=c(2,2))
+op<-par(mfrow=c(2,3))
+plot.disparity(disparity_per_bin, measure="Volume", diversity=pco_in_bins$diversity, ylim=c(0, 500))
+plot.disparity(disparity_per_bin, measure="Cent.dist", diversity=pco_in_bins$diversity)
 plot.disparity(disparity_per_bin, measure="Sum.range", diversity=pco_in_bins$diversity)
 plot.disparity(disparity_per_bin, measure="Prod.range", diversity=pco_in_bins$diversity)
 plot.disparity(disparity_per_bin, measure="Sum.var", diversity=pco_in_bins$diversity)
