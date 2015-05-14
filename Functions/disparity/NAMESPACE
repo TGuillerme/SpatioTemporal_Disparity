@@ -18,6 +18,8 @@ export(states.count) #utilities
 export(extract.dist) #utilities
 export(combine.disp) #utilities
 export(lapply.root) #utilities
+export(check.class) #sanitizing
+export(check.length) #sanitizing
 export(clean.tree) #sanitizing
 export(clean.table) #sanitizing
 export(bin.tree) #sanitizing
