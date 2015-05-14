@@ -149,8 +149,8 @@ plot.disparity<-function(disparity_data, measure="Cent.dist", rarefaction=FALSE,
 
                 #Plotting the curve
                 plot(seq(from=1, to=nrow(disparity_data)), disparity_data[,measure_col], type='l', 
-                    #ylim=ylim ,col="white", ylab=ylab, xlab=xlab, xaxt='n' , ...)
-                    ylim=ylim ,col="white", ylab=ylab, xlab=xlab, xaxt='n'); warning("plotting is in debug mode")
+                    ylim=ylim ,col="white", ylab=ylab, xlab=xlab, xaxt='n' , ...)
+                    #ylim=ylim ,col="white", ylab=ylab, xlab=xlab, xaxt='n'); warning("plotting is in debug mode")
 
                 #X axis options
                 if(class(disparity_data[,1]) == "character") {
