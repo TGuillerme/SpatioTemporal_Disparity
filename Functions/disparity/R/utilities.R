@@ -334,7 +334,7 @@ extract.disp<-function(disp.data, rarefaction, plot.format=TRUE) {
     }
 
     #Plot format?
-    disp.data.sort$time<-NULL
+    #disp.data.sort$time<-NULL
 
     return(disp.data.sort)
 }

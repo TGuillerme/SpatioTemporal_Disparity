@@ -2,7 +2,7 @@
 #Plotting disparity results
 ##########################
 #Plots the disparity results
-#v0.2
+#v0.3
 ##########################
 #SYNTAX :
 #<disparity> disparity data
@@ -12,13 +12,13 @@
 #<add> optional. Whether to add the a previous called graph
 ##########################
 #----
-#guillert(at)tcd.ie 19/03/2015
+#guillert(at)tcd.ie 14/05/2015
 ##########################
 
-plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, xlab="default", ylab="default", col="default", las=2, diversity, add=FALSE, ylim, ...){
+plot.disparity<-function(disparity_data, measure="Cent.dist", rarefaction=FALSE, xlab="default", ylab="default", col="default", diversity, add=FALSE, ylim,...){
     #SANITIZING
     #Disparity
-    check.class(disparity_data, 'data.frame', " must be a disparity data.frame")
+    check.class(disparity_data, 'data.frame')
     if(length(disparity_data) < 4) {
         stop("Disparity data.frame must have in the following order:\na 'rarefaction' column, a 'measurement' column and at least two 'Confidence Interval' columns.\nUse the disparity() function to generate the proper formatted data.frame.")
     }
@@ -27,13 +27,9 @@ plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, x
     check.class(measure, 'character', " must be 'default' or one of the names of the columns in the disparity data.frame.")
     check.length(measure, 1, " must be 'default' or one of the names of the columns in the disparity data.frame.", errorif=FALSE)
     #Get the right column number
-    if(measure == 'default') {
-        measure_col<-2
-    } else {
-        measure_col<-grep(measure, colnames(disparity_data))
-        if(length(measure_col) != 1) {
-            stop("measure column not found in disparity_data.\nUse the disparity() function to generate the proper formatted data.frame.")
-        }
+    measure_col<-grep(measure, colnames(disparity_data))
+    if(length(measure_col) != 1) {
+        stop("measure column not found in disparity_data.\nUse the disparity() function to generate the proper formatted data.frame.")
     }
 
     #Get the Confidence intervals columns
@@ -127,7 +123,7 @@ plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, x
                 #Setting plot options (defaults)
                 #xlab
                 if(xlab=="default") {
-                    xlab="bins"
+                    xlab="Time"
                 }
                 #ylab
                 if(ylab=="default") {
@@ -153,12 +149,21 @@ plot.disparity<-function(disparity_data, measure="default", rarefaction=FALSE, x
 
                 #Plotting the curve
                 plot(seq(from=1, to=nrow(disparity_data)), disparity_data[,measure_col], type='l', 
-                    ylim=ylim ,col="white", ylab=ylab, xlab=xlab, xaxt='n' , ...)
-                    #ylim=ylim ,col="white", ylab=ylab, xlab=xlab, xaxt='n'); warning("debug")
+                    #ylim=ylim ,col="white", ylab=ylab, xlab=xlab, xaxt='n' , ...)
+                    ylim=ylim ,col="white", ylab=ylab, xlab=xlab, xaxt='n'); warning("plotting is in debug mode")
+
+                #X axis options
                 if(class(disparity_data[,1]) == "character") {
-                    axis(side = 1, 1:nrow(disparity_data), disparity_data[,1], las=las)
+                    #if axis is character (bins)
+                    axis(side = 1, 1:nrow(disparity_data), disparity_data[,1], las=2)
                 } else {
-                    axis(side = 1, 1:nrow(disparity_data))
+                    if(class(disparity_data[,1]) == "factor") {
+                        #if axis is factors (dates)
+                        axis(side=1, seq(from=1, to=nrow(disparity_data), by=5), disparity_data[seq(from=1, to=nrow(disparity_data), by=5),1], las=1)
+                    } else {
+                        #just print the ticks
+                        axis(side = 1, 1:nrow(disparity_data))
+                    }
                 }
                 #Add the polygons
                 for (n in 1:(CI_length/2)) {
