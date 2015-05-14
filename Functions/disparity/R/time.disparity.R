@@ -76,8 +76,14 @@ time.disparity<-function(time_pco, relative=FALSE, method=c("volume", "centroid"
          
 
         #Dividing the results by the full_space_metric
-        for (interval in 1:length(time_pco)) {
-            disparity_interval[[interval]][[1]]<-disparity_interval[[interval]][[1]]/full_space_metric
+        if(save.all==TRUE) {
+            for (interval in 1:length(time_pco)) {
+                disparity_interval[[interval]][[1]]<-disparity_interval[[interval]][[1]]/full_space_metric
+            }
+        } else {
+            for (interval in 1:length(time_pco)) {
+                disparity_interval[[interval]]<-disparity_interval[[interval]]/full_space_metric
+            }            
         }
     }
 
@@ -122,8 +128,8 @@ time.disparity<-function(time_pco, relative=FALSE, method=c("volume", "centroid"
             colnames(disparity_intervals_table)[1]<-"time"
         }
 
-        #return(disparity_intervals_table)
-        print("return1")
+        return(disparity_intervals_table)
+        #print("return1")
     
     } else {
 
@@ -177,7 +183,7 @@ time.disparity<-function(time_pco, relative=FALSE, method=c("volume", "centroid"
 
         #output
         output<-list("quantiles"=disparity_intervals_table, "values"=disparity_intervals_values)
-        #return(output)
-        print("return2")
+        return(output)
+        #print("return2")
     }
 }
