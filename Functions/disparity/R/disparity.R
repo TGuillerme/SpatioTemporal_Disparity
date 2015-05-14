@@ -2,12 +2,11 @@
 #Disparity functions
 ##########################
 #Calculate the disparity as the distance from centroid
-#This function is based on DisparityCalc() from Smith et al. 2014 - Evolution (http://dx.doi.org/10.1111/evo.12435) http://datadryad.org/resource/doi:10.5061/dryad.d380g 
-#v0.2.2
+#v0.3.0
 ##########################
 #SYNTAX :
 #<distance> the distance matrix
-#<method> the method for calculating the disparity. Can be any of the following: "centroid", "sum.range", "product.range", "sum.variance", "product.variance"
+#<method> the method for calculating the disparity. Can be any of the following: "volume", "centroid", "sum.range", "product.range", "sum.variance", "product.variance"
 #<CI> confidence intervals (default=c(50,95))
 #<bootstraps> the number of boostrap replicates (default=1000)
 #<central_tendency> any function for calculating the central tendency
@@ -16,14 +15,16 @@
 #<save.all> whether to save all the disparity values (TRUE) or just the quantiles (FALSE (default)).
 ##########################
 #----
-#guillert(at)tcd.ie 16/03/2015
+#guillert(at)tcd.ie 14/05/2015
 ##########################
 
-disparity<-function(data, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE, rm.last.axis=FALSE, save.all=FALSE) {
+disparity<-function(data, method=c("volume", "centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE, rm.last.axis=FALSE, save.all=FALSE) {
 
+    #-----------------------------
     #SANITIZING
+    #-----------------------------
     #distance
-    check.class(data, "matrix", " must be a distance matrix.")
+    check.class(data, "matrix")
 
     #Test if applicable (> 2 rows)
     if(nrow(data) < 2) {
@@ -31,10 +32,10 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
     } 
 
     #method
-    check.class(method, "character", " must be 'centroid', 'sum.range', 'product.range', 'sum.variance' or/and 'product.variance'.")
-    methods_list<-c("centroid", "sum.range", "product.range", "sum.variance", "product.variance")
+    check.class(method, "character", " can be 'volume', 'centroid', 'sum.range', 'product.range', 'sum.variance' or/and 'product.variance'.")
+    methods_list<-c('volume', "centroid", "sum.range", "product.range", "sum.variance", "product.variance")
     if(all(is.na(match(method, methods_list)))) {
-        stop("method must be 'centroid', 'sum.range', 'product.range', 'sum.variance' or/and 'product.variance'.")
+        stop("method can be 'volume', 'centroid', 'sum.range', 'product.range', 'sum.variance' or/and 'product.variance'.")
     }
 
     #Bootstrap
@@ -62,10 +63,10 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
     check.class(central_tendency, "function", " must be either a function (e.g. 'mean' or 'median'.")
 
     #rarefaction
-    check.class(rarefaction, "logical", " must be logical.")
+    check.class(rarefaction, "logical")
 
     #verbose
-    check.class(verbose, "logical", " must be logical.")
+    check.class(verbose, "logical")
 
     #rm.last.axis
     if(class(rm.last.axis) == "logical") {
@@ -91,9 +92,11 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
     }
 
     #verbose
-    check.class(save.all, "logical", " must be logical.")
+    check.class(save.all, "logical")
 
-    #CALCULATING THE DISPARITY
+    #-----------------------------
+    #CLEANING / BOOTSTRAPING
+    #-----------------------------
 
     #Removing the last pco axis
     if(rm.axis==TRUE) {
@@ -117,8 +120,36 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
         message("Done.", appendLF=TRUE)
     }
 
+    #-----------------------------
+    #VOLUME
+    #-----------------------------
+    #Hyperspace volume calculation
+    if(any(method == 'volume')) {
+        #Calculate the hyperspace volume
+        if(verbose==TRUE) {
+            message("Calculating hyperspace volume...", appendLF=FALSE)
+        }
+        volumes<-lapply(BSresult, volume.calc)
+        #Volumes table
+        Volume_table<-Disparity.measure.table(type_function=no.apply, volumes, central_tendency, CI, save.all)
+        #Results type
+        if(save.all == FALSE) {
+            #Renaming the column
+            colnames(Volume_table)[1]<-"Volume"
+        } else {
+            #Isolating the data parts
+            Volume_values<-Volume_table[[2]]
+            Volume_table<-Volume_table[[1]]
+            colnames(Volume_table)[1]<-"Volume"
+        }
+        if(verbose==TRUE) {
+            message("Done.", appendLF=TRUE)
+        }
+    }
+
+    #-----------------------------
     #CENTROID
-    #Distance form centroid
+    #-----------------------------
     if(any(method == 'centroid')) {
         #Calculate the distance from centroid for the rarefaction and the bootstrapped matrices
         if(verbose==TRUE) {
@@ -142,7 +173,10 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
         }
     }
 
+    #-----------------------------
     #RANGES
+    #-----------------------------
+    #Wills 1994 range calculations
     if(any(grep("range", method))) {
         #Calculate the range for the rarefaction and the bootstrapped matrices
         if(verbose==TRUE) {
@@ -190,7 +224,10 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
         }
     }
 
+    #-----------------------------
     #VARIANCE
+    #-----------------------------
+    #Wills 1994 variance calculations
     if(any(grep("variance", method))) {
         #Calculate the variance for the rarefaction and the bootstrapped matrices
         if(verbose==TRUE) {
@@ -238,7 +275,9 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
         }
     }
 
+    #-----------------------------
     #OUTPUT
+    #-----------------------------
     #Empty output table
     if(rarefaction==FALSE) {
         output<-matrix(nrow=1, data=rep(NA, 1))
@@ -247,7 +286,11 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
         output<-matrix(nrow=(nrow(data)-1), data=seq(from=2, to=nrow(data)))
         colnames(output)[1]<-"rarefaction"
     }
-
+    #Volume
+    if(any(method == 'volume')) {
+        #Combine the results
+        output<-cbind(output, Volume_table)
+    }
     #Distance form centroid
     if(any(method == 'centroid')) {
         #Combine the results
@@ -281,6 +324,11 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
         #Quantiles and values
         output<-list("table"=output)
         #Add the values of each metric
+        #centroid
+        if(any(method == 'volume')) {
+            output[[length(output)+1]]<-Volume_values
+            names(output)[length(output)]<-"volume"
+        }
         #centroid
         if(any(method == 'centroid')) {
             output[[length(output)+1]]<-Centroid_values
