@@ -2,13 +2,13 @@
 #Disparity functions
 ##########################
 #Calculate the disparity as the distance from centroid
-#v0.3.0
+#v0.3.1
 ##########################
 #SYNTAX :
 #<distance> the distance matrix
 #<method> the method for calculating the disparity. Can be any of the following: "volume", "centroid", "sum.range", "product.range", "sum.variance", "product.variance"
 #<CI> confidence intervals (default=c(50,95))
-#<bootstraps> the number of boostrap replicates (default=1000)
+#<bootstraps> the number of boostrap replicates (default=1000).
 #<central_tendency> any function for calculating the central tendency
 #<verbose> whether to be verbose or not
 #<rm.last.axis> whether to remove the last axis from the pco data. Can be a threshold value.

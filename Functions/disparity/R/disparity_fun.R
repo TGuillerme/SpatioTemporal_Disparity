@@ -12,24 +12,33 @@ Bootstrap.rarefaction<-function(data, bootstraps, rarefaction) {
     #Rarefaction
     result<-NULL
     BSresult<-NULL
+    #Set bootstraps to 1 if bootstraps=0 with no replacement
+    if(bootstraps==0) {
+        bootstraps<-1
+        no.BS<-TRUE
+    } else {
+        no.BS<-FALSE}
+
     for(rare in rarefaction_max){
         #Bootstraps
         for(BS in 1:bootstraps){ #bootstraps -> bootstraps
             #Bootstrap 
-            
-            #full resampling method: for each bootstrap, resample all the rows from the available rows (for n rows, can randomly resample n times the same row).
-            #output<-as.matrix(data[sample(1:nrow(data),rare,TRUE),])
-            
-            #single resampling method: for each boostrap, select one row and replace it by a randomly chosen left one (for n rows, only one row can be present two times).
-            #First remove n row if rarefaction is true
-            output<-data[sample(1:nrow(data),rare,FALSE),]
-            #Then randomly chose a row to remove and to replace (different)
-            row.out.in<-sample(1:nrow(data),2,FALSE)
-            #Finaly replace the selected row out by the selected row in 
-            output[row.out.in[1],]<-output[row.out.in[2],] ; rownames(output)[row.out.in[1]]<-rownames(output)[row.out.in[2]]
-            
-            #Or use method in between? 10% of resampling?
-
+            if(no.BS==TRUE) {
+                output<-data[sample(1:nrow(data),rare,FALSE),]
+            } else {
+                #full resampling method: for each bootstrap, resample all the rows from the available rows (for n rows, can randomly resample n times the same row).
+                #output<-as.matrix(data[sample(1:nrow(data),rare,TRUE),])
+                
+                #single resampling method: for each boostrap, select one row and replace it by a randomly chosen left one (for n rows, only one row can be present two times).
+                #First remove n row if rarefaction is true
+                output<-data[sample(1:nrow(data),rare,FALSE),]
+                #Then randomly chose a row to remove and to replace (different)
+                row.out.in<-sample(1:nrow(data),2,FALSE)
+                #Finaly replace the selected row out by the selected row in 
+                output[row.out.in[1],]<-output[row.out.in[2],] ; rownames(output)[row.out.in[1]]<-rownames(output)[row.out.in[2]]
+                
+                #Or use method in between? 10% of resampling?
+            }
             result[BS] <- list(output)
         }
         #Rarefaction + BS results
