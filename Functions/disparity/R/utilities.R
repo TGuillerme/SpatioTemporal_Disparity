@@ -264,7 +264,7 @@ lapply.root<-function(tree, root, prefix="n") {
 extract.disp<-function(disp.data, rarefaction, plot.format=TRUE) {
     #SANITIZING
     #disparity
-    #check.class(disp.data)
+    check.class(disp.data, "data.frame")
     if(any(is.na(match(c("time", "rarefaction"), colnames(disp.data))))) {
         stop("disp.data must have at least one column called 'time' and one called 'rarefaction'.")
     }
@@ -278,11 +278,11 @@ extract.disp<-function(disp.data, rarefaction, plot.format=TRUE) {
         } else {
             if(rarefaction == "max") {
                 is.fun<-TRUE
-            } else {
-                is.fun<-FALSE
-                rar.val<-rarefaction
             }
         }
+    } else {
+        is.fun<-FALSE
+        rar.val<-rarefaction
     }
 
     #plot.format
@@ -311,8 +311,8 @@ extract.disp<-function(disp.data, rarefaction, plot.format=TRUE) {
     }
 
     #Do the same for the other levels
-    for (time in 2:length(levels(dis_ran$time))) {
-        sub_samp<-dis_ran[which(dis_ran$time == levels(dis_ran$time)[time]),]
+    for (time in 2:length(levels(disp.data$time))) {
+        sub_samp<-disp.data[which(disp.data$time == levels(disp.data$time)[time]),]
         if(is.fun == TRUE) {
             new_line<-sub_samp[which(sub_samp$rarefaction == max(sub_samp$rarefaction)),]
         } else {
