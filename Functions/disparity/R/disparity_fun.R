@@ -146,7 +146,7 @@ dispersion.calc<-function(X, save.all) {
 
     Y<-lapply(X, dispersion.apply)
     mean.Y<-Y[][[1]]
-    mean.dispersions<-(matrix(nrow=length(X), data=unlist(Y), byrow=TRUE)
+    #mean.dispersions<-matrix(nrow=length(X), data=unlist(Y), byrow=TRUE)
     return(matrix(nrow=length(X), data=unlist(Y), byrow=TRUE))
 }
 
