@@ -2,7 +2,7 @@
 #Plotting disparity results
 ##########################
 #Plots the disparity results
-#v0.3
+#v0.2.1
 ##########################
 #SYNTAX :
 #<disparity> disparity data
