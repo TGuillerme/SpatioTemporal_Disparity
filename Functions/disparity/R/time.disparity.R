@@ -2,23 +2,27 @@
 #time.disparity
 ##########################
 #Calculates the disparity for interval pco.data and output a interval.disparity table object
-#v0.2.3
+#v0.3.0
 ##########################
 #SYNTAX :
 #<time_pco> time intervals or slices from a pco
+#<relative> whether to calculate the relative disparity measurements or not.
 #<...> disparity arguments (see ?disparity for information)
 ##########################
 #----
-#guillert(at)tcd.ie 16/03/2014
+#guillert(at)tcd.ie 14/05/2014
 ##########################
 
-time.disparity<-function(time_pco, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE, rm.last.axis=FALSE, save.all=FALSE) {
+time.disparity<-function(time_pco, relative=FALSE, method=c("volume", "centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE, rm.last.axis=FALSE, save.all=FALSE) {
     #SANITIZING
     #time_pco
     check.class(time_pco, "list", " must be a list of time sections of pco data.")
     if(length(names(time_pco))!=length(time_pco)) {
         stop("time_pco data must have time sections names.")
     }
+
+    #relative
+    check.class(relative, "logical")
 
     #rarefaction
     if(rarefaction == TRUE) {
@@ -56,6 +60,27 @@ time.disparity<-function(time_pco, method=c("centroid", "sum.range", "product.ra
 
     #CALCULATING THE DISPARITY FOR EACH BIN
     disparity_interval<-lapply(time_pco, disparity, method=method, CI=CI, bootstraps=bootstraps, central_tendency=central_tendency, rarefaction=rarefaction, verbose=verbose, rm.last.axis=rm.last.axis, save.all=save.all)
+
+    #SCALING (if relative == TRUE)
+    if(relative==TRUE){
+
+        #Recreating the full space
+        full_space<-time_pco[[1]]
+        for(interval in 2:length(time_pco)) {
+            full_space<-rbind(full_space, time_pco[[interval]])
+        }
+        #Removing any duplicated taxa
+        full_space<-full_space[unique(rownames(full_space)),]
+        #Calculating the metrics for the full space
+        full_space_metric<-disparity(full_space, method=method, CI=CI, bootstraps=0, central_tendency=central_tendency, rarefaction=FALSE, verbose=FALSE, rm.last.axis=rm.last.axis, save.all=FALSE)
+         
+
+        #Dividing the results by the full_space_metric
+        for (interval in 1:length(time_pco)) {
+            disparity_interval[[interval]][[1]]<-disparity_interval[[interval]][[1]]/full_space_metric
+        }
+    }
+
 
     #Return the table only
     if(save.all == FALSE) {
@@ -97,7 +122,8 @@ time.disparity<-function(time_pco, method=c("centroid", "sum.range", "product.ra
             colnames(disparity_intervals_table)[1]<-"time"
         }
 
-        return(disparity_intervals_table)
+        #return(disparity_intervals_table)
+        print("return1")
     
     } else {
 
@@ -151,6 +177,7 @@ time.disparity<-function(time_pco, method=c("centroid", "sum.range", "product.ra
 
         #output
         output<-list("quantiles"=disparity_intervals_table, "values"=disparity_intervals_values)
-        return(output)
+        #return(output)
+        print("return2")
     }
 }
