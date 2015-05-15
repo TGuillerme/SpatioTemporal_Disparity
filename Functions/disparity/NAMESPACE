@@ -20,6 +20,7 @@ export(combine.disp) #utilities
 export(lapply.root) #utilities
 export(extract.disp) #utilities
 export(read.data) #utilities
+export(mode.val) #utilities 
 export(check.class) #sanitizing
 export(check.length) #sanitizing
 export(clean.tree) #sanitizing

@@ -378,3 +378,12 @@ read.data<-function(chain_name, data_path, file_matrix, file_tree, disparity_dat
     name<-load(paste(data_path, chain_name, "/", chain_name, disparity_data, sep=""))
     dis_tmp<<-get(name)
 }
+
+##########################
+#mode.val
+##########################
+#calculate the mode value of a distribution
+#----
+mode.val<-function (x) {
+    as.numeric(names(sort(-table(x))[1]))
+}
