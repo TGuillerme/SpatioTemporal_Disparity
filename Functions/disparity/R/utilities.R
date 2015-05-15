@@ -338,3 +338,43 @@ extract.disp<-function(disp.data, rarefaction, plot.format=TRUE) {
 
     return(disp.data.sort)
 }
+
+##########################
+#read.data
+##########################
+#reads the data given the chain_name, path, matrix, tree and disparity data.
+#----
+#WARNING: notice that this output function is out of the function environment (tree, table and dis_tmp).
+#----
+read.data<-function(chain_name, data_path, file_matrix, file_tree, disparity_data) {
+    #matrix
+    Nexus_data<-ReadMorphNexus(file_matrix)
+    Nexus_matrix<-Nexus_data$matrix
+    #tree
+    Tree_data<-read.nexus(file_tree)
+
+    ######################################
+    # Loading the data
+    ######################################
+
+    #Remove species with only missing data before hand
+    if(any(apply(is.na(Nexus_matrix), 1, all))) {
+        Nexus_matrix<-Nexus_matrix[-c(which(apply(is.na(Nexus_matrix), 1, all))),]
+    }
+
+    #Cleaning the tree and the table
+    #making the saving folder
+    tree<-clean.tree(Tree_data, Nexus_matrix)
+    table<<-clean.table(Nexus_matrix, Tree_data)
+    Nexus_data$matrix<-table
+
+    #Forcing the tree to be binary
+    tree<-bin.tree(tree)
+
+    #Adding node labels and the age to the tree
+    tree<<-lapply.root(tree, max(tree.age(tree)$age))
+
+    #Load the disparity data
+    name<-load(paste(data_path, chain_name, "/", chain_name, disparity_data, sep=""))
+    dis_tmp<<-get(name)
+}
