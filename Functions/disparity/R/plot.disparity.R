@@ -163,7 +163,7 @@ plot.disparity<-function(disparity_data, measure="Cent.dist", rarefaction=FALSE,
                     #ylim=ylim ,col="white", ylab=ylab, xlab=xlab, xaxt='n'); warning("plotting is in debug mode")
 
                 #X axis options
-                if(class(disparity_data[,1]) == "character") {
+                if(any(grep("-", disparity_data[,1]))) {
                     #if axis is character (bins)
                     axis(side = 1, 1:nrow(disparity_data), disparity_data[,1], las=2)
                 } else {
