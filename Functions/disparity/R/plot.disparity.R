@@ -193,7 +193,7 @@ plot.disparity<-function(disparity_data, measure="Cent.dist", rarefaction=FALSE,
                     par(new=TRUE)
                     plot(diversity, type="l", lty=2, xaxt="n",yaxt="n",xlab="",ylab="")
                     axis(4, lty=2)
-                    mtext(y2lab,side=4, line=2.5)
+                    mtext(y2lab,side=4, line=2.5, cex=0.8)
                 }
             }
         }
