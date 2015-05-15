@@ -365,18 +365,20 @@ read.data<-function(chain_name, data_path, file_matrix, file_tree, disparity_dat
     #Cleaning the tree and the table
     #making the saving folder
     tree<-clean.tree(Tree_data, Nexus_matrix)
-    table<<-clean.table(Nexus_matrix, Tree_data)
+    table<-clean.table(Nexus_matrix, Tree_data)
     Nexus_data$matrix<-table
 
     #Forcing the tree to be binary
     tree<-bin.tree(tree)
 
     #Adding node labels and the age to the tree
-    tree<<-lapply.root(tree, max(tree.age(tree)$age))
+    tree<-lapply.root(tree, max(tree.age(tree)$age))
 
     #Load the disparity data
     name<-load(paste(data_path, chain_name, "/", chain_name, disparity_data, sep=""))
-    dis_tmp<<-get(name)
+    dis_tmp<-get(name)
+
+    return(list(table, tree, dis_tmp))
 }
 
 ##########################
