@@ -2,7 +2,7 @@
 #Plotting disparity results
 ##########################
 #Plots the disparity results
-#v0.2.1
+#v0.2.2
 ##########################
 #SYNTAX :
 #<disparity> disparity data
@@ -10,12 +10,14 @@
 #<rarefaction> whether to plot the rarefaction results or not
 #<diversity> optional. Must be a vector of the same length as disparity_data.
 #<add> optional. Whether to add the a previous called graph
+#<ylim> optional. A set of values for the y axis limit
+#<y2labe> optional. A value for the label of the second y axis (diversity)
 ##########################
 #----
-#guillert(at)tcd.ie 14/05/2015
+#guillert(at)tcd.ie 15/05/2015
 ##########################
 
-plot.disparity<-function(disparity_data, measure="Cent.dist", rarefaction=FALSE, xlab="default", ylab="default", col="default", diversity, add=FALSE, ylim,...){
+plot.disparity<-function(disparity_data, measure="Cent.dist", rarefaction=FALSE, xlab="default", ylab="default", col="default", diversity, add=FALSE, ylim, y2lab, ...){
     #SANITIZING
     #Disparity
     check.class(disparity_data, 'data.frame')
@@ -86,6 +88,14 @@ plot.disparity<-function(disparity_data, measure="Cent.dist", rarefaction=FALSE,
 
     #add
     check.class(add, "logical")
+
+    #y2lab
+    if(missing(y2lab)) {
+        y2lab<-"Diversity"
+    } else {
+        check.class(y2lab, "character", " must be a character string.")
+        check.length(y2lab, 1, " must be a character string.", errorif=FALSE)
+    }
 
     #PLOTTING THE DISPARITY RESULTS
     if(add == FALSE) {
@@ -159,7 +169,7 @@ plot.disparity<-function(disparity_data, measure="Cent.dist", rarefaction=FALSE,
                 } else {
                     if(class(disparity_data[,1]) == "factor") {
                         #if axis is factors (dates)
-                        axis(side=1, seq(from=1, to=nrow(disparity_data), by=5), disparity_data[seq(from=1, to=nrow(disparity_data), by=5),1], las=1)
+                        axis(side=1, c(seq(from=1, to=nrow(disparity_data), by=5), nrow(disparity_data)), disparity_data[c(seq(from=1, to=nrow(disparity_data), by=5), nrow(disparity_data)),1], las=1)
                     } else {
                         #just print the ticks
                         axis(side = 1, 1:nrow(disparity_data))
@@ -182,7 +192,8 @@ plot.disparity<-function(disparity_data, measure="Cent.dist", rarefaction=FALSE,
                 if(plot.diversity==TRUE) {
                     par(new=TRUE)
                     plot(diversity, type="l", lty=2, xaxt="n",yaxt="n",xlab="",ylab="")
-                    axis(4)
+                    axis(4, lty=2)
+                    mtext(y2lab,side=4, line=2.5)
                 }
             }
         }
