@@ -1,19 +1,8 @@
 #Script for testing the properties of the cladistic space
 
-#Setwd
-if(length(grep("TGuillerme", getwd()))) {
-    setwd('~/PhD/Projects/SpatioTemporal_Disparity/Analysis')
-} else {
-    warning("You might have to change the directory!")
-}
-if(length(grep("SpatioTemporal_Disparity/Analysis", getwd()))==0) {
-    if(length(grep("SpatioTemporal_Disparity-master/Analysis", getwd()))==0) {
-        stop("Wrong directory!\nThe current directory must be:\nSpatioTemporal_Disparity/Analysis/ OR SpatioTemporal_Disparity-master/Analysis/\nYou can clone the whole repository from:\nhttps://github.com/TGuillerme/SpatioTemporal_Disparity")
-    }
-}
-
 #Load the functions and the packages
-source("functions.R")
+#source("functions.R")
+library(disparity)
 
 ##########################
 #Disparity null dummy
@@ -54,7 +43,7 @@ pco_data<-cmdscale(dist_data$max.dist.matrix, k=nrow(dist_data$max.dist.matrix) 
 intervals<-c(6,5,4,3,2,1,0)
 pco_intervals<-int.pco(pco_data, step_tree, intervals, include.nodes=TRUE, diversity=TRUE)
 div_intervals<-pco_intervals[[2]] ; pco_intervals<-pco_intervals[[1]]
-disp_intervals<-time.disparity(pco_intervals, verbose=TRUE, method="centroid", save.all=TRUE, bootstraps=10000)
+disp_intervals<-time.disparity(pco_intervals, verbose=TRUE, method="centroid", save.all=TRUE, bootstraps=1000)
 
 
 #Random character matrix
