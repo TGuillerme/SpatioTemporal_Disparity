@@ -30,7 +30,7 @@ mkdir ${path}/${chain}
 #R CODE TEMPLATE
 echo "
 #Load the functions and the packages
-source('functions.R')
+library(disparity)
 
 ###################
 #Reading the files

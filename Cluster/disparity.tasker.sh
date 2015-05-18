@@ -15,7 +15,6 @@
 #########################
 #version 0.1.1
 #Update: Faster cleaning part
-
 #----
 #guillert(at)tcd.ie - 18/05/2015
 ###########################
@@ -38,7 +37,7 @@ mkdir R_scripts_${chain}
 ######################################
 echo "
 #Load the functions and the packages
-source('functions.R')
+library(disparity)
 
 ###################
 #Reading the files
