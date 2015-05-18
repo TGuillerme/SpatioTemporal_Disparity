@@ -86,3 +86,30 @@ abline(v=22, col="red")
 plot.disparity(dis_pro_max_slater, diversity=log(dis_pro_max_slater$rarefaction), main="Mammaliformes (constant)", xlab="Time (Mya)", y2lab="Diversity (log)")
 abline(v=22, col="red")
 par(op)
+
+######################################
+# Null testing
+######################################
+
+#Extracting the null data for the centroid distance
+name<-load(paste(data_path, chain_name, "/", chain_name, "-disparity_null-sli_ran-random-centroid.Rda", sep=""))
+null_ran_centroid_ran<-get(name)
+name<-load(paste(data_path, chain_name, "/", chain_name, "-disparity_null-sli_ran-sim.char-centroid.Rda", sep=""))
+null_sim_centroid_ran<-get(name)
+name<-load(paste(data_path, chain_name, "/", chain_name, "-disparity_null-sli_pro-random-centroid.Rda", sep=""))
+null_ran_centroid_pro<-get(name)
+name<-load(paste(data_path, chain_name, "/", chain_name, "-disparity_null-sli_pro-sim.char-centroid.Rda", sep=""))
+null_sim_centroid_pro<-get(name)
+
+op<-par(mfrow=c(2,2), bty="n", mar=c(4,4,4,4))
+plot.disparity(dis_ran_max_slater, diversity=log(dis_ran_max_slater$rarefaction), main="Observed", xlab="Time (Mya)", y2lab="Diversity (log)", ylim=c(0,3))
+plot.disparity(null_ran_centroid_ran[[2]]$quantiles, main="random", ylim=c(0,3))
+plot.disparity(null_sim_centroid_ran[[2]]$quantiles, main="sim.char", ylim=c(0,3))
+par(op)
+
+dev.new()
+op<-par(mfrow=c(2,2), bty="n", mar=c(4,4,4,4))
+plot.disparity(dis_ran_max_slater, diversity=log(dis_ran_max_slater$rarefaction), main="Observed", xlab="Time (Mya)", y2lab="Diversity (log)")
+plot.disparity(null_ran_centroid_ran[[2]]$quantiles, main="random")
+plot.disparity(null_sim_centroid_ran[[2]]$quantiles, main="sim.char")
+par(op)
