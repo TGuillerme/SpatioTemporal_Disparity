@@ -13,9 +13,11 @@
 #<slices> a series of time slices
 #<FADLAD> a csv file with FADLAD data
 #########################
-#version 0.1
+#version 0.1.1
+#Update: Faster cleaning part
+
 #----
-#guillert(at)tcd.ie - 31/03/2015
+#guillert(at)tcd.ie - 18/05/2015
 ###########################
 
 #INPUT
@@ -62,8 +64,8 @@ Tree_data<-read.nexus(file_tree)
 ######################################
 
 #Remove species with only missing data before hand
-if (any(apply(as.matrix(Nexus_matrix), 1, function(x) levels(as.factor((x)))) == '?')) {
-    Nexus_matrix<-Nexus_matrix[-c(as.vector(which(apply(as.matrix(Nexus_matrix), 1, function(x) levels(as.factor(x))) == '?'))),]
+if(any(apply(is.na(Nexus_matrix), 1, all))) {
+    Nexus_matrix<-Nexus_matrix[-c(which(apply(is.na(Nexus_matrix), 1, all))),]
 }
 
 #Cleaning the tree and the table

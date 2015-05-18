@@ -14,10 +14,11 @@
 #<intervals> a series of time intervals
 #<slices> a series of time slices
 #########################
-#version 0.2
+#version 0.2.1
 #Update: RAM friendly version
+#Update: Faster cleaning part
 #----
-#guillert(at)tcd.ie - 13/04/2015
+#guillert(at)tcd.ie - 18/05/2015
 ###########################
 
 chain=$1
@@ -59,8 +60,8 @@ Tree_data<-read.nexus(file_tree)
 ######################################
 
 #Remove species with only missing data before hand
-if (any(apply(as.matrix(Nexus_matrix), 1, function(x) levels(as.factor((x)))) == '?')) {
-    Nexus_matrix<-Nexus_matrix[-c(as.vector(which(apply(as.matrix(Nexus_matrix), 1, function(x) levels(as.factor(x))) == '?'))),]
+if(any(apply(is.na(Nexus_matrix), 1, all))) {
+    Nexus_matrix<-Nexus_matrix[-c(which(apply(is.na(Nexus_matrix), 1, all))),]
 }
 
 #Cleaning the tree and the table
