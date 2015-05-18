@@ -276,9 +276,9 @@ We counted phylogenetic diversity as the number of phylogenetic elements in each
 %Because both datasets used did not contain all living mammals, we also calculated the number of phylogenetic element per million year from the Fritz supertree \cite{fritzdiversity2013} (see details on the calculations in the supplementary materials). %TG: Useless, see above.
 
 \subsubsection{Disparity}
-We measured the cladistic morphological disparity (i.e. the diversity in discrete morphological characters) by using the distance from centroid \cite{finlay2015morphological}. The distance from centroid is defined as the mean euclidean distance between each edge (nodes and tips) and the mean value of each dimension of the cladisto-space:
+We measured the cladistic morphological disparity (i.e. the diversity in discrete morphological characters) by using the distance from centroid \cite{finlay2015morphological}. The distance from centroid is defined as the mean euclidean distance between each edge (nodes and tips) and the centroid which is the 0mean value of each dimension of the cladisto-space:
 \begin{equation}
-Disparity=\frac{\sqrt{\Sigma(Edge_{n}-Centroid_{n})^2}}{Number\ of\ edges}
+Disparity=\frac{\sum{\sqrt{(Edge_{n}-Centroid_{n})^2}}}{Number\ of\ edges}
 \end{equation}
 Where $Edge_{n}$ is any edge value in the $n^{th}$ dimension of the cladisto-space and $Centroid_{n}$ is the average value of the $n^{th}$ dimension. Note that the disparity is calculated using all the $n$ dimensions of the cladisto-space (i.e. we used all axis of the ordination).
 
@@ -366,7 +366,7 @@ We used both the \texttt{ace} function from the R package ape v. 3.2 \cite{parad
 \subsubsection{Time intervals}
 We then divide our observed cladisto-spaces into sub cladisto-spaces representing the different stages of the character-space filling. For example, if at various points in time.
 %The intervals should be a compromise between the resolution and the sample size and must be "sufficiently coards that nearly all generic first and last occurenaces can be unambiguously assigned" \cite{Foote01071994}.
-Time intervals from 100Mya (Earliest Cenomanian, Late Cretaceous) to the present.
+Time intervals from 170Ma (Earliest Cenomanian, Late Cretaceous) to the present.
 We count all the nodes/tips present in a given time interval.
 Classic but artificially grouping data. The minimal bin size should contain at least two nodes/tips and sometime that involves having time intervals spanning accross tens of millions of years. Such long duration time intervals have no real biological meaning since it is unlikely that all of the nodes/tips present in the time interval did ever coexisted and had ever biological interactions together.
 
