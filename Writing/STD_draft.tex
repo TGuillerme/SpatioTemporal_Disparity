@@ -229,44 +229,75 @@ These results suggest that the shift in dominant terrestrial vertebrate clades i
 %\end{figure}
 
 \subsection{Cladistic data an phylogenies}
-We used the cladistic morphological matrices and the Total Evidence tip dated trees \citep{ronquista2012} from \citep{Slater2012MEE} (103 taxa and 446 morphological characters) and \citep{beckancient2014} (102 taxa and 421 morphological characters). We chose these two data sets because they have a similar number of taxa and morphological characters, and both use the Total Evidence tip dating method \citep{ronquista2012} to construct their phylogenies. \citep{Slater2012MEE} ranges from 310 Million years ago (Mya - Late Carboniferous) to the present and focuses on Mammaliamorpha up to the family level. \citep{beckancient2014} ranges from 170 Mya (Middle Jurassic) to the present and focuses on Eutheria up to a genus level. We used the first and last occurrences as the temporal span of each taxon in our analysis.
-%Additionally, because both datasets don't sample the full diversity through time (and, to our knowledge, none does), we used the supertree from \citep{fritzdiversity2013} that is the most complete species level phylogeny of living mammals (93\% of the 5416 living mammals \citep{wilson2005mammal} to calculate the changes in diversity through time in living mammals (see below). % TG: I'm not sure yet if that is going to be in the paper. It definitely has a place in the thesis or/and the supplementary though!
+We used the cladistic morphological matrices and the Total Evidence tip dated trees \citep{ronquista2012} from \citep{Slater2012MEE} (103 taxa and 446 morphological characters) and \citep{beckancient2014} (102 taxa and 421 morphological characters).
+We chose these two data sets because they have a similar number of taxa and morphological characters.
+\cite{Slater2012MEE} ranges from 310 Million years ago (Mya - Late Carboniferous) to the present and focuses on Mammaliamorpha up to the family level.
+\cite{beckancient2014} ranges from 170 Mya (Middle Jurassic) to the present and focuses on Eutheria up to a genus level.
+We used the first and last occurrences as the temporal span of each taxon in our analysis \citep{Slater2012MEE,beckancient2014}.
 
-%Using cladistic traits \citep{Hughes20082013}
 
 \subsection{Estimating ancestral character states}
-For both datasets we estimated the ancestral state of each character at every node in the tree using Maximum Likelihood. We used the \texttt{rerootingMethod} function from the R package \texttt{phytools} version 0.4-45 \citep{phytools}. This method performs a Maximum Likelihood estimation of the ancestral values and the variance of a Brownian motion process based on the re-rooting method of \citep{Yang01121995}. We used the \texttt{rerootingMethod} function from the R package \texttt{phytools} version 0.4-45 \citep{phytools}. This method performs a Maximum Likelihood estimation of the ancestral values and the variance of a Brownian motion process based on the re-rooting method of \citep{Yang01121995}. 
+For both datasets we estimated the ancestral state of each character at every node in the tree using Maximum Likelihood.
+We used the \texttt{rerootingMethod} function from the R package \texttt{phytools} version 0.4-45 \citep{phytools}.
+This method performs a Maximum Likelihood estimation of the ancestral values and the variance of a Brownian motion process based on the re-rooting method of \citep{Yang01121995}.
 % NC: May need a bit more info here. Also you need to cite garland's original paper here too. TG: Not sure which Garland's paper??
-We followed the method of \citep{Claddis} for treating missing data at the tips as any possible observed state for each character. For example if a character has a maximum of two observed states (0 and 1), we attributed the multi-state ``0\&1" value to the tips with missing data giving an equal probability of being either 0 or 1. This allows the ancestral descendant to a tip with missing data to be still estimated. We preferred Maximum Likelihood methods to Bayesian methods because both methods have been shown to produce similar results \citep{royer-carenzichoosing2013} but Maximum Likelihood methods are several orders of magnitude faster than Bayesian ones (total analysis time $~$1.2 CPU year). 
+We followed the method of \citep{Claddis} for treating missing data at the tips as any possible observed state for each character.
+For example if a character has a maximum of two observed states (0 and 1), we attributed the multi-state ``0\&1" value to the tips with missing data giving an equal probability of being either 0 or 1.
+This allows the ancestral descendant to a tip with missing data to be still estimated.
+We preferred Maximum Likelihood methods to Bayesian methods because both methods have been shown to produce similar results \citep{royer-carenzichoosing2013} but Maximum Likelihood methods are several orders of magnitude faster than Bayesian ones (total analysis time $~$1.2 CPU year). 
 
-In order to remain conservative with the ancestral states reconstruction (especially when a high error is associated to the ancestral state), we only considered the ancestral state reconstruction with a scaled likelihood $\geq$ than 0.95. We replaced the ancestral states reconstruction below this threshold by ``NA". However, for a matter of comparison, we also provided the results of the analysis without removing the ancestral state reconstruction with low scaled likelihoods intervals ($\leq$ 0.95).
-%We compared this method of dealing with missing data to a second one (more conservative) where NAs where treated as an extra state. For example if a character has two observed tips states 0 and 1 and a third tip has missing data (NA), the third tip will be considered as an extra character ("NA") and the ancestor of these three tips can be estimated between the three following states: 0, 1 and NA. % TG: Again, that's useless here, however, it's an interesting point that can be put in the thesis: weirdly enough, the NA method recovers slightly more false positives than the multistate method.
+In order to remain conservative with the ancestral states reconstruction (especially when a high error is associated to the ancestral state), we only considered the ancestral state reconstruction with a scaled likelihood $\geq$ than 0.95.
+We replaced the ancestral states reconstruction below this threshold by ``NA".
+However, for a matter of comparison, we also provided the results of the analysis without removing the ancestral state reconstruction with low scaled likelihoods intervals ($\leq$ 0.95). % link to supp
 
-\subsection{Estimating the cladisto-space} % NC: For fun could call it a "cladisto-space". TG: Agree! Definitely more fun!
-To explore the variation in mammalian disparity (defined here as the variation in morphology) through time, we use a cladisto-space approach \citep{Foote01071994,Foote29111996,Wesley-Hunt2005,Brusatte12092008,friedmanexplosive2010,toljagictriassic-jurassic2013}. This approach is similar to a morphospace based on continuous morphological data \citep[e.g.][]{finlay2015morphological}, except the cladisto-space is based on cladistic morphological data, i.e. the discrete characters used to build a phylogenetic tree \citep{Foote01071994,Foote29111996,Wesley-Hunt2005,Brusatte12092008,friedmanexplosive2010,toljagictriassic-jurassic2013}.
-% cite? might have a better explanation? TG: not sure what to cite or explain here? Basically cladisto-space = morphospace on discrete data.
-%Therefore, the cladisto-space is likely to be more influenced by phylogeny than the morphospace \citep{Foote29111996,Wagner01011997}. However, discrete cladistic characters are still the best source for quantifying overall morphology for large and diverse groups \citep{Brusatte12092008}. % NC: Make this justification better. why does the phylogney effect matter. Should this be mentioned here at all? TG: not specially, might be something a reviewer might point out. I remember you pointing it out ;). However, STD is become fairly common these days so maybe people have accepted the idea.
-Because of it's inherent combinatory properties, a cladisto-space is a finite theoretical space limited by the product of the number of character states. In fact, a cladisto-space will be overloaded if the number of taxa is higher than the product of the number of character states. Therefore it is straightforward to make sure that the character space does not contain more taxa than it's maximal capacity.
+\subsection{Estimating the cladisto-space}
+To explore the variation in mammalian disparity (defined here as the variation in morphology) through time, we use a cladisto-space approach \citep{Foote01071994,Foote29111996,Wesley-Hunt2005,Brusatte12092008,Hughes20082013,friedmanexplosive2010,toljagictriassic-jurassic2013}.
+This approach is similar to a morphospace based on continuous morphological data \citep[e.g.][]{friedmanexplosive2010,finlay2015morphological}, except the cladisto-space is based on cladistic data (i.e. the discrete morphological characters used to build a phylogenetic tree).
+Mathematically, the cladisto-space is a $n$ dimension object that summarizes the distances between the taxa present in the cladistic matrix (see details below).
+Because of it's inherent combinatory properties, a cladisto-space is a finite theoretical object limited by the product of the number of character states. In fact, a cladisto-space will be overloaded if the number of taxa is higher than the product of the number of character states. Therefore it is straightforward to make sure that the character space does not contain more taxa than it's maximal capacity.
+Estimating the cladisto-space requires two steps described in detail below: (1) calculating the distance matrix and (2) applying multidimensional scaling.
 
+\subsubsection{Distance matrix}
 We first calculate the pairwise distance matrix among all taxa using the Gower distance \citep{Gower71}. The Gower distance is the Euclidean distance between two taxa divided by the number of comparable not identical characters. 
+In the case of cladistic matrices, this corrected distance is preferable because of it's ability to deal with discrete or/and ordinated characters as well as with missing data \citep{anderson2012using}
+The Gower distance is correcting the distance between two taxa that share many characters and that will therefore being (just by chance) more close to other taxa with which they don't share many characters.
+%We also calculated the Generalised Euclidean Distance (GED) \citep{Wills2001} and the MORD distance (@Lloyd in prep.@) to make our results comparable with previous studies (e.g.) % TG: or maybe not.
+Cladisto-space methods can suffer from problems due to inapplicable characters, for example, some pairwise distances between taxa can not be calculated if the pairs of taxa don't have any available data in common.
+To solve this problem we used the \texttt{TrimMorphDistMatrix} function from the \texttt{Claddis R} package \citep{Claddis}.
+This function removes the taxa that contain the most non-calculable distance until the distance matrix contains no ``NAs".
 
-Using Gower's distance allows to correct for the number of characters shared by some taxa. i.e. it's correcting the distance between to taxa that share many characters and that will therefore being (just by chance) more close to other taxa with which they don't share many characters.
-% which we applied because of its ability to deal with mixed data types (continuous and discrete) and missing entries \citep{anderson2012using}
-%use/cite Gower 71 for now (which is identical if all characters are unordered/binary anyway). Also MOD (I might rename it MORD) isn't necessarily more conservative, just more fidelitous. Not even sure what conservative would mean!
+\subsubsection{Multidimensional scaling}
+We then transformed the distance matrices using classic multidimensional scaling \citep{torgerson1965multidimensional,GOWER01121966,cailliez1983analytical}.
+The multidimensional scaling (also refereed as MDS, PCA or PCO) is an orthogonal transformation of the variance co-variance matrix calculated from the distance matrix.
+Because covariance between certain taxa can be negative, we corrected the distance matrix using the Cailliez correction \cite{cailliez1983analytical} which multiply all the covariance values by a constant. %as in \citep{toljagictriassic-jurassic2013}
+This allows to calculate $n$ eigen vector (i.e. the $n$ dimensions of the cladisto-space) where $n$ is equal to a maximum of the size of the distance matrix (which is in our case the number of taxa in each matrix) \textit{minus} the two last eigen vectors (that are null after applying the Cailliez correction).
+
+These two steps allowed us to calculate the cladisto-space for both datasets. 
+ote that the $n$ dimensional objects represent the total variation of the morphological diversity (disparity) for all the mammals present in the data.
+In other words, our cladisto-space represent an ordination of all the possible mammalian morphologies coded in each studies, not the cladistic disparity at any point in time.
+In order to measure the cladistic disparity through time, we measured the observed subsection of the cladisto-space at each point in time.
+These observed cladistic disparity can never be greater than the total disparity in the cladisto-space.
+We explain the calculation of the disparity as well as it's measure through time below.
+
+\subsection{Disparity}
+We measured the cladistic morphological disparity (i.e. the diversity in discrete morphological characters) by using the distance from centroid \citep{finlay2015morphological}.
+The distance from centroid is defined as the mean euclidean distance between each edge (nodes and tips) and the centroid which is the mean value of each dimension of the cladisto-space:
+\begin{equation}
+Disparity=\frac{\sum{\sqrt{(Edge_{n}-Centroid_{n}^2}}}{Number\ of\ edges}
+\end{equation}
+Where $Edge_{n}$ is any edge value in the $n^{th}$ dimension of the cladisto-space and $Centroid_{n}$ is the average value of the $n^{th}$ dimension. Note that the disparity is calculated using all the $n$ dimensions of the cladisto-space (i.e. we used all axis of the ordination).
+
+We used this metric for measuring disparity rather than the classically used sum and product of ranges and variance \cite{Foote01071994,Wills1994,brusatte50,Brusatte12092008,cisneros2010,thorneresetting2011,prentice2011,brusattedinosaur2012,toljagictriassic-jurassic2013,ruta2013,bentonmodels2014,bensonfaunal2014} because
 
 
-%NC: WHY?
-We also calculated the Generalised Euclidean Distance (GED) \citep{Wills2001} and the MORD distance (@Lloyd in prep.@) to make our results comparable with previous studies (e.g.) 
-%cite
-. These results are available in the supplementary materials. % link?
-Cladisto-space methods can suffer from problems due to inapplicable characters, for example, some pairwise distances between taxa can not be calculated if the pairs of taxa don't have any available data in common. To solve this problem we used the \texttt{TrimMorphDistMatrix} function from the \texttt{Claddis R} package \citep{Claddis}. This function removes the taxa that contain the most non-calculable distance until the distance matrix contains no ``NAs". 
-%Some   cladistic   matrices contained   pairs   of   taxa   that   could   not   be   coded   for   at   least one character in common \citep{anderson2012using}
+because this method is less correlated with diversity (see supplementary) and allows to use the data of all the dimensions of the cladisto-space without being incalculable for the dimensions that bear a little amount of the distance variance. For example, the product of range and variance are always equal to zero if the last dimensions of the character space bare a minimal amount of the variance of the distance matrix (traditionally less than 5\%). Also this method is clearer and easier to interpret \citep{finlay2015morphological}. For comparing our results to previous studies, we also calculated the sum and product of ranges and variance, these results are available in the supplementary materials.
 
-% NC: Huh? Explain.
-We then ordinated the distance matrix using principal components ordination
-% NC: Isn't it principal coordinates analysis?
-(PCO; \citep{GOWER01121966} to summarize the matrix and create the \textit{n}dimensions of our cladisto-space. We used a PCO approach to be able to better handle missing data and inapplicable characters \citep{lofgren2003,Wesley-Hunt2005}.
-% NC: Again explain a bit more
+For each disparity measurement, we bootstrapped 1000 times the subdivision of the cladisto-space containing only the edges present at each time slice. We then calculated the 50\% and 95\% confidence interval associated with each disparity measurement.
+
+\subsubsection{Diversity}
+We counted phylogenetic diversity as the number of phylogenetic elements in each subdivision of the cladisto-space (i.e. branches, nodes and tips per slice). We logged our diversity measurements to make the differences additive instead of multiplicatives.
+%Because both datasets used did not contain all living mammals, we also calculated the number of phylogenetic element per million year from the Fritz supertree \citep{fritzdiversity2013} (see details on the calculations in the supplementary materials). %TG: Useless, see above.
+
 
 \subsection{Time slicing} % NC: I feel like maybe this should be combined with disparity? So explain the general principle, then go back to explain in detail? TG: Not sure, what the time slicing is actually doing is to separate the ordinated distance matrix into submatrices that contains only taxa present at the slice. The disparity can be calculated either on the slices or on the overall results.
 We propose a new approach to look at changes in disparity
@@ -290,23 +321,6 @@ To address these issues, we propose a time slicing method that only considers su
 \end{figure}
 
 We applied this time slicing method to both cladisto-spaces \citep{Slater2012MEE,beckancient2014} using a time interval of 5 Mya (from present to 170 Mya) slicing each cladisto-space in 35 subdivisions. We also performed a time intervals approach to compare our results to previous publications \citep[e.g.][]{Brusatte12092008,brusattedinosaur2012,toljagictriassic-jurassic2013}. The results of this analysis are available in the supplementary materials.
-
-\subsection{Disparity through time}
-\subsubsection{Diversity}
-We counted phylogenetic diversity as the number of phylogenetic elements in each subdivision of the cladisto-space (i.e. branches, nodes and tips per slice). We logged our diversity measurements to make the differences additive instead of multiplicatives.
-%Because both datasets used did not contain all living mammals, we also calculated the number of phylogenetic element per million year from the Fritz supertree \citep{fritzdiversity2013} (see details on the calculations in the supplementary materials). %TG: Useless, see above.
-
-\subsubsection{Disparity}
-We measured the cladistic morphological disparity (i.e. the diversity in discrete morphological characters) by using the distance from centroid \citep{finlay2015morphological}. The distance from centroid is defined as the mean euclidean distance between each edge (nodes and tips) and the centroid which is the 0mean value of each dimension of the cladisto-space:
-\begin{equation}
-Disparity=\frac{\sum{\sqrt{(Edge_{n}-Centroid_{n}^2}}}{Number\ of\ edges}
-\end{equation}
-Where $Edge_{n}$ is any edge value in the $n^{th}$ dimension of the cladisto-space and $Centroid_{n}$ is the average value of the $n^{th}$ dimension. Note that the disparity is calculated using all the $n$ dimensions of the cladisto-space (i.e. we used all axis of the ordination).
-
-We used this metric for measuring disparity rather than the classically used sum and product of ranges and variance \citep[e.g.][]{Wills1994,Foote29111996,Wesley-Hunt2005,Brusatte12092008,ruta2013} %check wesley-hunt
-because this method is less correlated with diversity (see supplementary) and allows to use the data of all the dimensions of the cladisto-space without being incalculable for the dimensions that bear a little amount of the distance variance. For example, the product of range and variance are always equal to zero if the last dimensions of the character space bare a minimal amount of the variance of the distance matrix (traditionally less than 5\%). Also this method is clearer and easier to interpret \citep{finlay2015morphological}. For comparing our results to previous studies, we also calculated the sum and product of ranges and variance, these results are available in the supplementary materials.
-
-For each disparity measurement, we bootstrapped 1000 times the subdivision of the cladisto-space containing only the edges present at each time slice. We then calculated the 50\% and 95\% confidence interval associated with each disparity measurement.
 
 \subsubsection{Rarefaction}
 To avoid bias due to the number of edges variation in each cladisto-space subdivision we also re-sampled each subdivision to have an equal number of phylogenetic elements available (edges or branches). Each subdivision was therefore re-sampled to contain the minimal number of taxa in the smallest subdivision. Because this led in certain cases to a absolute minimum of phylogenetic elements to calculate disparity (3) we also arbitrarily re-sampled the subdivisions to contain 10 elements or less. In practice, for both cases, we bootstrapped the disparity measurements by randomly removing $x$ elements per subdivision, where $x$ is either (1) the number of edges sampled in each time slice minus the minimum of edges in each time slice or (2) the number of edges to remove so that the number of elements is not higher than 10. Both results are available in the supplementary materials.
@@ -342,6 +356,9 @@ We then measured the amount of overlap between both null models and the observed
 
 %From Wilson 2013
 %My results reveal several key findings: (1) latest Cretaceous mammals, particularly metatherians and multituberculates, had a greater ecomorphological diversity than is generally appreciated, occupying regions of the morphospace that are interpreted as strict carnivory, plant-dominated omnivory, and herbivory; (2) the decline in dental-shape disparity and body-size disparity across the K/Pg boundary shows a pattern of constructive extinction selectivity against larger-bodied dietary specialists, particularly strict carnivores and taxa with plant-based diets, that suggests the kill mechanism was related to depressed primary productivity rather than a globally instantaneous event; (3) the ecomorphological recovery in the earliest Paleocene was fueled by immigrants, namely three multituberculate families (taeniolabidids, microcosmodontids, eucosmodontids) and to a lesser extent archaic ungulates; and (4) despite immediate increases in the taxonomic richness of eutherians, their much-celebrated post-K/Pg ecomorphological expansion had a slower start than is generally perceived and most likely only began 400,000 to 1 million years after the extinction event.
+
+
+%Therefore, the cladisto-space is likely to be more influenced by phylogeny than the morphospace \citep{Foote29111996,Wagner01011997}. However, discrete cladistic characters are still the best source for quantifying overall morphology for large and diverse groups \citep{Brusatte12092008}. % NC: Make this justification better. why does the phylogney effect matter. Should this be mentioned here at all? TG: not specially, might be something a reviewer might point out. I remember you pointing it out ;). However, STD is become fairly common these days so maybe people have accepted the idea.
 
 %---------------------------------------------
 %
