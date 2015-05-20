@@ -1,6 +1,8 @@
 # Cluster unsorted files #
 Cluster/Beck2014/*.Rda
+Cluster/Beck2/*.Rda
 Cluster/Slater2013/*.Rda
+Cluster/Slater2/*.Rda
 
 #Null data
 Data/Beck2014/Beck2014-disparity_null-*.Rda
