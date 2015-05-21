@@ -334,6 +334,7 @@ The method to determine which character state to use a some point in time along 
     This model reflects constant evolution where changes rate are constant and cumulative along the branch (i.e. the hypothetical character state at any point in time will likely to be the same to the closest observed state in time - ancestor or descendant edge).
 \end{enumerate}
 
+% TG: not sure if this figure is useful and pretty sure that if it is, it should be improved!
 \begin{figure}[!htbp]
 \centering
     \includegraphics[keepaspectratio=true]{Figures/Slicing.pdf}
@@ -341,17 +342,29 @@ The method to determine which character state to use a some point in time along 
 \label{fig_slicing}
 \end{figure}
 
-%Continue from here
+%What did we do (the main figure)
+We applied this ``time-slicing'' method to the two cladisto-spaces calculated from \cite{Slater2012MEE,beckancient2014} slicing the phylogeny every 5 million years from 170 Mya to the present resulting in 35 sub-samples of the cladisto-space.
+For each sub-sample, we calculated the disparity assuming punctuated and constant evolution.
+We bootstrapped 1000 times each disparity measurement for accounting for uncertainty.
+We then calculated the median disparity value from each sub-sample along with the 50\% and the 95\% confidence intervals.
+Along with disparity, we also reported the taxonomic richness in each sample defined as the log of the number of phylogenetic elements in each sub-samples (i.e. log of the total number of branches, nodes and tips per slice).
 
-We applied this time slicing method to both cladisto-spaces \citep{Slater2012MEE,beckancient2014} using a time interval of 5 Mya (from present to 170 Mya) slicing each cladisto-space in 35 subdivisions. We also performed a time intervals approach to compare our results to previous publications \citep[e.g.][]{Brusatte12092008,brusattedinosaur2012,toljagictriassic-jurassic2013}. The results of this analysis are available in the supplementary materials.
+%How are we sure it's good (rarefaction)
+To avoid bias due to the number of edges variation in each cladisto-space subdivision we also re-sampled each subdivision to have an equal number of phylogenetic elements available (edges or branches). Each subdivision was therefore re-sampled to contain the minimal number of taxa in the smallest subdivision. Because this led in certain cases to a absolute minimum of phylogenetic elements to calculate disparity (3) we also re-sampled the subdivisions to contain 
 
-For each disparity measurement, we bootstrapped 1000 times the subdivision of the cladisto-space containing only the edges present at each time slice. We then calculated the 50\% and 95\% confidence interval associated with each disparity measurement.
+max modal value of the number of elements
 
-We counted phylogenetic diversity as the number of phylogenetic elements in each subdivision of the cladisto-space (i.e. branches, nodes and tips per slice). We logged our diversity measurements to make the differences additive instead of multiplicatives.
+ elements or less. In practice, for both cases, we bootstrapped the disparity measurements by randomly removing $x$ elements per subdivision, where $x$ is either (1) the number of edges sampled in each time slice minus the minimum of edges in each time slice or (2) the number of edges to remove so that the number of elements is not higher than 10. Both results are available in the supplementary materials.
 
 
-\subsubsection{Rarefaction}
-To avoid bias due to the number of edges variation in each cladisto-space subdivision we also re-sampled each subdivision to have an equal number of phylogenetic elements available (edges or branches). Each subdivision was therefore re-sampled to contain the minimal number of taxa in the smallest subdivision. Because this led in certain cases to a absolute minimum of phylogenetic elements to calculate disparity (3) we also arbitrarily re-sampled the subdivisions to contain 10 elements or less. In practice, for both cases, we bootstrapped the disparity measurements by randomly removing $x$ elements per subdivision, where $x$ is either (1) the number of edges sampled in each time slice minus the minimum of edges in each time slice or (2) the number of edges to remove so that the number of elements is not higher than 10. Both results are available in the supplementary materials.
+
+%Old methods (supplementary)
+In order to make our results comparable with previous studies, we also calculated the sum and products of ranges and variances \citep{Foote01071994,Wills1994} on the sub-samples of the cladisto-space.
+We also applied a time interval method based on biostraptigraphy \citep[e.g.][]{cisneros2010,prentice2011,Hughes20082013,bentonmodels2014} where we used each geological stages from the Middle Jurassic to the present as well as a time interval method based on equal time periods of 20 million years \citep{hopkinsdecoupling2013,bensonfaunal2014}.
+For both time interval analysis, we calculated the disparity as the distance from centroid \citep{finlay2015morphological} as well as the sum and products of ranges and variances \citep{Foote01071994,Wills1994}.
+These additional studies are available in the supplementary materials. %link 
+
+
 
 \subsection{Null models testing}
 Finally, we tested the effect of the K-Pg boundary on mammal disparity, by measuring whether the observed changes were significantly different than expected by chance. We rerun the full disparity analysis (minus the ancestral states reconstruction part) on both phylogenies with the same number of edges and the same time slices. However, we replaced the observed character matrices by two times 100 randomly generated ones following two null models. The first null model (repeated 100 times) was a purely stochastic matrix where each cell value was sampled from a discrete uniform distribution with a number of sates equal to the number of states observed in the the original data. For the second null model, we simulated each characters for each edge using the phylogenetic structure using the \texttt{sim.character} function from the \texttt{diversitree R} package \citep{fitzjohndiversitree2012} and the $Mk_n$ \citep{lewisa2001} with an equal transition rate between the number of characters states observed in the original matrix and a unique rate ($\mu$) sampled from a uniform distribution (0 $<$ $\mu$ $\leq$ 0.5). 
