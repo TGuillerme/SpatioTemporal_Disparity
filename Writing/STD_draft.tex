@@ -349,14 +349,14 @@ We bootstrapped 1000 times each disparity measurement for accounting for uncerta
 We then calculated the median disparity value from each sub-sample along with the 50\% and the 95\% confidence intervals.
 Along with disparity, we also reported the taxonomic richness in each sample defined as the log of the number of phylogenetic elements in each sub-samples (i.e. log of the total number of branches, nodes and tips per slice).
 
+% TG: not sure about the placement of each section below 
+
 %How are we sure it's good (rarefaction)
-To avoid bias due to the number of edges variation in each cladisto-space subdivision we also re-sampled each subdivision to have an equal number of phylogenetic elements available (edges or branches). Each subdivision was therefore re-sampled to contain the minimal number of taxa in the smallest subdivision. Because this led in certain cases to a absolute minimum of phylogenetic elements to calculate disparity (3) we also re-sampled the subdivisions to contain 
-
-max modal value of the number of elements
-
- elements or less. In practice, for both cases, we bootstrapped the disparity measurements by randomly removing $x$ elements per subdivision, where $x$ is either (1) the number of edges sampled in each time slice minus the minimum of edges in each time slice or (2) the number of edges to remove so that the number of elements is not higher than 10. Both results are available in the supplementary materials.
-
-
+To avoid bias due to the number of edges variation in each cladisto-space subdivision we also re-sampled each subdivision to have an equal number of phylogenetic elements available (edges or branches).
+Each subdivision was therefore re-sampled to contain the minimal number of taxa in the smallest subdivision.
+Because this led in certain cases to a absolute minimum of phylogenetic elements to calculate disparity we also re-sampled the subdivisions to contain at maximum the modal number of phylogenetic elements between each sub-sample of the cladisto-space.
+In practice, for both cases, we bootstrapped the disparity measurements by randomly removing $x$ elements per subdivision, where $x$ is either (1) the number of edges sampled in each time slice minus the minimum of edges in each time slice or (2) the number of edges to remove so that the number of elements is not higher than the modal number of edges.
+Both results are available in the supplementary materials.
 
 %Old methods (supplementary)
 In order to make our results comparable with previous studies, we also calculated the sum and products of ranges and variances \citep{Foote01071994,Wills1994} on the sub-samples of the cladisto-space.
