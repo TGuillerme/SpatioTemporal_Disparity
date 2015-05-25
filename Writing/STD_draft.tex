@@ -171,9 +171,9 @@ Therefore, whether the diversification of placental mammals began before K-Pg, o
 There are three main reasons why there is still debate about the timing of the diversification of placental mammals. In this paper we focus on solving these issues as follows: % NC: Needs a bit more finesse but you get the idea 
   \begin{enumerate}
     \item \textbf{Palaeontological and neontological data show different patterns.}
-    As mentioned above, conclusions about when placental mammals diversified tend to be split depending on what kind of data are used: palaeontological data generally suggest that placental mammals diversified post K-Pg \citep[e.g.][]{O'Leary08022013}, whereas neontological data suggest that K-Pg event had no effect on mammalian diversification \citep{bininda2007delayed,meredithimpacts2011,Stadler12042011}. 
+    As mentioned above, conclusions about when placental mammals diversified tend to be split depending on what kind of data are used: palaeontological data generally suggest that placental mammals diversified post K-Pg \citep[e.g.][]{O'Leary08022013}, whereas neontological data suggest that K-Pg event had little to no effect on mammalian diversification \citep{bininda2007delayed,meredithimpacts2011,Stadler12042011}. 
     Fortunately we can deal with this issue by using all the data available, rather than using just fossils or molecules. 
-    Here we use Total Evidence phylogenies containing cladistic data for both living and fossil taxa along with molecular data for living taxa \citep{eernissetaxonomic1993,ronquista2012}, and state-of-the-art tip-dating \citep{ronquista2012,Wood01032013} to get accurate estimates of diversification times for both fossil and living species.
+    Here we use Total Evidence phylogenies containing cladistic data for both living and fossil taxa along with molecular data for living taxa \citep{eernissetaxonomic1993,ronquista2012}, and using the tip-dating method \citep{ronquista2012,Wood01032013} to get accurate estimates of diversification times for both fossil and living species.
     \item \textbf{Diversity can be defined in different ways.}
     In fact, diversity is a difficult concept to define; in many studies it is measured as taxonomic diversity or species richness \citep{Stadler12042011,meredithimpacts2011,O'Leary08022013}, but often the more interesting aspect of diversity is related to the ecological niche the species occupy \citep{Wesley-Hunt2005,Brusatte12092008,toljagictriassic-jurassic2013} in order to draw hypothesis about the macroevolutionary processes \citep{Pearman2008149,OlsonRadiation,Losos2010,glor2010phylogenetic}.
     In addition, it is important to note that species richness variations can be decoupled from variations in morphological diversity \citep{slaterCetacean,ruta2013,hopkinsdecoupling2013}, so using only species richness may not be the best proxy for ecological diversity.
@@ -237,7 +237,7 @@ We used the first and last occurrences as the temporal span of each taxon in our
 
 \subsection{Estimating ancestral character states}
 For both datasets we estimated the ancestral state of each character at every node in the tree using Maximum Likelihood.
-We used the \texttt{rerootingMethod} function from the R package \texttt{phytools} version 0.4-45 \citep{phytools}.
+We used the \texttt{rerootingMethod} function from the R package \texttt{phytools} version 0.4-45 \citep{phytools,R}.
 This method performs a Maximum Likelihood estimation of the ancestral values and the variance of a Brownian motion process based on the re-rooting method of \citep{Yang01121995}.
 % NC: May need a bit more info here. Also you need to cite garland's original paper here too. TG: Not sure which Garland's paper??
 We followed the method of \cite{Claddis} for treating missing data at the tips as any possible observed state for each character.
@@ -269,8 +269,8 @@ Therefore, we used the \texttt{TrimMorphDistMatrix} function from the \texttt{Cl
 
 \subsubsection{Multidimensional scaling}
 We then transformed the distance matrices using classic multidimensional scaling \citep{torgerson1965multidimensional,GOWER01121966,cailliez1983analytical}.
-This method (similarly refereed as MDS \citep[e.g.][]{DonohueDim}, PCA \citep[e.g.][]{finlay2015morphological} or PCO \citep[e.g.][]{Brusatte2015}) is an eigen linear transformation based of the variance covariance matrix from the distance matrix.
-Because covariance between certain taxa in the distance matrix can be negative, we transformed it using the Cailliez correction \cite{cailliez1983analytical} which multiplies all the covariance values by a constant (e.g. in \citealt{toljagictriassic-jurassic2013}).
+This method (similarly refereed as MDS \citep[e.g.][]{DonohueDim}, PCA \citep[e.g.][]{finlay2015morphological} or PCO \citep[e.g.][]{Brusatte2015}) is an eigen linear transformation based of the covariance matrix from the distance matrix.
+Because covariance between certain taxa in the distance matrix can be negative, we transformed it using the Cailliez correction \citep{cailliez1983analytical} which multiplies all the covariance values by a constant (e.g. in \citealt{toljagictriassic-jurassic2013}).
 This allows to calculate $n$ eigen vector (i.e. the $n$ dimensions of the cladisto-space) where $n$ is equal to $k-2$ (i.e. $k$, the number of taxa in each matrix, \textit{minus} the two last eigen vectors that are null after applying the Cailliez correction).
 Contrary to previous studies \citep{brusatte50,cisneros2010,prentice2011,anderson2012using,Hughes20082013,bentonmodels2014}, we did use all the $n$ dimensions of the cladisto-space and not only a sub-sample of them bearing the majority of the variance (e.g. 90\% of the variance; \citealt{Brusatte12092008,toljagictriassic-jurassic2013}).
 
@@ -303,7 +303,7 @@ Note that we also measured the sum and the products of ranges and variances to c
 
 % transition
 
-\subsection{Time slicing} % NC: I feel like maybe this should be combined with disparity? So explain the general principle, then go back to explain in detail? 
+\subsection{Time slicing}
 Once the cladisto-space is calculated, one can measure the disparity through time as the dispersion of subsets of taxa through time.
 One classical way to study it is to look at which taxa occupies the cladisto-space during some time intervals and the calculate the disparity present during this interval \citep[e.g][]{cisneros2010,prentice2011,Hughes20082013,hopkinsdecoupling2013,bentonmodels2014,bensonfaunal2014}.
 The time intervals are usually defined based on biostratigraphy \citep[e.g.][]{cisneros2010,prentice2011,Hughes20082013,bentonmodels2014} but can also be arbitrary chosen equal time periods \citep{hopkinsdecoupling2013,bensonfaunal2014}.
@@ -365,11 +365,15 @@ For both time interval analysis, we calculated the disparity as the distance fro
 These additional studies are available in the supplementary materials. %link 
 
 
-
+%Not sure about this null model section
 \subsection{Null models testing}
-Finally, we tested the effect of the K-Pg boundary on mammal disparity, by measuring whether the observed changes were significantly different than expected by chance. We rerun the full disparity analysis (minus the ancestral states reconstruction part) on both phylogenies with the same number of edges and the same time slices. However, we replaced the observed character matrices by two times 100 randomly generated ones following two null models. The first null model (repeated 100 times) was a purely stochastic matrix where each cell value was sampled from a discrete uniform distribution with a number of sates equal to the number of states observed in the the original data. For the second null model, we simulated each characters for each edge using the phylogenetic structure using the \texttt{sim.character} function from the \texttt{diversitree R} package \citep{fitzjohndiversitree2012} and the $Mk_n$ \citep{lewisa2001} with an equal transition rate between the number of characters states observed in the original matrix and a unique rate ($\mu$) sampled from a uniform distribution (0 $<$ $\mu$ $\leq$ 0.5). 
-We then measured the amount of overlap between both null models and the observed data using the Bhattacharyya Coefficient \citep{Bhattacharyya} which measures the probability of overlap between two distributions (similarly as a two sided \textit{t-test}; \citep{GuillermeCooper}. We considered the observed data to be non different than random for a Bhattacharyya Coefficient $>$0.95 and on the opposite, we considered a significant difference in disparity than expect by chance when the Bhattacharyya Coefficient was $<$0.05.
-
+Finally, we tested the effect of the K-Pg boundary on mammal disparity, by measuring whether the observed changes were significantly different than expected by chance.
+We reran the full disparity analysis (minus the ancestral states reconstruction part) on both phylogenies with the same number of edges and the same time slices.
+However, we replaced the observed character matrices by randomly generated ones following two null models.
+The first null model (repeated 100 times) was a purely stochastic matrix where each cell value was sampled from a discrete uniform distribution with a number of sates equal to the number of states observed in the the original data.
+For the second null model, we simulated each characters for each edge using the phylogenetic structure using the \texttt{sim.character} function from the \texttt{diversitree R} package \citep{fitzjohndiversitree2012} and the $Mk_n$ \citep{lewisa2001} with an equal transition rate between the number of characters states observed in the original matrix and a unique rate ($\mu$) sampled from a uniform distribution (0 $<$ $\mu$ $\leq$ 0.5). 
+We then measured the amount of overlap between both null models and the observed data using the Bhattacharyya Coefficient \citep{Bhattacharyya} which measures the probability of overlap between two distributions (similarly as a two sided \textit{t-test}; \citep{GuillermeCooper}.
+We considered the observed data to be non different than random for a Bhattacharyya Coefficient $>$0.95 and on the opposite, we considered a significant difference in disparity than expect by chance when the Bhattacharyya Coefficient was $<$0.05.
 % OR actually maybe just go for anova...
 %---------------------------------------------
 %
@@ -408,6 +412,7 @@ We then measured the amount of overlap between both null models and the observed
 %---------------------------------------------
 
 \section{Conclusion}
+%Not much stuff is happening there but we bring improvement to methods.
 
 
 %---------------------------------------------
