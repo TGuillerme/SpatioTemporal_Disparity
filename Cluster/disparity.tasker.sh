@@ -49,8 +49,8 @@ chain_name='${chain}'
 data_path='${path}'
 file_matrix='${matrix}'
 file_tree='${tree}'
-intervals='${intervals}'
-slices='${slices}'
+intervals=as.numeric(strsplit(c(noquote('${intervals}')), split=',')[[1]])
+slices=as.numeric(strsplit(c(noquote('${slices}')), split=',')[[1]])
 FADLAD='${FADLAD}'
 
 #matrix
@@ -58,6 +58,9 @@ Nexus_data<-ReadMorphNexus(file_matrix)
 Nexus_matrix<-Nexus_data\$matrix
 #tree
 Tree_data<-read.nexus(file_tree)
+
+#FAD/LAD
+FADLAD<-read.csv(FADLAD, row.names=1)
 
 ######################################
 #Cleaning the matrices and the trees

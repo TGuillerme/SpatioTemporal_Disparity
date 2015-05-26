@@ -5,7 +5,7 @@ sh Data.setup.sh "Slater2013" "../Data/" "../Data/2013-Slater-MEE-matrix-morpho.
 intervals="170.300,168.300,166.100,163.500,157.300,152.100,145.000,139.800,132.900,129.400,125.000,113.000,100.500,93.900,89.800,86.300,83.600,72.100,66.000,61.600,59.200,56.000,47.800,41.300,38.000,33.900,28.100,23.030,23.030,20.440,15.970,13.820,11.620,7.246,5.333,0.000"
 slices="170,165,160,155,150,145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50,45,40,35,30,25,20,15,10,5,0"
 sh disparity.tasker.sh "Beck2014" "../../Data/" "../../Data/2014-Beck-ProcB-matrix-morpho.nex" "../../Data/2014-Beck-ProcB-TEM.tre" $intervals $slices "../../Data/Beck2014_FADLAD.csv"
-sh disparity.tasker.sh "Slater2013" "../../Data/" "../../Data/2013-Slater-MEE-matrix-morpho.nex" "../../Data/2013-Slater-MEE.tre" $intervals $slices "../../Data/Slater2013_FADLAD.csv"
+sh disparity.tasker.sh "Slater2013" "../../Data/" "../../Data/2013-Slater-MEE-matrix-morpho.nex" "../../Data/2013-Slater-MEE-TEM.tre" $intervals $slices "../../Data/Slater2013_FADLAD.csv"
 
 
 #In null/
