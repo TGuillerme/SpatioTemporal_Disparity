@@ -2,7 +2,7 @@
 #time.disparity
 ##########################
 #Calculates the disparity for interval pco.data and output a interval.disparity table object
-#v0.3.0
+#v0.3.1
 ##########################
 #SYNTAX :
 #<time_pco> time intervals or slices from a pco
@@ -10,7 +10,7 @@
 #<...> disparity arguments (see ?disparity for information)
 ##########################
 #----
-#guillert(at)tcd.ie 14/05/2014
+#guillert(at)tcd.ie 26/05/2014
 ##########################
 
 time.disparity<-function(time_pco, relative=FALSE, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE, rm.last.axis=FALSE, save.all=FALSE) {
@@ -30,8 +30,8 @@ time.disparity<-function(time_pco, relative=FALSE, method=c("centroid", "sum.ran
     }
 
     #Managing bins with only one data point
-    while(any(unlist(lapply(time_pco, nrow)) < 2)) {
-        wrong_intervals<-which(unlist(lapply(time_pco, nrow)) < 2)
+    while(any(unlist(lapply(time_pco, nrow)) < 3)) {
+        wrong_intervals<-which(unlist(lapply(time_pco, nrow)) < 3)
         #Moving the first wrong interval to the next interval in time (unless the wrong interval is the last one)
         if(wrong_intervals[1] != length(time_pco)) {
             host_interval<-wrong_intervals[1]+1

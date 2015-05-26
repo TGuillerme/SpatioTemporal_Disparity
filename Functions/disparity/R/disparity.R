@@ -2,7 +2,7 @@
 #Disparity functions
 ##########################
 #Calculate the disparity as the distance from centroid
-#v0.3.1
+#v0.3.2
 ##########################
 #SYNTAX :
 #<distance> the distance matrix
@@ -15,7 +15,7 @@
 #<save.all> whether to save all the disparity values (TRUE) or just the quantiles (FALSE (default)).
 ##########################
 #----
-#guillert(at)tcd.ie 14/05/2015
+#guillert(at)tcd.ie 26/05/2015
 ##########################
 
 disparity<-function(data, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE, rm.last.axis=FALSE, save.all=FALSE) {
@@ -283,7 +283,7 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
         output<-matrix(nrow=1, data=rep(NA, 1))
         colnames(output)[1]<-"rarefaction"
     } else {
-        output<-matrix(nrow=(nrow(data)-1), data=seq(from=2, to=nrow(data)))
+        output<-matrix(nrow=(nrow(data)-2), data=seq(from=3, to=nrow(data)))
         colnames(output)[1]<-"rarefaction"
     }
     #Volume
