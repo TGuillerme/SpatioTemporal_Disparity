@@ -6,6 +6,7 @@ Bootstrap.rarefaction<-function(data, bootstraps, rarefaction) {
     #Set rarefaction (or not)
     if(rarefaction == TRUE) {
         rarefaction_max<-seq(1:nrow(data))
+        rarefaction_max<-rarefaction_max[-c(1,2)]
     } else {
         rarefaction_max<-nrow(data)
     }
@@ -33,7 +34,7 @@ Bootstrap.rarefaction<-function(data, bootstraps, rarefaction) {
                 #First remove n row if rarefaction is true
                 output<-data[sample(1:nrow(data),rare,FALSE),]
                 #Then randomly chose a row to remove and to replace (different)
-                row.out.in<-sample(1:nrow(data),2,FALSE)
+                row.out.in<-sample(1:nrow(output),2,FALSE)
                 #Finaly replace the selected row out by the selected row in 
                 output[row.out.in[1],]<-output[row.out.in[2],] ; rownames(output)[row.out.in[1]]<-rownames(output)[row.out.in[2]]
                 
