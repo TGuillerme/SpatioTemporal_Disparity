@@ -142,19 +142,7 @@ $^2$Trinity Centre for Biodiversity Research, Trinity College Dublin, Dublin 2, 
 %---------------------------------------------
 
 \section{Introduction}
-
-%-Macroevolution / niches / crisis in biodiversity
-%-Diversity in mammals is known to increase blablabla (Stadler)
-%Cheeky selling line: in the context of the anthropocene extinction event, blabalbal
-%-However, not much is known about the disparity. We think disparity is a more functional measure of biodiversity since it is expected that more disparate species occupies more disparate niches and therefore have a globally more important role in the ecosystems.
-%-We use a novel approach for looking at disparity as the spread of the data in a N dimensional character-space (centroid - Finlay Cooper)
-%-Problem with timing the events (O'Leary vs Meredith). Here we look at disparity on total evidence trees that contain morphological information but are backed-up by molecular data.
-
-% TG: I reworked the whole thing. It seems a bit short to me but I guess that'll need some adjusting/precisions.
-% NC: I think the length is fine. Short = good.
-
-% 1§ mass extinctions = bad. Loss of species (e.g. P/T 95%). But what comes after is more interesting: sp richness can increase, decrease or stay constant. So can sp niche occupancy. But it is not always link (ruta and stuff). Opportuinities, interaction, ecological role etc... A classical example is the rise of mammals
-%Mass extinctions result in catastrophic declines in global biodiversity \citep{RaupPT,BentonPT,rennetime2013,Brusatte2015}. % TG: Maybe find a more catchy sentence.
+% 1§ mass extinctions = bad. Loss of species (e.g. P/T 95%). But what comes after is more interesting
 Throughout history, life on Earth has suffered a series of mass extinction events resulting in drastic declines in global biodiversity \citep[e.g.][]{RaupPT,BentonPT,rennetime2013,Brusatte2015}.
 However, the long-term effects of mass extinctions are more varied \citep{Erwin1998344}, and include increases in species richness in some clades \citep{friedmanexplosive2010}, species richness declines in others \citep{Benton85}, changes in morphological diversity \citep{Ciampaglio2001,Ciampaglio2004,kornextinction2013} and shifts in ecological dominance \citep[e.g.][]{Brusatte12092008,toljagictriassic-jurassic2013,bensonfaunal2014}.
 These shifts are characterized by the decline of one clade that is replaced by a different unrelated clade with a similar ecological role (e.g. Brachiopoda and Bivalvia at the end Permian extinction \citealt{Sepkiski1981,CLAPHAM01102006} but see \citealt{Payne22052014}). 
@@ -169,7 +157,8 @@ Thorough analysis of the fossil record \citep[e.g.][]{goswamia2011,O'Leary080220
 Conversely, evidence from molecular data suggests that the diversification of placental mammals started prior to the K-Pg extinction event without being drastically affected by it \citep{Douady2003285,bininda2007delayed,meredithimpacts2011,Stadler12042011,beckancient2014}. 
 Therefore, whether the diversification of placental mammals began before K-Pg, or in response to the extinctions at K-Pg, is a matter of great debate \citep{O'Leary08022013,Springer09082013,O’Leary09082013}. 
 
-There are three main reasons why there is still debate about the timing of the diversification of placental mammals. In this paper we focus on solving these issues as follows: % NC: Needs a bit more finesse but you get the idea 
+There are three main reasons why there is still debate about the timing of the diversification of placental mammals. In this paper we focus on solving these issues as follows: 
+% NC: Might want to look at making this sentence less clunky!
   \begin{enumerate}
     \item \textbf{Palaeontological and neontological data show different patterns.}
     As mentioned above, conclusions about when placental mammals diversified tend to be split depending on what kind of data are used: palaeontological data generally suggest that placental mammals diversified post K-Pg \citep[e.g.][]{O'Leary08022013}, whereas neontological data suggest that K-Pg event had little to no effect on mammalian diversification \citep{bininda2007delayed,meredithimpacts2011,Stadler12042011}. 
@@ -179,31 +168,24 @@ There are three main reasons why there is still debate about the timing of the d
     Diversity is a difficult concept to define. 
     In many studies it is measured as taxonomic diversity or species richness \citep{Stadler12042011,meredithimpacts2011,O'Leary08022013}, but often the more interesting aspect of diversity is related to the ecological niches the species occupy \citep{Wesley-Hunt2005,Brusatte12092008,toljagictriassic-jurassic2013}, particularly if we want to  make hypotheses about macroevolutionary processes \citep{Pearman2008149,OlsonRadiation,Losos2010,glor2010phylogenetic}.
     Sometimes taxonomic diversity is used as a proxy for other kinds of diversity, however, species richness can be decoupled from morphological diversity \citep{slaterCetacean,ruta2013,hopkinsdecoupling2013}, so taxonomic diversity may not be the best proxy for ecological diversity.
-    In this study we therefore use morphological diversity, also known as disparity \citep[e.g.][]{Wills1994,Hughes20082013},
-    % NC: Maybe have fewer references here? Make it clear why they are here - e.g. this is used in many other studies as their measure of diversity.
-    as a way to quantify changes in mammalian diversity that should relate to the ecology of the species.
+    In this study we therefore use morphological diversity, also known as disparity \citep[e.g.][]{Wills1994,Hughes20082013},as a way to quantify changes in mammalian diversity that should relate to the ecology of the species.
     \item \textbf{Methods are outdated and make inappropriate assumptions.}
-    Many of the methods used to quantify changes in mammalian diversity before and after K-Pg were proposed \textgreater 20 years ago \citep{Foote01071994,Wills1994} and are sometimes used without modifications, even when they violate basic statistical assumptions such as the independence of observations
-% NC: OK it's not variables that need to be independent but data points. TG: are you sure? I thought the error was when measuring the variance of the PC score, it's not actually the representing the total variance of the data since it ignores the covariance part (as if you have two axis A and B, the variance for A = variance(A) + covariance(A,B)/2)
-    \citep[e.g.,][]{brusatte50,Brusatte12092008,cisneros2010,thorneresetting2011,prentice2011,brusattedinosaur2012,toljagictriassic-jurassic2013,ruta2013,bentonmodels2014,bensonfaunal2014}.
-% NC: Need to be a bit more specific here. Do these papers use the methods wrongly? Or just use the old methods? Also need to briefly explain why they break these assumptions.
+    Many of the methods used to quantify changes in mammalian diversity before and after K-Pg 
+    % NC: Actually are these methods used to look at the KPg question? Aren't they general disparity? And oleary etc don't use that at all do they? Rephrase perhaps?
+    were proposed \textgreater 20 years ago \citep{Foote01071994,Wills1994} and are sometimes used without modifications \citep[e.g.,][]{brusatte50,Brusatte12092008,cisneros2010,thorneresetting2011,prentice2011,brusattedinosaur2012,toljagictriassic-jurassic2013,ruta2013,bentonmodels2014,bensonfaunal2014}, even when the statistical assumptions of the methods are violated (see Methods).
     Additionally, previous methods are based on an underlying assumption that changes in disparity occur by punctuated evolution \citep[e.g.][]{Wesley-Hunt2005} which is not always the case \citep{Hunt21042015}.
     Finally, most studies of disparity through time use unequal time units based on biostratigraphy \citep{Brusatte12092008,brusattedinosaur2012,toljagictriassic-jurassic2013}. 
     This can be tautological as biostratigraphy is already based on changes in fossil assemblages and morphology through time.
-    In this study we revise the statistical methods for measuring disparity.
+    Here, we modify statistical methods for measuring disparity.
     We also use a time-slicing method that allows us to study disparity through time in a continuous way or by specifying an evolutionary model (punctuated equilibrium or gradual evolution).
   \end{enumerate}
-% NC: time slicing is already a thing that exists. It is what you are doing. What you've done isn't new, it's just new to paleo types.
-% NC: Generally refer to "constant" as gradual evolution.
 
-Here, we propose an updated approach to test whether mammals diversified before or after K-Pg, using cladistic disparity as our measure of diversity.
-% NC: HANG ON! Are we using morhological disparity actually? Or cladistic disparty? Are they the same? Are you actually using genetic data too? If so that's hardly morpho disparity! Might need to rewrite the section 2 above. TG: nope, cladistic is correct. We use cladistic data only (no genetic data) to measure the changes in disparity.
-We measured the disparity of mammals from two previously published studies \citep{Slater2012MEE,beckancient2014} based on both molecular and morphological data and using the Total Evidence trees dated using the tip-dating method \citep{ronquista2012,Wood01032013}.
-Using a novel ``time-slicing'' approach we provide a fine grain estimation disparity through time and make different assumptions about the evolutionary models underlying morphological character evolution (either gradual or punctuated). 
+Here, we propose an updated approach to test whether mammals diversified before or after K-Pg, using morphological disparity, measured as cladistic disparity (see Methods), as our proxy for diversity.
+We measured the disparity of living and fossil mammals taken from two previously published studies \citep{Slater2012MEE,beckancient2014}. % NC: The details about genes here were what caused my confusion.
+Using a novel time-slicing approach we produce fine-grain estimates of disparity through time under two different models of morphological character evolution (either gradual or punctuated). 
 Finally, to test whether mammals display significant changes in disparity after the K-Pg boundary, we compared the observed changes to two null models assuming purely stochastic or purely Brownian evolution. 
-We found no significant increase in cladistic disparity after the K-Pg event. 
-In fact the disparity of placental mammals increased during the K-Pg event. 
-These results suggest that the shift in dominant terrestrial vertebrate clades in the vertebrate fossil record during the Tertiary (from non-avian dinosaurs to placental mammals) was not due to the K-Pg mass extinction.
+We found no significant increases in mammalian disparity after the K-Pg event; instead the disparity of placental mammals increased during the K-Pg event. 
+These results suggest that the shift in dominant terrestrial vertebrate clades in the fossil record (from non-avian dinosaurs to placental mammals) during the Tertiary was not a direct result of the K-Pg mass extinction.
 
 %---------------------------------------------
 %
@@ -238,9 +220,6 @@ These results suggest that the shift in dominant terrestrial vertebrate clades i
 %\caption{General method outline. The grey section represents the Total Evidence data and tip dated trees from two published studies \citep{Slater2012MEE,beckancient2014}. \textbf{A}: We then estimated the ancestral characters states from the observed morphological matrices from both studies. we then calculated the distance matrix using the Gower distance \citep{Gower71} and performed a ordination of the distance matrix to create the cladisto-space. Finally, we divided the cladisto-space matrix using the Time slicing method to measure the changes in morphological disparity through time. \textbf{B}: we then generated two sets of a hundred simulated "null" matrices under two null models, the random matrix: a fully stochastic matrix; and the $Mk_n$ matrix: a matrix simulated under the $Mk_n$ model. We then applied the same procedure as for \textit{A} (ordinated distance matrix and time slicing) to calculate the disparity through time expected for purely random data and for a constant evolution model. Finally we compared our simulated disparity through time to our observed disparity through time to estimate if mammals displayed a significant increase in disparity after the K-Pg boundary.}
 %\label{fig_method}
 %\end{figure}
-
-
-% TG: warning: the methods are particularly long and painfull I find. However, I've tried to describe each step thoroughly but it might be in to much details even for Evolution. Squiz as much as you want in the supplementaries!
 
 
 \subsection{Cladistic data an phylogenies}
