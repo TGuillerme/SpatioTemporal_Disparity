@@ -88,10 +88,11 @@ Version dated: \today
 
 \bigskip
 
-\noindent {\normalsize \sc Thomas Guillerme$^1$$^,$$^2$$^*$, and Natalie Cooper$^1$$^,$$^2$}\\
+\noindent {\normalsize \sc Thomas Guillerme$^1$$^,$$^2$$^*$, and Natalie Cooper$^1$$^,$$^2$$^,$$^3$}\\
 \noindent {\small \it 
 $^1$School of Natural Sciences, Trinity College Dublin, Dublin 2, Ireland.\\
-$^2$Trinity Centre for Biodiversity Research, Trinity College Dublin, Dublin 2, Ireland.}\\
+$^2$Trinity Centre for Biodiversity Research, Trinity College Dublin, Dublin 2, Ireland.\\
+$^3$Department of Life Sciences, Natural History Museum, Cromwell Road, London, SW7 5BD, UK.}\\
 \end{center}
 \medskip
 \noindent{*\bf Corresponding author.} \textit{Zoology Building, Trinity College Dublin, Dublin 2, Ireland; E-mail: guillert@tcd.ie; Fax: +353 1 6778094; Tel: +353 1 896 2571.}\\
@@ -230,19 +231,21 @@ We chose these two data sets because they have a similar number of taxa and morp
 We used the first and last occurrences reported in \cite{Slater2012MEE} and \cite{beckancient2014} as the temporal range of each taxon in our analysis.
 
 \subsection{Estimating ancestral character states}
-For both datasets we estimated the ancestral state of each character at every node in the tree using Maximum Likelihood.
-We used the \texttt{rerootingMethod} function from the R package \texttt{phytools} version 0.4-45 \citep{phytools,R}.
-This method performs a Maximum Likelihood estimation of the ancestral values and the variance of a Brownian motion process based on the re-rooting method of \citealt{Yang01121995}.
-% NC: May need a bit more info here. Also you need to cite garland's original paper here too. TG: Not sure which Garland's paper??
-We followed the method of \cite{Claddis} for treating missing data at the tips as any possible observed state for each character.
-For example if a character has two observed states across every taxa (0 and 1), we attributed the multi-state ``0\&1" value to the tips with missing data giving an equal probability of being either 0 or 1.
-This allows the ancestral node of a tip with missing data to be still estimated with no assumption other than the fact that the tip has one of the observed states.
+For both datasets we used the re-rooting method \citep{Yang01121995} % NC: Cite Garland and Ives 2000 and maybe felsenstein 2004.
+to get Maximum Likelihood estimates of the ancestral states for each character at every node in the tree, using the \texttt{rerootingMethod} function from the R package \texttt{phytools} version 0.4-45 \citep{phytools,R}.
+Where there was missing character data for a taxon we followed the method of \cite{Claddis} and treated missing data as any possible observed state for each character.
+For example, if a character had two observed states (0 and 1) across all taxa, we attributed the multi-state ``0\&1" value to the taxon with missing data, representing an equal probability of being either 0 or 1.
+This allows the ancestral node of a taxon with missing data to be estimated with no assumptions other than that the taxon has one of the observed character states.
 %We tested the effect of this assumption against another model where each missing character is treated as ``?'' character. In this second model, the missing data (NA) is treated as a new character ``?'' and the state of the character at the node can then be 0, 1 or ``?''. This method is more conservative because it does not make the assumption that the unobserved characters for taxa with missing data is obligatory one of the states observed for that character. However, simulations show that the first method (treating missing data as multi-state characters) leads to less false positive ancestral state reconstruction than the second (treating missing data as ``?'' character). %link to supp % TG: I'm not sure if that's important here. Nobody cares about this I assume and it has not much to do here. Maybe in the thesis?
-We preferred Maximum Likelihood methods to Bayesian methods because both methods have been shown to produce similar results \citep{royer-carenzichoosing2013} but Maximum Likelihood methods are several orders of magnitude faster than Bayesian ones (total analysis time $\sim$@1.2 CPU year). 
-
-In order to remain conservative with the ancestral states reconstruction (especially when a high error is associated to the ancestral state), we only considered the ancestral state reconstruction with a scaled likelihood $\geq$ than 0.95.
-We replaced the value of the ancestral states below this threshold by ``NA".
+% NC: Yeah I'd cut this for now, doesn't even need to go in supp mat. Maybe make a supplementary file just for "in case a reviewer asks for it" stuff. 
+%We preferred Maximum Likelihood methods to Bayesian methods because both methods have been shown to produce similar results \citep{royer-carenzichoosing2013} but Maximum Likelihood methods are several orders of magnitude faster than Bayesian ones (total analysis time $\sim$@1.2 CPU year). 
+% NC: Again I'd leave this out for now, not really relevant and draws attention to the fact you're not using Bayesian
+To % in order to == to !!!
+prevent poor % NC: or imprecise? Make sure I've made the correct justification here.
+ancestral state reconstructions from biasing our results, especially when a lot of error is associated with the reconstruction, we only included ancestral state reconstructions with a scaled Likelihood $\geq$ than 0.95.
+Ancestral state reconstructions with scaled Likelihoods below this threshold were replaced by ``NA''.
 %However, for a matter of comparison, we also provided the results of the analysis without removing the ancestral state reconstruction with low scaled likelihoods intervals ($\leq$ 0.95). % link to supp % TG: I think that's unecessary: 'we reran the analysis with crappier values and got crappier results - no shit!'
+% NC: Yeah again I'd leave this out as you know it makes no difference.
 
 \subsection{Estimating the cladisto-space}
 To explore the variation in mammalian disparity through time (defined here as the variation in morphologies through time), we use a cladisto-space approach \citep{Foote01071994,Foote29111996,Wesley-Hunt2005,Brusatte12092008,Hughes20082013,friedmanexplosive2010,toljagictriassic-jurassic2013}. % TG: or just call it morphospace? I think morphospace is less correct as it is not the morpho/metric/logic-space but an approaximation of it through cladistic space but Hughes et al 2008 and others still call it morphospace...
