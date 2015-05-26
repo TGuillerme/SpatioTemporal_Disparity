@@ -20,6 +20,9 @@ Bootstrap.rarefaction<-function(data, bootstraps, rarefaction) {
     } else {
         no.BS<-FALSE}
 
+    #Set the bootstrap method
+    boot.method="single"
+
     for(rare in rarefaction_max){
         #Bootstraps
         for(BS in 1:bootstraps){ #bootstraps -> bootstraps
@@ -27,18 +30,27 @@ Bootstrap.rarefaction<-function(data, bootstraps, rarefaction) {
             if(no.BS==TRUE) {
                 output<-data[sample(1:nrow(data),rare,FALSE),]
             } else {
-                #full resampling method: for each bootstrap, resample all the rows from the available rows (for n rows, can randomly resample n times the same row).
-                #output<-as.matrix(data[sample(1:nrow(data),rare,TRUE),])
+
+                if(boot.method=="full") {
+                    #full resampling method: for each bootstrap, resample all the rows from the available rows (for n rows, can randomly resample n times the same row).
+                    output<-as.matrix(data[sample(1:nrow(data),rare,TRUE),])
+                }
                 
-                #single resampling method: for each boostrap, select one row and replace it by a randomly chosen left one (for n rows, only one row can be present two times).
-                #First remove n row if rarefaction is true
-                output<-data[sample(1:nrow(data),rare,FALSE),]
-                #Then randomly chose a row to remove and to replace (different)
-                row.out.in<-sample(1:nrow(output),2,FALSE)
-                #Finaly replace the selected row out by the selected row in 
-                output[row.out.in[1],]<-output[row.out.in[2],] ; rownames(output)[row.out.in[1]]<-rownames(output)[row.out.in[2]]
-                
-                #Or use method in between? 10% of resampling?
+                if(boot.method=="single") {
+                    #single resampling method: for each boostrap, select one row and replace it by a randomly chosen left one (for n rows, only one row can be present two times).
+                    #First remove n row if rarefaction is true
+                    output<-data[sample(1:nrow(data),rare,FALSE),]
+                    #Then randomly chose a row to remove and to replace (different)
+                    row.out.in<-sample(1:nrow(output),2,FALSE)
+                    #Finaly replace the selected row out by the selected row in 
+                    output[row.out.in[1],]<-output[row.out.in[2],] ; rownames(output)[row.out.in[1]]<-rownames(output)[row.out.in[2]]
+                }
+
+                if(boot.method=="frac") {
+                    #Or use method in between? 10% of resampling?
+                    stop("Fractional bootstrap under development.\nSee internal function disparity/disparity_fun/Bootstrap.rarefaction.")
+                }
+
             }
             result[BS] <- list(output)
         }
@@ -46,8 +58,9 @@ Bootstrap.rarefaction<-function(data, bootstraps, rarefaction) {
         BSresult[rare]<-list(result)
     }
 
-    #Remove first element if rarefaction
+    #Remove two first element if rarefaction
     if(rarefaction == TRUE) {
+        BSresult[[2]]=NULL
         BSresult[[1]]=NULL
     } else {
         #Removing the n-1 first elements
