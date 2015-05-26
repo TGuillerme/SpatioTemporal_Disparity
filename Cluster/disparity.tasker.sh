@@ -13,10 +13,11 @@
 #<slices> a series of time slices
 #<FADLAD> a csv file with FADLAD data
 #########################
-#version 0.1.1
+#version 0.1.2
 #Update: Faster cleaning part
+#Update: fixed config file
 #----
-#guillert(at)tcd.ie - 18/05/2015
+#guillert(at)tcd.ie - 26/05/2015
 ###########################
 
 #INPUT
@@ -270,8 +271,8 @@ n=0
 for f in R_scripts_${chain}/*.R
 do
     script=$(basename ${f} .R)
-    echo "R --no-save < R_scripts_${chain}/${script}.R" > R_scripts_${chain}/${script}.sh
-    echo "$n sh ${script}.sh" >> R_scripts_${chain}/Rdisparity.config
+    echo "R --no-save < ${script}.R" > R_scripts_${chain}/${script}.sh
+    echo "$n sh ${script}.sh" >> R_scripts_${chain}/Rdisparity${chain}.config
     n=$(( $n + 1 )) 
 done
 
@@ -284,6 +285,6 @@ echo "#!/bin/sh
 srun --multi-prog Rdisparity${chain}.config" > R_scripts_${chain}/Rdisparity${chain}.sh
 
 echo 'Running the R tasks:'
-echo "sbatch R_scripts_${chain}/${chain}.sh"
+echo "sbatch R_scripts_${chain}/Rdisparity${chain}.sh"
 
 
