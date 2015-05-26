@@ -247,48 +247,49 @@ Ancestral state reconstructions with scaled Likelihoods below this threshold wer
 %However, for a matter of comparison, we also provided the results of the analysis without removing the ancestral state reconstruction with low scaled likelihoods intervals ($\leq$ 0.95). % link to supp % TG: I think that's unecessary: 'we reran the analysis with crappier values and got crappier results - no shit!'
 % NC: Yeah again I'd leave this out as you know it makes no difference.
 
-\subsection{Estimating the cladisto-space}
-To explore the variation in mammalian disparity through time (defined here as the variation in morphologies through time), we use a cladisto-space approach \citep{Foote01071994,Foote29111996,Wesley-Hunt2005,Brusatte12092008,Hughes20082013,friedmanexplosive2010,toljagictriassic-jurassic2013}. % TG: or just call it morphospace? I think morphospace is less correct as it is not the morpho/metric/logic-space but an approaximation of it through cladistic space but Hughes et al 2008 and others still call it morphospace...
-This approach is similar to a morphospace based on continuous morphological data \citep[e.g.][]{friedmanexplosive2010,finlay2015morphological}, except the cladisto-space is an approximation of it based on cladistic data (i.e. the discrete morphological characters used to build a phylogenetic tree).
-Mathematically, the cladisto-space is a $n$ dimension object that summarizes the distances between the taxa present in the cladistic matrix (see details below).
-Because of it's inherent combinatory properties, a cladisto-space is a finite theoretical object limited by the product of the number of character states. In fact, a cladisto-space will be overloaded if the number of taxa is higher than the product of the number of character states. Therefore it is straightforward to make sure that the character space does not contain more taxa than it's maximal capacity (maximum 1.9$\times$$10^{181}$ taxa for \cite{Slater2012MEE} and 4.5$\times$$10^{159}$ taxa for \cite{beckancient2014}). % TG: or 1.9$\times$1.8googol and 4.9$\times$1.6googol. Or is that just useless (basically that is to make the point for one of Gavin's comment: "how do you know you haven't too much taxa to fit in the morphospace?")
-Estimating the cladisto-space requires two computationally intuitive % TG: or remove that adjective?
- steps described in detail below: (1) calculating the distance matrix and (2) the ordination of the distance matrix. % TG: note however that Graeme seems to say the ordination part is useless in cladistic data case. I'm not sure if he's right and I didn't did any testing but his argument make sense: ordination is to summarize the data which is useful with continuous data but less with discrete characters. However statistically I'm not sure how the disparity calculation will work since it is traditionally done on the eigen vectors (PC scores) which is just a "scaling" of the values using the covariance matrix. Therefore, if I want to use just the distance matrix, I'm afraid I'll have to find a complex way to add the covariance to the variance without using the eigen values (that make life easier in this case). Also that'll lead to problems with negative covariance (see Cailliez correction below).
+\subsection{Building the cladisto-space} % NC: Not sure if it's estimating, building, constructing etc.! 
+To explore variations in mammalian disparity through time (defined here as the variation in morphologies through time), we use a cladisto-space approach \citep[e.g.][]{Foote01071994,Foote29111996,Wesley-Hunt2005,Brusatte12092008,Hughes20082013,friedmanexplosive2010,toljagictriassic-jurassic2013}. % TG: or just call it morphospace? I think morphospace is less correct as it is not the morpho/metric/logic-space but an approaximation of it through cladistic space but Hughes et al 2008 and others still call it morphospace...
+% NC: I think this is a good chance to make this correct! It isn't a morphospace technically.
+This approach is similar to constructing a morphospace based on continuous morphological data \citep[e.g.][]{friedmanexplosive2010,finlay2015morphological}, except a cladisto-space is an approximation based on cladistic data (i.e. the discrete morphological characters used to build a phylogenetic tree).
+Mathematically, a cladisto-space is an $n$ dimensional object that summarizes the cladistic distances between the taxa present in a cladistic matrix (see details below).
+Note that because of its inherent combinatory properties, a cladisto-space is a finite theoretical object limited by the product of the number of character states. Thus a cladisto-space will be overloaded if the number of taxa is higher than the product of the number of character states, although this is not an issue in our study (our cladisto-spaces have maximal capacities of 1.9$\times$$10^{181}$ taxa; \citealp{Slater2012MEE}, and 4.5$\times$$10^{159}$ taxa; \citealp{beckancient2014}). % TG: or 1.9$\times$1.8googol and 4.9$\times$1.6googol. Or is that just useless (basically that is to make the point for one of Gavin's comment: "how do you know you haven't too much taxa to fit in the morphospace?")
+% NC: what an odd comment. This may be un-necessary but I'd leave it for now as it's quite cool! It'd be something to cut for PRSB
 
-\subsubsection{Distance matrix}
-We first calculate the pairwise distance Euclidean matrix of length $k$ where $k$ is the total amount of taxa in each study.
-%For the rest of the paragraph, I have to version that are just ordered differently. V1 is the problems and then the solution and V2 is the corrections (solutions) because of the problems. 
-%Version 1 - START
-However, calculating the Euclidean distance between two taxa using cladistic data is not straightforward since (1) different pairs of taxa can have different amount of data in common or (2) even none at all \citep{anderson2012using}!
-We therefore used the \cite{Gower71} distance for correcting for different amount of overlapping taxa (1).
-This method divides the observed Euclidean pairwise distance by the number of comparable characters between the pair of taxa.
-However, contrary to other distances such as the Generalised Euclidean Distance (GED; \citealt{Wills2001}), the Gower distance does not allow to calculate distance when taxa have no overlapping data (inapplicable distance) (2).
-In the latter case we used the \texttt{TrimMorphDistMatrix} function from the \texttt{Claddis R} package \citep{Claddis} to remove pairs of taxa that didn't had any cladistic characters in common.
-%Version 1 - END
-%%Version 2 - START
-% We measured the $k$$\times$$k$ distances using the Gower distance \citep{Gower71} that is the Euclidean distance between two taxa divided by the number of comparable characters. 
-% Using the Gower distance therefore allows to correct for distances between two taxa that share many characters and that will be stochastically closer to each other than to taxa that have less characters in common.
-% In the case of cladistic matrices, using this corrected distance is preferable to the raw euclidean distance because of it's ability to deal with discrete or/and ordinated characters as well as with missing data \citep{anderson2012using}.
-% Contrary to other distances such as the Generalised Euclidean Distance (GED; \citealt{Wills2001}), the Gower distance does not allow to calculate distance when taxa have no overlapping data (inapplicable distance).
-%% TG : maybe add a sentence on what the GED does and why we didn't want to use it?
-% Therefore, we used the \texttt{TrimMorphDistMatrix} function from the \texttt{Claddis R} package \citep{Claddis} to remove pairs of taxa that didn't had any cladistic characters in common.
-%%Version 2 - END
-@/@ taxa had overlapping data in \cite{Slater2012MEE} and @/@ in \cite{beckancient2014}.
+%Estimating the cladisto-space requires two computationally intuitive % TG: or remove that adjective?
+ %steps described in detail below: (1) calculating the distance matrix and (2) the ordination of the distance matrix. % TG: note however that Graeme seems to say the ordination part is useless in cladistic data case. I'm not sure if he's right and I didn't did any testing but his argument make sense: ordination is to summarize the data which is useful with continuous data but less with discrete characters. However statistically I'm not sure how the disparity calculation will work since it is traditionally done on the eigen vectors (PC scores) which is just a "scaling" of the values using the covariance matrix. Therefore, if I want to use just the distance matrix, I'm afraid I'll have to find a complex way to add the covariance to the variance without using the eigen values (that make life easier in this case). Also that'll lead to problems with negative covariance (see Cailliez correction below).
+ 
+ % NC: Yeah I agree with Graeme that ordination on discrete characters is a bit nonsensical. What do people normally use in these caases? Or is this an issue because you're using hypervolumes? If it's the latter I guess you need to chat to Andrew because if it's not a standard method in cladisto-spaces you're going to have problems.
+
+%\subsubsection{Distance matrix} % I don't think this needs the subheadings
+% NC: I like version 2, keeps it simpler.
+% NC: Do you have one per study or a joint one? Need to be clearer. I've tried to clarify.
+To estimate the cladisto-spaces for each of our datasets we first constructed pairwise distance matrices of length $k$, where $k$ is the total number of taxa in the dataset. 
+For each dataset separately, we calculated the $k$$\times$$k$ distances using the Gower distance \citep{Gower71}, i.e. the Euclidean distance between two taxa divided by the number of comparable
+% NC: comparable or shared?
+characters. 
+This allows us to correct for distances between two taxa that share many characters and will be stochastically closer % NC: What does that mean exactly???
+to each other than to taxa with fewer characters in common.
+For cladistic matrices, using this corrected distance is preferable to the raw Euclidean distance because of its ability to deal with discrete or/and ordinated characters as well as with missing data \citep{anderson2012using}.
+However, the Gower distance cannot calculate distances when taxa have no overlapping data.
+Therefore, we used the \texttt{TrimMorphDistMatrix} function from the \texttt{Claddis} R package \citep{Claddis} to remove pairs of taxa with no cladistic characters in common.
+This led to our removing @/@ taxa from \cite{Slater2012MEE} and @/@ from \cite{beckancient2014}.
 %We also calculated the Generalised Euclidean Distance (GED) \citep{Wills2001} which replaces inapplicable distances by the mean overall distance and the MORD distance (@Lloyd in prep.@) which scales the euclidean distance similarly to the Gower distance but by dividing the euclidean distance by the maximum overall distance rather than the number of shared characters. The results of theses calculations are available in the supplementaries % TG: or maybe not. Makes the supplementary super long and it's not something new (to use Gower).
+% NC: Yeah leave this out
 
-\subsubsection{Ordination}
-We then transformed the distance matrices using classic multidimensional scaling \citep{torgerson1965multidimensional,GOWER01121966,cailliez1983analytical}.
-This method (similarly refereed as MDS; e.g. in \citealt{DonohueDim}; PCO; e.g. in \citealt{Brusatte2015}; or PCoA; e.g. \citealt{paradisape:2004}) is an eigen decomposition of the distance matrix.
-Because we used the Gower distance instead of the raw Euclidean distances, negative eigenvalues can be calculated.
-To avoid this, we transformed the distance matrix by applying the Cailliez correction \citep{cailliez1983analytical} which multiplies the distance matrix values (appart from the diagonal) by a constant $c^*$ (e.g. as used in \citealt{toljagictriassic-jurassic2013}).
-This allowed to calculate $n$ eigen vector (i.e. the $n$ dimensions of the cladisto-space) where $n$ is equal to $k-1$ (i.e. $k$, the number of taxa in each matrix, \textit{minus} the last eigen vectors that is null after applying the Cailliez correction).
-Contrary to previous studies \citep{brusatte50,cisneros2010,prentice2011,anderson2012using,Hughes20082013,bentonmodels2014}, we did use all the $n$ dimensions of the cladisto-space and not only a sub-sample of them bearing the majority of the variance (e.g. 90\% of the variance; \citealt{Brusatte12092008,toljagictriassic-jurassic2013}).
+%\subsubsection{Ordination}
+After constructing our distance matrices we transformed them using classic multidimensional scaling \citep[MDS;][]{torgerson1965multidimensional,GOWER01121966,cailliez1983analytical}.
+This method (referred to as MDS; e.g. in \citealt{DonohueDim}; PCO; e.g. in \citealt{Brusatte2015}; or PCoA; e.g. \citealt{paradisape:2004}) is an eigen decomposition of the distance matrix.
+Because we used Gower distances instead of raw Euclidean distances, negative eigenvalues can be calculated.
+To avoid this, we first transformed the distance matrix by applying the Cailliez correction \citep{cailliez1983analytical} which multiplies the values in the distance matrix (apart from the diagonal) by a constant $c^*$ (as used in \citealt{toljagictriassic-jurassic2013}), 
+% NC: and where does c* come from?
+We were then able to extract $n$ eigenvectors (representing the $n$ dimensions of the cladisto-space) where $n$ is equal to $k-1$, i.e. the number of taxa in each matrix ($k$) minus the last eigenvector which is always null after applying the Cailliez correction.
+Contrary to previous studies \citep{brusatte50,cisneros2010,prentice2011,anderson2012using,Hughes20082013,bentonmodels2014}, we use all $n$ dimensions of our cladisto-spaces and not a sub-sample representing the majority of the variance 
+% NC: variance in what?
+(e.g. 90\% of the variance; \citealt{Brusatte12092008,toljagictriassic-jurassic2013}).
+Note that our cladisto-spaces represent an ordination of all the possible mammalian morphologies coded in each study, not the cladistic disparity at any point in time. % NC: I don't get what you mean here.
+Therefore, at any point in time, mammalian disparity will be $\leq$ than the total disparity in the cladisto-space. % NC: Need to clarify what you mean here. We probably need to discuss.
 
-Following these two steps, we calculated the cladisto-spaces of both datasets.
-Note that our cladisto-spaces represent an ordination of all the possible mammalian morphologies coded in each studies, not the cladistic disparity at any point in time.
-Therefore, at any point in time, the disparity is expected to be always $\leq$ than the total disparity in the cladisto-space.
-
-\subsection{Disparity}
+\subsection{Estimating disparity}
 As mentioned above, one aspect of diversity can be measured as the variation in morphologies: the morphological disparity \citep[e.g.][]{Wesley-Hunt2005,Brusatte12092008,toljagictriassic-jurassic2013}.
 This can be estimated in many different ways \citep[e.g.][]{Ciampaglio2004,thorneresetting2011,hopkinsdecoupling2013,huang2015origins}, however numerous studies have estimated disparity using four main metrics: the sum and products of ranges and variances which all four gives an slightly different estimate of the multidimensional occupancy of the data within the cladisto-space \citep{Foote01071994,Wills1994,brusatte50,Brusatte12092008,cisneros2010,thorneresetting2011,prentice2011,brusattedinosaur2012,toljagictriassic-jurassic2013,ruta2013,bentonmodels2014,bensonfaunal2014}.
 The sum and products of ranges and variances are based on the ranges and the variances of each eigen vectors calculated from the distance matrix but does not take into account the covariance between the eigen vectors.
