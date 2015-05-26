@@ -136,6 +136,62 @@ It's better!
 \end{table}
 * The 4 sum and product of range and variance
 
+
+\begin{landscape}
+\begin{table}[H]
+\caption{Disparity metrics descriptions from Wills et al 1994}
+\centering
+\begin{tabular}{p{4.5cm}p{2cm}p{1cm}p{10cm}p{6cm}}
+  \hline
+    Type of measurement & Type(II) & $N^o$ & Name & Description \\ %
+  \hline
+  Morphological variety & Volumes   & 1  & Total number of different character states       & Character-State Variability as an Index of Morphological Variety \\
+                        &           & 2  & Product of variances                             & average dissimilarity among forms \\
+                        &           & 3  & Product of ranges                                & overall morphological variation\\
+                        &           & 4  & Hyper-ellipsoid volumes                          & \\
+                        &           & 5  & Sum of variances                                 & \\
+                        &           & 6  & Sum of ranges                                    & \\
+  Distance measures     & Phenetic  & 7  & Mean euclidean distance from group centroid      & \\
+                        &           & 8  & Mean euclidean distance from overall centroid    & \\
+                        &           & 9  & Mean euclidean distance from generalized annelid & \\
+                        &           & 10 & Mean euclidean distance between all taxa         & \\
+                        &           & 11 & Mean Manhattan distance between all taxa         & \\
+                        & Cladistic & 12 & Mean patristic distance from generalized annelid & \\
+                        &           & 13 & Mean patristic distance between all taxa         & \\  
+                        &           & 14 & (b-a)/a                                          & \\                          
+  \hline
+\end{tabular}
+\end{table}
+\end{landscape}
+
+\begin{landscape}
+\begin{table}[H]
+\caption{Disparity metrics definitions from Wills et al 1994}
+\centering
+\begin{tabular}{p{1cm}p{5cm}p{10cm}p{10cm}}
+  \hline
+    $N^o$ & Name & Calculation & Terms \\ %
+  \hline
+  1  & Total number of different character states       & \(\sum_{i=1}^{N}{(S_{i}-1)}\) & $S$ being the number of states manifested by the subset of taxa for each character \\
+  2  & Product of variances                             & \(\prod{n=1}^{N}{var{n}}\) & $n$ being each dimension \\
+  3  & Product of ranges                                & \(\prod{n=1}^{N}{(max{n}-min{n})}\) & $n$ being each dimension \\
+  4  & Hyper-ellipsoid volumes                          & & \\ %Wills p 8
+  5  & Sum of variances                                 & & \\
+  6  & Sum of ranges                                    & & \\
+  7  & Mean euclidean distance from group centroid      & & \\
+  8  & Mean euclidean distance from overall centroid    & & \\
+  9  & Mean euclidean distance from generalized annelid & & \\
+  10 & Mean euclidean distance between all taxa         & & \\
+  11 & Mean Manhattan distance between all taxa         & & \\
+  12 & Mean patristic distance from generalized annelid & & \\
+  13 & Mean patristic distance between all taxa         & & \\  
+  14 & (b-a)/a                                          & & \\                          
+  \hline
+\end{tabular}
+\end{table}
+\end{landscape}
+
+
 \bibliographystyle{vancouver}
 \bibliography{References}
 
