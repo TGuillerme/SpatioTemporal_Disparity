@@ -163,7 +163,7 @@ slices_nodes_div<-pco_slices_nodes_ran[[2]] ; pco_slices_nodes_ran<-pco_slices_n
 echo "
 #slices
 pco_slices_nodes_acc<-slice.pco(pco_data_nodes, tree_nodes, slices, method='acctran', FAD_LAD=FADLAD, verbose=TRUE, diversity=TRUE)
-slices_nodes_div<-pco_slices_nodes_acc[[2]] ; pco_slices_nodes_ran<-pco_slices_nodes_acc[[1]]
+slices_nodes_div<-pco_slices_nodes_acc[[2]] ; pco_slices_nodes_acc<-pco_slices_nodes_acc[[1]]
 " >> R_scripts_${chain}/R_disparity_nodes_sli_acc.R
 
 echo "
@@ -187,8 +187,8 @@ slices_nodes95_div<-pco_slices_nodes95_ran[[2]] ; pco_slices_nodes95_ran<-pco_sl
 echo "
 #slices
 pco_slices_nodes95_acc<-slice.pco(pco_data_nodes95, tree_nodes95, slices, method='acctran', FAD_LAD=FADLAD, verbose=TRUE, diversity=TRUE)
-slices_nodes95_div<-pco_slices_nodes95_acc[[2]] ; pco_slices_nodes95_ran<-pco_slices_nodes95_acc[[1]]
-" >> R_scripts_${chain}/R_disparity_nodes_sli_acc.R
+slices_nodes95_div<-pco_slices_nodes95_acc[[2]] ; pco_slices_nodes95_acc<-pco_slices_nodes95_acc[[1]]
+" >> R_scripts_${chain}/R_disparity_nodes95_sli_acc.R
 
 echo "
 #slices
