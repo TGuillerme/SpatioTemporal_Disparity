@@ -303,9 +303,9 @@ In multidimensional scaling, all $n$ eigenvectors are calculated from the same d
 Unfortunately, including the covariance terms in these measurements
 % NC: Which measurements? Disparity? eigenvectors
 is not straightforward and comes with properties specific to the number of dimensions involved \citep{Jackson,DonohueDim}. % NC: What do you mean it "comes with properties". Be clear.
-One potential solution is to measure the hyper-dimensional volume \citep{Wills1994,DonohueDim} but this volume based on the eigenvalue 
+%One potential solution is to measure the hyper-dimensional volume \citep{Wills1994,DonohueDim} but this volume based on the eigenvalue 
 % NC: eigenvalue or eigenvalues? Of the distance matrix?
-cannot be calculated through time (unless one recalculates the cladisto-space at each time point).
+%cannot be calculated through time (unless one recalculates the cladisto-space at each time point).
 % NC: Why mention all this if you're not going to use hypervolumes?
 Therefore, we chose to use a more intuitive metric for measuring the dispersion of the data in the cladisto-space: the distance from centroid (\citealt{finlay2015morphological}; similar but not equivalent to \citealt{kornextinction2013,huang2015origins}):
 %\begin{equation}
@@ -321,8 +321,6 @@ Where $Edge_{n}$ is any phylogenetic edge value % NC: What's a phylogenetic edge
 present in the subsection of data in the $n^{th}$ dimension of the cladisto-space % NC: What's that?
 and $Centroid_{n}$ is the average value of the $n^{th}$ dimension. % NC: This needs to be explained far more clearly.
 We also estimated the sum and products of ranges and variances to compare our results with previous studies. % link to supp.
-Using this disparity metric, we measured disparity through time as the observed disparity in each subsections of the cladisto-space % NC: What's a subsection here?
-at each point in time. % NC: It's not exactly each point in time is it? Perhaps need some vaguer phrase then refer people to the next section?
 
 \subsection{Time slicing}
 Once the cladisto-space is calculated, one can measure the disparity through time as the dispersion of morphologies in subsets of taxa co-occurring at any point in time.
@@ -447,7 +445,7 @@ For the second null model, we simulated each characters for each edge using the 
 \section{Data availability and reproducibility}
 
 \section{Acknowledgments}
-Graeme Lloyd, Gavin Thomas, Sive Finlay.
+Graeme Lloyd, Andrew Jackson, Gavin Thomas, Sive Finlay.
 %Simulations used the Lonsdale cluster maintained by the Trinity Centre for High Performance Computing and funded through grants from Science Foundation Ireland. %TG: I think they won't in the end
 
 \section{Funding} % NC: Usually this is part of acknowledgments.
