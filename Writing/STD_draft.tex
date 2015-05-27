@@ -260,6 +260,8 @@ Note that because of its inherent combinatory properties, a cladisto-space is a 
  
  % NC: Yeah I agree with Graeme that ordination on discrete characters is a bit nonsensical. What do people normally use in these caases? Or is this an issue because you're using hypervolumes? If it's the latter I guess you need to chat to Andrew because if it's not a standard method in cladisto-spaces you're going to have problems.
 
+ % NC: OK in response to your email, if it's standard then that's grand.
+
 %\subsubsection{Distance matrix} % I don't think this needs the subheadings
 % NC: I like version 2, keeps it simpler.
 % NC: Do you have one per study or a joint one? Need to be clearer. I've tried to clarify.
@@ -277,7 +279,7 @@ This led to our removing @/@ taxa from \cite{Slater2012MEE} and @/@ from \cite{b
 % NC: Yeah leave this out
 
 %\subsubsection{Ordination}
-After constructing our distance matrices we transformed them using classic multidimensional scaling \citep[MDS;][]{torgerson1965multidimensional,GOWER01121966,cailliez1983analytical}.
+After constructing our distance matrices we transformed them using classical multidimensional scaling \citep[MDS;][]{torgerson1965multidimensional,GOWER01121966,cailliez1983analytical}.
 This method (referred to as MDS; e.g. \citealt{DonohueDim}; PCO; e.g. \citealt{Brusatte2015}; or PCoA; e.g. \citealt{paradisape:2004}) is an eigen decomposition of the distance matrix.
 Because we used Gower distances instead of raw Euclidean distances, negative eigenvalues can be calculated.
 To avoid this, we first transformed the distance matrices by applying the Cailliez correction \citep{cailliez1983analytical} which multiplies the values in a distance matrix (apart from the diagonal) by a constant $c^*$ (as used in \citealt{toljagictriassic-jurassic2013}), 
@@ -322,47 +324,50 @@ present in the subsection of data in the $n^{th}$ dimension of the cladisto-spac
 and $Centroid_{n}$ is the average value of the $n^{th}$ dimension. % NC: This needs to be explained far more clearly.
 We also estimated the sum and products of ranges and variances to compare our results with previous studies. % link to supp.
 
-\subsection{Time slicing}
-Once the cladisto-space is calculated, one can measure the disparity through time as the dispersion of morphologies in subsets of taxa co-occurring at any point in time.
-One classical way to study it is to look at which taxa occupies the cladisto-space during some time intervals and calculate the disparity of the taxa present during each interval \citep[e.g][]{cisneros2010,prentice2011,Hughes20082013,hopkinsdecoupling2013,bentonmodels2014,bensonfaunal2014}.
-The time intervals are usually defined based on biostratigraphy \citep[e.g.][]{cisneros2010,prentice2011,Hughes20082013,bentonmodels2014} but can also be arbitrary chosen equal time periods \citep{hopkinsdecoupling2013,bensonfaunal2014}.
-However, this method suffers from two main biases: first (1) the disparity can be distorted towards higher differences between time intervals.
-For example, if biostratigraphy is used to determine the time intervals, it is likely to increase the differences between two strata since they were geologically defined on differences in the morphology of fossils found in the different strata.
-Second (2) the time intervals method assumes that all characters evolve following a punctuated equilibrium model.
-In fact, during one considered interval of time, the disparity is calculated as the morphological diversity during that period of time.
-Then, during the next interval of time, if there is a difference in disparity, it assumes that the morphological diversity changed between the to time intervals.
-However, it can be possible that the morphologies changed also in a continuous way between as well as within the intervals \citep{Hunt21042015}.
+\subsection{Estimating disparity through time} % NC: I've tried to make this section more concise.
+Changes in disparity through time are generally investigated by estimating the disparity of taxa that occupy the cladisto-space during specific time intervals \citep[e.g][]{cisneros2010,prentice2011,Hughes20082013,hopkinsdecoupling2013,bentonmodels2014,bensonfaunal2014}.
+These time intervals are usually defined based on biostratigraphy \citep[e.g.][]{cisneros2010,prentice2011,Hughes20082013,bentonmodels2014} but can also be arbitrarily chosen time periods of equal duration \citep{hopkinsdecoupling2013,bensonfaunal2014}.
+However, this approach suffers from two main biases. 
+First, if biostratigraphy is used to determine the time intervals, disparity may be distorted towards higher differences between time intervals because biostratigraphal periods are geologically defined based on differences in the morphology of fossils found in the different strata.
+Second, the approach assumes that all characters evolve following a punctuated equilibrium model, because disparity is only estimated once for each interval resulting in all changes in disparity occurring between intervals, rather than also allowing for gradual changes within intervals \citep{Hunt21042015}.
 
-To address these issues, we propose a new ``time-slicing'' method that only considers subdivisions of the cladisto-space at specific equidistant points in time (as opposed to the time intervals that considers subdivisions of the cladisto-space between two points in time; see Fig.~\ref{fig_slicing}).
-This methods addresses two of the biases introduced by the time intervals method: first (1) it allows to sample evenly through time and at a finer grain analysis without grouping certain edges together.
-For example, the slice at 0 Mya will contain only the extant taxa instead of an interval defined as the Quaternary (from 2.5 Mya to the present) that will also include some extinct taxa.
-In practice, this method considers the disparity of any element present in the phylogeny (branches, nodes and tips) at any point in time (see Fig.~\ref{fig_slicing}).
-When the phylogenetic elements are edges (nodes or tips), the eigen vector scores for these edges are directly used for calculating disparity.
-However, when the phylogenetic elements are branches it his highly probable, for vertebrate data, that the eigen vector score at any point in time is unknown (i.e. no observed edge).
-We therefore incorporate to the ``time-slicing'' method a way to determine what the eigen vector score along a branch could be: (2) at any specific point in time, we propose two different models to determine whether to consider the data from the ancestor edge or the descendant one.
+To address these issues, we use a ``time-slicing'' approach that considers subsets of taxa in the cladisto-space at specific equidistant points in time, as opposed to considering subsets of taxa between two time points %(see Fig.~\ref{fig_slicing}) NC: I don't think this figure helps as it is at present
+.
+This results in even-sampling of the cladisto-space across time and at a finer grain than using time intervals, and permits us to define the underlying model of character evolution (as punctuated or gradual).  
+In practice, time-slicing considers the disparity of any element present in the phylogeny (branches, nodes and tips) at any point in time %(see Fig.~\ref{fig_slicing}) NC: I don't think this figure helps as it is at present
+.
+When the phylogenetic elements are nodes or tips, the eigenvector scores for the nodes (estimated using ancestral state reconstruction as described above) or tips are directly used for estimating disparity.
+When the phylogenetic elements are branches we inferred the eigenvector score for the branch using one of two evolutionary models:
 \begin{enumerate}
-    \item{Punctuated evolution model:} this model selects either the data from the ancestor or the descendant edge.
-    Similarly to the time interval method, this model reflects punctuated evolution where the changes occur either at the start or at the end of a branch during a really short period \citep{Gould1977}.
-    In practice, we randomly chose the eigen vector scores from the ancestor or the descendant edge each time.
-    However, we also tested the model with the assumption that changes always occurs early on the branch (accelerate transition, ACCTRAN) or are always delayed towards the descendant edge (delayed transition, DELTRAN).
-    The result of both assumption are available in the supplementary material.
-    \item{Constant evolution model:} this models selects either the eigen vector scores from the ancestor or the descendant edge according to the branch length separating the sampling point and the ancestor's edge.
-    If the sampling point along the branch is lower than half the branch length, then the eigen vector scores from the ancestor edge is selected.
-    Else we selected the eigen vector scores from the descendant edge.
-    This model reflects constant evolution where changes rate are constant and cumulative along the branch (i.e. the hypothetical character state at any point in time will likely to be the same to the closest observed state in time - ancestor or descendant edge).
+    \item{\textbf{Punctuated evolution.}} 
+    This model selects the eigenvector score from either the ancestral node or the descendant node/tip of the branch. 
+    Similarly to the time interval approach, this reflects a model of punctuated evolution where changes in disparity occur either at the start or at the end of a branch over a relatively short time period \citep{Gould1977}.
+    We applied this model in three ways: 
+    \begin{enumerate}[(i)]
+      \item selecting the eigenvector score of the ancestral node of the branch; 
+      \item selecting the eigenvector score of the descendant node/tip of the branch; or 
+      \item randomly selecting either the eigenvector score of the ancestral node or the descendant node/tip of the branch.
+    \end{enumerate}
+    Method (i) assumes that changes always occurs early on the branch (accelerated transition, ACCTRAN) and (ii) assumes that changes always occur later (delayed transition, DELTRAN).
+    We prefer not to make either assumption so we report the results from (iii), although the ACCTRAN and DELTRAN results are available in the Supplementary Information. % link
+    \item{\textbf{Gradual evolution.}}
+    This model also selects the eigenvector score from either the ancestral node or the descendant node/tip of the branch, but the choice depends on the distance between the sampling time point and the end of the branch.
+    If the sampling time point falls in the first half of the branch length the eigenvector score is taken from the ancestral node, conversely, if the sampling time point falls in the second half of the branch length the eigenvector score is taken from the descendant node/tip.
+    This reflects a model of gradual evolution where changes in disparity are gradual and cumulative along the branch.
 \end{enumerate}
 
 % TG: not sure if this figure is useful and pretty sure that if it is, it should be improved!
-\begin{figure}[!htbp]
-\centering
-    \includegraphics[keepaspectratio=true]{Figures/Slicing.pdf}
-\caption{Differences in slicing method and intervals. Solid lines represent the First and Last Appearance Datum span. Interval 1 contains the following elements within the global character-space: taxa t2 and t8 and nodes n1, n2, n3, n4 and n5. Interval 2 contains the following elements within the global character-space: taxa t1, t2, t3, t4, t5, t6 and t7 and nodes n6 and n7. Slice 1 contains the following elements within the global character-space under the proximity model (constant evolution assumption): nodes n2 and n4. Slice 2 contains the following elements within the global character-space under the proximity model (constant evolution assumption): taxa t4 and t7.}
-\label{fig_slicing}
-\end{figure}
+%\begin{figure}[!htbp]
+%\centering
+%    \includegraphics[keepaspectratio=true]{Figures/Slicing.pdf}
+%\caption{Differences in slicing method and intervals. Solid lines represent the First and Last Appearance Datum span. Interval 1 contains the following elements within the global character-space: taxa t2 and t8 and nodes n1, n2, n3, n4 and n5. Interval 2 contains the following elements within the global character-space: taxa t1, t2, t3, t4, t5, t6 and t7 and nodes n6 and n7. Slice 1 contains the following elements within the global character-space under the proximity model (constant evolution assumption): nodes n2 and n4. Slice 2 contains the following elements within the global character-space under the proximity model (constant evolution assumption): taxa t4 and t7.}
+%\label{fig_slicing}
+%\end{figure}
+% NC: I don't think this figure helps as it is at present
 
 %What did we do (the main figure)
-We applied this ``time-slicing'' method to the two cladisto-spaces calculated from \cite{Slater2012MEE} and \cite{beckancient2014} slicing the phylogeny every 5 million years from 170 Mya to the present resulting in 35 sub-samples of the cladisto-space.
-For each sub-sample, we calculated the disparity assuming punctuated and constant evolution.
+We applied our time-slicing approach to the two cladisto-spaces calculated from \cite{Slater2012MEE} and \cite{beckancient2014}, time-slicing the phylogeny every five million years from 170 Mya to the present resulting in 35 sub-samples of the cladisto-space.
+For each sub-sample, we estimated its disparity assuming punctuated and gradual evolution.
 We bootstrapped 1000 times each disparity measurement for accounting for uncertainty.
 We then calculated the median disparity value from each sub-sample along with the 50\% and the 95\% confidence intervals.
 Along with disparity, we also reported the taxonomic richness in each sample defined as the log of the number of phylogenetic elements in each sub-samples (i.e. log of the total number of branches, nodes and tips per slice).
