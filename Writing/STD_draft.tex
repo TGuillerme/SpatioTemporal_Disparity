@@ -278,11 +278,11 @@ This led to our removing @/@ taxa from \cite{Slater2012MEE} and @/@ from \cite{b
 
 %\subsubsection{Ordination}
 After constructing our distance matrices we transformed them using classic multidimensional scaling \citep[MDS;][]{torgerson1965multidimensional,GOWER01121966,cailliez1983analytical}.
-This method (referred to as MDS; e.g. in \citealt{DonohueDim}; PCO; e.g. in \citealt{Brusatte2015}; or PCoA; e.g. \citealt{paradisape:2004}) is an eigen decomposition of the distance matrix.
+This method (referred to as MDS; e.g. \citealt{DonohueDim}; PCO; e.g. \citealt{Brusatte2015}; or PCoA; e.g. \citealt{paradisape:2004}) is an eigen decomposition of the distance matrix.
 Because we used Gower distances instead of raw Euclidean distances, negative eigenvalues can be calculated.
-To avoid this, we first transformed the distance matrix by applying the Cailliez correction \citep{cailliez1983analytical} which multiplies the values in the distance matrix (apart from the diagonal) by a constant $c^*$ (as used in \citealt{toljagictriassic-jurassic2013}), 
+To avoid this, we first transformed the distance matrices by applying the Cailliez correction \citep{cailliez1983analytical} which multiplies the values in a distance matrix (apart from the diagonal) by a constant $c^*$ (as used in \citealt{toljagictriassic-jurassic2013}), 
 % NC: and where does c* come from?
-We were then able to extract $n$ eigenvectors (representing the $n$ dimensions of the cladisto-space) where $n$ is equal to $k-1$, i.e. the number of taxa in each matrix ($k$) minus the last eigenvector which is always null after applying the Cailliez correction.
+We were then able to extract $n$ eigenvectors for each matrix (representing the $n$ dimensions of the cladisto-space) where $n$ is equal to $k-1$, i.e. the number of taxa in the matrix ($k$) minus the last eigenvector which is always null after applying the Cailliez correction.
 Contrary to previous studies \citep{brusatte50,cisneros2010,prentice2011,anderson2012using,Hughes20082013,bentonmodels2014}, we use all $n$ dimensions of our cladisto-spaces and not a sub-sample representing the majority of the variance 
 % NC: variance in what?
 (e.g. 90\% of the variance; \citealt{Brusatte12092008,toljagictriassic-jurassic2013}).
@@ -290,26 +290,39 @@ Note that our cladisto-spaces represent an ordination of all the possible mammal
 Therefore, at any point in time, mammalian disparity will be $\leq$ than the total disparity in the cladisto-space. % NC: Need to clarify what you mean here. We probably need to discuss.
 
 \subsection{Estimating disparity}
-As mentioned above, one aspect of diversity can be measured as the variation in morphologies: the morphological disparity \citep[e.g.][]{Wesley-Hunt2005,Brusatte12092008,toljagictriassic-jurassic2013}.
-This can be estimated in many different ways \citep[e.g.][]{Ciampaglio2004,thorneresetting2011,hopkinsdecoupling2013,huang2015origins}, however numerous studies have estimated disparity using four main metrics: the sum and products of ranges and variances which all four gives an slightly different estimate of the multidimensional occupancy of the data within the cladisto-space \citep{Foote01071994,Wills1994,brusatte50,Brusatte12092008,cisneros2010,thorneresetting2011,prentice2011,brusattedinosaur2012,toljagictriassic-jurassic2013,ruta2013,bentonmodels2014,bensonfaunal2014}.
-The sum and products of ranges and variances are based on the ranges and the variances of each eigen vectors calculated from the distance matrix but does not take into account the covariance between the eigen vectors.
-This can only be statistically correct if the eigen vectors are independent.
-In the case of a multidimensional scaling, the eigen vectors are calculated from the same distance matrix and are therefore not independent.
+Disparity can be estimated in many different ways \citep[e.g.][]{Ciampaglio2004,thorneresetting2011,hopkinsdecoupling2013,huang2015origins}, however most studies estimate disparity using four metrics: the sum and products of ranges and variances, each of which gives a slightly different estimate of how the data fits within the cladisto-space \citep{Foote01071994,Wills1994,brusatte50,Brusatte12092008,cisneros2010,thorneresetting2011,prentice2011,brusattedinosaur2012,toljagictriassic-jurassic2013,ruta2013,bentonmodels2014,bensonfaunal2014}.
+The sum and products of ranges and variances are based on the ranges and variances of the eigenvectors calculated from a distance matrix.
+However, these metrics do not take into account the covariance among eigenvectors.
+This is only valid statistically if the eigenvectors are independent.
+In multidimensional scaling, all $n$ eigenvectors are calculated from the same distance matrix and are therefore not independent, thus covariances among eigenvectors should be included when estimating disparity.
 %Also one practical reason to not use the products of ranges or variances, when using the full cladisto-space (i.e. without excluding the last dimensions), is that the disparity values will tend towards 0 since the variance or ranges on the last axis are usually really close to 0. % TG: or maybe that's useless. We're already making the point that's it statistically incorrect. No need to add that it also doesn't work in practice, no?
+% NC: Yes not sure how easy it is to make this point clearly and succinctly so leave it out.
 
-However, including the covariance terms in these measurements is not straightforward and comes with properties specific to the number of dimension \citep{Jackson,DonohueDim}.
-One potential solution is to measure the hyper-dimensional volume \citep{Wills1994,DonohueDim} but this volume based on the eigenvalue cannot be calculated through time (unless one recalculates the cladisto-space for each point in time).
-Therefore, we chose to use a more intuitive metric measuring the dispersion of the data in the caldisto-space: the distance from centroid (\citealt{finlay2015morphological}; similar but not equivalent to \citealt{kornextinction2013,huang2015origins}):
+% NC: Note that this section is KEY! You are going to get grumpy paleo types insisting you use the old methods. Need to really clearly explain WHY you chose not to.
+
+Unfortunately, including the covariance terms in these measurements
+% NC: Which measurements? Disparity? eigenvectors
+is not straightforward and comes with properties specific to the number of dimensions involved \citep{Jackson,DonohueDim}. % NC: What do you mean it "comes with properties". Be clear.
+One potential solution is to measure the hyper-dimensional volume \citep{Wills1994,DonohueDim} but this volume based on the eigenvalue 
+% NC: eigenvalue or eigenvalues? Of the distance matrix?
+cannot be calculated through time (unless one recalculates the cladisto-space at each time point).
+% NC: Why mention all this if you're not going to use hypervolumes?
+Therefore, we chose to use a more intuitive metric for measuring the dispersion of the data in the cladisto-space: the distance from centroid (\citealt{finlay2015morphological}; similar but not equivalent to \citealt{kornextinction2013,huang2015origins}):
 %\begin{equation}
 %Disparity=\frac{\sum{\sqrt{(kn_{i}-Centroid_{n})^2}}}{k}
 %\end{equation}
 %Where $k_{n}$ is any value of eigen vector of the $n^{th}$ dimension of the cladisto-space and $Centroid_{n}$ is the average value of the same $n^{th}$ eigen vector and $k$ is the size of the distance matrix (the total number of taxa).
-\begin{equation}
-Disparity=\frac{\sum{\sqrt{(Edge_{n}-Centroid_{n})^2}}}{Number\ of\ edges}
-\end{equation}
-Where $Edge_{n}$ is any phylogenetic edge value present in the subsection of data in the $n^{th}$ dimension of the cladisto-space and $Centroid_{n}$ is the average value of the $n^{th}$ dimension.
-Note that we also measured the sum and the products of ranges and variances to compare our results with previous studies. % link to supp.
-Using this disparity metric, we measured the disparity through time as the observed disparity in each subsections of the cladisto-space at each point in time.
+
+  \begin{equation}
+    Disparity=\frac{\sum{\sqrt{(Edge_{n}-Centroid_{n})^2}}}{Number\ of\ edges}
+  \end{equation}
+
+Where $Edge_{n}$ is any phylogenetic edge value % NC: What's a phylogenetic edge value?
+present in the subsection of data in the $n^{th}$ dimension of the cladisto-space % NC: What's that?
+and $Centroid_{n}$ is the average value of the $n^{th}$ dimension. % NC: This needs to be explained far more clearly.
+We also estimated the sum and products of ranges and variances to compare our results with previous studies. % link to supp.
+Using this disparity metric, we measured disparity through time as the observed disparity in each subsections of the cladisto-space % NC: What's a subsection here?
+at each point in time. % NC: It's not exactly each point in time is it? Perhaps need some vaguer phrase then refer people to the next section?
 
 \subsection{Time slicing}
 Once the cladisto-space is calculated, one can measure the disparity through time as the dispersion of morphologies in subsets of taxa co-occurring at any point in time.
