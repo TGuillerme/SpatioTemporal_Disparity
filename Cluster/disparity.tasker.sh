@@ -13,11 +13,12 @@
 #<slices> a series of time slices
 #<FADLAD> a csv file with FADLAD data
 #########################
-#version 0.1.2
+#version 0.1.3
 #Update: Faster cleaning part
 #Update: fixed config file
+#Update: fixed error in slices files
 #----
-#guillert(at)tcd.ie - 26/05/2015
+#guillert(at)tcd.ie - 27/05/2015
 ###########################
 
 #INPUT
@@ -163,7 +164,7 @@ echo "
 #slices
 pco_slices_nodes_acc<-slice.pco(pco_data_nodes, tree_nodes, slices, method='acctran', FAD_LAD=FADLAD, verbose=TRUE, diversity=TRUE)
 slices_nodes_div<-pco_slices_nodes_acc[[2]] ; pco_slices_nodes_ran<-pco_slices_nodes_acc[[1]]
-" >> R_scripts_${chain}/R_disparity_tips_sli_acc.tmp
+" >> R_scripts_${chain}/R_disparity_nodes_sli_acc.R
 
 echo "
 #slices
@@ -187,7 +188,7 @@ echo "
 #slices
 pco_slices_nodes95_acc<-slice.pco(pco_data_nodes95, tree_nodes95, slices, method='acctran', FAD_LAD=FADLAD, verbose=TRUE, diversity=TRUE)
 slices_nodes95_div<-pco_slices_nodes95_acc[[2]] ; pco_slices_nodes95_ran<-pco_slices_nodes95_acc[[1]]
-" >> R_scripts_${chain}/R_disparity_tips_sli_acc.tmp
+" >> R_scripts_${chain}/R_disparity_nodes_sli_acc.R
 
 echo "
 #slices
