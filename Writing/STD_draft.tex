@@ -393,15 +393,26 @@ We report the results of these analyses in the Supplementary Materials. % link
 
 %Additionally, in order to make our results comparable with previous studies, we also calculated the sum and products of ranges and variances \citep{Foote01071994,Wills1994} on the sub-samples of the cladisto-space. % NC: You've already mentioned this above - leave it out.
 
-\subsection{Null models testing}
-Finally, we tested the effect of the K-Pg boundary on mammal disparity, by measuring whether the observed changes were significantly different than expected by chance.
-We reran the full disparity analysis ($minus$ the ancestral states reconstruction part) on both phylogenies with the same number of edges and the same time slices.
-However, we replaced the observed character matrices by randomly generated ones following two null models.
-The first null model (repeated 100 times) was a purely stochastic matrix where each cell value was sampled from a discrete uniform distribution with a number of sates equal to the number of states observed in the the original data.
-For the second null model, we simulated each characters for each edge using the phylogenetic structure using the \texttt{sim.character} function from the \texttt{diversitree R} package \citep{fitzjohndiversitree2012} and the $Mk_n$ \citep{lewisa2001} with an equal transition rate between the number of characters states observed in the original matrix and a unique rate ($\mu$) sampled from a uniform distribution (0 $<$ $\mu$ $\leq$ 0.5). 
-% We then measured the amount of overlap between both null models and the observed data using the Bhattacharyya Coefficient \citep{Bhattacharyya} which measures the probability of overlap between two distributions (similarly as a two sided \textit{t-test}; \citep{GuillermeCooper}.
-% We considered the observed data to be non different than random for a Bhattacharyya Coefficient $>$0.95 and on the opposite, we considered a significant difference in disparity than expect by chance when the Bhattacharyya Coefficient was $<$0.05.
+\subsection{Testing the effect of the K-Pg boundary on mammalian disparity} % NC: or similar, something more descriptive than "null model testing" anyway.
+Once we had estimated disparity through time for each of our cladisto-spaces we used null models to test whether our observed changes in mammalian disparity at the K-Pg boundary were significantly greater than expected by chance.
+We generated random character matrices under two null models as follows.
+  \begin{enumerate}
+    \item Random. We constructed a purely stochastic character matrix where each cell value was sampled from a discrete uniform distribution with a number of states equal to the number of states observed % NC: for that cell? overall? average?
+    in the original data. We repeated this 100 times to get 100 random character matrices.
+    \item Brownian. % NC: You refer to this as brownian earlier but it's not really is it... Can't work out what the word would be but we can look it up!
+    We simulated each character for each node or tip using the \texttt{sim.character} function from the \texttt{diversitree} R package \citep{fitzjohndiversitree2012} under the $Mk_n$ model \citep{lewisa2001} with an equal transition rate between the number of characters states observed in the original matrix and a unique rate ($\mu$) sampled from a uniform distribution (0 $<$ $\mu$ $\leq$ 0.5). % NC: Maybe be a bit clearer about what the parameters are here
+    We repeated this 100 times to get 100 random null character matrices. % NC: I'm guessing you repeated this?
+  \end{enumerate}
+We reran our disparity analyses (minus the ancestral states reconstructions as this would be nonsensical with simulated data) for each of our randomly generated character matrices following the same steps as described above. % NC: I can't decide if this is clear but I think it is clear that you did it the exact same way and for both phylogenies.
+
+We then measured the amount of overlap between both null models
+% NC: What exactly are you measuring? disparity through time? disparity at kpg?
+and the observed data using the Bhattacharyya Coefficient \citep{Bhattacharyya} which measures the probability of overlap between two distributions. 
+This is similar to a two-sided \textit{t-test} but captures differences across the whole distributions not just the means. % NC: I don't think we can cite ourselves here!
+Bhattacharyya Coefficients \textgreater 0.95 suggest that the observed disparity values are no different than expected under the null model, whereas Bhattacharyya Coefficients \textless 0.05 suggest that there is a significant difference between observed disparity values and the null.
 % OR actually maybe just go for anova... The problem is again that for our null data we have the full bootstrapped distribution (1000000 data points) to compare to the observed bootstrapped distribution (1000 points). Frequentist test will be a bit shitty (anyway because of the huge difference between the two distributions (observed and null) the results will be significant even if I only sample 10 data points in each distributions...). Maybe just add both? t-test + Bhattacharrya?
+
+% NC: Agreed, ANOVA and t tests are going to give a sig difference, but could include them anyway. But worth thinking about WHAT is the test you are doing here? You're actually with bhattacharrya looking at the whole distribution. So you're asking, is there a difference in how diversity changes through time in null and non null. Really the question is "is there a difference at KPg". so perhaps you need to pool data or something? We can discuss.
 %---------------------------------------------
 %
 %       RESULTS
