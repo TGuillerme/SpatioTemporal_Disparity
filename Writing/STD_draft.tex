@@ -173,7 +173,7 @@ There are three main reasons why there is still debate about the timing of the d
     \item \textbf{Methods are outdated and make inappropriate assumptions.}
     Many of the methods used to quantify changes in mammalian diversity before and after K-Pg 
     % NC: Actually are these methods used to look at the KPg question? Aren't they general disparity? And oleary etc don't use that at all do they? Rephrase perhaps?
-    were proposed \textgreater 20 years ago \citep{Foote01071994,Wills1994} and are sometimes used without modifications \citep[e.g.,][]{brusatte50,Brusatte12092008,cisneros2010,thorneresetting2011,prentice2011,brusattedinosaur2012,toljagictriassic-jurassic2013,ruta2013,bentonmodels2014,bensonfaunal2014}, even when the statistical assumptions of the methods are violated (see Methods).
+    were proposed $\textgreater$ 20 years ago \citep{Foote01071994,Wills1994} and are sometimes used without modifications \citep[e.g.,][]{brusatte50,Brusatte12092008,cisneros2010,thorneresetting2011,prentice2011,brusattedinosaur2012,toljagictriassic-jurassic2013,ruta2013,bentonmodels2014,bensonfaunal2014}, even when the statistical assumptions of the methods are violated (see Methods).
     Additionally, previous methods are based on an underlying assumption that changes in disparity occur by punctuated evolution \citep[e.g.][]{Wesley-Hunt2005} which is not always the case \citep{Hunt21042015}.
     Finally, most studies of disparity through time use unequal time units based on biostratigraphy \citep{Brusatte12092008,brusattedinosaur2012,toljagictriassic-jurassic2013}. 
     This can be tautological as biostratigraphy is already based on changes in fossil assemblages and morphology through time.
@@ -196,33 +196,6 @@ These results suggest that the shift in dominant terrestrial vertebrate clades i
 
 \section{Methods}
 
-%To put somewhere:
-%Methodological improvements
-%Distance matrix: we use Graeme's MORD that more accurately reflects distances between taxa - Actually just Gower from now since Graeme's paper's not out for a while
-%Disparity: we use the centroid distance that is a clear and easily-interpretable method that is less dependent from diversity (see supplementaries)
-%Time: we use Total Evidence Tip dated trees that are more accurate because they use probabilistic methods to estimate morphological phylogenetic distance (Wright) and provide more accurate ages of diversification events (Ronquist).
-%Disparity through time: Finally, we use a *novel method* (to our knowledge) to look at the diversity through time. Instead of calculating the disparity of all species present in a time interval (e.g. Butler and Brusatte), we calculate disparity at a set of arbitrary and equidistant points in time. This new method provides a finer grain resolution of the evolution of diversity through time as well as two well defined models of character evolution (pucntuated - random, acctran, deltran - and continuous - proximity) contrary to the time interval method that assumes only punctuated as a evolutionary model for morphological characters and can be biased towards biostratigraphy.
-
-
-% NC: I'm not sure that this is necessary for this paper. It's much more linear that the previous one. You could save for the supp mat or your thesis 
-%To test whether mammals display a significant change in disparity after the K-Pg boundary we use the following protocol (note that each step is explained in detail below this section; Fig.~\ref{fig_method}.
-%\begin{enumerate}
-%\item{Data: we used the cladistic morphological matrices and the Total Evidence tip-dated trees published in \citep{Slater2012MEE} and \citep{beckancient2014}.} \\
-%\item{Estimating ancestral character states: we used the \citep{Yang01121995} re-rooting method to estimate the states of each characters in the cladistic morphological matrices at each node and created the reconstructed morphological matrix containing observed morphological characters data for tips in the tree and estimated morphological characters states for nodes.}\\
-%\item{Calculating the cladisto-space: using the reconstructed morphological matrix we defined the cladisto-space by using a principal components ordination of the Gower distance matrix \citep{Gower71} representing the $n$ finite dimensional space that encompasses the total cladistic morphological variation of the taxa present in the analysis.} \\
-%\item{Time slicing: we then separated the cladisto-space into subdivisions containing only the edges (nodes or/and tips) present every 5 million years from present (hereafter called "time-slices").} \\
-%\item{Disparity through time: we then calculate the phylogenetic diversity as the number of edges present at each time-slice as well as the cladistic morphological disparity defined as the spread of the edges in the cladisto-space at each time-slice (distance from cladisto-space centroid \citep{finlay2015morphological}.} \\
-%\item{Null model testing: finally, we compared the observed disparity to the expected disparity under two different null models: (1) the first one being a completely stochastic model where disparity is random at each point in time.; and (2) the second one being a $Mk_n$ model (as a proxy for Brownian evolution) where disparity increase is constant through time.} \\
-%\end{enumerate}
-
-%\begin{figure}[!htbp]
-%\centering
-%    \includegraphics[keepaspectratio=true]{Figures/MEthod_outline.pdf}
-%\caption{General method outline. The grey section represents the Total Evidence data and tip dated trees from two published studies \citep{Slater2012MEE,beckancient2014}. \textbf{A}: We then estimated the ancestral characters states from the observed morphological matrices from both studies. we then calculated the distance matrix using the Gower distance \citep{Gower71} and performed a ordination of the distance matrix to create the cladisto-space. Finally, we divided the cladisto-space matrix using the Time slicing method to measure the changes in morphological disparity through time. \textbf{B}: we then generated two sets of a hundred simulated "null" matrices under two null models, the random matrix: a fully stochastic matrix; and the $Mk_n$ matrix: a matrix simulated under the $Mk_n$ model. We then applied the same procedure as for \textit{A} (ordinated distance matrix and time slicing) to calculate the disparity through time expected for purely random data and for a constant evolution model. Finally we compared our simulated disparity through time to our observed disparity through time to estimate if mammals displayed a significant increase in disparity after the K-Pg boundary.}
-%\label{fig_method}
-%\end{figure}
-
-
 \subsection{Cladistic data and phylogenies}
 We used the cladistic morphological matrices and the Total Evidence tip-dated trees \citep{ronquista2012} from \citet[][103 taxa and 446 morphological characters]{Slater2012MEE} and \citet[][102 taxa and 421 morphological characters]{beckancient2014}.
 We chose these two data sets because they have a similar number of taxa and morphological characters.
@@ -231,116 +204,98 @@ We chose these two data sets because they have a similar number of taxa and morp
 We used the first and last occurrences reported in \cite{Slater2012MEE} and \cite{beckancient2014} as the temporal range of each taxon in our analysis.
 
 \subsection{Estimating ancestral character states}
-For both datasets we used the re-rooting method \citep{Yang01121995} % NC: Cite Garland and Ives 2000 and maybe felsenstein 2004.
-to get Maximum Likelihood estimates of the ancestral states for each character at every node in the tree, using the \texttt{rerootingMethod} function from the R package \texttt{phytools} version 0.4-45 \citep{phytools,R}.
-Where there was missing character data for a taxon we followed the method of \cite{Claddis} and treated missing data as any possible observed state for each character.
+For both datasets we used the re-rooting method \citep{Yang01121995,Garland2000} to get Maximum Likelihood estimates of the ancestral states for each character at every node in the tree, using the \texttt{rerootingMethod} function from the R package \texttt{phytools} version 0.4-45 \citep{phytools,R}.
+Where there was missing character data for a taxon we followed the method of \cite{Claddis} and treated  missing data as any possible observed state for each character.
 For example, if a character had two observed states (0 and 1) across all taxa, we attributed the multi-state ``0\&1" value to the taxon with missing data, representing an equal probability of being either 0 or 1.
 This allows the ancestral node of a taxon with missing data to be estimated with no assumptions other than that the taxon has one of the observed character states.
-%We tested the effect of this assumption against another model where each missing character is treated as ``?'' character. In this second model, the missing data (NA) is treated as a new character ``?'' and the state of the character at the node can then be 0, 1 or ``?''. This method is more conservative because it does not make the assumption that the unobserved characters for taxa with missing data is obligatory one of the states observed for that character. However, simulations show that the first method (treating missing data as multi-state characters) leads to less false positive ancestral state reconstruction than the second (treating missing data as ``?'' character). %link to supp % TG: I'm not sure if that's important here. Nobody cares about this I assume and it has not much to do here. Maybe in the thesis?
-% NC: Yeah I'd cut this for now, doesn't even need to go in supp mat. Maybe make a supplementary file just for "in case a reviewer asks for it" stuff. 
-%We preferred Maximum Likelihood methods to Bayesian methods because both methods have been shown to produce similar results \citep{royer-carenzichoosing2013} but Maximum Likelihood methods are several orders of magnitude faster than Bayesian ones (total analysis time $\sim$@1.2 CPU year). 
-% NC: Again I'd leave this out for now, not really relevant and draws attention to the fact you're not using Bayesian
-To % in order to == to !!!
-prevent poor % NC: or imprecise? Make sure I've made the correct justification here.
-ancestral state reconstructions from biasing our results, especially when a lot of error is associated with the reconstruction, we only included ancestral state reconstructions with a scaled Likelihood $\geq$ than 0.95.
+To prevent poor ancestral state reconstructions from biasing our results, especially when a lot of error is associated with the reconstruction, we only included ancestral state reconstructions with a scaled Likelihood $\geq$ than 0.95.
 Ancestral state reconstructions with scaled Likelihoods below this threshold were replaced by ``NA''.
-%However, for a matter of comparison, we also provided the results of the analysis without removing the ancestral state reconstruction with low scaled likelihoods intervals ($\leq$ 0.95). % link to supp % TG: I think that's unecessary: 'we reran the analysis with crappier values and got crappier results - no shit!'
-% NC: Yeah again I'd leave this out as you know it makes no difference.
 
-\subsection{Building the cladisto-space} % NC: Not sure if it's estimating, building, constructing etc.! 
-To explore variations in mammalian disparity through time (defined here as the variation in morphologies through time), we use a cladisto-space approach \citep[e.g.][]{Foote01071994,Foote29111996,Wesley-Hunt2005,Brusatte12092008,Hughes20082013,friedmanexplosive2010,toljagictriassic-jurassic2013}. % TG: or just call it morphospace? I think morphospace is less correct as it is not the morpho/metric/logic-space but an approaximation of it through cladistic space but Hughes et al 2008 and others still call it morphospace...
-% NC: I think this is a good chance to make this correct! It isn't a morphospace technically.
-This approach is similar to constructing a morphospace based on continuous morphological data \citep[e.g.][]{friedmanexplosive2010,finlay2015morphological}, except a cladisto-space is an approximation based on cladistic data (i.e. the discrete morphological characters used to build a phylogenetic tree).
+\subsection{Building the cladisto-space} % NC: Not sure if it's estimating, building, constructing etc.! TG: building or constructing seems fine. There is no estimation in there. My rule of thumb (I don't know if it's right) is that when there is no randomness involved (like a random seed) and that you get the same result if you repeat the operation x amount of time it's calculating/constructing/building. In the other case it's infering/estimating. Does that make sense english-wise?
+To explore variations in mammalian disparity through time (defined here as the variation in morphologies through time), we use a cladisto-space approach \citep[e.g.][]{Foote01071994,Foote29111996,Wesley-Hunt2005,Brusatte12092008,Hughes20082013,friedmanexplosive2010,toljagictriassic-jurassic2013}.
+This approach is similar to constructing a morphospace based on continuous morphological data \citep[e.g.][]{friedmanexplosive2010}, except a cladisto-space is an approximation based on cladistic data (i.e. the discrete morphological characters used to build a phylogenetic tree).
 Mathematically, a cladisto-space is an $n$ dimensional object that summarizes the cladistic distances between the taxa present in a cladistic matrix (see details below).
-Note that because of its inherent combinatory properties, a cladisto-space is a finite theoretical object limited by the product of the number of character states. Thus a cladisto-space will be overloaded if the number of taxa is higher than the product of the number of character states, although this is not an issue in our study (our cladisto-spaces have maximal capacities of 1.9$\times$$10^{181}$ taxa; \citealp{Slater2012MEE}, and 4.5$\times$$10^{159}$ taxa; \citealp{beckancient2014}). % TG: or 1.9$\times$1.8googol and 4.9$\times$1.6googol. Or is that just useless (basically that is to make the point for one of Gavin's comment: "how do you know you haven't too much taxa to fit in the morphospace?")
-% NC: what an odd comment. This may be un-necessary but I'd leave it for now as it's quite cool! It'd be something to cut for PRSB
+Note that because of its inherent combinatory properties, a cladisto-space is a finite theoretical object limited by the product of the number of character states. Thus a cladisto-space will be overloaded if the number of taxa is higher than the product of the number of character states, although this is not an issue in our study (our cladisto-spaces have maximal capacities of $1.9$$\times$$10^{181}$ taxa; \citealp{Slater2012MEE}, and $4.5$$\times$$10^{159}$ taxa; \citealp{beckancient2014}).  
 
-%Estimating the cladisto-space requires two computationally intuitive % TG: or remove that adjective?
- %steps described in detail below: (1) calculating the distance matrix and (2) the ordination of the distance matrix. % TG: note however that Graeme seems to say the ordination part is useless in cladistic data case. I'm not sure if he's right and I didn't did any testing but his argument make sense: ordination is to summarize the data which is useful with continuous data but less with discrete characters. However statistically I'm not sure how the disparity calculation will work since it is traditionally done on the eigen vectors (PC scores) which is just a "scaling" of the values using the covariance matrix. Therefore, if I want to use just the distance matrix, I'm afraid I'll have to find a complex way to add the covariance to the variance without using the eigen values (that make life easier in this case). Also that'll lead to problems with negative covariance (see Cailliez correction below).
- 
- % NC: Yeah I agree with Graeme that ordination on discrete characters is a bit nonsensical. What do people normally use in these caases? Or is this an issue because you're using hypervolumes? If it's the latter I guess you need to chat to Andrew because if it's not a standard method in cladisto-spaces you're going to have problems.
-
- % NC: OK in response to your email, if it's standard then that's grand.
-
-%\subsubsection{Distance matrix} % I don't think this needs the subheadings
-% NC: I like version 2, keeps it simpler.
-% NC: Do you have one per study or a joint one? Need to be clearer. I've tried to clarify.
 To estimate the cladisto-spaces for each of our datasets we first constructed pairwise distance matrices of length $k$, where $k$ is the total number of taxa in the dataset. 
-For each dataset separately, we calculated the $k$$\times$$k$ distances using the Gower distance \citep{Gower71}, i.e. the Euclidean distance between two taxa divided by the number of comparable
-% NC: comparable or shared?
-characters. 
-This allows us to correct for distances between two taxa that share many characters and will be stochastically closer % NC: What does that mean exactly???
-to each other than to taxa with fewer characters in common.
+For each dataset separately, we calculated the $k$$\times$$k$ distances using the Gower distance \citep{Gower71}, i.e. the Euclidean distance between two taxa divided by the number of shared characters. 
+This allows us to correct for distances between two taxa that share many characters and could be closer to each other than to taxa with fewer characters in common (i.e. because some pairs of taxa share more characters in common than others, they are more likely to be similar).
 For cladistic matrices, using this corrected distance is preferable to the raw Euclidean distance because of its ability to deal with discrete or/and ordinated characters as well as with missing data \citep{anderson2012using}.
 However, the Gower distance cannot calculate distances when taxa have no overlapping data.
 Therefore, we used the \texttt{TrimMorphDistMatrix} function from the \texttt{Claddis} R package \citep{Claddis} to remove pairs of taxa with no cladistic characters in common.
 This led to our removing @/@ taxa from \cite{Slater2012MEE} and @/@ from \cite{beckancient2014}.
-%We also calculated the Generalised Euclidean Distance (GED) \citep{Wills2001} which replaces inapplicable distances by the mean overall distance and the MORD distance (@Lloyd in prep.@) which scales the euclidean distance similarly to the Gower distance but by dividing the euclidean distance by the maximum overall distance rather than the number of shared characters. The results of theses calculations are available in the supplementaries % TG: or maybe not. Makes the supplementary super long and it's not something new (to use Gower).
-% NC: Yeah leave this out
 
 %\subsubsection{Ordination}
 After constructing our distance matrices we transformed them using classical multidimensional scaling \citep[MDS;][]{torgerson1965multidimensional,GOWER01121966,cailliez1983analytical}.
 This method (referred to as MDS; e.g. \citealt{DonohueDim}; PCO; e.g. \citealt{Brusatte2015}; or PCoA; e.g. \citealt{paradisape:2004}) is an eigen decomposition of the distance matrix.
 Because we used Gower distances instead of raw Euclidean distances, negative eigenvalues can be calculated.
-To avoid this, we first transformed the distance matrices by applying the Cailliez correction \citep{cailliez1983analytical} which multiplies the values in a distance matrix (apart from the diagonal) by a constant $c^*$ (as used in \citealt{toljagictriassic-jurassic2013}), 
-% NC: and where does c* come from?
+To avoid this, we first transformed the distance matrices by applying the Cailliez correction (\citealt{cailliez1983analytical}; as used in \citealt{toljagictriassic-jurassic2013}) which adds a constant $c^*$ to the values in a distance matrix (apart from the diagonal) such as all the Gower distances become Euclidean ($d_{Gower}+c^*=d_{Eucldiean}$; \citealt{cailliez1983analytical}). 
+% NC: and where does c* come from? TG: don't know if it's worth detailing a lot. Basically it's the standard way to get rid of negative eigen values if people actually do bother doing it (out of the back of my head, only Toljagic actually mentioned it, but never describes nor justify why using cailliez correction). Basically, some people (Torgeson1965) proposes that an MDS must be an eigen decomposition from euclidean distances. When using Gower, we don't have euclidean distances anymore and the way to solve that is to add this constant c* that is computed to solve the equation d_{Gower}+c^* = d_{Euclidean}. Regarding the rant, it should be a standard procedure but I don't know if everybody does it but if they do, only really few mention it.
 We were then able to extract $n$ eigenvectors for each matrix (representing the $n$ dimensions of the cladisto-space) where $n$ is equal to $k-1$, i.e. the number of taxa in the matrix ($k$) minus the last eigenvector which is always null after applying the Cailliez correction.
-Contrary to previous studies \citep{brusatte50,cisneros2010,prentice2011,anderson2012using,Hughes20082013,bentonmodels2014}, we use all $n$ dimensions of our cladisto-spaces and not a sub-sample representing the majority of the variance 
-% NC: variance in what?
-(e.g. 90\% of the variance; \citealt{Brusatte12092008,toljagictriassic-jurassic2013}).
-Note that our cladisto-spaces represent an ordination of all the possible mammalian morphologies coded in each study, not the cladistic disparity at any point in time. % NC: I don't get what you mean here.
-Therefore, at any point in time, mammalian disparity will be $\leq$ than the total disparity in the cladisto-space. % NC: Need to clarify what you mean here. We probably need to discuss.
+Contrary to previous studies \citep[e.g][]{brusatte50,cisneros2010,prentice2011,anderson2012using,Hughes20082013,bentonmodels2014}, we use all $n$ dimensions of our cladisto-spaces and not a sub-sample representing the majority of the variance in the distance matrix (e.g. selecting only $m$ dimensions that represent up to 90\% of the variance of the distance matrix; \citealt{Brusatte12092008,toljagictriassic-jurassic2013}).
+Note that our cladisto-spaces represent an ordination (i.e. eigen decomposition) of all the possible mammalian morphologies coded in each study through time, regardless if these morphologies can actually been observed co-occurring or not at any specific point in time.
+Therefore, if one calculates the disparity of the whole cladisto-space, it is expected to be $\geq$ that the calculated disparity at any specific point in time.
+% NC: I don't get what you mean here.
+% NC: Need to clarify what you mean here. We probably need to discuss. TG: modified a bit but yes, let's chat.
 
-\subsection{Estimating disparity}
-Disparity can be estimated in many different ways \citep[e.g.][]{Ciampaglio2004,thorneresetting2011,hopkinsdecoupling2013,huang2015origins}, however most studies estimate disparity using four metrics: the sum and products of ranges and variances, each of which gives a slightly different estimate of how the data fits within the cladisto-space \citep{Foote01071994,Wills1994,brusatte50,Brusatte12092008,cisneros2010,thorneresetting2011,prentice2011,brusattedinosaur2012,toljagictriassic-jurassic2013,ruta2013,bentonmodels2014,bensonfaunal2014}.
-The sum and products of ranges and variances are based on the ranges and variances of the eigenvectors calculated from a distance matrix.
+\subsection{Calculating disparity}
+Disparity can be estimated in many different ways \citep[e.g.][]{Wills1994,Ciampaglio2004,thorneresetting2011,hopkinsdecoupling2013,huang2015origins}, however most studies estimate disparity using four metrics: the sum and products of ranges and variances, each of which gives a slightly different estimate of how the data fits within the cladisto-space \citep{Foote01071994,Wills1994,brusatte50,Brusatte12092008,cisneros2010,thorneresetting2011,prentice2011,brusattedinosaur2012,toljagictriassic-jurassic2013,ruta2013,bentonmodels2014,bensonfaunal2014}.
+The sum and products of ranges and variances are based on the ranges and variances of the eigenvectors calculated from a distance matrix. % TG: is it true also with the sum/prod of ranges? Are the ranges not independent?
 However, these metrics do not take into account the covariance among eigenvectors.
 This is only valid statistically if the eigenvectors are independent.
 In multidimensional scaling, all $n$ eigenvectors are calculated from the same distance matrix and are therefore not independent, thus covariances among eigenvectors should be included when estimating disparity.
-%Also one practical reason to not use the products of ranges or variances, when using the full cladisto-space (i.e. without excluding the last dimensions), is that the disparity values will tend towards 0 since the variance or ranges on the last axis are usually really close to 0. % TG: or maybe that's useless. We're already making the point that's it statistically incorrect. No need to add that it also doesn't work in practice, no?
-% NC: Yes not sure how easy it is to make this point clearly and succinctly so leave it out.
+For example, the eigen decomposition of a distance matrix between three taxa ($k=3$) will lead creates a cladisto-space of $n=2$ dimensions.
+In this case, the product of variance $\prod\sigma^2$ of this cladisto-space is:
+\begin{equation}
+    \prod\sigma^2=
+    \begin{cases}
+      \sigma^2(n_1) \times \sigma^2(n_2), & \text{if}\ \sigma(n_1,n_2)=0 \\
+      [\sigma^2(n_1)+2\sigma(n_1,n_2)] \times [\sigma^2(n_2)+2\sigma(n_1,n_2)], & \text{otherwise}
+    \end{cases}
+    \label{prod_var}
+\end{equation}
+Where $\sigma^2(n)$ is the variance of the eigenvector $n$ and $\sigma(n_{1}, n_{2})$ is the covariance between the 2 eigenvectors.
+Note that the same is true for the sum of variance with the difference that the terms are added rather than multiplied (equation \ref{prod_var}).
+Unfortunately, one other property of these metrics is that, for the product of ranges and variances, when all the $n$ eigen vectors are included in the analysis (see above), the products will tend towards 0 since the scores of the last eigenvectors are usually really close to 0 themselves.
 
-% NC: Note that this section is KEY! You are going to get grumpy paleo types insisting you use the old methods. Need to really clearly explain WHY you chose not to.
+Therefore, for the preceding reasons, we chose to use a more intuitive metric for measuring the dispersion of the data in the cladisto-space: the distance from centroid (similar but not equivalent to \citealt{Wills1994,kornextinction2013,huang2015origins}): %check if not equivalent to wills1994.
+\begin{equation}
+    Disparity=\frac{\displaystyle\sum_{i=1}^{k}{\sqrt{(kn_{i}-Centroid_{n})^2}}}{k}
+\end{equation}
+With:
+\begin{equation}
+    Centroid_{n}=\frac{\displaystyle\sum_{i=1}^{k}(kn_{i})}{k}
+    \label{centroid}
+\end{equation}
 
-Unfortunately, including the covariance terms in these measurements
-% NC: Which measurements? Disparity? eigenvectors
-is not straightforward and comes with properties specific to the number of dimensions involved \citep{Jackson,DonohueDim}. % NC: What do you mean it "comes with properties". Be clear.
-%One potential solution is to measure the hyper-dimensional volume \citep{Wills1994,DonohueDim} but this volume based on the eigenvalue 
-% NC: eigenvalue or eigenvalues? Of the distance matrix?
-%cannot be calculated through time (unless one recalculates the cladisto-space at each time point).
-% NC: Why mention all this if you're not going to use hypervolumes?
-Therefore, we chose to use a more intuitive metric for measuring the dispersion of the data in the cladisto-space: the distance from centroid (\citealt{finlay2015morphological}; similar but not equivalent to \citealt{kornextinction2013,huang2015origins}):
-%\begin{equation}
-%Disparity=\frac{\sum{\sqrt{(kn_{i}-Centroid_{n})^2}}}{k}
-%\end{equation}
-%Where $k_{n}$ is any value of eigen vector of the $n^{th}$ dimension of the cladisto-space and $Centroid_{n}$ is the average value of the same $n^{th}$ eigen vector and $k$ is the size of the distance matrix (the total number of taxa).
-
-  \begin{equation}
-    Disparity=\frac{\sum{\sqrt{(Edge_{n}-Centroid_{n})^2}}}{Number\ of\ edges}
-  \end{equation}
-
-Where $Edge_{n}$ is any phylogenetic edge value % NC: What's a phylogenetic edge value? OK from reading later it appears this is a confusion. Change to something else. Maybe go back to the letters?
-present in the subsection of data in the $n^{th}$ dimension of the cladisto-space % NC: What's that?
-and $Centroid_{n}$ is the average value of the $n^{th}$ dimension. % NC: This needs to be explained far more clearly.
+Where $k_{n}$ is any $k$ value of the $n^{th}$ eigenvector (i.e. the $n^{th}$ dimension of the cladisto-space) and $Centroid_{n}$ is the centroid distance of the $n^{th}$ eigenvector (equation \ref{centroid}) and $k$ is the size of the distance matrix (the total number of taxa).
 We also estimated the sum and products of ranges and variances to compare our results with previous studies. % link to supp.
+
+%  \begin{equation}
+%    Disparity=\frac{\sum{\sqrt{(Element_{n}-Centroid_{n})^2}}}{Number\ of\ elements}
+%  \end{equation}
+
+%Where $Edge_{n}$ is any phylogenetic edge value % NC: What's a phylogenetic edge value? OK from reading later it appears this is a confusion. Change to something else. Maybe go back to the letters?
+%present in the subsection of data in the $n^{th}$ dimension of the cladisto-space % NC: What's that?
+%and $Centroid_{n}$ is the average value of the $n^{th}$ dimension. % NC: This needs to be explained far more clearly.
+%We also estimated the sum and products of ranges and variances to compare our results with previous studies. % link to supp.
 
 \subsection{Estimating disparity through time} % NC: I've tried to make this section more concise.
 Changes in disparity through time are generally investigated by estimating the disparity of taxa that occupy the cladisto-space during specific time intervals \citep[e.g][]{cisneros2010,prentice2011,Hughes20082013,hopkinsdecoupling2013,bentonmodels2014,bensonfaunal2014}.
 These time intervals are usually defined based on biostratigraphy \citep[e.g.][]{cisneros2010,prentice2011,Hughes20082013,bentonmodels2014} but can also be arbitrarily chosen time periods of equal duration \citep{hopkinsdecoupling2013,bensonfaunal2014}.
 However, this approach suffers from two main biases. 
-First, if biostratigraphy is used to determine the time intervals, disparity may be distorted towards higher differences between time intervals because biostratigraphal periods are geologically defined based on differences in the morphology of fossils found in the different strata.
+First, if biostratigraphy is used to determine the time intervals, disparity may be distorted towards higher differences between time intervals because biostratigraphal % TG: biostratigraphal or biostratigraphic
+ periods are geologically defined based on differences in the morphology of fossils found in the different strata.
 Second, the approach assumes that all characters evolve following a punctuated equilibrium model, because disparity is only estimated once for each interval resulting in all changes in disparity occurring between intervals, rather than also allowing for gradual changes within intervals \citep{Hunt21042015}.
 
-To address these issues, we use a ``time-slicing'' approach that considers subsets of taxa in the cladisto-space at specific equidistant points in time, as opposed to considering subsets of taxa between two time points %(see Fig.~\ref{fig_slicing}) NC: I don't think this figure helps as it is at present
-.
+To address these issues, we use a ``time-slicing'' approach that considers subsets of taxa in the cladisto-space at specific equidistant points in time, as opposed to considering subsets of taxa between two time points.
 This results in even-sampling of the cladisto-space across time and at a finer grain than using time intervals, and permits us to define the underlying model of character evolution (as punctuated or gradual).  
-In practice, time-slicing considers the disparity of any element present in the phylogeny (branches, nodes and tips) at any point in time %(see Fig.~\ref{fig_slicing}) NC: I don't think this figure helps as it is at present
-.
+In practice, time-slicing considers the disparity of any element present in the phylogeny (branches, nodes and tips) at any point in time.
 When the phylogenetic elements are nodes or tips, the eigenvector scores for the nodes (estimated using ancestral state reconstruction as described above) or tips are directly used for estimating disparity.
 When the phylogenetic elements are branches we inferred the eigenvector score for the branch using one of two evolutionary models:
 \begin{enumerate}
     \item{\textbf{Punctuated evolution.}} 
-    This model selects the eigenvector score from either the ancestral node or the descendant node/tip of the branch. 
+    This model selects the eigenvector score from either the ancestral node or the descendant node/tip of the branch regardless of the position of the slice along the branch. 
     Similarly to the time interval approach, this reflects a model of punctuated evolution where changes in disparity occur either at the start or at the end of a branch over a relatively short time period \citep{Gould1977}.
     We applied this model in three ways: 
     \begin{enumerate}[(i)]
@@ -356,27 +311,16 @@ When the phylogenetic elements are branches we inferred the eigenvector score fo
     This reflects a model of gradual evolution where changes in disparity are gradual and cumulative along the branch.
 \end{enumerate}
 
-% TG: not sure if this figure is useful and pretty sure that if it is, it should be improved!
-%\begin{figure}[!htbp]
-%\centering
-%    \includegraphics[keepaspectratio=true]{Figures/Slicing.pdf}
-%\caption{Differences in slicing method and intervals. Solid lines represent the First and Last Appearance Datum span. Interval 1 contains the following elements within the global character-space: taxa t2 and t8 and nodes n1, n2, n3, n4 and n5. Interval 2 contains the following elements within the global character-space: taxa t1, t2, t3, t4, t5, t6 and t7 and nodes n6 and n7. Slice 1 contains the following elements within the global character-space under the proximity model (constant evolution assumption): nodes n2 and n4. Slice 2 contains the following elements within the global character-space under the proximity model (constant evolution assumption): taxa t4 and t7.}
-%\label{fig_slicing}
-%\end{figure}
-% NC: I don't think this figure helps as it is at present. For the thesis it might be nice to have a super simple one just with dots or crosses on the branches and tips where your slice overlaps.
-
 %What did we do (the main figure)
-We applied our time-slicing approach to the two cladisto-spaces calculated from \cite{Slater2012MEE} and \cite{beckancient2014}, time-slicing the phylogeny every five million years from 170 Mya to the present resulting in 35 sub-samples of the cladisto-space.
+We applied our time-slicing approach to the two cladisto-spaces calculated from \cite{Slater2012MEE} and \cite{beckancient2014}, time-slicing the phylogeny every five million years from 170 Mya to the present resulting in 35 sub-samples of the cladisto-space. % TG: sub-samples or slices? sub-samples sounds a bit pompous and slices is more imaged.
 For each sub-sample, we estimated its disparity assuming punctuated (ACCTRAN, DELTRAN and random) and gradual evolution as described above.
-To reduce the influence of outliers on our disparity estimates % NC: This is what this does right? not really uncertainty as in your original draft.
-, we bootstrapped each disparity measurement 1000 times using...  % NC: What kind of bootstrapping?
+To reduce the influence of outliers on our disparity estimates, we bootstrapped each disparity measurement by replacing a random taxa by another one 1000 times.
 We then calculated the median disparity value for each sub-sample along with the 50\% and the 95\% confidence intervals.
 
-We also recorded 
-%the taxonomic richness % NC: I think this needs a different name. Taxonomic richness is already a thing. Maybe just number of phylogenetic elements? It's easily solved here be shortening but may be a problem later?
-the number of phylogenetic elements (branches, nodes and tips) in each sub-sample.
-% NC: Why log? Maybe leave that out for now and put it in where necessary?
-Disparity may be higher in sub-samples with more phylogenetic elements simply because there are more taxa represented. To test whether our analyses were biased in this way, we ran a rarefaction analysis where we randomly re-sampled each sub-sample so that each had the same number of phylogenetic elements. We then estimated disparity and bootstrapped as described above. We repeated this XX times. % NC: Not sure if this is what you did, but standard rarefaction involves repeated re-samplings. Or else you can get order effects etc.
+We also recorded the number of phylogenetic elements (branches, nodes and tips) in each sub-sample.
+% NC: Why log? Maybe leave that out for now and put it in where necessary? TG: the logging is just to make the diversity curves additive. But we can leave it, there's not much taxa per slice so it doesn't matter much... It's just a common procedure.
+Disparity may be higher in sub-samples with more phylogenetic elements simply because there are more taxa represented. To test whether our analyses were biased in this way, we ran a rarefaction analysis where we randomly re-sampled each sub-sample so that each had the same number of phylogenetic elements. We then estimated disparity and bootstrapped as described above. We repeated this 1000 times. % NC: Not sure if this is what you did, but standard rarefaction involves repeated re-samplings. Or else you can get order effects etc.
+% TG: OK, I'm confused to what I did. The rarefaction and bootstrap function are entangled for speeding up calculation: without rarefaction the bootstrap removes one random taxa and replaces it with one of the left taxa. With rarefaction, the bootstrap removes n+1 random taxa and replaces it with one of the left taxa. In order to actually have rarefaction curves at the same time, the "n" term ranges from the number of taxa - 1 until there is only 3 taxa left (the minimum required to measure disparity with bootstrap). I then report the "minimum" rarefaction which is the one you mention ("so that each had the same number of phylogenetic elements") + the "modal" rarefaction where the number of elements is at max the modal number of elements. But that can just go in the supplementaries.
 We report the results of in the Supplementary Materials. % NC: Though you probably need to state in the results that this didn't cause the results - same goes for all your supplemental analyses.
 
 To compare our results to previous studies we also repeated our analyses using two time interval approaches; one based on biostratigraphy \citep[e.g.][]{cisneros2010,prentice2011,Hughes20082013,bentonmodels2014} using each geological stage from the Middle Jurassic to the present, and one using equal time periods of 20 million years \citep{hopkinsdecoupling2013,bensonfaunal2014}.
