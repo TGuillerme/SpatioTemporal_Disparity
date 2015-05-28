@@ -319,7 +319,7 @@ Therefore, we chose to use a more intuitive metric for measuring the dispersion 
     Disparity=\frac{\sum{\sqrt{(Edge_{n}-Centroid_{n})^2}}}{Number\ of\ edges}
   \end{equation}
 
-Where $Edge_{n}$ is any phylogenetic edge value % NC: What's a phylogenetic edge value?
+Where $Edge_{n}$ is any phylogenetic edge value % NC: What's a phylogenetic edge value? OK from reading later it appears this is a confusion. Change to something else. Maybe go back to the letters?
 present in the subsection of data in the $n^{th}$ dimension of the cladisto-space % NC: What's that?
 and $Centroid_{n}$ is the average value of the $n^{th}$ dimension. % NC: This needs to be explained far more clearly.
 We also estimated the sum and products of ranges and variances to compare our results with previous studies. % link to supp.
@@ -363,36 +363,35 @@ When the phylogenetic elements are branches we inferred the eigenvector score fo
 %\caption{Differences in slicing method and intervals. Solid lines represent the First and Last Appearance Datum span. Interval 1 contains the following elements within the global character-space: taxa t2 and t8 and nodes n1, n2, n3, n4 and n5. Interval 2 contains the following elements within the global character-space: taxa t1, t2, t3, t4, t5, t6 and t7 and nodes n6 and n7. Slice 1 contains the following elements within the global character-space under the proximity model (constant evolution assumption): nodes n2 and n4. Slice 2 contains the following elements within the global character-space under the proximity model (constant evolution assumption): taxa t4 and t7.}
 %\label{fig_slicing}
 %\end{figure}
-% NC: I don't think this figure helps as it is at present
+% NC: I don't think this figure helps as it is at present. For the thesis it might be nice to have a super simple one just with dots or crosses on the branches and tips where your slice overlaps.
 
 %What did we do (the main figure)
 We applied our time-slicing approach to the two cladisto-spaces calculated from \cite{Slater2012MEE} and \cite{beckancient2014}, time-slicing the phylogeny every five million years from 170 Mya to the present resulting in 35 sub-samples of the cladisto-space.
 For each sub-sample, we estimated its disparity assuming punctuated (ACCTRAN, DELTRAN and random) and gradual evolution as described above.
-We bootstrapped 1000 times each disparity measurement for accounting for uncertainty.
-We then calculated the median disparity value from each sub-sample along with the 50\% and the 95\% confidence intervals.
-Along with disparity, we also reported the taxonomic richness in each sample defined as the log of the number of phylogenetic elements in each sub-samples (i.e. log of the total number of branches, nodes and tips per slice).
+To reduce the influence of outliers on our disparity estimates % NC: This is what this does right? not really uncertainty as in your original draft.
+, we bootstrapped each disparity measurement 1000 times using...  % NC: What kind of bootstrapping?
+We then calculated the median disparity value for each sub-sample along with the 50\% and the 95\% confidence intervals.
 
-% TG: not sure about the placement of each section below maybe just add both in the supplementaries? Methods seems long enough like that. Maybe just add the following sentence
+We also recorded 
+%the taxonomic richness % NC: I think this needs a different name. Taxonomic richness is already a thing. Maybe just number of phylogenetic elements? It's easily solved here be shortening but may be a problem later?
+the number of phylogenetic elements (branches, nodes and tips) in each sub-sample.
+% NC: Why log? Maybe leave that out for now and put it in where necessary?
+Disparity may be higher in sub-samples with more phylogenetic elements simply because there are more taxa represented. To test whether our analyses were biased in this way, we ran a rarefaction analysis where we randomly re-sampled each sub-sample so that each had the same number of phylogenetic elements. We then estimated disparity and bootstrapped as described above. We repeated this XX times. % NC: Not sure if this is what you did, but standard rarefaction involves repeated re-samplings. Or else you can get order effects etc.
+We report the results of this analyses in the Supplementary Materials. % NC: Though yu probably need to state in the results that this didn't cause the results - same goes for all your supplemental analyses.
 
-% Short version (long version goes in supplementaries) - START
-To avoid bias due to the number of edges variation in each cladisto-space subdivision we also ran a rarefaction analysis by re-sampling each subdivision to have an equal number of phylogenetic elements available (edges or branches). % link to supplementary
-Additionally, in order to make our results comparable with previous studies, we also calculated the sum and products of ranges and variances \citep{Foote01071994,Wills1994} on the sub-samples of the cladisto-space.
-We also applied a time interval method based on biostraptigraphy \citep[e.g.][]{cisneros2010,prentice2011,Hughes20082013,bentonmodels2014} where we used each geological stages from the Middle Jurassic to the present as well as a time interval method based on equal time periods of 20 million years \citep{hopkinsdecoupling2013,bensonfaunal2014}.
-These additional studies are available in the supplementary materials. % link
-% Short version (long version goes in supplementaries) - END
+To compare our results to previous studies we also repeated our analyses using two time interval approaches; one based on biostratigraphy \citep[e.g.][]{cisneros2010,prentice2011,Hughes20082013,bentonmodels2014} using each geological stage from the Middle Jurassic to the present, and one using equal time periods of 20 million years \citep{hopkinsdecoupling2013,bensonfaunal2014}.
+We report the results of these analyses in the Supplementary Materials. % link
 
-% Long version - START
-% To avoid bias due to the number of edges variation in each cladisto-space subdivision we also re-sampled each subdivision to have an equal number of phylogenetic elements available (edges or branches).
+% NC: I've combined the two as the long version wasn't all that much longer than the short version so it's a bit pointless having it in supplemental. Of course the results go there. I've also moved it around a bit to make it flow better.
+
+% NC: I don't really understand what you mean below, but hopefully what I've written above expresses what you actually did?
+
 % Each subdivision was therefore re-sampled to contain the minimal number of taxa in the smallest subdivision.
 % Because this led in certain cases to a absolute minimum of phylogenetic elements to calculate disparity we also re-sampled the subdivisions to contain at maximum the modal number of phylogenetic elements between each sub-sample of the cladisto-space.
 % In practice, for both cases, we bootstrapped the disparity measurements by randomly removing $x$ elements per subdivision, where $x$ is either (1) the number of edges sampled in each time slice minus the minimum of edges in each time slice or (2) the number of edges to remove so that the number of elements is not higher than the modal number of edges.
 % Both results are available in the supplementary materials.
 
-% In order to make our results comparable with previous studies, we also calculated the sum and products of ranges and variances \citep{Foote01071994,Wills1994} on the sub-samples of the cladisto-space.
-% We also applied a time interval method based on biostraptigraphy \citep[e.g.][]{cisneros2010,prentice2011,Hughes20082013,bentonmodels2014} where we used each geological stages from the Middle Jurassic to the present as well as a time interval method based on equal time periods of 20 million years \citep{hopkinsdecoupling2013,bensonfaunal2014}.
-% For both time interval analysis, we calculated the disparity as the distance from centroid \citep{finlay2015morphological} as well as the sum and products of ranges and variances \citep{Foote01071994,Wills1994}.
-% These additional studies are available in the supplementary materials. %link 
-% Long version - END
+%Additionally, in order to make our results comparable with previous studies, we also calculated the sum and products of ranges and variances \citep{Foote01071994,Wills1994} on the sub-samples of the cladisto-space. % NC: You've already mentioned this above - leave it out.
 
 \subsection{Null models testing}
 Finally, we tested the effect of the K-Pg boundary on mammal disparity, by measuring whether the observed changes were significantly different than expected by chance.
