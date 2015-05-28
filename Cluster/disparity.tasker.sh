@@ -18,7 +18,7 @@
 #Update: fixed config file
 #Update: fixed error in slices files
 #----
-#guillert(at)tcd.ie - 27/05/2015
+#guillert(at)tcd.ie - 28/05/2015
 ###########################
 
 #INPUT
@@ -239,7 +239,7 @@ save(disp_sli_nodes_acc, file=paste(data_path, chain_name, '/',chain_name,'-disp
 echo "
 #Disparity
 disp_sli_nodes_pro<-time.disparity(pco_slices_nodes_pro, verbose=TRUE, rarefaction=TRUE, save.all=TRUE)
-save(disp_sli_nodes_acc, file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes_pro.Rda', sep=''))
+save(disp_sli_nodes_pro, file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes_pro.Rda', sep=''))
 " >> R_scripts_${chain}/R_disparity_nodes_sli_pro.R
 
 echo "
@@ -260,7 +260,7 @@ save(disp_sli_nodes95_acc, file=paste(data_path, chain_name, '/',chain_name,'-di
 echo "
 #Disparity
 disp_sli_nodes95_pro<-time.disparity(pco_slices_nodes95_pro, verbose=TRUE, rarefaction=TRUE, save.all=TRUE)
-save(disp_sli_nodes95_acc, file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes95_pro.Rda', sep=''))
+save(disp_sli_nodes95_pro, file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes95_pro.Rda', sep=''))
 " >> R_scripts_${chain}/R_disparity_nodes95_sli_pro.R
 
 #Remove temporary scripts
