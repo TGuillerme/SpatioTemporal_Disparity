@@ -18,44 +18,50 @@ chain_name<-"Slater2013"
 data_path<-"../Data/"
 file_matrix<-"../Data/2013-Slater-MEE-matrix-morpho.nex"
 file_tree<-"../Data/2013-Slater-MEE-TEM.tre"
-disparity_data<-"_disparity-sli_prodist_nodes95-gower.dist.matrix.Rda"
+disparity_data<-"-disp_sli_nodes95_pro.Rda"
 #Extracting all the data
 tmp<-read.data(chain_name, data_path, file_matrix, file_tree, disparity_data)
 
-#Isolating the slater data
-disparity_full_pro_slater<-tmp[[3]]$disparity
 #Isolating the slater diversity
-diversity_full_slater<-tmp[[3]]$diversity
+diversity_data<-"-diversity_slice.Rda"
+div<-load(paste(data_path, chain_name, "/", chain_name, diversity_data, sep=""))
+diversity_full_slater<-get(div)$diversity
+
+#Isolating the slater data
+disparity_full_pro_slater<-tmp[[3]]
 #Isolating the slater tree
 tree_slater<-tmp[[2]]
 
 #Extracting the random slicing data
-disparity_data<-"_disparity-sli_randist_nodes95-gower.dist.matrix.Rda"
+disparity_data<-"-disp_sli_nodes95_ran.Rda"
 tmp<-read.data(chain_name, data_path, file_matrix, file_tree, disparity_data)
 #Isolating the slater data
-disparity_full_ran_slater<-tmp[[3]]$disparity
+disparity_full_ran_slater<-tmp[[3]]
 
 #Selecting the Beck data
 chain_name<-"Beck2014"
 data_path<-"../Data/"
 file_matrix<-"../Data/2014-Beck-ProcB-matrix-morpho.nex"
 file_tree<-"../Data/2014-Beck-ProcB-TEM.tre"
-disparity_data<-"_disparity-sli_prodist_nodes95-gower.dist.matrix.Rda"
+disparity_data<-"-disp_sli_nodes95_pro.Rda"
 #Extracting all the data
 tmp<-read.data(chain_name, data_path, file_matrix, file_tree, disparity_data)
 
-#Isolating the slater data
-disparity_full_pro_beck<-tmp[[3]]$disparity
 #Isolating the slater diversity
-diversity_full_beck<-tmp[[3]]$diversity
+diversity_data<-"-diversity_slice.Rda"
+div<-load(paste(data_path, chain_name, "/", chain_name, diversity_data, sep=""))
+diversity_full_beck<-get(div)$diversity
+
+#Isolating the slater data
+disparity_full_pro_beck<-tmp[[3]]
 #Isolating the slater tree
 tree_beck<-tmp[[2]]
 
 #Extracting the random slicing data
-disparity_data<-"_disparity-sli_randist_nodes95-gower.dist.matrix.Rda"
+disparity_data<-"-disp_sli_nodes95_ran.Rda"
 tmp<-read.data(chain_name, data_path, file_matrix, file_tree, disparity_data)
 #Isolating the slater data
-disparity_full_ran_beck<-tmp[[3]]$disparity
+disparity_full_ran_beck<-tmp[[3]]
 
 ######################################
 # Tree visualisation
@@ -77,13 +83,13 @@ dis_ran_max_slater<-extract.disp(disparity_full_pro_slater$quantiles, rarefactio
 
 #Pretty plot with the tree and the disparity
 op<-par(mfrow=c(2,2), bty="n", mar=c(4,4,4,4))
-plot.disparity(dis_ran_max_beck, diversity=log(dis_ran_max_beck$rarefaction), main="Eutherian (punctuated)", xlab="Time (Mya)", y2lab="")
+plot.disparity(dis_ran_max_beck, diversity=log(dis_ran_max_beck$rarefaction), main="Eutherian (punctuated)", xlab="Time (Mya)", y2lab="", ylab="Distance from centroid")
 abline(v=22, col="red")
-plot.disparity(dis_ran_max_slater, diversity=log(dis_ran_max_slater$rarefaction), main="Mammaliformes (punctuated)", xlab="Time (Mya)", y2lab="Diversity (log)")
+plot.disparity(dis_ran_max_slater, diversity=log(dis_ran_max_slater$rarefaction), main="Mammaliformes (punctuated)", xlab="Time (Mya)", y2lab="Diversity (log)", ylab="")
 abline(v=22, col="red")
-plot.disparity(dis_pro_max_beck, diversity=log(dis_pro_max_beck$rarefaction), main="Eutherian (constant)", xlab="Time (Mya)", y2lab="")
+plot.disparity(dis_pro_max_beck, diversity=log(dis_pro_max_beck$rarefaction), main="Eutherian (gradual)", xlab="Time (Mya)", y2lab="", ylab="Distance from centroid")
 abline(v=22, col="red")
-plot.disparity(dis_pro_max_slater, diversity=log(dis_pro_max_slater$rarefaction), main="Mammaliformes (constant)", xlab="Time (Mya)", y2lab="Diversity (log)")
+plot.disparity(dis_pro_max_slater, diversity=log(dis_pro_max_slater$rarefaction), main="Mammaliformes (gradual)", xlab="Time (Mya)", y2lab="Diversity (log)", ylab="")
 abline(v=22, col="red")
 par(op)
 
