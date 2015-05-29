@@ -1,6 +1,3 @@
-#wd
-setwd('~/PhD/Projects/SpatioTemporal_Disparity/Cluster')
-
 #Load package
 library(disparity)
 
