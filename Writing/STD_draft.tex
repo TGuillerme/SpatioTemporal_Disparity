@@ -223,7 +223,7 @@ This allows us to correct for distances between two taxa that share many charact
 For cladistic matrices, using this corrected distance is preferable to the raw Euclidean distance because of its ability to deal with discrete or/and ordinated characters as well as with missing data \citep{anderson2012using}.
 However, the Gower distance cannot calculate distances when taxa have no overlapping data.
 Therefore, we used the \texttt{TrimMorphDistMatrix} function from the \texttt{Claddis} R package \citep{Claddis} to remove pairs of taxa with no cladistic characters in common.
-This led to our removing @/@ taxa from \cite{Slater2012MEE} and @/@ from \cite{beckancient2014}.
+This led to our removing 92/103 taxa from \cite{Slater2012MEE} and 102/102 from \cite{beckancient2014}.
 
 %\subsubsection{Ordination}
 After constructing our distance matrices we transformed them using classical multidimensional scaling \citep[MDS;][]{torgerson1965multidimensional,GOWER01121966,cailliez1983analytical}.
