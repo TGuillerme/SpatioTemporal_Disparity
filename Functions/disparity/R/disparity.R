@@ -2,7 +2,7 @@
 #Disparity functions
 ##########################
 #Calculate the disparity as the distance from centroid
-#v0.3.2
+#v0.4
 ##########################
 #SYNTAX :
 #<distance> the distance matrix
@@ -13,12 +13,13 @@
 #<verbose> whether to be verbose or not
 #<rm.last.axis> whether to remove the last axis from the pco data. Can be a threshold value.
 #<save.all> whether to save all the disparity values (TRUE) or just the quantiles (FALSE (default)).
+#<centroid.type> the type of centroid calculation. Can be either "median", "mean" or "full" to respectively report the median of the distances to centroid, the mean of the distances to centroid or just the distances to centroid. If null, the default will be median.
 ##########################
 #----
-#guillert(at)tcd.ie 26/05/2015
+#guillert(at)tcd.ie 05/06/2015
 ##########################
 
-disparity<-function(data, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE, rm.last.axis=FALSE, save.all=FALSE) {
+disparity<-function(data, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE, rm.last.axis=FALSE, save.all=FALSE, centroid.type=NULL) {
 
     #-----------------------------
     #SANITIZING
@@ -94,6 +95,32 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
     #verbose
     check.class(save.all, "logical")
 
+    #centroid
+    if(any(method == "centroid")) {
+        #If null, set to default
+        if(is.null(centroid.type)) {
+            centroid.type_function<-cen.apply.med
+        } else {
+            #Else, check if is right character
+            check.class(centroid.type, 'character')
+            check.length(centroid.type, 1, "must be a single character string.", errorif=FALSE)
+            centroid.type_list<-c('median', 'mean', 'full')
+            if(is.na(match(centroid.type, centroid.type_list))) {
+                stop("centroid.type must be either 'median', 'mean' or 'full'.")
+            }
+            #Set the centroid.type function
+            if(centroid.type == "median") {
+                centroid.type_function<-cen.apply.med
+            }
+            if(centroid.type == "mean") {
+                centroid.type_function<-cen.apply.mea
+            }
+            if(centroid.type == "full") {
+                centroid.type_function<-no.apply
+            }
+        }
+    }
+
     #-----------------------------
     #CLEANING / BOOTSTRAPING
     #-----------------------------
@@ -157,7 +184,7 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
         }
         centroids<-lapply(BSresult, centroid.calc)
         #Distance to centroid
-        Centroid_dist_table<-Disparity.measure.table(type_function=no.apply, centroids, central_tendency, CI, save.all)
+        Centroid_dist_table<-Disparity.measure.table(type_function=centroid.type_function, centroids, central_tendency, CI, save.all)
         #Results type
         if(save.all == FALSE) {
             #Renaming the column

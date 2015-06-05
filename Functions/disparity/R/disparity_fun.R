@@ -119,29 +119,37 @@ no.apply<-function(X) {
     return(X)
 }
 
-#Apply loop for calculating the centroid
+#Apply loops for extracting the central tendency of the centroids
+cen.apply.med<-function(X) {
+    return(apply(X, 1, median))
+}
+cen.apply.mea<-function(X) {
+    return(apply(X, 1, mean))
+}
 
+#Apply loop for calculating the centroid
 centroid.apply<-function(X) {
     #Euclidean distances to the centroid
     #This function is based on euc.dist.cent() from Finlay & Cooper 2015 - PeerJ (https://github.com/SiveFinlay/Diversity_Paper/blob/master/functions/Morpho_diversity_functions.r) 
-    #I'm not sure this is mathematically correct...
-
     #Centroid (mean score of each PC axis)
     centroid<-apply(X, 2, mean)
+        #Outputs length(X) values that are the mean value of each eigenvector (X)
+
     #Euclidean distances to the centroid
     cent.dist<-NULL
     for (j in 1:nrow(X)){
         cent.dist[j] <- dist(rbind(X[j,], centroid), method="euclidean")
+            #Outputs 1 value that is the euclidean distance between the scores of taxa j for each eigenvector and the mean of each eigenvector? 
     }
     return(cent.dist)
 }
+
 
 #Lapply loop for calculating the centroid
 centroid.calc<-function(X) {
     Y<-lapply(X, centroid.apply)
     return(matrix(nrow=length(X), data=unlist(Y), byrow=TRUE))
 }
-
 
 dispersion.apply<-function(X) {
 

@@ -2,7 +2,7 @@
 #time.disparity
 ##########################
 #Calculates the disparity for interval pco.data and output a interval.disparity table object
-#v0.3.1
+#v0.4
 ##########################
 #SYNTAX :
 #<time_pco> time intervals or slices from a pco
@@ -10,10 +10,10 @@
 #<...> disparity arguments (see ?disparity for information)
 ##########################
 #----
-#guillert(at)tcd.ie 26/05/2014
+#guillert(at)tcd.ie 06/06/2014
 ##########################
 
-time.disparity<-function(time_pco, relative=FALSE, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE, rm.last.axis=FALSE, save.all=FALSE) {
+time.disparity<-function(time_pco, relative=FALSE, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE, rm.last.axis=FALSE, save.all=FALSE, centroid.type=NULL) {
     #SANITIZING
     #time_pco
     check.class(time_pco, "list", " must be a list of time sections of pco data.")
@@ -59,7 +59,7 @@ time.disparity<-function(time_pco, relative=FALSE, method=c("centroid", "sum.ran
     }
 
     #CALCULATING THE DISPARITY FOR EACH BIN
-    disparity_interval<-lapply(time_pco, disparity, method=method, CI=CI, bootstraps=bootstraps, central_tendency=central_tendency, rarefaction=rarefaction, verbose=verbose, rm.last.axis=rm.last.axis, save.all=save.all)
+    disparity_interval<-lapply(time_pco, disparity, method=method, CI=CI, bootstraps=bootstraps, central_tendency=central_tendency, rarefaction=rarefaction, verbose=verbose, rm.last.axis=rm.last.axis, save.all=save.all, centroid.type=centroid.type)
 
     #SCALING (if relative == TRUE)
     if(relative==TRUE){
@@ -72,7 +72,7 @@ time.disparity<-function(time_pco, relative=FALSE, method=c("centroid", "sum.ran
         #Removing any duplicated taxa
         full_space<-full_space[unique(rownames(full_space)),]
         #Calculating the metrics for the full space
-        full_space_metric<-disparity(full_space, method=method, CI=CI, bootstraps=0, central_tendency=central_tendency, rarefaction=FALSE, verbose=FALSE, rm.last.axis=rm.last.axis, save.all=FALSE)
+        full_space_metric<-disparity(full_space, method=method, CI=CI, bootstraps=0, central_tendency=central_tendency, rarefaction=FALSE, verbose=FALSE, rm.last.axis=rm.last.axis, save.all=FALSE, centroid.type=centroid.type)
          
 
         #Dividing the results by the full_space_metric
