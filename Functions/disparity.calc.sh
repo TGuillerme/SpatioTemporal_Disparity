@@ -107,7 +107,7 @@ if(length(trimmed_data\$removed.taxa) != 0) {
 ######################
 #pco
 ######################
-pco_data<-cmdscale(trimmed_data\$dist.matrix, k=nrow(trimmed_data\$dist.matrix) - 1, add=T)\$points
+pco_data<-cmdscale(trimmed_data\$dist.matrix, k=nrow(trimmed_data\$dist.matrix) - 2, add=T)\$points
 
 ######################
 #Disparity

@@ -96,7 +96,7 @@ load(paste(data_path, chain_name, '/', chain_name, '_distance-tips.Rda', sep='')
 trimmed_max_data_tips<-TrimMorphDistMatrix(dist_tips\$max.dist.matrix)
 tree_tips<-drop.tip(tree, trimmed_max_data_tips\$removed.taxa) ; tree_tips\$root.time<-max(tree.age(tree_tips)[,1])
 #pco
-pco_data_tips<-cmdscale(trimmed_max_data_tips\$dist.matrix, k=nrow(trimmed_max_data_tips\$dist.matrix) - 1, add=T)\$points
+pco_data_tips<-cmdscale(trimmed_max_data_tips\$dist.matrix, k=nrow(trimmed_max_data_tips\$dist.matrix) - 2, add=T)\$points
 " >> R_scripts_${chain}/R_disparity_tips.tmp
 echo "
 #load the distance matrix
@@ -105,7 +105,7 @@ trimmed_max_data_nodes<-TrimMorphDistMatrix(dist_nodes\$max.dist.matrix)
 tree_nodes<-drop.tip(tree, trimmed_max_data_nodes\$removed.taxa) ; tree_nodes\$root.time<-max(tree.age(tree_nodes)[,1])
 trimmed_max_data_nodes\$dist.matrix<-trimmed_max_data_nodes\$dist.matrix[c(tree_nodes\$tip.label, tree_nodes\$node.label),c(tree_nodes\$tip.label, tree_nodes\$node.label)]
 #pco
-pco_data_nodes<-cmdscale(trimmed_max_data_nodes\$dist.matrix, k=nrow(trimmed_max_data_nodes\$dist.matrix) - 1, add=T)\$points
+pco_data_nodes<-cmdscale(trimmed_max_data_nodes\$dist.matrix, k=nrow(trimmed_max_data_nodes\$dist.matrix) - 2, add=T)\$points
 " >> R_scripts_${chain}/R_disparity_nodes.tmp
 echo "
 #load the distance matrix
@@ -114,7 +114,7 @@ trimmed_max_data_nodes95<-TrimMorphDistMatrix(dist_nodes95\$max.dist.matrix)
 tree_nodes95<-drop.tip(tree, trimmed_max_data_nodes95\$removed.taxa) ; tree_nodes95\$root.time<-max(tree.age(tree_nodes95)[,1])
 trimmed_max_data_nodes95\$dist.matrix<-trimmed_max_data_nodes95\$dist.matrix[c(tree_nodes95\$tip.label, tree_nodes95\$node.label),c(tree_nodes95\$tip.label, tree_nodes95\$node.label)]
 #pco
-pco_data_nodes95<-cmdscale(trimmed_max_data_nodes95\$dist.matrix, k=nrow(trimmed_max_data_nodes95\$dist.matrix) - 1, add=T)\$points
+pco_data_nodes95<-cmdscale(trimmed_max_data_nodes95\$dist.matrix, k=nrow(trimmed_max_data_nodes95\$dist.matrix) - 2, add=T)\$points
 " >> R_scripts_${chain}/R_disparity_nodes95.tmp
 
 ######################################
