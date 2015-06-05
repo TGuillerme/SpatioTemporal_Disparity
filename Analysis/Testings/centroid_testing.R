@@ -137,7 +137,10 @@ cmd <- cmdscale(trimmed.max.data$dist.matrix, k=3, add=T, eig=TRUE)
 
 X<-cmd$points
 centroid<-apply(X, 2, mean)
-
+cent.dist<-NULL
+for (j in 1:nrow(X)){
+    cent.dist[j] <- dist(rbind(X[j,], centroid), method="euclidean")
+}
 
 op<-par(mfrow=c(2,1), mar=c(0,0,0,0))
 nf<-layout(matrix(c(1,2),2,1,byrow = TRUE), c(1,2),c(2,1), FALSE)
@@ -154,3 +157,52 @@ med.cent<-round(median(cent.dist), digit=3)
 barplot(cent.dist, main=paste("median distance =", med.cent), width=0.5)
 
 par(op)
+
+
+#One or two axis removed?
+cmd <- cmdscale(trimmed.max.data$dist.matrix, k=nrow(trimmed.max.data$dist.matrix) - 1, add=T, eig=TRUE)
+X1<-cmd$points
+cmd <- cmdscale(trimmed.max.data$dist.matrix, k=nrow(trimmed.max.data$dist.matrix) - 2, add=T, eig=TRUE)
+X2<-cmd$points
+
+#centroids
+centroid1<-apply(X1, 2, mean)
+centroid2<-apply(X2, 2, mean)
+
+#Euclidean distances to the centroid
+cent.dist1<-NULL
+cent.dist2<-NULL
+for (j in 1:nrow(X)){
+    cent.dist1[j] <- dist(rbind(X1[j,], centroid1), method="euclidean")
+    cent.dist2[j] <- dist(rbind(X2[j,], centroid2), method="euclidean")
+}
+median(cent.dist1) == median(cent.dist2)
+    #Doesn't make much of a difference. However, should be 2 (from Cailliez correction).
+
+
+#centroid calculation in disparity function
+cmd <- cmdscale(trimmed.max.data$dist.matrix, k=nrow(trimmed.max.data$dist.matrix) - 1, add=T, eig=TRUE)
+data<-cmd$points
+method="centroid"
+CI=c(50, 95)
+bootstraps=5
+central_tendency=median
+rarefaction=FALSE#, verbose=FALSE, rm.last.axis=FALSE, save.all=FALSE
+save.all=TRUE
+
+#Bootstrap
+BSresult<-Bootstrap.rarefaction(data, bootstraps, rarefaction)
+centroids<-lapply(BSresult, centroid.calc) #columns = species ; rows = different distances from centroid (when bootstrapped)
+
+#summary
+Centroid_dist_table<-Disparity.measure.table(type_function=no.apply, centroids, central_tendency, CI, save.all)
+    #Maybe add a type function that calculates the central_tendency
+
+
+
+#mean of the means (and quantiles calculated on the central tendencies)
+cent_tend_all<-apply(centroids[[1]], 1, central_tendency)
+cent_med<-median(cent_tend_all)
+cent_med_quan<-quantile(cent_tend_all, probs=CI.converter(CI))
+
+
