@@ -11,13 +11,14 @@
 #<diversity> optional. Must be a vector of the same length as disparity_data.
 #<add> optional. Whether to add the a previous called graph
 #<ylim> optional. A set of values for the y axis limit
-#<y2labe> optional. A value for the label of the second y axis (diversity)
+#<y2lab> optional. A value for the label of the second y axis (diversity)
+#<cex.xaxis> optional. A value for the size of the font of the x axis
 ##########################
 #----
 #guillert(at)tcd.ie 15/05/2015
 ##########################
 
-plot.disparity<-function(disparity_data, measure="Cent.dist", rarefaction=FALSE, xlab="default", ylab="default", col="default", diversity, add=FALSE, ylim, y2lab, ...){
+plot.disparity<-function(disparity_data, measure="Cent.dist", rarefaction=FALSE, xlab="default", ylab="default", col="default", diversity, add=FALSE, ylim, y2lab, cex.xaxis, ...){
     #SANITIZING
     #Disparity
     check.class(disparity_data, 'data.frame')
@@ -97,6 +98,14 @@ plot.disparity<-function(disparity_data, measure="Cent.dist", rarefaction=FALSE,
         check.length(y2lab, 1, " must be a character string.", errorif=FALSE)
     }
 
+    #cex.xaxis
+    if(missing(cex.xaxis)) {
+        cex.xaxis<-1
+    } else {
+        check.class(cex.xaxis, 'numeric')
+        check.length(cex.xaxis, 1, ' must be a single numeric value.', errorif=FALSE)
+    }
+
     #PLOTTING THE DISPARITY RESULTS
     if(add == FALSE) {
         if(rarefaction == TRUE) {
@@ -165,14 +174,14 @@ plot.disparity<-function(disparity_data, measure="Cent.dist", rarefaction=FALSE,
                 #X axis options
                 if(any(grep("-", disparity_data[,1]))) {
                     #if axis is character (bins)
-                    axis(side = 1, 1:nrow(disparity_data), disparity_data[,1], las=2)
+                    axis(side = 1, 1:nrow(disparity_data), disparity_data[,1], las=2, cex.axis=cex.xaxis)
                 } else {
                     if(class(disparity_data[,1]) == "factor") {
                         #if axis is factors (dates)
-                        axis(side=1, c(seq(from=1, to=nrow(disparity_data), by=5), nrow(disparity_data)), disparity_data[c(seq(from=1, to=nrow(disparity_data), by=5), nrow(disparity_data)),1], las=1)
+                        axis(side=1, c(seq(from=1, to=nrow(disparity_data), by=5), nrow(disparity_data)), disparity_data[c(seq(from=1, to=nrow(disparity_data), by=5), nrow(disparity_data)),1], las=1, cex.axis=cex.xaxis)
                     } else {
                         #just print the ticks
-                        axis(side = 1, 1:nrow(disparity_data))
+                        axis(side = 1, 1:nrow(disparity_data), cex.axis=cex.xaxis)
                     }
                 }
                 #Add the polygons
