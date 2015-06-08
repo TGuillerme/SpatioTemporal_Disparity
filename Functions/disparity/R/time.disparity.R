@@ -2,7 +2,7 @@
 #time.disparity
 ##########################
 #Calculates the disparity for interval pco.data and output a interval.disparity table object
-#v0.4
+#v0.4.1
 ##########################
 #SYNTAX :
 #<time_pco> time intervals or slices from a pco
@@ -10,19 +10,22 @@
 #<...> disparity arguments (see ?disparity for information)
 ##########################
 #----
-#guillert(at)tcd.ie 06/06/2014
+#guillert(at)tcd.ie 08/06/2014
 ##########################
 
 time.disparity<-function(time_pco, relative=FALSE, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE, rm.last.axis=FALSE, save.all=FALSE, centroid.type=NULL) {
     #SANITIZING
     #time_pco
     check.class(time_pco, "list", " must be a list of time sections of pco data.")
-    if(length(names(time_pco))!=length(time_pco)) {
+    if(length(names(time_pco))!= length(time_pco)) {
         stop("time_pco data must have time sections names.")
     }
 
     #relative
     check.class(relative, "logical")
+    if(relative==TRUE) {
+        stop("'relative' option is still in development.\nOnly relative=FALSE (default) can be used for now.")
+    }
 
     #rarefaction
     if(rarefaction == TRUE) {
@@ -43,6 +46,8 @@ time.disparity<-function(time_pco, relative=FALSE, method=c("centroid", "sum.ran
         }
         #Creating the new interval
         new_interval<-rbind(time_pco[[wrong_intervals[1]]], time_pco[[host_interval]])
+        #Making sure there are no duplicated taxa in the new interval
+        new_interval<-new_interval[c(unique(rownames(new_interval))),]
         #Creating the new time_pco data
         new_time_pco<-time_pco ; names(new_time_pco)<-names(time_pco)
         #replacing the wrong interval

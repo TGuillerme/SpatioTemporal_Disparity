@@ -2,7 +2,7 @@
 #Disparity functions
 ##########################
 #Calculate the disparity as the distance from centroid
-#v0.4
+#v0.4.1
 ##########################
 #SYNTAX :
 #<distance> the distance matrix
@@ -16,7 +16,7 @@
 #<centroid.type> the type of centroid calculation. Can be either "median", "mean" or "full" to respectively report the median of the distances to centroid, the mean of the distances to centroid or just the distances to centroid. If null, the default will be median.
 ##########################
 #----
-#guillert(at)tcd.ie 05/06/2015
+#guillert(at)tcd.ie 08/06/2015
 ##########################
 
 disparity<-function(data, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE, rm.last.axis=FALSE, save.all=FALSE, centroid.type=NULL) {

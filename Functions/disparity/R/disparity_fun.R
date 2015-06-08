@@ -247,7 +247,7 @@ Disparity.measure.table<-function(type_function, distribution_variable, central_
     if(save.all == FALSE) {
         return(Disparity_measure_table)
     } else {
-        output<-list("quantiles"=Disparity_measure_table, "values"=Disparity_measure[[1]])
+        output<-list("quantiles"=Disparity_measure_table, "values"=Disparity_measure)
         return(output)
     }
 
