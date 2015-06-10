@@ -331,7 +331,7 @@ done
 
 echo "#!/bin/sh
 #SBATCH -n 11
-#SBATCH -t 4-00:00:00
+#SBATCH -t 1-00:00:00
 #SBATCH -p compute
 #SBATCH -J D-${chain}
 srun --multi-prog Rdisparity${chain}.config" > R_scripts_${chain}/Rdisparity${chain}.sh
