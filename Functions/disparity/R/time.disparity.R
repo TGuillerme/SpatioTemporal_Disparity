@@ -2,7 +2,7 @@
 #time.disparity
 ##########################
 #Calculates the disparity for interval pco.data and output a interval.disparity table object
-#v0.4.1
+#v0.4.2
 ##########################
 #SYNTAX :
 #<time_pco> time intervals or slices from a pco
@@ -10,7 +10,7 @@
 #<...> disparity arguments (see ?disparity for information)
 ##########################
 #----
-#guillert(at)tcd.ie 08/06/2014
+#guillert(at)tcd.ie 10/06/2014
 ##########################
 
 time.disparity<-function(time_pco, relative=FALSE, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE, rm.last.axis=FALSE, save.all=FALSE, centroid.type=NULL) {
@@ -33,8 +33,8 @@ time.disparity<-function(time_pco, relative=FALSE, method=c("centroid", "sum.ran
     }
 
     #Managing bins with only one data point
-    while(any(unlist(lapply(time_pco, nrow)) < 3)) {
-        wrong_intervals<-which(unlist(lapply(time_pco, nrow)) < 3)
+    while(any(as.numeric(unlist(lapply(time_pco, nrow))) < 3)) {
+        wrong_intervals<-which(as.numeric(unlist(lapply(time_pco, nrow))) < 3)
         #Moving the first wrong interval to the next interval in time (unless the wrong interval is the last one)
         if(wrong_intervals[1] != length(time_pco)) {
             host_interval<-wrong_intervals[1]+1
@@ -44,22 +44,43 @@ time.disparity<-function(time_pco, relative=FALSE, method=c("centroid", "sum.ran
             host_interval<-wrong_intervals[1]-1
             message("Intervals ", names(time_pco)[host_interval], " and ", names(time_pco)[wrong_intervals[1]], " are combined due to insufficient data.")
         }
-        #Creating the new interval
-        new_interval<-rbind(time_pco[[wrong_intervals[1]]], time_pco[[host_interval]])
-        #Making sure there are no duplicated taxa in the new interval
-        new_interval<-new_interval[c(unique(rownames(new_interval))),]
-        #Creating the new time_pco data
-        new_time_pco<-time_pco ; names(new_time_pco)<-names(time_pco)
-        #replacing the wrong interval
-        new_time_pco[[host_interval]]<-new_interval
-        #renaming the interval
-        if(wrong_intervals[1] != length(time_pco)) {
-            names(new_time_pco)[host_interval]<-paste(strsplit(names(new_time_pco)[wrong_intervals[1]], split="-")[[1]][1],strsplit(names(new_time_pco)[host_interval], split="-")[[1]][2],sep="-")
+
+        #If both the host and the wrong interval have the same rownames, just delete the wrong interval and rename the host interval
+        if(nrow(time_pco[[wrong_intervals[1]]]) == nrow(time_pco[[host_interval]]) &
+            all(sort(rownames(time_pco[[wrong_intervals[1]]])) == sort(rownames(time_pco[[host_interval]])))) {
+         
+            #Creating the new time_pco data
+            new_time_pco<-time_pco
+            #renaming the interval
+            if(wrong_intervals[1] != length(time_pco)) {
+                names(new_time_pco)[host_interval]<-paste(strsplit(names(new_time_pco)[wrong_intervals[1]], split="-")[[1]][1],strsplit(names(new_time_pco)[host_interval], split="-")[[1]][2],sep="-")
+            } else {
+                names(new_time_pco)[host_interval]<-paste(strsplit(names(new_time_pco)[host_interval], split="-")[[1]][1],strsplit(names(new_time_pco)[wrong_intervals[1]], split="-")[[1]][2],sep="-")
+            }
+            #Removing the wrong time interval
+            new_time_pco[[wrong_intervals[1]]]<-NULL
+
         } else {
-            names(new_time_pco)[host_interval]<-paste(strsplit(names(new_time_pco)[host_interval], split="-")[[1]][1],strsplit(names(new_time_pco)[wrong_intervals[1]], split="-")[[1]][2],sep="-")
+
+            #Creating the new interval
+            new_interval<-rbind(time_pco[[wrong_intervals[1]]], time_pco[[host_interval]])
+            #Making sure there are no duplicated taxa in the new interval
+            new_interval<-new_interval[c(unique(rownames(new_interval))),]
+            #Creating the new time_pco data
+            new_time_pco<-time_pco ; names(new_time_pco)<-names(time_pco)
+            #replacing the wrong interval
+            new_time_pco[[host_interval]]<-new_interval
+            #renaming the interval
+            if(wrong_intervals[1] != length(time_pco)) {
+                names(new_time_pco)[host_interval]<-paste(strsplit(names(new_time_pco)[wrong_intervals[1]], split="-")[[1]][1],strsplit(names(new_time_pco)[host_interval], split="-")[[1]][2],sep="-")
+            } else {
+                names(new_time_pco)[host_interval]<-paste(strsplit(names(new_time_pco)[host_interval], split="-")[[1]][1],strsplit(names(new_time_pco)[wrong_intervals[1]], split="-")[[1]][2],sep="-")
+            }
+            #removing empty interval
+            new_time_pco[[wrong_intervals[1]]]<-NULL
+
         }
-        #removing empty interval
-        new_time_pco[[wrong_intervals[1]]]<-NULL
+
         time_pco<-new_time_pco
     }
 
