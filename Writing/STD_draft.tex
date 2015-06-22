@@ -235,6 +235,9 @@ To avoid this, we first transformed the distance matrices by applying the Cailli
 % NC: It doesn't need any more explanation than this, the equation is helpful so that we know where c* comes from. Might need to be more specific in the thesis that you solve for c*.
 We were then able to extract $n$ eigenvectors for each matrix (representing the $n$ dimensions of the cladisto-space) where $n$ is equal to $k-1$, i.e. the number of taxa in the matrix ($k$) minus the last eigenvector which is always null after applying the Cailliez correction.
 Contrary to previous studies \citep[e.g][]{brusatte50,cisneros2010,prentice2011,anderson2012using,Hughes20082013,bentonmodels2014}, we use all $n$ dimensions of our cladisto-spaces and not a sub-sample representing the majority of the variance in the distance matrix (e.g. selecting only $m$ dimensions that represent up to 90\% of the variance in the distance matrix; \citealt{Brusatte12092008,toljagictriassic-jurassic2013}).
+
+NOTE: CHANGE n to k-2 because of the Cailliez correction (the two last vectors are null). See man(pcoa) for more details!
+
 Note that our cladisto-spaces represent an ordination of all possible mammalian morphologies coded in each study through time.
 It is unlikely that all morphologies will co-occur at each time point, therefore, the disparity of the whole cladisto-space is expected to be $\geq$ the disparity at any specific point in time.
 % NC: Much better
@@ -263,20 +266,19 @@ These features make using the sum and products of ranges and variances unfeasibl
 Instead, we use a more intuitive % NC: Still not sure if it's intuitive...
 metric for measuring the dispersion of the data in the cladisto-space: the distance from centroid (similar but not equivalent to \citealt{Wills1994,kornextinction2013,huang2015origins}) calculated as: %check if not equivalent to wills1994.
 \begin{equation}
-    Disparity=\frac{\displaystyle\sum_{i=1}^{k}{\sqrt{(kn_{i}-Centroid_{n})^2}}}{k}
+    Disparity=\frac{\displaystyle\sqrt{\sum_{i=1}^{k}{(\mathbf{v}_{n_{i}}-Centroid_{n})^2}}}{k}
 \end{equation}
 where:
 \begin{equation}
-    Centroid_{n}=\frac{\displaystyle\sum_{i=1}^{k}(kn_{i})}{k}
+    Centroid_{n}=\frac{\displaystyle\sum_{i=1}^{k}(\mathbf{v}_{n_{i}})}{k}
     \label{centroid}
 \end{equation}
 
 % NC: Check and recheck this equation
 % NC: Above and below: $kn$ or $k_{n}$?
 \noindent
-$k$ is the size of the distance matrix (i.e. the total number of taxa), $k_{n}$ is any $k$ value % NC: What do you mean by k value? 
-of the $n^{th}$ eigenvector (i.e. the $n^{th}$ dimension of the cladisto-space) and $Centroid_{n}$ is the centroid distance of the $n^{th}$ eigenvector (equation \ref{centroid}).
-% NC: This is confusing at present.
+$k$ is the size of the distance matrix (i.e. the total number of taxa), $\mathbf{v}_{n}$ is any of the $n$ eigenvectors (i.e. the $n^{th}$ dimension of the cladisto-space),% $\mathbf{v}_{n_{i}}$ is the score for each taxa for $\mathbf{v}_{n}$ % TG: or is the part "Sum from i to k" in the equation sufficient to explain that?
+ and $Centroid_{n}$ is  the centroid distance of the $n^{th}$ eigenvector (equation \ref{centroid}).
 We also estimated the sum and products of ranges and variances to compare our results with previous studies. % link to supp.
 
 \subsection{Estimating disparity through time} 
