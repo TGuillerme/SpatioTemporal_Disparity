@@ -1,4 +1,4 @@
-# Claddis suggestions
+# Testing significance
 
 #############################
 # Function for loading raw scripts from GitHub 
@@ -151,11 +151,6 @@ round(eig.val[-3], digit=10) == round(apply(cov(eig.vec),2,sum)*2, digit=10)
 
 #Works only for a distance matrix and when vectors are reported as in the cmdscale/pcoa algorithm?
 
-
-#############################
-# Volume through time
-############################# 
-
 # Let's first make a vector of intervals boundaries let's make it very simple: 3 bins with at least three taxa.
 bins<-rev(seq(from=0, to=100, by=20))
 # Note that the bins must be in reverse chronological order (time since the present)
@@ -173,48 +168,64 @@ pco_in_bins$pco_intervals
 # And of the taxonomic counts per bins
 pco_in_bins$diversity
 
-# This function just takes the binned pco data from int.pco.
-# Let's just calculate an easy (the default options)
-disparity_per_bin<-time.disparity(pco_in_bins$pco_intervals, relative=FALSE, verbose=TRUE, bootstraps=1000)
-
-# Et voilà!
-disparity_per_bin
 
 #############################
-# Plotting the results
+# Testing significance
 ############################# 
 
-# Finally I'm working on a last series of functions on plotting the results, it's still in a more "drafty" part than the rest but this can give you an idea.
-browseURL("https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity/R/plot.disparity.R")
-# The idea is to make a plot S3 method that recognise the data you input and gives a nice plot with the default plotting option (xlim, main, col, etc...)
-# The function takes the data to plot (one of the disparity tables), which disparity metric to plot and various graphical options.
-# The disparity measure to plot can be set to default which will be the first column of the table ("Cent.dist" by default)
-# Here's for plotting the rarefaction curve of the rarefaction analysis ran above for the centroid distance
-plot.disparity(rarefaction_results, xlab="Number of taxa")
+#Creating three different disparities
 
-# Or for the for classic disparity metrics
-op<-par(mfrow=c(2,2))
-plot.disparity(rarefaction_results, measure="Sum.range", xlab="Number of taxa")
-plot.disparity(rarefaction_results, measure="Prod.range", xlab="Number of taxa")
-plot.disparity(rarefaction_results, measure="Sum.var", xlab="Number of taxa")
-plot.disparity(rarefaction_results, measure="Prod.var", xlab="Number of taxa")
+disp_med.dist.cent.BS<-time.disparity(pco_in_bins$pco_intervals, method="centroid", relative=FALSE, verbose=TRUE, bootstraps=10, rarefaction=TRUE, centroid.type="median", central_tendency=mean, save.all=TRUE)
+disp_obs.dist.cent<-time.disparity(pco_in_bins$pco_intervals, method="centroid", relative=FALSE, verbose=TRUE, bootstraps=0,  rarefaction=FALSE, centroid.type="full", central_tendency=median, save.all=TRUE)
+disp_obs.dist.cent.BS<-time.disparity(pco_in_bins$pco_intervals, method="centroid", relative=FALSE, verbose=TRUE, bootstraps=10, rarefaction=TRUE, centroid.type="full", central_tendency=median, save.all=TRUE)
+
+#Extract disparity from the rarefaction analysis
+disp_med.dist.cent.BS_max<-extract.disp(disp_med.dist.cent.BS$quantiles, rarefaction="max")
+
+op<-par(mfrow=c(1,3))
+plot.disparity(extract.disp(disp_med.dist.cent.BS$quantiles, rarefaction="max"), ylim=c(0.8, 1.8))
+plot.disparity(disp_obs.dist.cent$quantiles, ylim=c(0.8, 1.8))
+plot.disparity(extract.disp(disp_obs.dist.cent.BS$quantiles, rarefaction="max"), ylim=c(0.8, 1.8))
 par(op)
 
-# We can also plot the disparity through time (more exciting!) by giving the disparity_per_bin data.
-# This should take the exact same options as before with the default measurement to be plot being the first one in the table.
-plot.disparity(disparity_per_bin)
 
-# Finally we can also add the diversity curve calculated by the int.pco function using the diversity option.
-plot.disparity(disparity_per_bin, diversity=pco_in_bins$diversity)
 
-# Or for the other disparity metrics
-op<-par(mfrow=c(2,3))
-plot.disparity(disparity_per_bin, measure="Volume", diversity=pco_in_bins$diversity, ylim=c(0, 500))
-plot.disparity(disparity_per_bin, measure="Cent.dist", diversity=pco_in_bins$diversity)
-plot.disparity(disparity_per_bin, measure="Sum.range", diversity=pco_in_bins$diversity)
-plot.disparity(disparity_per_bin, measure="Prod.range", diversity=pco_in_bins$diversity)
-plot.disparity(disparity_per_bin, measure="Sum.var", diversity=pco_in_bins$diversity)
-plot.disparity(disparity_per_bin, measure="Prod.var", diversity=pco_in_bins$diversity)
-par(op)
 
-# I developed more function on how to look at the tree through time (using ancestral states, etc...) but here's the global idead
+disparity_full_ran_beck
+
+#values for each slice
+beck_65<-disparity_full_ran_beck$values$`65`
+beck_60<-disparity_full_ran_beck$values$`60`
+beck_55<-disparity_full_ran_beck$values$`55`
+beck_50<-disparity_full_ran_beck$values$`50`
+beck_45<-disparity_full_ran_beck$values$`45`
+beck_40<-disparity_full_ran_beck$values$`40`
+beck_35<-disparity_full_ran_beck$values$`35`
+beck_30<-disparity_full_ran_beck$values$`30`
+
+dis_pro_max_beck
+
+#quantiles
+dis_pro_max_beck<-extract.disp(disparity_full_ran_beck$quantiles, rarefaction="max")
+
+adonis(beck_65~beck_60, permutations=1000, method="euclidean")
+adonis(beck_65~beck_55, permutations=1000, method="euclidean")
+adonis(beck_65~beck_50, permutations=1000, method="euclidean")
+adonis(beck_65~beck_45, permutations=1000, method="euclidean")
+adonis(beck_65~beck_40, permutations=1000, method="euclidean")
+adonis(beck_65~beck_35, permutations=1000, method="euclidean")
+adonis(beck_65~null_ran_centroid_ran[[2]]$values$`65`, permutations=1000, method="euclidean")
+
+
+adonis(beck_65~beck_60+beck_55+beck_50,beck_45+beck_40+beck_35+beck_30, permutations=1000, method="euclidean")
+#NPMANOVA of the PC axes  (e.g. Stayton 2005 and Ruta 2013)
+ PC.man <- adonis(PC95axes~sp.fam$Family, data=sp.fam, permutations=999, method="euclidean")
+
+adonis(dis_pro_max_beck[22,3]~dis_pro_max_beck[22,3], permutations=1000)
+
+beck_test<-list(as.vector(beck_60),as.vector(beck_55),as.vector(beck_50),as.vector(beck_45),as.vector(beck_40),as.vector(beck_35),as.vector(beck_30))
+
+bla<-lapply(beck_test, bhatt.coeff, y=as.vector(beck_65))
+bhatt.coeff(as.vector(beck_65), as.vector(null_ran_centroid_ran[[2]]$values$`65`))
+
+#Just do a Tukey HSD?

@@ -1,3 +1,7 @@
+#Testing for difference between time slices
+
+
+
 disparity_full_ran_beck
 
 #values for each slice
@@ -10,6 +14,8 @@ beck_40<-disparity_full_ran_beck$values$`40`
 beck_35<-disparity_full_ran_beck$values$`35`
 beck_30<-disparity_full_ran_beck$values$`30`
 
+dis_pro_max_beck
+
 #quantiles
 dis_pro_max_beck<-extract.disp(disparity_full_ran_beck$quantiles, rarefaction="max")
 
@@ -21,9 +27,12 @@ adonis(beck_65~beck_40, permutations=1000, method="euclidean")
 adonis(beck_65~beck_35, permutations=1000, method="euclidean")
 adonis(beck_65~null_ran_centroid_ran[[2]]$values$`65`, permutations=1000, method="euclidean")
 
+
+adonis(beck_65~beck_60+beck_55+beck_50,beck_45+beck_40+beck_35+beck_30, permutations=1000, method="euclidean")
 #NPMANOVA of the PC axes  (e.g. Stayton 2005 and Ruta 2013)
  PC.man <- adonis(PC95axes~sp.fam$Family, data=sp.fam, permutations=999, method="euclidean")
 
+adonis(dis_pro_max_beck[22,3]~dis_pro_max_beck[22,3], permutations=1000)
 
 beck_test<-list(as.vector(beck_60),as.vector(beck_55),as.vector(beck_50),as.vector(beck_45),as.vector(beck_40),as.vector(beck_35),as.vector(beck_30))
 
