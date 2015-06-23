@@ -41,7 +41,7 @@ dist.data <- MorphDistMatrix(nexus.data)
 # For small datasets this is instantly but I'm playing around with reasonably big ones (100 taxa * 400 characters) and some can take a day or so to compute.
 # To make sure the script is not frozen, I've just added a verbose function.
 # I clumsily renamed it MorphDistMatrix.verbose to avoid any confusion.
-browseURL("https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity/R/MorphDistMatrix.verbose.R")
+#browseURL("https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity/R/MorphDistMatrix.verbose.R")
 
 # The function is exactly the same but can take an optional additional argument: verbose (TRUE (default) or FALSE)
 # With verbose = FALSE, the function is exactly the same
@@ -63,110 +63,14 @@ trimmed.max.data <-TrimMorphDistMatrix(dist.data$max.dist.matrix)
 # Remove the trimmed taxa from the tree for later
 tree.data<-drop.tip(tree.data, trimmed.max.data$removed.taxa)
 
-# PCO on MOD distance
-pco <- cmdscale(trimmed.max.data$dist.matrix, k=nrow(trimmed.max.data$dist.matrix) - 1, add=T, eig=TRUE)
-
-#########################
-# ABOUT THE PC
-#########################
-
-# Difference between pcoa and cmdscale??
-cmd <- cmdscale(trimmed.max.data$dist.matrix, k=9, add=F, eig=TRUE)
-pcoa<- pcoa(trimmed.max.data$dist.matrix)
-
-round(cmd$eig, digit=10) == round(pcoa$values$Eigenvalues, digit=10)
-as.matrix(round(cmd$points, digit=10)) == as.matrix(round(pcoa$vectors, digit=10)) #weirdly the 7th dimension is reversed???
-
-#In cmdscale the add=T uses a Cailliez (1983) correction correcting for negative eigenvalues. 
-#To maximise the variance in our analysis, we create a space of n dimensions where n cam be represented by exactly in at most k-1 dimensions. Here we use k-2 dimensions because the two last eigenvalues are null (following Cailliez correction) 
-
-cmd <- cmdscale(trimmed.max.data$dist.matrix, k=nrow(trimmed.max.data$dist.matrix) - 2, add=T, eig=TRUE)
-pcoa<- pcoa(trimmed.max.data$dist.matrix, correction="cailliez")
-#Cailliez correction applied to negative eigenvalues: D' = -0.5*(D + 1.64469512246817 )^2, except diagonal elements
-
-all(round(cmd$eig, digit=10) == round(pcoa$values$Corr_eig, digit=10))
-as.matrix(round(cmd$points[,-13], digit=10)) == as.matrix(round(pcoa$vectors.cor, digit=10)) #weirdly the 8th and 9th dimension are reversed???
-
-#########################
-# VOLUME
-#########################
-
-#Dummy test
-clad.mat<-matrix(data=c(0,0,0,1,0,0,1,1,0,1,1,1), nrow=3) ; rownames(clad.mat) <- letters[1:3]
-dist.mat<-as.matrix(dist(clad.mat, diag=TRUE))
-pco<-cmdscale(dist.mat, eig=TRUE)
-pco.data<-pco$points
-pco.eig<-pco$eig
-plot(pco.data)
-
-round(pco.eig[-3], digit=10) == round(apply(cov(pco.data),2,sum)*2, digit=10)
-
-#volume.fast(pco.data, pco.eig)
-#volume(pco.data)
-disparity(pco.data, "volume")
-
-#ok for this simple case
-
-#Dummy test 2
-clad.mat<-matrix(data=sample(0:1,1000, replace=TRUE), nrow=20)
-dist.mat<-as.matrix(dist(clad.mat, diag=TRUE))
-pco<-cmdscale(dist.mat, k=nrow(dist.mat)-1, eig=TRUE, add=F)
-pco.data<-pco$points
-pco.eig<-pco$eig
-plot(pco.data)
-
-round(pco.eig[-20], digit=10) == round(apply(cov(pco.data),2,sum)*19, digit=10)
-
-#volume.fast(pco.data, pco.eig)
-#volume(pco.data)
-disparity(pco.data, "volume")
-
-#volume increases with the number of characters (increased distances)
 
 # Do the proper Multidimensional Scaling (corrected for negative eigenvalues)
 pco <- cmdscale(trimmed.max.data$dist.matrix, k=nrow(trimmed.max.data$dist.matrix) - 2, add=T, eig=TRUE)
 pco.data <- pco$points #generates k-2 eigenvectors (=n cladistic space dimensions)
 pco.eigen<- pco$eig #generates k eigenvalues (including two null eigenvalues)
 
-#Calculate the hyper-dimensional volume (i.e. size of the cladistic-space)
 
-#volume.fast(pco.data, pco.eigen)
-#volume(pco.data)
-disparity(pco.data, "volume")
-
-#Relation between eigen value and eigen vectors
-
-set.seed(0)
-X<-abs(matrix(rnorm(9),3,3))
-diag(X)<-0
-X[upper.tri(X)]<-X[lower.tri(X)]
-first<-eigen(cov(X))
-second<- apply(cov(first$vectors),2, sum)
-#eigen(cov(X))$values != cmdscale(X, eig=TRUE)$eig #problem here?
-
-eig.val<-cmdscale(X, eig=TRUE)$eig
-eig.vec<-cmdscale(X, eig=TRUE)$points
-
-round(eig.val[-3], digit=10) == round(apply(cov(eig.vec),2,sum)*2, digit=10)
-
-#Works only for a distance matrix and when vectors are reported as in the cmdscale/pcoa algorithm?
-
-# Let's first make a vector of intervals boundaries let's make it very simple: 3 bins with at least three taxa.
-bins<-rev(seq(from=0, to=100, by=20))
-# Note that the bins must be in reverse chronological order (time since the present)
-
-# Now we can separate the pco.data in different bins
-int.pco(pco.data, tree.data, bins)
-
-# We can also make it more accurate by adding the FAD-LAD data
-int.pco(pco.data, tree.data, bins, FAD_LAD=ages.data)
-
-# We can also count the diversity
 pco_in_bins<-int.pco(pco.data, tree.data, bins, FAD_LAD=ages.data, diversity=TRUE)
-# The new object is a list of the binned pco data
-pco_in_bins$pco_intervals
-# And of the taxonomic counts per bins
-pco_in_bins$diversity
 
 
 #############################
