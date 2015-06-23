@@ -13,15 +13,16 @@
 #<slices> a series of time slices
 #<FADLAD> a csv file with FADLAD data
 #########################
-#version 0.2.2
+#version 0.2.3
 #Update: Faster cleaning part
 #Update: fixed config file
 #Update: fixed error in slices files
 #Update: added observed data calculation
 #Update: fixed diversity bug + added diversity count saving
 #Update: add the three centroid disparity scenarios
+#Update: usual silly typos
 #----
-#guillert(at)tcd.ie - 22/06/2015
+#guillert(at)tcd.ie - 23/06/2015
 ###########################
 
 #INPUT
@@ -143,7 +144,7 @@ save(int_nodes_div,file=paste(data_path, chain_name, '/',chain_name,'-int_nodes_
 
 echo "
 #Intervals
-pco_int_nodes95<-int.pco(pco_data_nodes95, tree_nodes95, int_breaks, include.nodes=TRUE, FAD_LAD=FADLAD, diversity=TRUE)
+pco_int_nodes95<-int.pco(pco_data_nodes95, tree_nodes95, intervals, include.nodes=TRUE, FAD_LAD=FADLAD, diversity=TRUE)
 int_nodes95_div<-pco_int_nodes95[[2]] ; pco_int_nodes95<-pco_int_nodes95[[1]]
 save(int_nodes95_div,file=paste(data_path, chain_name, '/',chain_name,'-int_nodes95_div.Rda', sep=''))
 " >> R_scripts_${chain}/R_disparity_nodes95_int.R
@@ -255,7 +256,7 @@ disp_sli_nodes_ran<-time.disparity(pco_slices_nodes_ran, verbose=TRUE, rarefacti
 save(disp_sli_nodes_ran, file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes_ran.Rda', sep=''))
 #Observed disparity
 disp_sli_nodes_ran_obs<-time.disparity(pco_slices_nodes_ran, method='centroid', bootstraps=0, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
-disp_sli_nodes_ran_obs,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes_ran_obs.Rda', sep=''))
+save(disp_sli_nodes_ran_obs,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes_ran_obs.Rda', sep=''))
 #Observed disparity (BS)
 disp_sli_nodes_ran_obs_BS<-time.disparity(pco_slices_nodes_ran, method='centroid', bootstraps=1000, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
 save(disp_sli_nodes_ran_obs_BS,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes_ran_obs_BS.Rda', sep=''))
@@ -267,7 +268,7 @@ disp_sli_nodes_del<-time.disparity(pco_slices_nodes_del, verbose=TRUE, rarefacti
 save(disp_sli_nodes_del, file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes_del.Rda', sep=''))
 #Observed disparity
 disp_sli_nodes_del_obs<-time.disparity(pco_slices_nodes_del, method='centroid', bootstraps=0, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
-disp_sli_nodes_del_obs,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes_del_obs.Rda', sep=''))
+save(disp_sli_nodes_del_obs,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes_del_obs.Rda', sep=''))
 #Observed disparity (BS)
 disp_sli_nodes_del_obs_BS<-time.disparity(pco_slices_nodes_del, method='centroid', bootstraps=1000, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
 save(disp_sli_nodes_del_obs_BS,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes_del_obs_BS.Rda', sep=''))
@@ -279,7 +280,7 @@ disp_sli_nodes_acc<-time.disparity(pco_slices_nodes_acc, verbose=TRUE, rarefacti
 save(disp_sli_nodes_acc, file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes_acc.Rda', sep=''))
 #Observed disparity
 disp_sli_nodes_acc_obs<-time.disparity(pco_slices_nodes_acc, method='centroid', bootstraps=0, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
-disp_sli_nodes_acc_obs,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes_acc_obs.Rda', sep=''))
+save(disp_sli_nodes_acc_obs,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes_acc_obs.Rda', sep=''))
 #Observed disparity (BS)
 disp_sli_nodes_acc_obs_BS<-time.disparity(pco_slices_nodes_acc, method='centroid', bootstraps=1000, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
 save(disp_sli_nodes_acc_obs_BS,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes_acc_obs_BS.Rda', sep=''))
@@ -291,7 +292,7 @@ disp_sli_nodes_pro<-time.disparity(pco_slices_nodes_pro, verbose=TRUE, rarefacti
 save(disp_sli_nodes_pro, file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes_pro.Rda', sep=''))
 #Observed disparity
 disp_sli_nodes_pro_obs<-time.disparity(pco_slices_nodes_pro, method='centroid', bootstraps=0, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
-disp_sli_nodes_pro_obs,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes_pro_obs.Rda', sep=''))
+save(disp_sli_nodes_pro_obs,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes_pro_obs.Rda', sep=''))
 #Observed disparity (BS)
 disp_sli_nodes_pro_obs_BS<-time.disparity(pco_slices_nodes_pro, method='centroid', bootstraps=1000, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
 save(disp_sli_nodes_pro_obs_BS,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes_pro_obs_BS.Rda', sep=''))
@@ -303,7 +304,7 @@ disp_sli_nodes95_ran<-time.disparity(pco_slices_nodes95_ran, verbose=TRUE, raref
 save(disp_sli_nodes95_ran, file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes95_ran.Rda', sep=''))
 #Observed disparity
 disp_sli_nodes95_ran_obs<-time.disparity(pco_slices_nodes95_ran, method='centroid', bootstraps=0, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
-disp_sli_nodes95_ran_obs,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes95_ran_obs.Rda', sep=''))
+save(disp_sli_nodes95_ran_obs,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes95_ran_obs.Rda', sep=''))
 #Observed disparity (BS)
 disp_sli_nodes95_ran_obs_BS<-time.disparity(pco_slices_nodes95_ran, method='centroid', bootstraps=1000, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
 save(disp_sli_nodes95_ran_obs_BS,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes95_ran_obs_BS.Rda', sep=''))
@@ -315,7 +316,7 @@ disp_sli_nodes95_del<-time.disparity(pco_slices_nodes95_del, verbose=TRUE, raref
 save(disp_sli_nodes95_del, file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes95_del.Rda', sep=''))
 #Observed disparity
 disp_sli_nodes95_del_obs<-time.disparity(pco_slices_nodes95_del, method='centroid', bootstraps=0, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
-disp_sli_nodes95_del_obs,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes95_del_obs.Rda', sep=''))
+save(disp_sli_nodes95_del_obs,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes95_del_obs.Rda', sep=''))
 #Observed disparity (BS)
 disp_sli_nodes95_del_obs_BS<-time.disparity(pco_slices_nodes95_del, method='centroid', bootstraps=1000, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
 save(disp_sli_nodes95_del_obs_BS,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes95_del_obs_BS.Rda', sep=''))
@@ -329,7 +330,7 @@ save(disp_sli_nodes95_acc, file=paste(data_path, chain_name, '/',chain_name,'-di
 disp_sli_nodes95_acc_obs<-time.disparity(pco_slices_nodes95_acc, method='centroid', bootstraps=0, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
 disp_sli_nodes95_acc_obs,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes95_acc_obs.Rda', sep=''))
 #Observed disparity (BS)
-disp_sli_nodes95_acc_obs_BS<-time.disparity(pco_slices_nodes95_acc, method='centroid', bootstraps=1000, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
+save(disp_sli_nodes95_acc_obs_BS<-time.disparity(pco_slices_nodes95_acc, method='centroid', bootstraps=1000, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
 save(disp_sli_nodes95_acc_obs_BS,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes95_acc_obs_BS.Rda', sep=''))
 " >> R_scripts_${chain}/R_disparity_nodes95_sli_acc.R
 
@@ -339,7 +340,7 @@ disp_sli_nodes95_pro<-time.disparity(pco_slices_nodes95_pro, verbose=TRUE, raref
 save(disp_sli_nodes95_pro, file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes95_pro.Rda', sep=''))
 #Observed disparity
 disp_sli_nodes95_pro_obs<-time.disparity(pco_slices_nodes95_pro, method='centroid', bootstraps=0, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
-disp_sli_nodes95_pro_obs,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes95_pro_obs.Rda', sep=''))
+save(disp_sli_nodes95_pro_obs, file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes95_pro_obs.Rda', sep=''))
 #Observed disparity (BS)
 disp_sli_nodes95_pro_obs_BS<-time.disparity(pco_slices_nodes95_pro, method='centroid', bootstraps=1000, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
 save(disp_sli_nodes95_pro_obs_BS,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes95_pro_obs_BS.Rda', sep=''))
