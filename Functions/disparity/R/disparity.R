@@ -61,8 +61,10 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
     }
     
     #Central tendency
-    check.class(central_tendency, "function", " must be either a function (e.g. 'mean' or 'median'.")
-
+    if(class(central_tendency) != "standardGeneric") {
+        check.class(central_tendency, "function", " must be either a function (e.g. 'mean' or 'median'.")
+    }
+    
     #rarefaction
     check.class(rarefaction, "logical")
 
