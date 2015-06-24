@@ -13,7 +13,7 @@
 #<slices> a series of time slices
 #<FADLAD> a csv file with FADLAD data
 #########################
-#version 0.2.3
+#version 0.2.4
 #Update: Faster cleaning part
 #Update: fixed config file
 #Update: fixed error in slices files
@@ -22,7 +22,7 @@
 #Update: add the three centroid disparity scenarios
 #Update: usual silly typos
 #----
-#guillert(at)tcd.ie - 23/06/2015
+#guillert(at)tcd.ie - 24/06/2015
 ###########################
 
 #INPUT
@@ -328,7 +328,7 @@ disp_sli_nodes95_acc<-time.disparity(pco_slices_nodes95_acc, verbose=TRUE, raref
 save(disp_sli_nodes95_acc, file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes95_acc.Rda', sep=''))
 #Observed disparity
 disp_sli_nodes95_acc_obs<-time.disparity(pco_slices_nodes95_acc, method='centroid', bootstraps=0, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
-disp_sli_nodes95_acc_obs,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes95_acc_obs.Rda', sep=''))
+save(disp_sli_nodes95_acc_obs,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes95_acc_obs.Rda', sep=''))
 #Observed disparity (BS)
 save(disp_sli_nodes95_acc_obs_BS<-time.disparity(pco_slices_nodes95_acc, method='centroid', bootstraps=1000, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
 save(disp_sli_nodes95_acc_obs_BS,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes95_acc_obs_BS.Rda', sep=''))
