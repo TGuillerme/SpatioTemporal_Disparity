@@ -93,19 +93,122 @@ plot.disparity(extract.disp(disp_obs.dist.cent.BS$quantiles, rarefaction="max"),
 par(op)
 
 
+#ADONIS testing
 
-#Before and after KT difference
-KT<-65
+#Full cladisto-space
+pco_data<-pco$points #For code later: can be extracted from intervals (unique) 
+pco_data<-pco$points[,1:3] #3D version (easier to calculate)
+intervals<-pco_in_bins$pco_intervals
 
-preKT<-unlist(c(disp_med.dist.cent.BS$values$`100-80`, disp_med.dist.cent.BS$values$`80-60`))
-posKT<-unlist(c(disp_med.dist.cent.BS$values$`60-40`, disp_med.dist.cent.BS$values$`40-20`, disp_med.dist.cent.BS$values$`20-0`))
+#Adding time category to each taxa
+mat<-matrix(data=0, nrow=nrow(pco_data), ncol=length(intervals))
+rownames(mat)<-rownames(pco_data)
+#colnames(mat)<-names(intervals)
+colnames(mat)<-c("A","B","C","D","E")
+for (int in 1:length(intervals)) {
+    mat[c(rownames(intervals[[int]])),int]<-1
+}
+mat<-as.data.frame(mat)
+
+#Calculating the overall centroid distances
+centroid_overall<-apply(pco_data, 2, mean)
+
+#Calculating the centroids per interval
+
+centroids<-list()
+cent.dist<-list()
+
+for (int in 1:length(intervals)) {
+    
+    #Isolating one interval
+    X<-pco_in_bins$pco_intervals[[int]][,1:3] #3D only!
+
+    #Calculating it's centroid
+    centroids[[int]]<-apply(X, 2, mean)
+    
+    #Calculating all the distances from this centroid
+    Y<-NULL
+    for (j in 1:nrow(X)){
+        Y[j] <- dist(rbind(X[j,], centroids[[int]]), method="euclidean")
+    }
+    cent.dist[[int]]<-Y
+
+}
+
+#Calculating distances from time centroids to overall centroid
+cent_to_overall<-NULL
+cent_mat<-matrix(data=unlist(centroids), ncol=3, nrow=length(intervals), byrow=TRUE)
+for (j in 1:nrow(cent_mat)){
+    cent_to_overall[j] <- dist(rbind(cent_mat[j,], centroid_overall), method="euclidean")
+}
 
 
-wilcox.test(preKT, posKT)
+#Visualizing the results in 3D
+library(scatterplot3d)
 
-data(dune)
-data(dune.env)
-adonis(dune ~ Management*A1, data=dune.env, permutations=99)
+for (int in 1:length(intervals)) {
+    #Plot each observation
+    s3d<-scatterplot3d(pco_data)
+    #Add the centroid
+    s3d$points3d(centroids[[int]][1],centroids[[int]][2],centroids[[int]][3], col="blue",pch=16)
+    #Add the distances within centroids
+    s3d$points3d(c(rbind(centroids[[int]][1],pco_in_bins$pco_intervals[[int]][,1])), c(rbind(centroids[[int]][2],pco_in_bins$pco_intervals[[int]][,2])), c(rbind(centroids[[int]][3],pco_in_bins$pco_intervals[[int]][,3])), type="l", lty=3, col="grey")
+    #Pause
+    Sys.sleep(1)
+}
+
+#Plot each observation
+s3d<-scatterplot3d(pco_data)
+
+#Add the centroid
+for (int in 1:length(intervals)) {
+    s3d$points3d(centroids[[int]][1],centroids[[int]][2],centroids[[int]][3], col="blue",pch=16)
+}
+
+#Add the overall centroid
+s3d$points3d(centroid_overall[1],centroid_overall[2],centroid_overall[3], col="red",pch=16)
+#Add the distances between centroids
+s3d$points3d(c(rbind(centroid_overall[1],cent_mat[,1])), c(rbind(centroid_overall[2],cent_mat[,2])), c(rbind(centroid_overall[3],cent_mat[,3])), type="l", lty=1, col="red")
+
+
+
+
+adonis(pco_data ~ A+B+C+D+E, data=mat, method='euclidean', permutations=1000)
+
+
+
+library(scatterplot3d)
+
+X<-pco$points[,1:3]
+centroid<-apply(X, 2, mean)
+cent.dist<-NULL
+for (j in 1:nrow(X)){
+    cent.dist[j] <- dist(rbind(X[j,], centroid), method="euclidean")
+}
+
+op<-par(mfrow=c(2,1), mar=c(0,0,0,0))
+nf<-layout(matrix(c(1,2),2,1,byrow = TRUE), c(1,2),c(2,1), FALSE)
+#layout.show(nf)
+#Plot each observation (ordinated)
+s3d<-scatterplot3d(X)
+#Add the centroid
+s3d$points3d(centroid[1],centroid[2],centroid[3], col="red",pch=16)
+#Add the distances
+s3d$points3d(c(rbind(centroid[1],X[,1])), c(rbind(centroid[2],X[,2])), c(rbind(centroid[3],X[,3])), type="l", lty=3)
+
+#Plot the distances to centroid distribution
+med.cent<-round(median(cent.dist), digit=3)
+barplot(cent.dist, main=paste("median distance =", med.cent), width=0.5)
+
+par(op)
+
+
+
+
+
+
+
+
 
 
 ### Example of use with strata, for nested (e.g., block) designs.
