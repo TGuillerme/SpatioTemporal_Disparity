@@ -177,6 +177,7 @@ for (column in 1:ncol(mat_full)) {
 }
 #Permanova
 adonis(pco_data ~ A+B+C+D+E, data=mat, method='euclidean', permutations=1000)
+adonis(pco_data ~ A:B:C:D:E, data=mat, method='euclidean', permutations=1000)
 
 #Calculate the effect of different slices.
 #OK
@@ -200,6 +201,51 @@ adonis(dist.matrix ~ time, data=mat, method='euclidean', permutations=1000)
 #Test with the full pco ON THE PCO DATA
 pco$points 
 adonis(pco$points ~ time, data=mat, method='euclidean', permutations=1000)
+
+#Test with time as a strata
+adonis(pco$points ~ time, data=mat, strata=mat$time, method='euclidean', permutations=1000)
+
+
+#GLM
+counts <- c(18,17,15,20,10,20,25,13,12)
+outcome <- gl(3,1,9)
+print(d.AD <- data.frame(treatment, outcome))
+glm.D93 <- glm(counts ~ outcome , family = poisson())
+anova(glm.D93)
+summary(glm.D93)
+
+#treatments <- distances from centroids
+#outcome <- time
+
+eucl_list<-disp_obs.dist.cent$values
+eucl_val<-unlist(eucl_list) ; names(eucl_val)<-NULL
+time_counts<-unlist(lapply(eucl_list, lapply, length))
+time<-as.factor(rep(names(eucl_list), time_counts))
+
+#Univariate (on the euclidean distance)
+bla<-aov(eucl_val~time)
+summary(bla)
+plot(TukeyHSD(bla))
+
+#Multivariate (on the pco)
+pco_mat<-rbind(intervals[[1]], intervals[[2]])
+for (int in 3:length(intervals)) {
+    pco_mat<-rbind(pco_mat, intervals[[int]])
+}
+nrow(pco_mat) == length(time)
+
+adonis(pco_mat~time, method='euclidean', permutations=1000)
+
+
+#add the
+
+#colnames(mat)<-names(intervals)
+colnames(mat)<-c("A","B","C","D","E")
+for (int in 1:length(intervals)) {
+    mat[c(rownames(intervals[[int]])),int]<-1
+}
+mat<-as.data.frame(mat)
+
 
 #Do the t-tests
 
@@ -231,33 +277,6 @@ combinations<-function(k) {
 
 
 
-### Example of use with strata, for nested (e.g., block) designs.
-
-dat <- expand.grid(rep=gl(2,1), NO3=factor(c(0,10)),field=gl(3,1) )
-dat
-Agropyron <- with(dat, as.numeric(field) + as.numeric(NO3)+2) +rnorm(12)/2
-Schizachyrium <- with(dat, as.numeric(field) - as.numeric(NO3)+2) +rnorm(12)/2
-total <- Agropyron + Schizachyrium
-dotplot(total ~ NO3, dat, jitter.x=TRUE, groups=field,
-        type=c('p','a'), xlab="NO3", auto.key=list(columns=3, lines=TRUE) )
-
-Y <- data.frame(Agropyron, Schizachyrium)
-mod <- metaMDS(Y)
-plot(mod)
-### Hulls show treatment
-with(dat, ordihull(mod, group=NO3, show="0"))
-with(dat, ordihull(mod, group=NO3, show="10", col=3))
-### Spider shows fields
-with(dat, ordispider(mod, group=field, lty=3, col="red"))
-
-### Correct hypothesis test (with strata)
-adonis(Y ~ NO3, data=dat, strata=dat$field, perm=999)
-
-### Incorrect (no strata)
-adonis(Y ~ NO3, data=dat, perm=999)
-
-
-#Just do a Tukey HSD?
 
 
 
