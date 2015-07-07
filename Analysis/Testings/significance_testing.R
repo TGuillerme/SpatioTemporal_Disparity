@@ -100,16 +100,6 @@ pco_data<-pco$points #For code later: can be extracted from intervals (unique)
 pco_data<-pco$points[,1:3] #3D version (easier to calculate)
 intervals<-pco_in_bins$pco_intervals
 
-#Adding time category to each taxa
-mat<-matrix(data=0, nrow=nrow(pco_data), ncol=length(intervals))
-rownames(mat)<-rownames(pco_data)
-#colnames(mat)<-names(intervals)
-colnames(mat)<-c("A","B","C","D","E")
-for (int in 1:length(intervals)) {
-    mat[c(rownames(intervals[[int]])),int]<-1
-}
-mat<-as.data.frame(mat)
-
 #Calculating the overall centroid distances
 centroid_overall<-apply(pco_data, 2, mean)
 
@@ -171,40 +161,70 @@ s3d$points3d(centroid_overall[1],centroid_overall[2],centroid_overall[3], col="r
 s3d$points3d(c(rbind(centroid_overall[1],cent_mat[,1])), c(rbind(centroid_overall[2],cent_mat[,2])), c(rbind(centroid_overall[3],cent_mat[,3])), type="l", lty=1, col="red")
 
 
+#Adding time category to each taxa
+mat<-matrix(data=0, nrow=nrow(pco_data), ncol=length(intervals))
+rownames(mat)<-rownames(pco_data)
+#colnames(mat)<-names(intervals)
+colnames(mat)<-c("A","B","C","D","E")
+for (int in 1:length(intervals)) {
+    mat[c(rownames(intervals[[int]])),int]<-1
+}
+mat<-as.data.frame(mat)
 
-
+mat_full<-mat
+for (column in 1:ncol(mat_full)) {
+    mat_full[,column]<-1 ; mat_full[sample(1:nrow(mat_full), sample(1:nrow(mat_full), 1)), column]<-0
+}
+#Permanova
 adonis(pco_data ~ A+B+C+D+E, data=mat, method='euclidean', permutations=1000)
 
+#Calculate the effect of different slices.
+#OK
 
-
-library(scatterplot3d)
-
-X<-pco$points[,1:3]
-centroid<-apply(X, 2, mean)
-cent.dist<-NULL
-for (j in 1:nrow(X)){
-    cent.dist[j] <- dist(rbind(X[j,], centroid), method="euclidean")
+#Add a column for time
+mat$time<-NA
+for (row in 1:nrow(mat)) {
+    mat$time[row]<-paste(colnames(mat)[which(mat[row,]==1)], collapse="")
 }
 
-op<-par(mfrow=c(2,1), mar=c(0,0,0,0))
-nf<-layout(matrix(c(1,2),2,1,byrow = TRUE), c(1,2),c(2,1), FALSE)
-#layout.show(nf)
-#Plot each observation (ordinated)
-s3d<-scatterplot3d(X)
-#Add the centroid
-s3d$points3d(centroid[1],centroid[2],centroid[3], col="red",pch=16)
-#Add the distances
-s3d$points3d(c(rbind(centroid[1],X[,1])), c(rbind(centroid[2],X[,2])), c(rbind(centroid[3],X[,3])), type="l", lty=3)
+boxplot(pco$points ~ mat$time)
+#Permanova 
+adonis(pco_data ~ time, data=mat, method='euclidean', permutations=1000)
 
-#Plot the distances to centroid distribution
-med.cent<-round(median(cent.dist), digit=3)
-barplot(cent.dist, main=paste("median distance =", med.cent), width=0.5)
+#Number of overlapping cases = n*(n+1)/2
 
-par(op)
+#Test with the distance matrix PROPER ONE
+dist.matrix<-trimmed.max.data$dist.matrix
+adonis(dist.matrix ~ time, data=mat, method='euclidean', permutations=1000)
 
+#Test with the full pco ON THE PCO DATA
+pco$points 
+adonis(pco$points ~ time, data=mat, method='euclidean', permutations=1000)
 
+#Do the t-tests
 
 
+#Calculate manually
+squares<-NULL
+for (i in 1:nrow(pco_in_bins$pco_intervals[[1]])) {
+    squares[i]<-(pco_in_bins$pco_intervals[[1]][i,1]-centroids[[1]][1])^2+(pco_in_bins$pco_intervals[[1]][i,2]-centroids[[1]][2])^2+(pco_in_bins$pco_intervals[[1]][i,3]-centroids[[1]][3])^2
+}
+SS_A<-sum(squares)/3
+
+mean_SS_A
+F.mod_A
+R2_A
+p_value
+
+
+combinations<-function(k) {
+    for (n in 1:k) {
+        x<-combn(1:k, n)
+        for(col in 1:ncol(x)) {
+            cat(x[,col], sep="") ; cat(" ")
+        }
+    }
+}
 
 
 
@@ -236,44 +256,6 @@ adonis(Y ~ NO3, data=dat, strata=dat$field, perm=999)
 ### Incorrect (no strata)
 adonis(Y ~ NO3, data=dat, perm=999)
 
-
-
-disparity_full_ran_beck
-
-#values for each slice
-beck_65<-disparity_full_ran_beck$values$`65`
-beck_60<-disparity_full_ran_beck$values$`60`
-beck_55<-disparity_full_ran_beck$values$`55`
-beck_50<-disparity_full_ran_beck$values$`50`
-beck_45<-disparity_full_ran_beck$values$`45`
-beck_40<-disparity_full_ran_beck$values$`40`
-beck_35<-disparity_full_ran_beck$values$`35`
-beck_30<-disparity_full_ran_beck$values$`30`
-
-dis_pro_max_beck
-
-#quantiles
-dis_pro_max_beck<-extract.disp(disparity_full_ran_beck$quantiles, rarefaction="max")
-
-adonis(beck_65~beck_60, permutations=1000, method="euclidean")
-adonis(beck_65~beck_55, permutations=1000, method="euclidean")
-adonis(beck_65~beck_50, permutations=1000, method="euclidean")
-adonis(beck_65~beck_45, permutations=1000, method="euclidean")
-adonis(beck_65~beck_40, permutations=1000, method="euclidean")
-adonis(beck_65~beck_35, permutations=1000, method="euclidean")
-adonis(beck_65~null_ran_centroid_ran[[2]]$values$`65`, permutations=1000, method="euclidean")
-
-
-adonis(beck_65~beck_60+beck_55+beck_50,beck_45+beck_40+beck_35+beck_30, permutations=1000, method="euclidean")
-#NPMANOVA of the PC axes  (e.g. Stayton 2005 and Ruta 2013)
- PC.man <- adonis(PC95axes~sp.fam$Family, data=sp.fam, permutations=999, method="euclidean")
-
-adonis(dis_pro_max_beck[22,3]~dis_pro_max_beck[22,3], permutations=1000)
-
-beck_test<-list(as.vector(beck_60),as.vector(beck_55),as.vector(beck_50),as.vector(beck_45),as.vector(beck_40),as.vector(beck_35),as.vector(beck_30))
-
-bla<-lapply(beck_test, bhatt.coeff, y=as.vector(beck_65))
-bhatt.coeff(as.vector(beck_65), as.vector(null_ran_centroid_ran[[2]]$values$`65`))
 
 #Just do a Tukey HSD?
 
@@ -416,11 +398,3 @@ if (any(Methods == "Sum of Ranges")){
         }
     }
  }
-
-
-set.seed(1)
-X1<-rnorm(100, 0)
-X2<-rnorm(100, 1)
-pt<-t.test(X1,X2)
-plot(density(X1), col="red", xlim=c(min(c(X1,X2)), max(c(X1,X2))))
-lines(density(X2), col="blue")
