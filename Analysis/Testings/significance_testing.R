@@ -217,6 +217,12 @@ summary(glm.D93)
 #treatments <- distances from centroids
 #outcome <- time
 
+
+
+
+#PROPER TESTING
+
+
 eucl_list<-disp_obs.dist.cent$values
 eucl_val<-unlist(eucl_list) ; names(eucl_val)<-NULL
 time_counts<-unlist(lapply(eucl_list, lapply, length))
