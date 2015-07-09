@@ -74,3 +74,78 @@ test.anova<-function(data) {
     output<-list("Pass"=test_results, "Test"=test.save)
     return(output)
 }
+
+#Making the two time intervals groups for multivariate data
+make.age.interval<-function(int_befor, int_after, data) {
+    #Setting the intervals
+    interval_1<-seq(1:int_befor)
+    interval_2<-seq(from=int_after, to=length(data))
+
+    #Regroup the data per interval
+    interval_bef<-data[[interval_1[1]]]
+    if(length(interval_1) > 1) {
+        for (n in 2:length(interval_1)) {
+            interval_bef<-rbind(interval_bef, data[[interval_1[n]]])
+        }
+    }
+    interval_bef<-interval_bef[unique(rownames(interval_bef)), ]
+
+    interval_aft<-data[[interval_2[1]]]
+    if(length(interval_2) > 1) {
+        for (n in 2:length(interval_2)) {
+            interval_aft<-rbind(interval_aft, data[[interval_2[n]]])
+        }
+    }
+    interval_aft<-interval_aft[unique(rownames(interval_aft)), ]
+
+    #Regrouping the intervals in the same list
+    return(list("before"=interval_bef, "after"=interval_aft))
+}
+
+Anderson.Friedman.test<-function(BSresults, time_pco) {
+    #Disparity T-Test calculation from Anderson and Friedman 2012.
+    #Code modified from Smith et al. 2014 - Evolution
+
+    #Extracting the sample sizes
+    sample_size<-unlist(lapply(time_pco, nrow))
+
+    #Getting the mean and the variance from the BSresults
+    variance_int<-apply(BSresults, 2, var)
+    mean_int<-apply(BSresults, 2, mean)
+
+    #Calculating the T_statistics functions
+    mean.difference<-function(x,y, mean_int) {mean_int[x]-mean_int[y]}
+    term.A<-function(x,y,sample_size, variance_int) { ((sample_size[x]-1)*(sample_size[x])* variance_int[x] + (sample_size[y]-1)*(sample_size[y])* variance_int[y] )/(sample_size[x]+sample_size[y]+2) }
+    term.B<-function(x,y, sample_size) { (sample_size[x] + sample_size [y])/(sample_size[x] * sample_size [y]) }
+
+    #Calculating the statistic, df and p-value.
+    p_values<-degrees_freedom<-t_statistic<-as.data.frame(matrix(NA, nrow=ncol(BSresults), ncol=ncol(BSresults)))
+    rownames(p_values)<-rownames(degrees_freedom)<-rownames(t_statistic)<-names(time_pco)
+    colnames(p_values)<-colnames(degrees_freedom)<-colnames(t_statistic)<-names(time_pco)
+    for(row in 1:ncol(BSresults)) {
+        for(col in 1:ncol(BSresults)) {
+            t_statistic[row,col]<-mean.difference(row,col, mean_int)/sqrt(term.A(row,col,sample_size,variance_int)*term.B(row,col,sample_size))
+            degrees_freedom[row,col]<-sample_size[row]+sample_size[col]-2
+            p_values[row,col]<- 1-pt(t_statistic[row, col], df = degrees_freedom[row, col])
+        }
+    }
+
+    #make test two-tailed
+    if (p_values [row,col] > 0.5) {
+        p_values [row,col] <- 2*(1-p_values[row,col])
+    } else {
+        if (p_values [row,col] < 0.5){
+            p_values [row,col] <- 2*(p_values[row,col])   
+        } else {
+            if (p_values [row,col] == 0.5){
+                p_values [row,col] <- 1
+            }
+        }
+    }
+
+    return(list("T"=t_statistic, "df"=degrees_freedom, "p"=p_values))
+}
+
+p.correct<-function(p_values, correction) {
+    p.adjust(p_values[lower.tri(p_values, diag=TRUE)], method=correction)
+}

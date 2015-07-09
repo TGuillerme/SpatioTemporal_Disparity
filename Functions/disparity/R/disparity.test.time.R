@@ -53,7 +53,7 @@ disparity.test.time<-function(data, force.test=NULL, method=NULL, permutations=N
         message("'method' options is not null. The test is assumed to be multivariate.")
     }
 
-    #method
+    #permutations
     if(is.null(permutations)) {
         permutations=1000
     } else {

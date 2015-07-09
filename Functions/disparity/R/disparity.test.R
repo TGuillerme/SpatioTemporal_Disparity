@@ -1,206 +1,375 @@
 ##########################
-#disparity.test
+#Disparity testing function
 ##########################
-#function for testing differences in disparity through time
-#v0.1
+#Calculates the differences between PCO intervals based on Anderson & Friedman 2012 test.
+#v0.0.1
 ##########################
 #SYNTAX :
-#<data> can be either a list of matrices (e.g. for multivariate pco through time using permanova) or a time.disparity output (for univariate analysis, e.g. aov).
-#<type> what to test, can be: "Time", "Age", "Lag".
-#<time> optional, if test is "age" or "lag", the age to use.
-#<force.test> optional, whether to force the test to be parametric or non parametric (can be "parametric", "non-parametric", or "NULL" (default))
-#<method> optional, distance method for the permanova (see adonis). If NULL method="euclidean".
-#<permutations> optional, number of permutations for the permanova (see adonis). If NULL permutations=1000.
+#<time_pco> a time_pco matrix
+#<method> the method for calculating the disparity. Can be any of the following: "volume", "centroid", "sum.range", "product.range", "sum.variance", "product.variance"
+#<bootstraps> the number of bootstrap replicates (default=1000).
+#<correction> one of the methods from p.adjust function to correct the p-values. If NULL, no correction will be applied.
+#<rarefaction> a rarefaction value. If NULL, is ignored.
+#<verbose> whether to be verbose or not
+#<rm.last.axis> whether to remove the last axis from the pco time_pco. Can be a threshold value.
 ##########################
 #----
-#guillert(at)tcd.ie 08/07/2015
+#guillert(at)tcd.ie 09/07/2015
 ##########################
 
-#DEBUG
-message("DEBUG ACTIVATED")
-time_pco<-intervals
-time_dis<-disp_obs.dist.cent
-
-data<-time_dis
-type<-"Time"
-time=60
-
-
-disparity.test<-function(data, type, time=NULL, force.test=NULL, method=NULL, permutations=NULL, ...) {
-
+disparity.test<-function(time_pco, method, bootstraps=1000, correction="bonferroni", rarefaction=NULL, verbose=FALSE, rm.last.axis=FALSE) {
+    #-----------------------------
     #SANITIZING
-    message("Warning: no sanitizing in this version yet!\nUse this function at your own risks...")
-    #Add data sanitizing input
-    if(class(data[[1]]) == "matrix") {
-        data_type<-"Multivariate"
-    } else {
-        data_type<-"Univariate"
-    }
-    
-    #type
-    check.class(type, "character", " can be either 'Time', 'Age' or 'Lag'.")
-    check.length(type, 1, " can be either 'Time', 'Age' or 'Lag'.")
-    type_list<-c('Time', "Age", "Lag")
-    if(is.na(match(type, type_list))) {
-        stop("Time can be either 'Time', 'Age' or 'Lag'.")
-    }
+    #-----------------------------
+    #distance
+    check.class(time_pco, "matrix")
 
-
-
-    if(type != "Time") {
-        #Time
-    
-        #TIME CAN ALSO BE A STRATA
-        #time (only in type = Age or Lag)
-        check.class(time, "numeric")
-        check.length(time, 1, " must be a single numerical value.")
-        #check if time is present in the time_pco
-        #Setting the data type
-        if(data_type == "Multivariate") {
-            #Multivariate data
-            intervals<-names(data)
-        } else {
-            #Univariate data
-            intervals<-names(data[[2]])
-        }
-
-
-        if(length(grep(time, intervals)) == 0) {
-            #Time is within intervals
-            stop("Not developed yet: time within intervals.")
-        } else {
-            if(length(grep(time, intervals))==2) {
-                #Time is between intervals
-                int_befor<-grep(time, intervals)[1]
-                int_after<-grep(time, intervals)[2]
-            } else {
-                #Time is at interval
-                int_befor<-grep(time, intervals)[1]
-                int_after<-int_befor+1
-            }
-        }
-        #Lag
-        if(type == "Lag") {
-            int_after<-int_after:length(intervals)
-        }
+    #Test if applicable (> 2 rows)
+    if(nrow(time_pco) < 2) {
+        stop("Disparity can not be calculated because less than two taxa are present in the time_pco!")
     } 
 
-    #force.test
-    if(!is.null(force.test) == TRUE) {
-        check.class(force.test, "character", " can be either 'parametric', 'non-parametric' or 'NULL'.")
-        check.length(force.test, 1, " can be either 'parametric', 'non-parametric' or 'NULL'.")
-        if(force.test != "parametric") {
-            if(force.test != "non-parametric") {
-                stop("force.test must be either 'parametric', 'non-parametric' or 'NULL'.")
+    #method
+    check.class(method, "character", " can be 'volume', 'centroid', 'sum.range', 'product.range', 'sum.variance' or/and 'product.variance'.")
+    methods_list<-c('volume', "centroid", "sum.range", "product.range", "sum.variance", "product.variance")
+    check.length(method, 1, ": only one method can be input")
+    if(all(is.na(match(method, methods_list)))) {
+        stop("method can be 'volume', 'centroid', 'sum.range', 'product.range', 'sum.variance' or/and 'product.variance'.")
+    }
+
+    #Bootstrap
+    check.class(bootstraps, "numeric", " must be a single (entire) numerical value.")
+    check.length(bootstraps, 1, " must be a single (entire) numerical value.")
+    #Make sure the bootstrap is a whole number
+    bootstraps<-round(abs(bootstraps))
+    
+    #Central tendency
+    central_tendency=mean
+    
+    #rarefaction
+    if(is.null(rarefaction)) {
+        rarefaction<-FALSE
+    } else {
+        check.class(rarefaction, "numeric")
+    }
+
+    #verbose
+    check.class(verbose, "logical")
+
+    #rm.last.axis
+    if(class(rm.last.axis) == "logical") {
+        if(rm.last.axis == FALSE) {
+            rm.axis<-FALSE
+        } else {
+            rm.axis<-TRUE
+            last.axis<-0.95
+        }
+    } else {
+        check.class(rm.last.axis, "numeric", " must be logical or a probability threshold value.")
+        check.length(rm.last.axis, 1, " must be logical or a probability threshold value.", errorif=FALSE)
+        if(rm.last.axis < 0) {
+            stop("rm.last.axis must be logical or a probability threshold value.")
+        } else {
+            if(rm.last.axis > 1) {
+                stop("rm.last.axis must be logical or a probability threshold value.")
+            } else {
+                rm.axis<-TRUE
+                last.axis<-rm.last.axis
             }
-        }     
-    } else {
-        force.test<-FALSE
+        }
     }
 
-    #setting the test type to null (default)
-    test_type=NULL
+    #centroid - LEAVE OR NOT?
+    centroid.type_function<-cen.apply.mea
+    
+    #-----------------------------
+    #CLEANING / BOOTSTRAPING
+    #-----------------------------
 
-    #method
-    if(is.null(method)) {
-        method="euclidean"
-    } else {
-        check.class(method, "character")
-        test_type<-"Multivariate"
-        message("'method' options is not null. The test is assumed to be multivariate.")
+    #Removing the last pco axis
+    if(rm.axis==TRUE) {
+        #calculate the cumulative variance per axis
+        scree_data<-cumsum(apply(time_pco, 2, var) / sum(apply(time_pco, 2, var)))
+        #extract the axis  below the threshold value
+        axis_selected<-length(which(scree_data < last.axis))
+        #remove the extra axis
+        time_pco<-time_pco[,c(1:axis_selected)]
+        #warning
+        message(paste("The", length(scree_data)-axis_selected, "last axis have been removed from the pco time_pco."))
     }
 
-    #method
-    if(is.null(permutations)) {
-        permutations=1000
-    } else {
-        check.class(permutations, "numeric")
-        test_type<-"Multivariate"
-        message("'permutations' options is not null. The test is assumed to be multivariate.")
+    #Bootstraping the matrix
+    #verbose
+    if(verbose==TRUE) {
+        message("Bootstraping...", appendLF=FALSE)
+    }
+    BSresult<-lapply(time_pco, Bootstrap.rarefaction, bootstraps, rarefaction)
+    if(verbose==TRUE) {
+        message("Done.", appendLF=TRUE)
     }
 
-    #TEST DIFFERENCES IN DISPARITY
+    #Selecting the method function
+    if(method == 'volume') {
+        method.fun<-volume.calc
+    }
+    if(method == 'centroid') {
+        method.fun<-centroid.calc
+    }
+    if(method == 'range') {
+        method.fun<-range.calc
+    }
+    if(method == 'variance') {
+        method.fun<-variance.calc
+    }
 
-    #TIME: testing the effect of time on data
-    if(type == "Time") {
+    #sum of the sums?
 
-        if(data_type == "Univariate") {
-            #Univariate analysis (Kruskall Wallis or ANOVA)
-            univ_data<-make.univariate.table(data)
-            data.values<-univ_data[,1]
-            time<-univ_data[,2]
+    BS_tmp<-matrix(NA, nrow=bootstraps, ncol=length(time_pco))
+    for (int in 1:length(time_pco)) {
+        BS_tmp[,int]<-apply(lapply(BSresult[[int]],centroid.calc)[[1]], 1, sum)
+    }
+    BS_result<-BS_tmp
+
+
+
+
+    #-----------------------------
+    #VOLUME
+    #-----------------------------
+    #Hyperspace volume calculation
+    if(any(method == 'volume')) {
+        #Calculate the hyperspace volume
+        if(verbose==TRUE) {
+            message("Calculating hyperspace volume...", appendLF=FALSE)
+        }
+        volumes<-lapply(BSresult, volume.calc)
+        #Volumes table
+        Volume_table<-Disparity.measure.table(type_function=no.apply, volumes, central_tendency, CI, save.all)
+        #Results type
+        if(save.all == FALSE) {
+            #Renaming the column
+            colnames(Volume_table)[1]<-"Volume"
+        } else {
+            #Isolating the time_pco parts
+            Volume_values<-Volume_table[[2]]
+            Volume_table<-Volume_table[[1]]
+            colnames(Volume_table)[1]<-"Volume"
+        }
+        if(verbose==TRUE) {
+            message("Done.", appendLF=TRUE)
+        }
+    }
+
+    #-----------------------------
+    #CENTROID
+    #-----------------------------
+    if(any(method == 'centroid')) {
+        #Calculate the distance from centroid for the rarefaction and the bootstrapped matrices
+        if(verbose==TRUE) {
+            message("Calculating distance from centroid...", appendLF=FALSE)
+        }
+        centroids<-lapply(BSresult, centroid.calc)
+        #Distance to centroid
+        Centroid_dist_table<-Disparity.measure.table(type_function=centroid.type_function, centroids, central_tendency, CI, save.all)
+        #Results type
+        if(save.all == FALSE) {
+            #Renaming the column
+            colnames(Centroid_dist_table)[1]<-"Cent.dist"
+        } else {
+            #Isolating the time_pco parts
+            Centroid_values<-Centroid_dist_table[[2]]
+            Centroid_dist_table<-Centroid_dist_table[[1]]
+            colnames(Centroid_dist_table)[1]<-"Cent.dist"
+        }
+        if(verbose==TRUE) {
+            message("Done.", appendLF=TRUE)
+        }
+    }
+
+    #-----------------------------
+    #RANGES
+    #-----------------------------
+    #Wills 1994 range calculations
+    if(any(grep("range", method))) {
+        #Calculate the range for the rarefaction and the bootstrapped matrices
+        if(verbose==TRUE) {
+            message("Calculating ranges...", appendLF=FALSE)
+        }
+        ranges<-lapply(BSresult, range.calc)
+
+        #Sum of ranges
+        if(any(method == 'sum.range')) {
+            #Sum of range
+            Sum_range_table<-Disparity.measure.table(type_function=sum.apply, ranges, central_tendency, CI, save.all)
+
+            #Results type
+            if(save.all == FALSE) {
+                #Renaming the column
+                colnames(Sum_range_table)[1]<-"Sum.range"
+            } else {
+                #Isolating the time_pco parts
+                Sum_range_values<-Sum_range_table[[2]]
+                Sum_range_table<-Sum_range_table[[1]]
+                colnames(Sum_range_table)[1]<-"Sum.range"
+            }
+
+        }
+
+        #Product of ranges
+        if(any(method == 'product.range')) {
+            #Product of range
+            Product_range_table<-Disparity.measure.table(type_function=prod.apply, ranges, central_tendency, CI, save.all)
+
+            #Results type
+            if(save.all == FALSE) {
+                #Renaming the column
+                colnames(Product_range_table)[1]<-"Prod.range"
+            } else {
+                #Isolating the time_pco parts
+                Prod_range_values<-Product_range_table[[2]]
+                Product_range_table<-Product_range_table[[1]]
+                colnames(Product_range_table)[1]<-"Prod.range"
+            }
+
+        }
+        if(verbose==TRUE) {
+            message("Done.", appendLF=TRUE)
+        }
+    }
+
+    #-----------------------------
+    #VARIANCE
+    #-----------------------------
+    #Wills 1994 variance calculations
+    if(any(grep("variance", method))) {
+        #Calculate the variance for the rarefaction and the bootstrapped matrices
+        if(verbose==TRUE) {
+            message("Calculating variance...", appendLF=FALSE)
+        }
+        variances<-lapply(BSresult, variance.calc)
+
+        #Sum of variance
+        if(any(method == 'sum.variance')) {
+            #Sum of variance
+            Sum_variance_table<-Disparity.measure.table(type_function=sum.apply, variances, central_tendency, CI, save.all)
+
+            #Results type
+            if(save.all == FALSE) {
+                #Renaming the column
+                colnames(Sum_variance_table)[1]<-"Sum.var"
+            } else {
+                #Isolating the time_pco parts
+                Sum_variance_values<-Sum_variance_table[[2]]
+                Sum_variance_table<-Sum_variance_table[[1]]
+                colnames(Sum_variance_table)[1]<-"Sum.var"
+            }
+  
+        }
+
+        #Product of variance
+        if(any(method == 'product.variance')) {
+            #Product of variance
+            Product_variance_table<-Disparity.measure.table(type_function=prod.apply, variances, central_tendency, CI, save.all)
+
+            #Results type
+            if(save.all == FALSE) {
+                #Renaming the column
+                colnames(Product_variance_table)[1]<-"Prod.var"
+            } else {
+                #Isolating the time_pco parts
+                Prod_variance_values<-Product_variance_table[[2]]
+                Product_variance_table<-Product_variance_table[[1]]
+                colnames(Product_variance_table)[1]<-"Prod.var"
+            }
         
-            #Testing assumptions of anova
-            test<-test.anova(univ_data)
-
-            #Running the univariate test
-            if(test[[1]] == TRUE) {
-                if(force.test == "non-parametric") {
-                    #KW test
-                    univ_test<-kruskal.test(data.values~time)
-                    message("Tested input values ~ input time using Kruskal-Wallis rank sum test.")
-                } else {
-                    #ANOVA
-                    univ_test<-summary(aov(data.values~time))
-                    message("Tested input values ~ input time using ANOVA.")
-                    message("Residuals are normally distributed and variance within groups is homogeneous.")
-                    message("Is the data independent? If not use the 'force.test=\"non-parametric\"' options.")
-                }
-            } else {
-                if(force.test == "parametric") {
-                    #ANOVA
-                    univ_test<-summary(aov(data.values~time))
-                    message("Tested input values ~ input time using ANOVA (parametric test was enforced using 'force.test=\"parametric\"' options).")
-                    message("Residuals are NOT normally distributed and variance within groups is NOT homogeneous.")                
-                } else {
-                    #KW test
-                    univ_test<-kruskal.test(data.values~time)
-                    message("Tested input values ~ input time using Kruskal-Wallis rank sum test.")
-                }
-
-            }
-
-            #Do test output
         }
-
-        if(is.null(test_type) & data_type == "Multivariate") {
-            test_type<-"Multivariate"
-        } else {
-            test_type<-"Univariate"
+        if(verbose==TRUE) {
+            message("Done.", appendLF=TRUE)
         }
-
-        if(test_type == "Multivariate") {
-            #Is the data univariate?
-            if(data_type == "Univariate") {
-                multi_data<-make.univariate.table(data)
-                data.values<-univ_data[,1]
-                time<-univ_data[,2]
-                message("Multivariate test is performed on univariate data. Remove the multivariate options to enforce univariate test.")
-            } else {
-                multi_data<-make.multivariate.table(data)
-                data.values<-multi_data[[1]]
-                time<-multi_data[[2]]
-            }
-
-            #Running PERMANOVA
-            multi_test<-adonis(data.values~time, method=method, permutations=permutations)
-            message(paste("Tested input values ~ input time using PERMANOVA with ", method," distance and ", permutations, " permutations.", sep=""))
-
-        }
-
-        #Output
-        if(test_type == "Multivariate") {
-            return(multi_test)
-        } else {
-            if(test[[1]] == TRUE) {
-                return(list("Disparity test"=univ_test, "Parametric test"=test[[2]]))
-            } else {
-                return(univ_test)
-            }
-        }
-
     }
 
+    #-----------------------------
+    #OUTPUT
+    #-----------------------------
+    #Empty output table
+    if(rarefaction==FALSE) {
+        output<-matrix(nrow=1, time_pco=rep(NA, 1))
+        colnames(output)[1]<-"rarefaction"
+    } else {
+        output<-matrix(nrow=(nrow(time_pco)-2), time_pco=seq(from=3, to=nrow(time_pco)))
+        colnames(output)[1]<-"rarefaction"
+    }
+    #Volume
+    if(any(method == 'volume')) {
+        #Combine the results
+        output<-cbind(output, Volume_table)
+    }
+    #Distance form centroid
+    if(any(method == 'centroid')) {
+        #Combine the results
+        output<-cbind(output, Centroid_dist_table)
+    }
+    #Sum of ranges
+    if(any(method == 'sum.range')) {
+        #Combine the results
+        output<-cbind(output, Sum_range_table)
+    }
+    #Product of ranges
+    if(any(method == 'product.range')) {
+        #Combine the results
+        output<-cbind(output, Product_range_table)
+    }
+    #Sum of variance
+    if(any(method == 'sum.variance')) {
+        #Combine the results
+        output<-cbind(output, Sum_variance_table)  
+    }
+    #Product of variance
+    if(any(method == 'product.variance')) {
+        #Combine the results
+        output<-cbind(output, Product_variance_table)   
+    }
+
+    if(save.all == FALSE) {
+        #Quantiles only
+        return(output)
+    } else {
+        #Quantiles and values
+        output<-list("table"=output)
+        #Add the values of each metric
+        #centroid
+        if(any(method == 'volume')) {
+            output[[length(output)+1]]<-Volume_values
+            names(output)[length(output)]<-"volume"
+        }
+        #centroid
+        if(any(method == 'centroid')) {
+            output[[length(output)+1]]<-Centroid_values
+            names(output)[length(output)]<-"centroid"
+        }
+        #Sum of sum.range
+        if(any(method == 'sum.range')) {
+            output[[length(output)+1]]<-Sum_range_values
+            names(output)[length(output)]<-"sum.range"
+        }
+        #Product of ranges
+        if(any(method == 'product.range')) {
+            output[[length(output)+1]]<-Prod_range_values
+            names(output)[length(output)]<-"product.range"
+        }
+        #Sum of variance
+        if(any(method == 'sum.variance')) {
+            output[[length(output)+1]]<-Sum_variance_values
+            names(output)[length(output)]<-"sum.variance"
+        }
+        #Product of variance
+        if(any(method == 'product.variance')) {
+            output[[length(output)+1]]<-Prod_variance_values
+            names(output)[length(output)]<-"product.variance"
+        }
+
+        return(output)
+    }
+
+#End
 }
-
-
