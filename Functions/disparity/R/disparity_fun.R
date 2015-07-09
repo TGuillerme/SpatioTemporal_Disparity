@@ -8,7 +8,11 @@ Bootstrap.rarefaction<-function(data, bootstraps, rarefaction) {
         rarefaction_max<-seq(1:nrow(data))
         rarefaction_max<-rarefaction_max[-c(1,2)]
     } else {
-        rarefaction_max<-nrow(data)
+        if(class(rarefaction) == "numeric") {
+            rarefaction_max<-rarefaction
+        } else {
+            rarefaction_max<-nrow(data)
+        }
     }
     #Rarefaction
     result<-NULL
