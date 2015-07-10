@@ -103,25 +103,29 @@ disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bo
         }
     }
 
-    #centroid.type
-    if(!exists("centroid.type")) {
-        centroid.type_function<-cen.apply.mea
-    } else {
+
+
+    #centroid.type - forcing mean
+    #centroid.type_function<-cen.apply.mea
+
+    #if(!exists("centroid.type")) {
+    #    centroid.type_function<-cen.apply.mea
+    #} else {
         #Else, check if is right character
-        check.class(centroid.type, 'character')
-        check.length(centroid.type, 1, "must be a single character string.", errorif=FALSE) 
-        centroid.type_list<-c('median', 'mean')
-        if(is.na(match(centroid.type, centroid.type_list))) {
-            stop("centroid.type must be either 'median' or 'mean' ('full' cannot be used).")
-        } 
+    #    check.class(centroid.type, 'character')
+    #    check.length(centroid.type, 1, "must be a single character string.", errorif=FALSE) 
+    #    centroid.type_list<-c('median', 'mean')
+    #    if(is.na(match(centroid.type, centroid.type_list))) {
+    #        stop("centroid.type must be either 'median' or 'mean' ('full' cannot be used).")
+    #    } 
         #Set the centroid.type function
-        if(centroid.type == "median") {
-            centroid.type_function<-cen.apply.med
-        }
-        if(centroid.type == "mean") {
-            centroid.type_function<-cen.apply.mea
-        }
-    }
+    #    if(centroid.type == "median") {
+    #        centroid.type_function<-cen.apply.med
+    #    }
+    #    if(centroid.type == "mean") {
+    #        centroid.type_function<-cen.apply.mea
+    #    }
+    #}
 
     #-----------------------------
     #CLEANING / BOOTSTRAPING
@@ -163,7 +167,7 @@ disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bo
     #Centroid
     if(method == 'centroid') {
         method.fun<-centroid.calc
-        apply.fun<-centroid.type_function
+        apply.fun<-mean
     }
 
     #Ranges
@@ -192,7 +196,7 @@ disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bo
     #Calculating the metric table (BS values * intervals)
     BSresults<-matrix(NA, nrow=bootstraps, ncol=length(time_pco))
     for (int in 1:length(time_pco)) {
-        BSresults[,int]<-apply(lapply(BSresult[[int]],method.fun)[[1]], 1, apply.fun)
+        BSresults[,int]<-apply(lapply(BSresult[[int]],method.fun)[[1]], 1, mean)
     }
 
     #Running the pairwise test
@@ -220,7 +224,7 @@ disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bo
         colnames(output_table)<-c("difference", "Df", "T", "p.value", " ")
         rownames(output_table)<-row_names
         rounds<-c(2,0,3,5)
-        for (col in 1:ncol(output_table-1)) {
+        for (col in 1:(ncol(output_table)-1)) {
             output_table[,col]<-round(test_results[[col]][upper.tri(test_results[[col]])], rounds[col])
         }
         output_table[, 5]<-rep(" ", n_comparisons)
@@ -286,7 +290,6 @@ disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bo
 
         #Adding significant tokens
         output_table[,5]<-signif.token(output_table$p.value)
-
     }
 
     #reporting details
@@ -296,6 +299,6 @@ disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bo
     corr<-paste(simpleCap(correction), " correction applied was applied to p-values.", sep="")
 
     #Output
-    return(list("results"=output_table, "details"=c(signif.codes, test, boots, corr))
+    return(list("results"=output_table, "details"=c(signif.codes, test, boots, corr)))
 #End
 }
