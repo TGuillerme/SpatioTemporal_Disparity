@@ -119,33 +119,73 @@ Anderson.Friedman.test<-function(BSresults, time_pco) {
     term.B<-function(x,y, sample_size) { (sample_size[x] + sample_size [y])/(sample_size[x] * sample_size [y]) }
 
     #Calculating the statistic, df and p-value.
-    p_values<-degrees_freedom<-t_statistic<-as.data.frame(matrix(NA, nrow=ncol(BSresults), ncol=ncol(BSresults)))
-    rownames(p_values)<-rownames(degrees_freedom)<-rownames(t_statistic)<-names(time_pco)
-    colnames(p_values)<-colnames(degrees_freedom)<-colnames(t_statistic)<-names(time_pco)
+    difference<-p_values<-degrees_freedom<-t_statistic<-as.data.frame(matrix(NA, nrow=ncol(BSresults), ncol=ncol(BSresults)))
+    rownames(difference)<-rownames(p_values)<-rownames(degrees_freedom)<-rownames(t_statistic)<-names(time_pco)
+    colnames(difference)<-colnames(p_values)<-colnames(degrees_freedom)<-colnames(t_statistic)<-names(time_pco)
     for(row in 1:ncol(BSresults)) {
         for(col in 1:ncol(BSresults)) {
+            #Calculate difference
+            difference[row,col]<-mean.difference(row,col, mean_int)
+            #Calculate T
             t_statistic[row,col]<-mean.difference(row,col, mean_int)/sqrt(term.A(row,col,sample_size,variance_int)*term.B(row,col,sample_size))
+            #Calculate df
             degrees_freedom[row,col]<-sample_size[row]+sample_size[col]-2
+            #Calculate p
             p_values[row,col]<- 1-pt(t_statistic[row, col], df = degrees_freedom[row, col])
-        }
-    }
 
-    #make test two-tailed
-    if (p_values [row,col] > 0.5) {
-        p_values [row,col] <- 2*(1-p_values[row,col])
-    } else {
-        if (p_values [row,col] < 0.5){
-            p_values [row,col] <- 2*(p_values[row,col])   
-        } else {
-            if (p_values [row,col] == 0.5){
-                p_values [row,col] <- 1
+            #make test two-tailed
+            if (p_values [row,col] > 0.5) {
+                p_values [row,col] <- 2*(1-p_values[row,col])
+            } else {
+                if (p_values [row,col] < 0.5){
+                    p_values [row,col] <- 2*(p_values[row,col])   
+                } else {
+                    if (p_values [row,col] == 0.5){
+                        p_values [row,col] <- 1
+                    }
+                }
             }
         }
     }
-
-    return(list("T"=t_statistic, "df"=degrees_freedom, "p"=p_values))
+    return(list("diff"=difference, "df"=degrees_freedom, "T"=t_statistic, "p"=p_values))
 }
 
-p.correct<-function(p_values, correction) {
-    p.adjust(p_values[lower.tri(p_values, diag=TRUE)], method=correction)
+#P-value significance levels
+apply.signif<-function(p.value) {
+    if(p.value < 0.001) {
+        p<-"***"
+    } else {
+        if(p.value < 0.01) {
+            p<-"**"
+        } else {
+            if(p.value < 0.05) {
+                p<-"*"
+            } else {
+                if(p.value < 0.1) {
+                    p<-"."
+                } else {
+                    if(p.value > 0.1) {
+                        p<-" "
+                    }
+                }
+            }
+        }
+    }
+    return(p)
+}
+
+#Getting the significance tokens
+signif.token<-function(p.values) {
+    output<-vector()
+    for(val in 1:length(p.values)) {
+        output<-c(output, apply.signif(p.values[val]))
+    }
+    return(output)
+}
+
+#Capitalize words
+simpleCap <- function(x) {
+    s <- strsplit(x, " ")[[1]]
+    paste(toupper(substring(s, 1, 1)), substring(s, 2),
+          sep = "", collapse = " ")
 }

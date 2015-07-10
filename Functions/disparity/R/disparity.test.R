@@ -2,40 +2,57 @@
 #Disparity testing function
 ##########################
 #Calculates the differences between PCO intervals based on Anderson & Friedman 2012 test.
-#v0.0.1
+#v0.0.2
 ##########################
 #SYNTAX :
 #<time_pco> a time_pco matrix
 #<method> the method for calculating the disparity. Can be any of the following: "volume", "centroid", "sum.range", "product.range", "sum.variance", "product.variance"
+#<test> the type of test to run "pairwise" (every interval to each other), "sequential" (consecutive intervals only) or "reference" (the first interval to all the others).
 #<bootstraps> the number of bootstrap replicates (default=1000).
-#<correction> one of the methods from p.adjust function to correct the p-values. If NULL, no correction will be applied.
+#<correction> one of the methods from p.adjust function to correct the p-values. If "none", no correction will be applied.
 #<rarefaction> a rarefaction value. If NULL, is ignored.
-#<verbose> whether to be verbose or not
 #<rm.last.axis> whether to remove the last axis from the pco time_pco. Can be a threshold value.
 ##########################
 #----
-#guillert(at)tcd.ie 09/07/2015
+#guillert(at)tcd.ie 10/07/2015
 ##########################
 
-disparity.test<-function(time_pco, method, bootstraps=1000, correction="bonferroni", rarefaction=NULL, verbose=FALSE, rm.last.axis=FALSE) {
+#DEBUG
+message("DEBUG VERSION!")
+time_pco<-intervals
+method="sum.range"
+test="pairwise"
+bootstraps=7
+correction="bonferroni"
+rarefaction=NULL
+rm.last.axis=FALSE
+
+disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bonferroni", rarefaction=NULL, rm.last.axis=FALSE, ...) { #verbose=FALSE
     #-----------------------------
     #SANITIZING
     #-----------------------------
-    #distance
-    check.class(time_pco, "matrix")
-
-    #Test if applicable (> 2 rows)
-    if(nrow(time_pco) < 2) {
-        stop("Disparity can not be calculated because less than two taxa are present in the time_pco!")
-    } 
+    #time_pco
+    check.class(time_pco, "list")
+    check.class(time_pco[[1]], "matrix")
+    if(length(time_pco) < 2) {
+        stop("time_pco must have a least to intervals.")
+    }
 
     #method
     check.class(method, "character", " can be 'volume', 'centroid', 'sum.range', 'product.range', 'sum.variance' or/and 'product.variance'.")
     methods_list<-c('volume', "centroid", "sum.range", "product.range", "sum.variance", "product.variance")
     check.length(method, 1, ": only one method can be input")
     if(all(is.na(match(method, methods_list)))) {
-        stop("method can be 'volume', 'centroid', 'sum.range', 'product.range', 'sum.variance' or/and 'product.variance'.")
+        stop("method must be 'volume', 'centroid', 'sum.range', 'product.range', 'sum.variance' or/and 'product.variance'.")
     }
+
+    #test
+    check.class(test, "character", " can be 'pairwise', 'sequential' or 'reference'.")
+    test_list<-c('pairwise', "sequential", "reference")
+    check.length(test, 1, ": only one method can be input")
+    if(all(is.na(match(test, test_list)))) {
+        stop("test must be 'pairwise', 'sequential' or 'reference'.")
+    }    
 
     #Bootstrap
     check.class(bootstraps, "numeric", " must be a single (entire) numerical value.")
@@ -43,8 +60,15 @@ disparity.test<-function(time_pco, method, bootstraps=1000, correction="bonferro
     #Make sure the bootstrap is a whole number
     bootstraps<-round(abs(bootstraps))
     
-    #Central tendency
-    central_tendency=mean
+    #correction
+    check.class(correction, 'character')
+    p.adjust_list<- c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none")
+    if(all(is.na(match(correction, p.adjust_list)))) {
+        stop("correction type must be one of the p.adjust function options.")
+    }
+    if(length(time_pco) > 2 & correction == "none") {
+        message("Multiple p-values will be calculated without adjustment!\nThis will inflate the probability of having significant results.")
+    }
     
     #rarefaction
     if(is.null(rarefaction)) {
@@ -54,7 +78,7 @@ disparity.test<-function(time_pco, method, bootstraps=1000, correction="bonferro
     }
 
     #verbose
-    check.class(verbose, "logical")
+    #check.class(verbose, "logical") #deactivated for now
 
     #rm.last.axis
     if(class(rm.last.axis) == "logical") {
@@ -79,9 +103,26 @@ disparity.test<-function(time_pco, method, bootstraps=1000, correction="bonferro
         }
     }
 
-    #centroid - LEAVE OR NOT?
-    centroid.type_function<-cen.apply.mea
-    
+    #centroid.type
+    if(!exists("centroid.type")) {
+        centroid.type_function<-cen.apply.mea
+    } else {
+        #Else, check if is right character
+        check.class(centroid.type, 'character')
+        check.length(centroid.type, 1, "must be a single character string.", errorif=FALSE) 
+        centroid.type_list<-c('median', 'mean')
+        if(is.na(match(centroid.type, centroid.type_list))) {
+            stop("centroid.type must be either 'median' or 'mean' ('full' cannot be used).")
+        } 
+        #Set the centroid.type function
+        if(centroid.type == "median") {
+            centroid.type_function<-cen.apply.med
+        }
+        if(centroid.type == "mean") {
+            centroid.type_function<-cen.apply.mea
+        }
+    }
+
     #-----------------------------
     #CLEANING / BOOTSTRAPING
     #-----------------------------
@@ -100,276 +141,116 @@ disparity.test<-function(time_pco, method, bootstraps=1000, correction="bonferro
 
     #Bootstraping the matrix
     #verbose
-    if(verbose==TRUE) {
-        message("Bootstraping...", appendLF=FALSE)
-    }
+    #if(verbose==TRUE) {
+    #    message("Bootstraping...", appendLF=FALSE)
+    #}
     BSresult<-lapply(time_pco, Bootstrap.rarefaction, bootstraps, rarefaction)
-    if(verbose==TRUE) {
-        message("Done.", appendLF=TRUE)
+    #if(verbose==TRUE) {
+    #    message("Done.", appendLF=TRUE)
+    #}
+
+    #-----------------------------
+    #SETTING THE FUNCTIONS (according to metric)
+    #-----------------------------
+
+    #Volume
+    if(method == 'volume') {
+        stop("'volume' not implemented yet.")
+        method.fun<-volume.calc
+        apply.fun<-NULL
     }
 
-    #Selecting the method function
-    if(method == 'volume') {
-        method.fun<-volume.calc
-    }
+    #Centroid
     if(method == 'centroid') {
         method.fun<-centroid.calc
+        apply.fun<-centroid.type_function
     }
-    if(method == 'range') {
+
+    #Ranges
+    if(method == 'sum.range') {
         method.fun<-range.calc
+        apply.fun<-sum
     }
-    if(method == 'variance') {
+    if(method == 'prod.range') {
+        method.fun<-range.calc
+        apply.fun<-prod
+    }
+
+    #Variance
+    if(method == 'sum.variance') {
         method.fun<-variance.calc
+        apply.fun<-sum
+    }
+    if(method == 'prod.variance') {
+        method.fun<-variance.calc
+        apply.fun<-prod
     }
 
-    #sum of the sums?
-
-    BS_tmp<-matrix(NA, nrow=bootstraps, ncol=length(time_pco))
+    #-----------------------------
+    #RUNNING THE TEST
+    #-----------------------------
+    #Calculating the metric table (BS values * intervals)
+    BSresults<-matrix(NA, nrow=bootstraps, ncol=length(time_pco))
     for (int in 1:length(time_pco)) {
-        BS_tmp[,int]<-apply(lapply(BSresult[[int]],centroid.calc)[[1]], 1, sum)
-    }
-    BS_result<-BS_tmp
-
-
-
-
-    #-----------------------------
-    #VOLUME
-    #-----------------------------
-    #Hyperspace volume calculation
-    if(any(method == 'volume')) {
-        #Calculate the hyperspace volume
-        if(verbose==TRUE) {
-            message("Calculating hyperspace volume...", appendLF=FALSE)
-        }
-        volumes<-lapply(BSresult, volume.calc)
-        #Volumes table
-        Volume_table<-Disparity.measure.table(type_function=no.apply, volumes, central_tendency, CI, save.all)
-        #Results type
-        if(save.all == FALSE) {
-            #Renaming the column
-            colnames(Volume_table)[1]<-"Volume"
-        } else {
-            #Isolating the time_pco parts
-            Volume_values<-Volume_table[[2]]
-            Volume_table<-Volume_table[[1]]
-            colnames(Volume_table)[1]<-"Volume"
-        }
-        if(verbose==TRUE) {
-            message("Done.", appendLF=TRUE)
-        }
+        BSresults[,int]<-apply(lapply(BSresult[[int]],method.fun)[[1]], 1, apply.fun)
     }
 
-    #-----------------------------
-    #CENTROID
-    #-----------------------------
-    if(any(method == 'centroid')) {
-        #Calculate the distance from centroid for the rarefaction and the bootstrapped matrices
-        if(verbose==TRUE) {
-            message("Calculating distance from centroid...", appendLF=FALSE)
-        }
-        centroids<-lapply(BSresult, centroid.calc)
-        #Distance to centroid
-        Centroid_dist_table<-Disparity.measure.table(type_function=centroid.type_function, centroids, central_tendency, CI, save.all)
-        #Results type
-        if(save.all == FALSE) {
-            #Renaming the column
-            colnames(Centroid_dist_table)[1]<-"Cent.dist"
-        } else {
-            #Isolating the time_pco parts
-            Centroid_values<-Centroid_dist_table[[2]]
-            Centroid_dist_table<-Centroid_dist_table[[1]]
-            colnames(Centroid_dist_table)[1]<-"Cent.dist"
-        }
-        if(verbose==TRUE) {
-            message("Done.", appendLF=TRUE)
-        }
-    }
-
-    #-----------------------------
-    #RANGES
-    #-----------------------------
-    #Wills 1994 range calculations
-    if(any(grep("range", method))) {
-        #Calculate the range for the rarefaction and the bootstrapped matrices
-        if(verbose==TRUE) {
-            message("Calculating ranges...", appendLF=FALSE)
-        }
-        ranges<-lapply(BSresult, range.calc)
-
-        #Sum of ranges
-        if(any(method == 'sum.range')) {
-            #Sum of range
-            Sum_range_table<-Disparity.measure.table(type_function=sum.apply, ranges, central_tendency, CI, save.all)
-
-            #Results type
-            if(save.all == FALSE) {
-                #Renaming the column
-                colnames(Sum_range_table)[1]<-"Sum.range"
-            } else {
-                #Isolating the time_pco parts
-                Sum_range_values<-Sum_range_table[[2]]
-                Sum_range_table<-Sum_range_table[[1]]
-                colnames(Sum_range_table)[1]<-"Sum.range"
-            }
-
-        }
-
-        #Product of ranges
-        if(any(method == 'product.range')) {
-            #Product of range
-            Product_range_table<-Disparity.measure.table(type_function=prod.apply, ranges, central_tendency, CI, save.all)
-
-            #Results type
-            if(save.all == FALSE) {
-                #Renaming the column
-                colnames(Product_range_table)[1]<-"Prod.range"
-            } else {
-                #Isolating the time_pco parts
-                Prod_range_values<-Product_range_table[[2]]
-                Product_range_table<-Product_range_table[[1]]
-                colnames(Product_range_table)[1]<-"Prod.range"
-            }
-
-        }
-        if(verbose==TRUE) {
-            message("Done.", appendLF=TRUE)
-        }
-    }
-
-    #-----------------------------
-    #VARIANCE
-    #-----------------------------
-    #Wills 1994 variance calculations
-    if(any(grep("variance", method))) {
-        #Calculate the variance for the rarefaction and the bootstrapped matrices
-        if(verbose==TRUE) {
-            message("Calculating variance...", appendLF=FALSE)
-        }
-        variances<-lapply(BSresult, variance.calc)
-
-        #Sum of variance
-        if(any(method == 'sum.variance')) {
-            #Sum of variance
-            Sum_variance_table<-Disparity.measure.table(type_function=sum.apply, variances, central_tendency, CI, save.all)
-
-            #Results type
-            if(save.all == FALSE) {
-                #Renaming the column
-                colnames(Sum_variance_table)[1]<-"Sum.var"
-            } else {
-                #Isolating the time_pco parts
-                Sum_variance_values<-Sum_variance_table[[2]]
-                Sum_variance_table<-Sum_variance_table[[1]]
-                colnames(Sum_variance_table)[1]<-"Sum.var"
-            }
-  
-        }
-
-        #Product of variance
-        if(any(method == 'product.variance')) {
-            #Product of variance
-            Product_variance_table<-Disparity.measure.table(type_function=prod.apply, variances, central_tendency, CI, save.all)
-
-            #Results type
-            if(save.all == FALSE) {
-                #Renaming the column
-                colnames(Product_variance_table)[1]<-"Prod.var"
-            } else {
-                #Isolating the time_pco parts
-                Prod_variance_values<-Product_variance_table[[2]]
-                Product_variance_table<-Product_variance_table[[1]]
-                colnames(Product_variance_table)[1]<-"Prod.var"
-            }
-        
-        }
-        if(verbose==TRUE) {
-            message("Done.", appendLF=TRUE)
-        }
-    }
+    #Running the pairwise test
+    test_results<-Anderson.Friedman.test(BSresults, time_pco)
 
     #-----------------------------
     #OUTPUT
     #-----------------------------
-    #Empty output table
-    if(rarefaction==FALSE) {
-        output<-matrix(nrow=1, time_pco=rep(NA, 1))
-        colnames(output)[1]<-"rarefaction"
-    } else {
-        output<-matrix(nrow=(nrow(time_pco)-2), time_pco=seq(from=3, to=nrow(time_pco)))
-        colnames(output)[1]<-"rarefaction"
-    }
-    #Volume
-    if(any(method == 'volume')) {
-        #Combine the results
-        output<-cbind(output, Volume_table)
-    }
-    #Distance form centroid
-    if(any(method == 'centroid')) {
-        #Combine the results
-        output<-cbind(output, Centroid_dist_table)
-    }
-    #Sum of ranges
-    if(any(method == 'sum.range')) {
-        #Combine the results
-        output<-cbind(output, Sum_range_table)
-    }
-    #Product of ranges
-    if(any(method == 'product.range')) {
-        #Combine the results
-        output<-cbind(output, Product_range_table)
-    }
-    #Sum of variance
-    if(any(method == 'sum.variance')) {
-        #Combine the results
-        output<-cbind(output, Sum_variance_table)  
-    }
-    #Product of variance
-    if(any(method == 'product.variance')) {
-        #Combine the results
-        output<-cbind(output, Product_variance_table)   
-    }
 
-    if(save.all == FALSE) {
-        #Quantiles only
-        return(output)
-    } else {
-        #Quantiles and values
-        output<-list("table"=output)
-        #Add the values of each metric
-        #centroid
-        if(any(method == 'volume')) {
-            output[[length(output)+1]]<-Volume_values
-            names(output)[length(output)]<-"volume"
-        }
-        #centroid
-        if(any(method == 'centroid')) {
-            output[[length(output)+1]]<-Centroid_values
-            names(output)[length(output)]<-"centroid"
-        }
-        #Sum of sum.range
-        if(any(method == 'sum.range')) {
-            output[[length(output)+1]]<-Sum_range_values
-            names(output)[length(output)]<-"sum.range"
-        }
-        #Product of ranges
-        if(any(method == 'product.range')) {
-            output[[length(output)+1]]<-Prod_range_values
-            names(output)[length(output)]<-"product.range"
-        }
-        #Sum of variance
-        if(any(method == 'sum.variance')) {
-            output[[length(output)+1]]<-Sum_variance_values
-            names(output)[length(output)]<-"sum.variance"
-        }
-        #Product of variance
-        if(any(method == 'product.variance')) {
-            output[[length(output)+1]]<-Prod_variance_values
-            names(output)[length(output)]<-"product.variance"
+    #Creating the output table (depending on test)
+    if(test == "pairwise") {
+        #Number of comparisons
+        n_comparisons<-length(time_pco)*(length(time_pco)-1)/2
+
+        #Generating the row names
+        row_names<-vector()
+        for (row in 1:(length(time_pco)-1)) {
+            for (col in (row+1):length(time_pco)) {
+                row_names<-c(row_names, paste(rownames(test_results[[1]])[row], colnames(test_results[[1]])[col], sep=":"))
+            }
         }
 
-        return(output)
+        #Making the output table
+        output_table<-as.data.frame(matrix(NA, nrow=n_comparisons, ncol=5))
+        colnames(output_table)<-c("difference", "Df", "T", "p.value", " ")
+        rownames(output_table)<-row_names
+        rounds<-c(2,0,3,5)
+        for (col in 1:4) {
+            output_table[,col]<-round(test_results[[col]][upper.tri(test_results[[col]])], rounds[col])
+        }
+        output_table[, 5]<-rep(" ", n_comparisons)
+
+        #Applying the p-value correction
+        output_table$p.value<-round(p.adjust(test_results$p[upper.tri(test_results$p)], method=correction),5)
+
+        #Adding significant tokens
+        output_table[,5]<-signif.token(output_table$p.value)
     }
 
+    if(test == "sequential") {
+        output<-
+    }
+
+    if(test == "reference") {
+        output<-
+    }
+
+    #details
+    signif.codes<-"Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
+    test<-paste(simpleCap(test), " differences test between the ", method,".", sep="")
+    boots<-paste("Data set was bootstrapped ", bootstraps, " times.", sep="")
+    correction<-paste(simpleCap(correction), " correction applied was applied to p-values.", sep="")
+
+    #Output
+    return(output_table)
+    cat(signif.codes)
+    cat(test)
+    cat(boots)
+    cat(correction)
 #End
 }
