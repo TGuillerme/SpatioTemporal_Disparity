@@ -220,7 +220,7 @@ disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bo
         colnames(output_table)<-c("difference", "Df", "T", "p.value", " ")
         rownames(output_table)<-row_names
         rounds<-c(2,0,3,5)
-        for (col in 1:4) {
+        for (col in 1:ncol(output_table-1)) {
             output_table[,col]<-round(test_results[[col]][upper.tri(test_results[[col]])], rounds[col])
         }
         output_table[, 5]<-rep(" ", n_comparisons)
@@ -230,27 +230,72 @@ disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bo
 
         #Adding significant tokens
         output_table[,5]<-signif.token(output_table$p.value)
+    
+    } else {
+
+        #Test is sequential
+        if(test == "sequential") {
+            #Number of comparisons
+            n_comparisons<-length(time_pco)-1
+
+            #Generating the row names
+            row_names<-vector()
+            for (row in 1:n_comparisons) {
+                row_names<-c(row_names, paste(rownames(test_results[[1]])[row], rownames(test_results[[1]])[row+1], sep=":"))
+            }
+            
+            #Matrix sequence
+            row_seq<-c(seq(from=1, to=n_comparisons))
+            col_seq<-c(seq(from=2, to=length(time_pco)))
+        
+        } else {
+        #Test is reference
+            #Number of comparisons
+            n_comparisons<-length(time_pco)-1
+
+            #Generating the row names
+            row_names<-vector()
+            for (row in 1:n_comparisons) {
+                row_names<-c(row_names, paste(rownames(test_results[[1]])[1], rownames(test_results[[1]])[row+1], sep=":"))
+            }
+
+            #Matrix sequence
+            row_seq<-c(rep(1, n_comparisons))
+            col_seq<-c(seq(from=2, to=length(time_pco)))
+        }
+
+        #Making the output table
+        output_table<-as.data.frame(matrix(NA, nrow=n_comparisons, ncol=5))
+        colnames(output_table)<-c("difference", "Df", "T", "p.value", " ")
+        rownames(output_table)<-row_names
+        rounds<-c(2,0,3,5)
+
+        for(col in 1:(ncol(output_table)-1)) {
+            for (seq in 1:n_comparisons) {
+                output_table[seq,col]<-round(test_results[[col]][row_seq[seq],col_seq[seq]], rounds[col])
+            }
+        }
+        output_table[, 5]<-rep(" ", n_comparisons)
+
+        #Applying the p-value correction
+        pvals<-vector()
+        for (seq in 1:n_comparisons) {
+            pvals<-c(pvals, test_results$p[row_seq[seq],col_seq[seq]])
+        }
+        output_table$p.value<-round(p.adjust(pvals, method=correction),5)
+
+        #Adding significant tokens
+        output_table[,5]<-signif.token(output_table$p.value)
+
     }
 
-    if(test == "sequential") {
-        output<-
-    }
-
-    if(test == "reference") {
-        output<-
-    }
-
-    #details
+    #reporting details
     signif.codes<-"Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
     test<-paste(simpleCap(test), " differences test between the ", method,".", sep="")
     boots<-paste("Data set was bootstrapped ", bootstraps, " times.", sep="")
-    correction<-paste(simpleCap(correction), " correction applied was applied to p-values.", sep="")
+    corr<-paste(simpleCap(correction), " correction applied was applied to p-values.", sep="")
 
     #Output
-    return(output_table)
-    cat(signif.codes)
-    cat(test)
-    cat(boots)
-    cat(correction)
+    return(list("results"=output_table, "details"=c(signif.codes, test, boots, corr))
 #End
 }
