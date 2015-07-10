@@ -132,7 +132,7 @@ Anderson.Friedman.test<-function(BSresults, time_pco) {
             degrees_freedom[row,col]<-sample_size[row]+sample_size[col]-2
             #Calculate p
             p_values[row,col]<- 1-pt(t_statistic[row, col], df = degrees_freedom[row, col])
-
+            
             #make test two-tailed
             if (p_values [row,col] > 0.5) {
                 p_values [row,col] <- 2*(1-p_values[row,col])

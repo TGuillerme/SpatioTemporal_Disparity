@@ -165,7 +165,7 @@ disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bo
         method.fun<-range.calc
         apply.fun<-sum
     }
-    if(method == 'prod.range') {
+    if(method == 'product.range') {
         method.fun<-range.calc
         apply.fun<-prod
     }
@@ -175,7 +175,7 @@ disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bo
         method.fun<-variance.calc
         apply.fun<-sum
     }
-    if(method == 'prod.variance') {
+    if(method == 'product.variance') {
         method.fun<-variance.calc
         apply.fun<-prod
     }
@@ -183,10 +183,13 @@ disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bo
     #-----------------------------
     #RUNNING THE TEST
     #-----------------------------
+
+    #ERROR IN CALCULATING THE DISPARITY! Problem with apply.fun or method.fun?
+
     #Calculating the metric table (BS values * intervals)
     BSresults<-matrix(NA, nrow=bootstraps, ncol=length(time_pco))
     for (int in 1:length(time_pco)) {
-        BSresults[,int]<-apply(lapply(BSresult[[int]],method.fun)[[1]], 1, mean)
+        BSresults[,int]<-apply(lapply(BSresult[[int]],method.fun)[[1]], 1, apply.fun)
     }
 
     #Running the pairwise test
