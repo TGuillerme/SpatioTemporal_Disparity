@@ -17,16 +17,6 @@
 #guillert(at)tcd.ie 10/07/2015
 ##########################
 
-#DEBUG
-message("DEBUG VERSION!")
-time_pco<-intervals
-method="sum.range"
-test="pairwise"
-bootstraps=7
-correction="bonferroni"
-rarefaction=NULL
-rm.last.axis=FALSE
-
 disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bonferroni", rarefaction=NULL, rm.last.axis=FALSE, ...) { #verbose=FALSE
     #-----------------------------
     #SANITIZING
@@ -299,6 +289,11 @@ disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bo
     corr<-paste(simpleCap(correction), " correction applied was applied to p-values.", sep="")
 
     #Output
-    return(list("results"=output_table, "details"=c(signif.codes, test, boots, corr)))
+    if(rarefaction != FALSE) {
+        rare<-paste("Differences are calculated on the rarefied data-set (", rarefaction, " taxa per interval).", sep="")
+        return(list("results"=output_table, "details"=c(signif.codes, test, boots, corr, rare)))
+    } else {
+        return(list("results"=output_table, "details"=c(signif.codes, test, boots, corr)))
+    }
 #End
 }
