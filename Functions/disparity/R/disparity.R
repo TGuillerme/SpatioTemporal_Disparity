@@ -2,7 +2,7 @@
 #Disparity functions
 ##########################
 #Calculate the disparity as the distance from centroid
-#v0.4.2
+#v0.5
 ##########################
 #SYNTAX :
 #<distance> the distance matrix
@@ -14,12 +14,13 @@
 #<rm.last.axis> whether to remove the last axis from the pco data. Can be a threshold value.
 #<save.all> whether to save all the disparity values (TRUE) or just the quantiles (FALSE (default)).
 #<centroid.type> the type of centroid calculation. Can be either "median", "mean" or "full" to respectively report the median of the distances to centroid, the mean of the distances to centroid or just the distances to centroid. If null, the default will be median.
+#<boot.method> bootstrapping method: either "full"(default) for resampling all the taxa per bootstrap or "single" to replace only one taxa per bootstrap.
 ##########################
 #----
-#guillert(at)tcd.ie 09/07/2015
+#guillert(at)tcd.ie 11/07/2015
 ##########################
 
-disparity<-function(data, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE, rm.last.axis=FALSE, save.all=FALSE, centroid.type=NULL) {
+disparity<-function(data, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE, rm.last.axis=FALSE, save.all=FALSE, centroid.type=NULL, boot.method="full") {
 
     #-----------------------------
     #SANITIZING
@@ -125,6 +126,14 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
         }
     }
 
+    #boot.method
+    check.class(boot.method, "character")
+    check.length(boot.method, 1, " must be a single character string")
+    boot.methods_list<-c('full', "single")
+    if(all(is.na(match(boot.method, boot.methods_list)))) {
+        stop("boot.method can be 'full' or 'single'.")
+    }
+
     #-----------------------------
     #CLEANING / BOOTSTRAPING
     #-----------------------------
@@ -146,7 +155,7 @@ disparity<-function(data, method=c("centroid", "sum.range", "product.range", "su
     if(verbose==TRUE) {
         message("Bootstraping...", appendLF=FALSE)
     }
-    BSresult<-Bootstrap.rarefaction(data, bootstraps, rarefaction)
+    BSresult<-Bootstrap.rarefaction(data, bootstraps, rarefaction, boot.method)
     if(verbose==TRUE) {
         message("Done.", appendLF=TRUE)
     }

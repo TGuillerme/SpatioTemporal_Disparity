@@ -2,7 +2,7 @@
 #Disparity testing function
 ##########################
 #Calculates the differences between PCO intervals based on Anderson & Friedman 2012 test.
-#v0.0.2
+#v0.0.3
 ##########################
 #SYNTAX :
 #<time_pco> a time_pco matrix
@@ -14,10 +14,10 @@
 #<rm.last.axis> whether to remove the last axis from the pco time_pco. Can be a threshold value.
 ##########################
 #----
-#guillert(at)tcd.ie 10/07/2015
+#guillert(at)tcd.ie 11/07/2015
 ##########################
 
-disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bonferroni", rarefaction=NULL, rm.last.axis=FALSE, ...) { #verbose=FALSE
+disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bonferroni", rarefaction=NULL, rm.last.axis=FALSE, boot.method="full") { #verbose=FALSE
     #-----------------------------
     #SANITIZING
     #-----------------------------
@@ -93,7 +93,13 @@ disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bo
         }
     }
 
-
+    #boot.method
+    check.class(boot.method, "character")
+    check.length(boot.method, 1, " must be a single character string")
+    boot.methods_list<-c('full', "single")
+    if(all(is.na(match(boot.method, boot.methods_list)))) {
+        stop("boot.method can be 'full' or 'single'.")
+    }
 
     #centroid.type - forcing mean
     #centroid.type_function<-cen.apply.mea
@@ -138,7 +144,8 @@ disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bo
     #if(verbose==TRUE) {
     #    message("Bootstraping...", appendLF=FALSE)
     #}
-    BSresult<-lapply(time_pco, Bootstrap.rarefaction, bootstraps, rarefaction)
+
+    BSresult<-lapply(time_pco, Bootstrap.rarefaction, bootstraps, rarefaction, boot.method="full")
     #if(verbose==TRUE) {
     #    message("Done.", appendLF=TRUE)
     #}
@@ -218,12 +225,12 @@ disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bo
         rownames(output_table)<-row_names
         rounds<-c(2,0,3,5)
         for (col in 1:(ncol(output_table)-1)) {
-            output_table[,col]<-round(test_results[[col]][upper.tri(test_results[[col]])], rounds[col])
+            output_table[,col]<-round(test_results[[col]][lower.tri(test_results[[col]])], rounds[col])
         }
         output_table[, 5]<-rep(" ", n_comparisons)
 
         #Applying the p-value correction
-        output_table$p.value<-round(p.adjust(test_results$p[upper.tri(test_results$p)], method=correction),5)
+        output_table$p.value<-round(p.adjust(test_results$p[lower.tri(test_results$p)], method=correction),5)
 
         #Adding significant tokens
         output_table[,5]<-signif.token(output_table$p.value)

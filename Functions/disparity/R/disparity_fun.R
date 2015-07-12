@@ -1,7 +1,7 @@
 #FUNCTIONS FOR DISPARITY
 
 #Performs bootstrap and eventual rarefaction
-Bootstrap.rarefaction<-function(data, bootstraps, rarefaction) {
+Bootstrap.rarefaction<-function(data, bootstraps, rarefaction, boot.method="single") {
     #This function is based on DisparityCalc() from Smith et al. 2014 - Evolution (http://dx.doi.org/10.1111/evo.12435) http://datadryad.org/resource/doi:10.5061/dryad.d380g 
     #Set rarefaction (or not)
     if(rarefaction == TRUE) {
@@ -25,7 +25,7 @@ Bootstrap.rarefaction<-function(data, bootstraps, rarefaction) {
         no.BS<-FALSE}
 
     #Set the bootstrap method
-    boot.method="single"
+    #boot.method="single"
 
     for(rare in rarefaction_max){
         #Bootstraps
