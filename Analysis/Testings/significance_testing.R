@@ -94,6 +94,26 @@ par(op)
 
 
 #ADONIS testing
+disparity.test.time(pco_in_bins[[1]], method="euclidean", permutations=1000)
+
+#If significant (or not) test differences between slices
+#sequential (changes through time)
+sequential_diff<-disparity.test(pco_in_bins[[1]], method="centroid", test="sequential", bootstraps=1000)
+
+#reference (lag effect)
+reference_diff<-disparity.test(pco_in_bins[[1]], method="centroid", test="reference", bootstraps=1000)
+
+#Test before/after K-T
+KT_test<-int.pco(pco.data, tree.data, intervals=c(100,75,0), FAD_LAD=ages.data, diversity=TRUE)
+disparity.test.time(KT_test[[1]], method="euclidean", permutations=1000)
+pair_test<-disparity.test(KT_test[[1]], method="centroid", test="pairwise", bootstraps=1000)
+
+
+
+
+#############################
+#Visualising the results
+#############################
 
 #Full cladisto-space
 pco_data<-pco$points #For code later: can be extracted from intervals (unique) 
@@ -160,140 +180,3 @@ s3d$points3d(centroid_overall[1],centroid_overall[2],centroid_overall[3], col="r
 #Add the distances between centroids
 s3d$points3d(c(rbind(centroid_overall[1],cent_mat[,1])), c(rbind(centroid_overall[2],cent_mat[,2])), c(rbind(centroid_overall[3],cent_mat[,3])), type="l", lty=1, col="red")
 
-
-#Adding time category to each taxa
-mat<-matrix(data=0, nrow=nrow(pco_data), ncol=length(intervals))
-rownames(mat)<-rownames(pco_data)
-#colnames(mat)<-names(intervals)
-colnames(mat)<-c("A","B","C","D","E")
-for (int in 1:length(intervals)) {
-    mat[c(rownames(intervals[[int]])),int]<-1
-}
-mat<-as.data.frame(mat)
-
-mat_full<-mat
-for (column in 1:ncol(mat_full)) {
-    mat_full[,column]<-1 ; mat_full[sample(1:nrow(mat_full), sample(1:nrow(mat_full), 1)), column]<-0
-}
-#Permanova
-adonis(pco_data ~ A+B+C+D+E, data=mat, method='euclidean', permutations=1000)
-adonis(pco_data ~ A:B:C:D:E, data=mat, method='euclidean', permutations=1000)
-
-#Calculate the effect of different slices.
-#OK
-
-#Add a column for time
-mat$time<-NA
-for (row in 1:nrow(mat)) {
-    mat$time[row]<-paste(colnames(mat)[which(mat[row,]==1)], collapse="")
-}
-
-boxplot(pco$points ~ mat$time)
-#Permanova 
-adonis(pco_data ~ time, data=mat, method='euclidean', permutations=1000)
-
-#Number of overlapping cases = n*(n+1)/2
-
-#Test with the distance matrix PROPER ONE
-dist.matrix<-trimmed.max.data$dist.matrix
-adonis(dist.matrix ~ time, data=mat, method='euclidean', permutations=1000)
-
-#Test with the full pco ON THE PCO DATA
-pco$points 
-adonis(pco$points ~ time, data=mat, method='euclidean', permutations=1000)
-
-#Test with time as a strata
-adonis(pco$points ~ time, data=mat, strata=mat$time, method='euclidean', permutations=1000)
-
-
-#GLM
-counts <- c(18,17,15,20,10,20,25,13,12)
-outcome <- gl(3,1,9)
-print(d.AD <- data.frame(treatment, outcome))
-glm.D93 <- glm(counts ~ outcome , family = poisson())
-anova(glm.D93)
-summary(glm.D93)
-
-#treatments <- distances from centroids
-#outcome <- time
-
-
-
-
-#PROPER TESTING
-
-
-eucl_list<-disp_obs.dist.cent$values
-eucl_val<-unlist(eucl_list) ; names(eucl_val)<-NULL
-time_counts<-unlist(lapply(eucl_list, lapply, length))
-time<-as.factor(rep(names(eucl_list), time_counts))
-
-#Univariate (on the euclidean distance)
-bla<-aov(eucl_val~time)
-summary(bla)
-plot(TukeyHSD(bla))
-
-#Multivariate (on the pco)
-pco_mat<-rbind(intervals[[1]], intervals[[2]])
-for (int in 3:length(intervals)) {
-    pco_mat<-rbind(pco_mat, intervals[[int]])
-}
-nrow(pco_mat) == length(time)
-
-adonis(pco_mat~time, method='euclidean', permutations=1000)
-
-
-#add the
-
-#colnames(mat)<-names(intervals)
-colnames(mat)<-c("A","B","C","D","E")
-for (int in 1:length(intervals)) {
-    mat[c(rownames(intervals[[int]])),int]<-1
-}
-mat<-as.data.frame(mat)
-
-
-#Do the t-tests
-
-
-#Calculate manually
-squares<-NULL
-for (i in 1:nrow(pco_in_bins$pco_intervals[[1]])) {
-    squares[i]<-(pco_in_bins$pco_intervals[[1]][i,1]-centroids[[1]][1])^2+(pco_in_bins$pco_intervals[[1]][i,2]-centroids[[1]][2])^2+(pco_in_bins$pco_intervals[[1]][i,3]-centroids[[1]][3])^2
-}
-SS_A<-sum(squares)/3
-
-mean_SS_A
-F.mod_A
-R2_A
-p_value
-
-
-combinations<-function(k) {
-    for (n in 1:k) {
-        x<-combn(1:k, n)
-        for(col in 1:ncol(x)) {
-            cat(x[,col], sep="") ; cat(" ")
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-#DisparityTTest from Smith et al 
-
-#This function uses the t-distribution to calculate significant differences in disparity among time bins. This script is based on the t-test script of Anderson and Friedman (2012).
-#We added additional disparity metrics to their script.
-#Output is a symmetric matrix of p-values. Note that the output is not corrected for multiple comparisons so the R function p.adjust() may be required.
-#Depending on the number of comparisons you perform, you are likely to also need to do some type of p-value correction (e.g. Bonferroni). This can be achieved using the “p.adjust” function in R. 
-#For example, say you were looking at four adjacent time bins (a, b, c, and d) calculated using the “DisparityTTest” function and were interested in the adjusted p-value between them (a vs. b, b vs. c, c vs. d). Say we obtained p-values of 0.035, 0.0012, and 0.081.
-#By typing the following line of code  you can correct for multiple comparisons.
-#p.adjust(c(0.035, 0.0012, 0.081), method="bonferroni")
-#[1] 0.1050 0.0036 0.2430
-#Each value here has been adjusted by the Bonferroni correction method. In essence, this method  multiplies the uncorrected  p-value by the number of comparisons (in this case, 3 comparisons were  made). 0.035 was corrected to 0.1050, 0.0012 was corrected to 0.0036, and so on
