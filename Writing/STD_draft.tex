@@ -158,6 +158,13 @@ Thorough analysis of the fossil record \citep[e.g.][]{goswamia2011,O'Leary080220
 Conversely, evidence from molecular data suggests that the diversification of placental mammals started prior to the K-Pg extinction event without being drastically affected by it \citep{Douady2003285,bininda2007delayed,meredithimpacts2011,Stadler12042011,beckancient2014}. 
 Therefore, whether the diversification of placental mammals began before K-Pg, or in response to the extinctions at K-Pg, is a matter of great debate \citep{O'Leary08022013,Springer09082013,O’Leary09082013}. 
 
+%what has been done on mammals (Beck and Slater)
+
+%here we're trying a different approach using disparity rather than diversity.
+
+%Say how we're going to improve disparity with the list below
+
+
 There are three main reasons why there is still debate about the timing of the diversification of placental mammals. In this paper we focus on solving these issues as follows: 
 % NC: Might want to look at making this sentence less clunky!
   \begin{enumerate}
@@ -322,6 +329,9 @@ We then calculated the median disparity value for each sub-sample along with the
 We also recorded the number of phylogenetic elements (branches, nodes and tips) in each sub-sample.
 % NC: Why log? Maybe leave that out for now and put it in where necessary? TG: the logging is just to make the diversity curves additive. But we can leave it, there's not much taxa per slice so it doesn't matter much... It's just a common procedure.
 Disparity may be higher in sub-samples with more phylogenetic elements simply because there are more taxa represented. To test whether our analyses were biased in this way, we ran a rarefaction analysis where we randomly re-sampled each sub-sample so that each had the same number of phylogenetic elements. We then estimated disparity and bootstrapped as described above. We repeated this 1000 times. % NC: Not sure if this is what you did, but standard rarefaction involves repeated re-samplings. Or else you can get order effects etc.
+
+%Explain rarefaction better + Explain bootstrap (Ruxton)
+
 % TG: OK, I'm confused to what I did. The rarefaction and bootstrap function are entangled for speeding up calculation: without rarefaction the bootstrap removes one random taxa and replaces it with one of the left taxa. With rarefaction, the bootstrap removes n+1 random taxa and replaces it with one of the left taxa. In order to actually have rarefaction curves at the same time, the "n" term ranges from the number of taxa - 1 until there is only 3 taxa left (the minimum required to measure disparity with bootstrap). I then report the "minimum" rarefaction which is the one you mention ("so that each had the same number of phylogenetic elements") + the "modal" rarefaction where the number of elements is at max the modal number of elements. But that can just go in the supplementaries.
 We report the results of in the Supplementary Materials. % NC: Though you probably need to state in the results that this didn't cause the results - same goes for all your supplemental analyses.
 
@@ -339,26 +349,22 @@ We report the results of these analyses in the Supplementary Materials. % link
 
 %Additionally, in order to make our results comparable with previous studies, we also calculated the sum and products of ranges and variances \citep{Foote01071994,Wills1994} on the sub-samples of the cladisto-space. % NC: You've already mentioned this above - leave it out.
 
-\subsection{Testing the effect of the K-Pg boundary on mammalian disparity} % NC: or similar, something more descriptive than "null model testing" anyway.
-Once we had estimated disparity through time for each of our cladisto-spaces we used null models to test whether our observed changes in mammalian disparity at the K-Pg boundary were significantly greater than expected by chance.
-We generated random character matrices under two null models as follows.
-  \begin{enumerate}
-    \item Random. We constructed a purely stochastic character matrix where each cell value was sampled from a discrete uniform distribution with a number of states equal to the number of states observed % NC: for that cell? overall? average?
-    in the original data. We repeated this 100 times to get 100 random character matrices.
-    \item Brownian. % NC: You refer to this as brownian earlier but it's not really is it... Can't work out what the word would be but we can look it up!
-    We simulated each character for each node or tip using the \texttt{sim.character} function from the \texttt{diversitree} R package \citep{fitzjohndiversitree2012} under the $Mk_n$ model \citep{lewisa2001} with an equal transition rate between the number of characters states observed in the original matrix and a unique rate ($\mu$) sampled from a uniform distribution (0 $<$ $\mu$ $\leq$ 0.5). % NC: Maybe be a bit clearer about what the parameters are here
-    We repeated this 100 times to get 100 random null character matrices. % NC: I'm guessing you repeated this?
-  \end{enumerate}
-We reran our disparity analyses (minus the ancestral states reconstructions as this would be nonsensical with simulated data) for each of our randomly generated character matrices following the same steps as described above. % NC: I can't decide if this is clear but I think it is clear that you did it the exact same way and for both phylogenies.
+%Testing the difference section
+%PERMANOVA: \citep{permanova}
+%Anderson t-test: \citep{anderson2012using}
+To assess if the K-Pg boundary had a significant effect on mammals disparity, we performed \cite{permanova}'s Permutational Analysis of Variance \citep[also referred to as PERMANOVA or NPANOVA; e.g.][]{brusatte50,ruta2013} to test the effect of time on disparity (disparity $\texttildelow$ time).
+We calculated the euclidean distance of the ordinated data with 1000 permutations on both data sets and on both evolutionary scenario using the adonis function from the R package vegan \citep{vegan}.
+When a significant effect of time on disparity was measured, we ran a series of post-hoc \textit{t-test} between the time slices \citep{anderson2012using,zelditch2012geometric,smith2014joined} to test whether there was a significant effect between:
+\begin{enumerate}
+  \item{all the slices before and after the K-Pg boundary (hereafter referred as the \textit{``K-Pg test''})}
+  \item{each slices taken sequentially (hereafter referred as the \textit{``sequential test''})}
+  \item{the last slice of the Cretaceous and every slice of the Tertiary (hereafter referred as the \textit{``lag test''})}
+\end{enumerate}
+Each of these test are detecting different aspects in changes in disparity.
+The ``K-Pg test'' was chosen to detect an overall difference between the Mesozoic and the Cenozoic; the ``sequential test'' was chosen to describe the overall pattern of changes in disparity since the Jurassic; the ``lag test'' was chosen to detect any lag in potential changes in disparity after the K-Pg boundary event.
+For the tests involving multiple \textit{t-tests} (``sequential test'' and ``lag test'') we corrected the p-value using Holm-Bonferonni correction \citep{holm1979simple}. %dividing by the number p-values.
 
-We then measured the amount of overlap between both null models
-% NC: What exactly are you measuring? disparity through time? disparity at kpg?
-and the observed data using the Bhattacharyya Coefficient \citep{Bhattacharyya} which measures the probability of overlap between two distributions. 
-This is similar to a two-sided \textit{t-test} but captures differences across the whole distributions not just the means. % NC: I don't think we can cite ourselves here!
-Bhattacharyya Coefficients \textgreater 0.95 suggest that the observed disparity values are no different than expected under the null model, whereas Bhattacharyya Coefficients \textless 0.05 suggest that there is a significant difference between observed disparity values and the null.
-% OR actually maybe just go for anova... The problem is again that for our null data we have the full bootstrapped distribution (1000000 data points) to compare to the observed bootstrapped distribution (1000 points). Frequentist test will be a bit shitty (anyway because of the huge difference between the two distributions (observed and null) the results will be significant even if I only sample 10 data points in each distributions...). Maybe just add both? t-test + Bhattacharrya?
 
-% NC: Agreed, ANOVA and t tests are going to give a sig difference, but could include them anyway. But worth thinking about WHAT is the test you are doing here? You're actually with bhattacharrya looking at the whole distribution. So you're asking, is there a difference in how diversity changes through time in null and non null. Really the question is "is there a difference at KPg". so perhaps you need to pool data or something? We can discuss.
 %---------------------------------------------
 %
 %       RESULTS
