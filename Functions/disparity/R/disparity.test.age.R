@@ -18,18 +18,19 @@
 ##########################
 
 #DEBUG
-message("DEBUG ACTIVATED")
-time_pco<-pco_in_bins$pco_intervals
-time_dis<-disp_obs.dist.cent
+#message("DEBUG ACTIVATED")
+#time_pco<-pco_in_bins$pco_intervals
+#time_dis<-disp_obs.dist.cent
 
-data<-time_pco
-type<-"Age"
-time=60
+#data<-time_pco
+#type<-"Age"
+#time=60
 
 
 disparity.test.age<-function(pco_data, time, test.type, method, permutations, ...) {
 
     #SANITIZING
+    stop("Function not developed yet.")
     message("Warning: no sanitizing in this version yet!\nUse this function at your own risks...")
     #Add data sanitizing input
     #pco
