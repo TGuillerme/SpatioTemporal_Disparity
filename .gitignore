@@ -4,6 +4,10 @@ Cluster/Beck2/*.Rda
 Cluster/Slater2013/*.Rda
 Cluster/Slater2/*.Rda
 
+# Older data
+Data/Older_data/Beck2014/
+Data/Older_data/Slater2013/
+
 #Null data
 Data/Beck2014/Beck2014-disparity_null-*.Rda
 Data/Slater2013/Slater2013-disparity_null-*.Rda
