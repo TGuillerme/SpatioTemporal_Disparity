@@ -13,7 +13,7 @@
 #<slices> a series of time slices
 #<FADLAD> a csv file with FADLAD data
 #########################
-#version 0.2.4
+#version 0.2.5
 #Update: Faster cleaning part
 #Update: fixed config file
 #Update: fixed error in slices files
@@ -21,8 +21,9 @@
 #Update: fixed diversity bug + added diversity count saving
 #Update: add the three centroid disparity scenarios
 #Update: usual silly typos
+#Update: manually updated the BS function in disparity
 #----
-#guillert(at)tcd.ie - 24/06/2015
+#guillert(at)tcd.ie - 13/07/2015
 ###########################
 
 #INPUT
@@ -44,6 +45,8 @@ mkdir R_scripts_${chain}
 echo "
 #Load the functions and the packages
 library(disparity)
+source('~/STD/Analysis/disparity.R')
+source('~/STD/Analysis/disparity_fun.R')
 
 ###################
 #Reading the files
