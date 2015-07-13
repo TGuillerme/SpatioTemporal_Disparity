@@ -13,7 +13,7 @@
 #guillert(at)tcd.ie 10/06/2014
 ##########################
 
-time.disparity<-function(time_pco, relative=FALSE, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE, rm.last.axis=FALSE, save.all=FALSE, centroid.type=NULL) {
+time.disparity<-function(time_pco, relative=FALSE, method=c("centroid", "sum.range", "product.range", "sum.variance", "product.variance"), CI=c(50, 95), bootstraps=1000, central_tendency=median, rarefaction=FALSE, verbose=FALSE, rm.last.axis=FALSE, save.all=FALSE, centroid.type=NULL, boot.method="full") {
     #SANITIZING
     #time_pco
     check.class(time_pco, "list", " must be a list of time sections of pco data.")
@@ -85,7 +85,7 @@ time.disparity<-function(time_pco, relative=FALSE, method=c("centroid", "sum.ran
     }
 
     #CALCULATING THE DISPARITY FOR EACH BIN
-    disparity_interval<-lapply(time_pco, disparity, method=method, CI=CI, bootstraps=bootstraps, central_tendency=central_tendency, rarefaction=rarefaction, verbose=verbose, rm.last.axis=rm.last.axis, save.all=save.all, centroid.type=centroid.type)
+    disparity_interval<-lapply(time_pco, disparity, method=method, CI=CI, bootstraps=bootstraps, central_tendency=central_tendency, rarefaction=rarefaction, verbose=verbose, rm.last.axis=rm.last.axis, save.all=save.all, centroid.type=centroid.type, boot.method=boot.method)
 
     #SCALING (if relative == TRUE)
     if(relative==TRUE){

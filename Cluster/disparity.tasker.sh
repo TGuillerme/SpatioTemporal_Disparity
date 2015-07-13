@@ -47,6 +47,7 @@ echo "
 library(disparity)
 source('~/STD/Analysis/disparity.R')
 source('~/STD/Analysis/disparity_fun.R')
+source('~/STD/Analysis/time.disparity.R')
 
 ###################
 #Reading the files
