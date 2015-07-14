@@ -1,6 +1,9 @@
 
 #Load the functions and the packages
 library(disparity)
+source('~/STD/Analysis/disparity.R')
+source('~/STD/Analysis/disparity_fun.R')
+source('~/STD/Analysis/time.disparity.R')
 
 ###################
 #Reading the files
@@ -62,4 +65,10 @@ slices_nodes95_div<-pco_slices_nodes95_acc[[2]] ; pco_slices_nodes95_acc<-pco_sl
 #Disparity
 disp_sli_nodes95_acc<-time.disparity(pco_slices_nodes95_acc, verbose=TRUE, rarefaction=TRUE, save.all=TRUE)
 save(disp_sli_nodes95_acc, file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes95_acc.Rda', sep=''))
+#Observed disparity
+disp_sli_nodes95_acc_obs<-time.disparity(pco_slices_nodes95_acc, method='centroid', bootstraps=0, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
+save(disp_sli_nodes95_acc_obs,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes95_acc_obs.Rda', sep=''))
+#Observed disparity (BS)
+disp_sli_nodes95_acc_obs_BS<-time.disparity(pco_slices_nodes95_acc, method='centroid', bootstraps=1000, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
+save(disp_sli_nodes95_acc_obs_BS,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes95_acc_obs_BS.Rda', sep=''))
 

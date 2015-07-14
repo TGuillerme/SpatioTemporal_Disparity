@@ -1,6 +1,9 @@
 
 #Load the functions and the packages
 library(disparity)
+source('~/STD/Analysis/disparity.R')
+source('~/STD/Analysis/disparity_fun.R')
+source('~/STD/Analysis/time.disparity.R')
 
 ###################
 #Reading the files
@@ -55,11 +58,17 @@ pco_data_nodes95<-cmdscale(trimmed_max_data_nodes95$dist.matrix, k=nrow(trimmed_
 
 
 #Intervals
-pco_int_nodes95<-int.pco(pco_data_nodes95, tree_nodes95, int_breaks, include.nodes=TRUE, FAD_LAD=FADLAD, diversity=TRUE)
+pco_int_nodes95<-int.pco(pco_data_nodes95, tree_nodes95, intervals, include.nodes=TRUE, FAD_LAD=FADLAD, diversity=TRUE)
 int_nodes95_div<-pco_int_nodes95[[2]] ; pco_int_nodes95<-pco_int_nodes95[[1]]
+save(int_nodes95_div,file=paste(data_path, chain_name, '/',chain_name,'-int_nodes95_div.Rda', sep=''))
 
 
 #Disparity
 disp_int_nodes95<-time.disparity(pco_int_nodes95, verbose=TRUE, rarefaction=TRUE, save.all=TRUE)
 save(disp_int_nodes95, file=paste(data_path, chain_name, '/',chain_name,'-disp_int_nodes95.Rda', sep=''))
+#Observed disparity
+disp_int_nodes95_obs<-time.disparity(pco_int_nodes95, method='centroid', bootstraps=0, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
+save(disp_int_nodes95_obs,file=paste(data_path, chain_name, '/',chain_name,'-disp_int_nodes95_obs.Rda', sep=''))
+disp_int_nodes95_obs_BS<-time.disparity(pco_int_nodes95, method='centroid', bootstraps=1000, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
+save(disp_int_nodes95_obs_BS,file=paste(data_path, chain_name, '/',chain_name,'-disp_int_nodes95_obs_BS.Rda', sep=''))
 

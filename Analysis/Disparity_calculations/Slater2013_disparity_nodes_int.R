@@ -1,6 +1,9 @@
 
 #Load the functions and the packages
 library(disparity)
+source('~/STD/Analysis/disparity.R')
+source('~/STD/Analysis/disparity_fun.R')
+source('~/STD/Analysis/time.disparity.R')
 
 ###################
 #Reading the files
@@ -56,10 +59,17 @@ pco_data_nodes<-cmdscale(trimmed_max_data_nodes$dist.matrix, k=nrow(trimmed_max_
 
 #Intervals
 pco_int_nodes<-int.pco(pco_data_nodes, tree_nodes, intervals, include.nodes=TRUE, FAD_LAD=FADLAD, diversity=TRUE)
-int_nodes_div<-pco_int_nodes[[2]] ; pco_int_nodes<-pco_int_nodes[[1]] 
+int_nodes_div<-pco_int_nodes[[2]] ; pco_int_nodes<-pco_int_nodes[[1]]
+save(int_nodes_div,file=paste(data_path, chain_name, '/',chain_name,'-int_nodes_div.Rda', sep=''))
 
 
 #Disparity
 disp_int_nodes<-time.disparity(pco_int_nodes, verbose=TRUE, rarefaction=TRUE, save.all=TRUE)
 save(disp_int_nodes, file=paste(data_path, chain_name, '/',chain_name,'-disp_int_nodes.Rda', sep=''))
+#Observed disparity
+disp_int_nodes_obs<-time.disparity(pco_int_nodes, method='centroid', bootstraps=0, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
+save(disp_int_nodes_obs,file=paste(data_path, chain_name, '/',chain_name,'-disp_int_nodes_obs.Rda', sep=''))
+#Observed disparity (BS)
+disp_int_nodes_obs_BS<-time.disparity(pco_int_nodes, method='centroid', bootstraps=1000, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
+save(disp_int_nodes_obs_BS,file=paste(data_path, chain_name, '/',chain_name,'-disp_int_nodes_obs_BS.Rda', sep=''))
 

@@ -1,6 +1,9 @@
 
 #Load the functions and the packages
 library(disparity)
+source('~/STD/Analysis/disparity.R')
+source('~/STD/Analysis/disparity_fun.R')
+source('~/STD/Analysis/time.disparity.R')
 
 ###################
 #Reading the files
@@ -57,9 +60,16 @@ pco_data_nodes<-cmdscale(trimmed_max_data_nodes$dist.matrix, k=nrow(trimmed_max_
 #slices
 pco_slices_nodes_ran<-slice.pco(pco_data_nodes, tree_nodes, slices, method='random', FAD_LAD=FADLAD, verbose=TRUE, diversity=TRUE)
 slices_nodes_div<-pco_slices_nodes_ran[[2]] ; pco_slices_nodes_ran<-pco_slices_nodes_ran[[1]]
+save(slices_nodes_div,file=paste(data_path, chain_name, '/',chain_name,'-slices_nodes_div.Rda', sep=''))
 
 
 #Disparity
 disp_sli_nodes_ran<-time.disparity(pco_slices_nodes_ran, verbose=TRUE, rarefaction=TRUE, save.all=TRUE)
 save(disp_sli_nodes_ran, file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes_ran.Rda', sep=''))
+#Observed disparity
+disp_sli_nodes_ran_obs<-time.disparity(pco_slices_nodes_ran, method='centroid', bootstraps=0, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
+save(disp_sli_nodes_ran_obs,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes_ran_obs.Rda', sep=''))
+#Observed disparity (BS)
+disp_sli_nodes_ran_obs_BS<-time.disparity(pco_slices_nodes_ran, method='centroid', bootstraps=1000, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
+save(disp_sli_nodes_ran_obs_BS,file=paste(data_path, chain_name, '/',chain_name,'-disp_sli_nodes_ran_obs_BS.Rda', sep=''))
 

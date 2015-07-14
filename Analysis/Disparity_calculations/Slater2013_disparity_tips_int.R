@@ -1,6 +1,9 @@
 
 #Load the functions and the packages
 library(disparity)
+source('~/STD/Analysis/disparity.R')
+source('~/STD/Analysis/disparity_fun.R')
+source('~/STD/Analysis/time.disparity.R')
 
 ###################
 #Reading the files
@@ -55,10 +58,18 @@ pco_data_tips<-cmdscale(trimmed_max_data_tips$dist.matrix, k=nrow(trimmed_max_da
 
 #Intervals
 pco_int_tips<-int.pco(pco_data_tips, tree_tips, intervals, include.nodes=FALSE, FAD_LAD=FADLAD, diversity=TRUE)
-int_tips_div<-pco_int_tips[[2]] ; pco_int_tips<-pco_int_tips[[1]] 
+int_tips_div<-pco_int_tips[[2]] ; pco_int_tips<-pco_int_tips[[1]]
+save(int_tips_div,file=paste(data_path, chain_name, '/',chain_name,'-int_tips_div.Rda', sep=''))
 
 
 #Disparity
 disp_int_tips<-time.disparity(pco_int_tips, verbose=TRUE, rarefaction=TRUE, save.all=TRUE)
 save(disp_int_tips, file=paste(data_path, chain_name, '/',chain_name,'-disp_int_tips.Rda', sep=''))
+#Observed disparity
+disp_int_tips_obs<-time.disparity(pco_int_tips, method='centroid', bootstraps=0, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
+save(disp_int_tips_obs,file=paste(data_path, chain_name, '/',chain_name,'-disp_int_tips_obs.Rda', sep=''))
+#Observed disparity (BS)
+disp_int_tips_obs_BS<-time.disparity(pco_int_tips, method='centroid', bootstraps=1000, verbose=TRUE, rarefaction=TRUE, save.all=TRUE, centroid.type='full')
+save(disp_int_tips_obs_BS,file=paste(data_path, chain_name, '/',chain_name,'-disp_int_tips_obs_BS.Rda', sep=''))
+
 
