@@ -9,167 +9,164 @@ library(disparity)
 #
 ###################################
 
-#SLATER
 
-#Selecting the slater data
-chain_name<-"Slater2013"
+######################################
+# Isolating the data
+######################################
+
+#Setting the variables
+#Constant
 data_path<-"../Data/"
-file_matrix<-"../Data/2013-Slater-MEE-matrix-morpho.nex"
-file_tree<-"../Data/2013-Slater-MEE-TEM.tre"
-disparity_data<-"-disp_sli_nodes95_pro.Rda"
+disparity_int<-"-disp_int_tips.Rda"
+disparity_ino<-"-disp_int_nodes95.Rda"
+disparity_ran<-"-disp_sli_nodes95_ran.Rda"
+disparity_acc<-"-disp_sli_nodes95_acc.Rda"
+disaprity_del<-"-disp_sli_nodes95_del.Rda"
+disaprity_pro<-"-disp_sli_nodes95_pro.Rda"
+diversity_ful<-"-slices_nodes95_div.Rda"
+distance_gowr<-"_distance-nodes95.Rda"
+intervals=as.numeric(strsplit(c(noquote('170.300,168.300,166.100,163.500,157.300,152.100,145.000,139.800,132.900,129.400,125.000,113.000,100.500,93.900,89.800,86.300,83.600,72.100,66.000,61.600,59.200,56.000,47.800,41.300,38.000,33.900,28.100,23.030,23.030,20.440,15.970,13.820,11.620,7.246,5.333,0.000')), split=',')[[1]])
+FADLADbeck<-'../Data/Beck2014_FADLAD.csv'
+FADLADslat<-'../Data/Slater2013_FADLAD.csv'
 
-#SLICES
+#Data
+chain_name<-c("Slater2013", "Beck2014")
+file_matrix<-c("../Data/2013-Slater-MEE-matrix-morpho.nex", "../Data/2014-Beck-ProcB-matrix-morpho.nex")
+file_tree<-c("../Data/2013-Slater-MEE-TEM.tre","../Data/2014-Beck-ProcB-TEM.tre")
 
-#Isolating the slater diversity
-diversity_data<-"-diversity_slice.Rda"
-div<-load(paste(data_path, chain_name, "/", chain_name, diversity_data, sep=""))
-diversity_full_slater<-get(div)$diversity
+#Loading the data
+#Disparity + tree
+#slater
+slat_tmp1<-read.data(chain_name[1], data_path, file_matrix[1], file_tree[1], disparity_int)
+slat_tmp2<-read.data(chain_name[1], data_path, file_matrix[1], file_tree[1], disparity_ino)
+slat_tmp3<-read.data(chain_name[1], data_path, file_matrix[1], file_tree[1], disparity_ran)
+slat_tmp4<-read.data(chain_name[1], data_path, file_matrix[1], file_tree[1], disparity_acc)
+slat_tmp5<-read.data(chain_name[1], data_path, file_matrix[1], file_tree[1], disaprity_del)
+slat_tmp6<-read.data(chain_name[1], data_path, file_matrix[1], file_tree[1], disaprity_pro)
+#beck
+beck_tmp1<-read.data(chain_name[2], data_path, file_matrix[2], file_tree[2], disparity_int)
+beck_tmp2<-read.data(chain_name[2], data_path, file_matrix[2], file_tree[2], disparity_ino)
+beck_tmp3<-read.data(chain_name[2], data_path, file_matrix[2], file_tree[2], disparity_ran)
+beck_tmp4<-read.data(chain_name[2], data_path, file_matrix[2], file_tree[2], disparity_acc)
+beck_tmp5<-read.data(chain_name[2], data_path, file_matrix[2], file_tree[2], disaprity_del)
+beck_tmp6<-read.data(chain_name[2], data_path, file_matrix[2], file_tree[2], disaprity_pro)
 
-#Extracting all the data
-tmp<-read.data(chain_name, data_path, file_matrix, file_tree, disparity_data)
-#Isolating the slater data
-disparity_full_pro_slater<-tmp[[3]]
-#Isolating the slater tree
-tree_slater<-tmp[[2]]
 
-#Extracting the random slicing data
-disparity_data<-"-disp_sli_nodes95_ran.Rda"
-tmp<-read.data(chain_name, data_path, file_matrix, file_tree, disparity_data)
-#Isolating the slater data
-disparity_full_ran_slater<-tmp[[3]]
+#Extracting the data
+#Tree
+tree_slater<-slat_tmp1[[2]]
+tree_beck  <-beck_tmp1[[2]]
 
-#Extracting the random slicing data
-disparity_data<-"-disp_sli_nodes95_acc.Rda"
-tmp<-read.data(chain_name, data_path, file_matrix, file_tree, disparity_data)
-#Isolating the slater data
-disparity_full_acc_slater<-tmp[[3]]
+#FAD/LAD
+FADLADslat<-read.csv(FADLADslat, row.names=1)
+FADLADbeck<-read.csv(FADLADbeck, row.names=1)
 
-#Extracting the random slicing data
-disparity_data<-"-disp_sli_nodes95_del.Rda"
-tmp<-read.data(chain_name, data_path, file_matrix, file_tree, disparity_data)
-#Isolating the slater data
-disparity_full_del_slater<-tmp[[3]]
+#Disparity
+#Slater
+disparity_full_int_slater<-slat_tmp1[[3]]
+disparity_full_ino_slater<-slat_tmp2[[3]]
+disparity_full_ran_slater<-slat_tmp3[[3]]
+disparity_full_acc_slater<-slat_tmp4[[3]]
+disparity_full_del_slater<-slat_tmp5[[3]]
+disparity_full_pro_slater<-slat_tmp6[[3]]
+#beck
+disparity_full_int_beck  <-beck_tmp1[[3]]
+disparity_full_ino_beck  <-beck_tmp2[[3]]
+disparity_full_ran_beck  <-beck_tmp3[[3]]
+disparity_full_acc_beck  <-beck_tmp4[[3]]
+disparity_full_del_beck  <-beck_tmp5[[3]]
+disparity_full_pro_beck  <-beck_tmp6[[3]]
 
-#INTERVALS
+#Diversity
+#Slice nodes
+slat_div_nod<-get(load(paste(data_path, chain_name[1], "/", chain_name[1], diversity_ful, sep="")))
+beck_div_nod<-get(load(paste(data_path, chain_name[2], "/", chain_name[2], diversity_ful, sep="")))
 
-#Extracting the intervals diversities
-diversity_data<-"-div_int_tip.Rda"
-div<-load(paste(data_path, chain_name, "/", chain_name, diversity_data, sep=""))
-diversity_full_tip_slater<-get(div)
+#Intervals tips
+load(paste(data_path, chain_name[1], '/', chain_name[1], '_distance-tips.Rda', sep=''))
+trimmed_max_data_tips<-TrimMorphDistMatrix(dist_tips$gower.dist.matrix)
+tree_tips<-drop.tip(tree_slater, trimmed_max_data_tips$removed.taxa) ; tree_tips$root.time<-max(tree.age(tree_tips)[,1])
+pco_data_tips<-cmdscale(trimmed_max_data_tips$dist.matrix, k=nrow(trimmed_max_data_tips$dist.matrix) - 2, add=T)$points
+slat_div_int<-int.pco(pco_data_tips, tree_tips, intervals, include.nodes=FALSE, FAD_LAD=FADLADslat, diversity=TRUE)[[2]]
 
-diversity_data<-"-div_int_nod.Rda"
-div<-load(paste(data_path, chain_name, "/", chain_name, diversity_data, sep=""))
-diversity_full_nod_slater<-get(div)
+load(paste(data_path, chain_name[2], '/', chain_name[2], '_distance-tips.Rda', sep=''))
+trimmed_max_data_tips<-TrimMorphDistMatrix(dist_tips$gower.dist.matrix)
+tree_tips<-drop.tip(tree_beck  , trimmed_max_data_tips$removed.taxa) ; tree_tips$root.time<-max(tree.age(tree_tips)[,1])
+pco_data_tips<-cmdscale(trimmed_max_data_tips$dist.matrix, k=nrow(trimmed_max_data_tips$dist.matrix) - 2, add=T)$points
+beck_div_int<-int.pco(pco_data_tips, tree_tips, intervals, include.nodes=FALSE, FAD_LAD=FADLADbeck, diversity=TRUE)[[2]]
 
-#Extracting the tip intervals
-disparity_data<-"-disp_int_tips.Rda"
-tmp<-read.data(chain_name, data_path, file_matrix, file_tree, disparity_data)
-#Isolating the beck data
-disparity_full_tip_slater<-tmp[[3]]
+#Intervals nodes
+load(paste(data_path, chain_name[1], '/', chain_name[1], '_distance-nodes95.Rda', sep=''))
+trimmed_max_data_tips<-TrimMorphDistMatrix(dist_tips$gower.dist.matrix)
+tree_tips<-drop.tip(tree_slater, trimmed_max_data_tips$removed.taxa) ; tree_tips$root.time<-max(tree.age(tree_tips)[,1])
+pco_data_tips<-cmdscale(trimmed_max_data_tips$dist.matrix, k=nrow(trimmed_max_data_tips$dist.matrix) - 2, add=T)$points
+slat_div_ino<-int.pco(pco_data_tips, tree_tips, intervals, include.nodes=FALSE, FAD_LAD=FADLADslat, diversity=TRUE)[[2]]
 
-#Extracting the tip+nodes intervals
-disparity_data<-"-disp_int_nodes.Rda"
-tmp<-read.data(chain_name, data_path, file_matrix, file_tree, disparity_data)
-#Isolating the beck data
-disparity_full_node_slater<-tmp[[3]]
+load(paste(data_path, chain_name[2], '/', chain_name[2], '_distance-nodes95.Rda', sep=''))
+trimmed_max_data_tips<-TrimMorphDistMatrix(dist_tips$gower.dist.matrix)
+tree_tips<-drop.tip(tree_beck  , trimmed_max_data_tips$removed.taxa) ; tree_tips$root.time<-max(tree.age(tree_tips)[,1])
+pco_data_tips<-cmdscale(trimmed_max_data_tips$dist.matrix, k=nrow(trimmed_max_data_tips$dist.matrix) - 2, add=T)$points
+beck_div_ino<-int.pco(pco_data_tips, tree_tips, intervals, include.nodes=FALSE, FAD_LAD=FADLADbeck, diversity=TRUE)[[2]]
 
-#BECK
-
-#Selecting the Beck data
-chain_name<-"Beck2014"
-data_path<-"../Data/"
-file_matrix<-"../Data/2014-Beck-ProcB-matrix-morpho.nex"
-file_tree<-"../Data/2014-Beck-ProcB-TEM.tre"
-disparity_data<-"-disp_sli_nodes95_pro.Rda"
-
-#SLICES
-
-#Isolating the beck diversity
-diversity_data<-"-diversity_slice.Rda"
-div<-load(paste(data_path, chain_name, "/", chain_name, diversity_data, sep=""))
-diversity_full_beck<-get(div)$diversity
-
-#Extracting all the data
-tmp<-read.data(chain_name, data_path, file_matrix, file_tree, disparity_data)
-#Isolating the beck data
-disparity_full_pro_beck<-tmp[[3]]
-#Isolating the beck tree
-tree_beck<-tmp[[2]]
-
-#Extracting the random slicing data
-disparity_data<-"-disp_sli_nodes95_ran.Rda"
-tmp<-read.data(chain_name, data_path, file_matrix, file_tree, disparity_data)
-#Isolating the beck data
-disparity_full_ran_beck<-tmp[[3]]
-
-#Extracting the random slicing data
-disparity_data<-"-disp_sli_nodes95_acc.Rda"
-tmp<-read.data(chain_name, data_path, file_matrix, file_tree, disparity_data)
-#Isolating the beck data
-disparity_full_acc_beck<-tmp[[3]]
-
-#Extracting the random slicing data
-disparity_data<-"-disp_sli_nodes95_del.Rda"
-tmp<-read.data(chain_name, data_path, file_matrix, file_tree, disparity_data)
-#Isolating the beck data
-disparity_full_del_beck<-tmp[[3]]
-
-#INTERVALS
-
-#Extracting the intervals diversities
-diversity_data<-"-div_int_tip.Rda"
-div<-load(paste(data_path, chain_name, "/", chain_name, diversity_data, sep=""))
-diversity_full_tip_beck<-get(div)
-
-diversity_data<-"-div_int_nod.Rda"
-div<-load(paste(data_path, chain_name, "/", chain_name, diversity_data, sep=""))
-diversity_full_nod_beck<-get(div)
-
-#Extracting the tip intervals
-disparity_data<-"-disp_int_tips.Rda"
-tmp<-read.data(chain_name, data_path, file_matrix, file_tree, disparity_data)
-#Isolating the beck data
-disparity_full_tip_beck<-tmp[[3]]
-
-#Extracting the tip+nodes intervals
-disparity_data<-"-disp_int_nodes.Rda"
-tmp<-read.data(chain_name, data_path, file_matrix, file_tree, disparity_data)
-#Isolating the beck data
-disparity_full_node_beck<-tmp[[3]]
 
 ######################################
 #Rarefaction analysis on both data sets
 ######################################
 
+#Gradual
 #Slater
-dis_ran_max_slater<-extract.disp(disparity_full_pro_slater$quantiles, rarefaction="max")
-dis_ran_min_slater<-extract.disp(disparity_full_pro_slater$quantiles, rarefaction="min")
-dis_ran_mod_slater<-extract.disp(disparity_full_pro_slater$quantiles, rarefaction=mode.val(diversity_full_slater))
+dis_ran_max_slater<-extract.disp(disparity_full_ran_slater$quantiles, rarefaction="max")
+dis_pro_max_slater<-extract.disp(disparity_full_pro_slater$quantiles, rarefaction="max")
+dis_ran_min_slater<-extract.disp(disparity_full_ran_slater$quantiles, rarefaction="min")
+dis_pro_min_slater<-extract.disp(disparity_full_pro_slater$quantiles, rarefaction="min")
+dis_ran_mod_slater<-extract.disp(disparity_full_ran_slater$quantiles, rarefaction=mode.val(slat_div_nod))
+dis_pro_mod_slater<-extract.disp(disparity_full_pro_slater$quantiles, rarefaction=mode.val(slat_div_nod))
 
 #Plot
-op<-par(mfrow=c(3,1), bty="n", mar=c(4,4,4,4))
-plot.disparity(dis_ran_max_slater, diversity=log(dis_ran_max_slater$rarefaction), main="Maximum (all taxa)", xlab="Time (Mya)", y2lab="Diversity (log)")
+op<-par(mfrow=c(3,2), bty="n", mar=c(4,4,4,4))
+plot.disparity(dis_ran_max_slater, diversity=log(dis_ran_max_slater$rarefaction), main="Punctuated (Maximum; all taxa)", xlab="Time (Mya)", y2lab="Diversity (log)")
 abline(v=22, col="red")
-plot.disparity(dis_ran_mod_slater, diversity=log(dis_ran_mod_slater$rarefaction), main=paste("Mode (", mode.val(diversity_full_slater), " taxa)", sep=""), xlab="Time (Mya)", y2lab="Diversity (log)")
+plot.disparity(dis_pro_max_slater, diversity=log(dis_pro_max_slater$rarefaction), main="Gradual (Maximum; all taxa)", xlab="Time (Mya)", y2lab="Diversity (log)")
 abline(v=22, col="red")
+
+plot.disparity(dis_ran_mod_slater, diversity=log(dis_ran_mod_slater$rarefaction), main=paste("Mode (", mode.val(slat_div_nod), " taxa)", sep=""), xlab="Time (Mya)", y2lab="Diversity (log)")
+abline(v=22, col="red")
+plot.disparity(dis_pro_mod_slater, diversity=log(dis_pro_mod_slater$rarefaction), main=paste("Mode (", mode.val(slat_div_nod), " taxa)", sep=""), xlab="Time (Mya)", y2lab="Diversity (log)")
+abline(v=22, col="red")
+
 plot.disparity(dis_ran_min_slater, diversity=log(dis_ran_min_slater$rarefaction), main=paste("Minimum (", unique(dis_ran_min_slater$rarefaction), " taxa)", sep=""), xlab="Time (Mya)", y2lab="Diversity (log)")
 abline(v=22, col="red")
+plot.disparity(dis_pro_min_slater, diversity=log(dis_pro_min_slater$rarefaction), main=paste("Minimum (", unique(dis_ran_min_slater$rarefaction), " taxa)", sep=""), xlab="Time (Mya)", y2lab="Diversity (log)")
+abline(v=22, col="red")
 par(op)
 
+#Gradual
 #Beck
-dis_ran_max_beck<-extract.disp(disparity_full_pro_beck$quantiles, rarefaction="max")
-dis_ran_min_beck<-extract.disp(disparity_full_pro_beck$quantiles, rarefaction="min")
-dis_ran_mod_beck<-extract.disp(disparity_full_pro_beck$quantiles, rarefaction=mode.val(diversity_full_beck))
+dis_ran_max_beck  <-extract.disp(disparity_full_ran_beck  $quantiles, rarefaction="max")
+dis_pro_max_beck  <-extract.disp(disparity_full_pro_beck  $quantiles, rarefaction="max")
+dis_ran_min_beck  <-extract.disp(disparity_full_ran_beck  $quantiles, rarefaction="min")
+dis_pro_min_beck  <-extract.disp(disparity_full_pro_beck  $quantiles, rarefaction="min")
+dis_ran_mod_beck  <-extract.disp(disparity_full_ran_beck  $quantiles, rarefaction=mode.val(beck_div_nod  ))
+dis_pro_mod_beck  <-extract.disp(disparity_full_pro_beck  $quantiles, rarefaction=mode.val(beck_div_nod  ))
 
 #Plot
-op<-par(mfrow=c(3,1), bty="n", mar=c(4,4,4,4))
-plot.disparity(dis_ran_max_beck, diversity=log(dis_ran_max_beck$rarefaction), main="Maximum (all taxa)", xlab="Time (Mya)", y2lab="Diversity (log)")
+op<-par(mfrow=c(3,2), bty="n", mar=c(4,4,4,4))
+plot.disparity(dis_ran_max_beck  , diversity=log(dis_ran_max_beck  $rarefaction), main="Punctuated (Maximum; all taxa)", xlab="Time (Mya)", y2lab="Diversity (log)")
 abline(v=22, col="red")
-plot.disparity(dis_ran_mod_beck, diversity=log(dis_ran_mod_beck$rarefaction), main=paste("Mode (", mode.val(diversity_full_beck), " taxa)", sep=""), xlab="Time (Mya)", y2lab="Diversity (log)")
+plot.disparity(dis_pro_max_beck  , diversity=log(dis_pro_max_beck  $rarefaction), main="Gradual (Maximum; all taxa)", xlab="Time (Mya)", y2lab="Diversity (log)")
 abline(v=22, col="red")
-plot.disparity(dis_ran_min_beck, diversity=log(dis_ran_min_beck$rarefaction), main=paste("Minimum (", unique(dis_ran_min_slater$rarefaction), " taxa)", sep=""), xlab="Time (Mya)", y2lab="Diversity (log)")
+
+plot.disparity(dis_ran_mod_beck  , diversity=log(dis_ran_mod_beck  $rarefaction), main=paste("Mode (", mode.val(beck_div_nod  ), " taxa)", sep=""), xlab="Time (Mya)", y2lab="Diversity (log)")
+abline(v=22, col="red")
+plot.disparity(dis_pro_mod_beck  , diversity=log(dis_pro_mod_beck  $rarefaction), main=paste("Mode (", mode.val(beck_div_nod  ), " taxa)", sep=""), xlab="Time (Mya)", y2lab="Diversity (log)")
+abline(v=22, col="red")
+
+plot.disparity(dis_ran_min_beck  , diversity=log(dis_ran_min_beck  $rarefaction), main=paste("Minimum (", unique(dis_ran_min_beck  $rarefaction), " taxa)", sep=""), xlab="Time (Mya)", y2lab="Diversity (log)")
+abline(v=22, col="red")
+plot.disparity(dis_pro_min_beck  , diversity=log(dis_pro_min_beck  $rarefaction), main=paste("Minimum (", unique(dis_ran_min_beck  $rarefaction), " taxa)", sep=""), xlab="Time (Mya)", y2lab="Diversity (log)")
 abline(v=22, col="red")
 par(op)
+
 
 ######################################
 #Evolutionary models variation + metrics variation
@@ -179,8 +176,8 @@ par(op)
 #SLATER
 #-------------------
 
-dis_tips_slater <-extract.disp(disparity_full_tip_slater$quantiles, rarefaction="max")
-dis_nodes_slater<-extract.disp(disparity_full_node_slater$quantiles, rarefaction="max")
+dis_tips_slater <-extract.disp(disparity_full_int_slater$quantiles, rarefaction="max")
+dis_nodes_slater<-extract.disp(disparity_full_ino_slater$quantiles, rarefaction="max")
 dis_ran_slater  <-extract.disp(disparity_full_ran_slater$quantiles, rarefaction="max")
 dis_acc_slater  <-extract.disp(disparity_full_acc_slater$quantiles, rarefaction="max")
 dis_del_slater  <-extract.disp(disparity_full_del_slater$quantiles, rarefaction="max")
@@ -196,13 +193,13 @@ plot.disparity(dis_tips_slater, xlab="", ylab="Distance from centroid", measure=
 abline(v= 17.5, col="red")
 plot.disparity(dis_nodes_slater, xlab="", ylab="", measure="Cent.dist", main="Intervals (tips and nodes)", diversity=log(dis_nodes_slater$rarefaction), y2lab="", cex.xaxis=0.7)
 abline(v= 17.5, col="red")
-plot.disparity(dis_ran_slater, xlab="", ylab="", measure="Cent.dist", main="Slices (punctuated)", diversity=log(diversity_full_slater), y2lab="")
+plot.disparity(dis_ran_slater, xlab="", ylab="", measure="Cent.dist", main="Slices (punctuated)", diversity=log(slat_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_acc_slater, xlab="", ylab="", measure="Cent.dist", main="Slices (punctuated:acctran)", diversity=log(diversity_full_slater), y2lab="")
+plot.disparity(dis_acc_slater, xlab="", ylab="", measure="Cent.dist", main="Slices (punctuated:acctran)", diversity=log(slat_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_del_slater, xlab="", ylab="", measure="Cent.dist", main="Slices (punctuated:deltran)", diversity=log(diversity_full_slater), y2lab="")
+plot.disparity(dis_del_slater, xlab="", ylab="", measure="Cent.dist", main="Slices (punctuated:deltran)", diversity=log(slat_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Cent.dist", main="Slices (gradual)", diversity=log(diversity_full_slater), y2lab="Diversity (log)")
+plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Cent.dist", main="Slices (gradual)", diversity=log(slat_div_nod), y2lab="Diversity (log)")
 abline(v= 22, col="red")
 
 #Sum of ranges
@@ -210,13 +207,13 @@ plot.disparity(dis_tips_slater, xlab="", ylab="Sum of ranges", measure="Sum.rang
 abline(v= 17.5, col="red")
 plot.disparity(dis_nodes_slater, xlab="", ylab="", measure="Sum.range", main="Intervals (tips and nodes)", diversity=log(dis_nodes_slater$rarefaction), y2lab="", cex.xaxis=0.7)
 abline(v= 17.5, col="red")
-plot.disparity(dis_ran_slater, xlab="", ylab="", measure="Sum.range", main="Slices (punctuated)", diversity=log(diversity_full_slater), y2lab="")
+plot.disparity(dis_ran_slater, xlab="", ylab="", measure="Sum.range", main="Slices (punctuated)", diversity=log(slat_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_acc_slater, xlab="", ylab="", measure="Sum.range", main="Slices (punctuated:acctran)", diversity=log(diversity_full_slater), y2lab="")
+plot.disparity(dis_acc_slater, xlab="", ylab="", measure="Sum.range", main="Slices (punctuated:acctran)", diversity=log(slat_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_del_slater, xlab="", ylab="", measure="Sum.range", main="Slices (punctuated:deltran)", diversity=log(diversity_full_slater), y2lab="")
+plot.disparity(dis_del_slater, xlab="", ylab="", measure="Sum.range", main="Slices (punctuated:deltran)", diversity=log(slat_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Sum.range", main="Slices (gradual)", diversity=log(diversity_full_slater), y2lab="Diversity (log)")
+plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Sum.range", main="Slices (gradual)", diversity=log(slat_div_nod), y2lab="Diversity (log)")
 abline(v= 22, col="red")
 
 #Sum of variance
@@ -224,13 +221,13 @@ plot.disparity(dis_tips_slater, xlab="", ylab="Sum of variances", measure="Sum.v
 abline(v= 17.5, col="red")
 plot.disparity(dis_nodes_slater, xlab="", ylab="", measure="Sum.var", main="Intervals (tips and nodes)", diversity=log(dis_nodes_slater$rarefaction), y2lab="", cex.xaxis=0.7)
 abline(v= 17.5, col="red")
-plot.disparity(dis_ran_slater, xlab="", ylab="", measure="Sum.var", main="Slices (punctuated)", diversity=log(diversity_full_slater), y2lab="")
+plot.disparity(dis_ran_slater, xlab="", ylab="", measure="Sum.var", main="Slices (punctuated)", diversity=log(slat_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_acc_slater, xlab="", ylab="", measure="Sum.var", main="Slices (punctuated:acctran)", diversity=log(diversity_full_slater), y2lab="")
+plot.disparity(dis_acc_slater, xlab="", ylab="", measure="Sum.var", main="Slices (punctuated:acctran)", diversity=log(slat_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_del_slater, xlab="", ylab="", measure="Sum.var", main="Slices (punctuated:deltran)", diversity=log(diversity_full_slater), y2lab="")
+plot.disparity(dis_del_slater, xlab="", ylab="", measure="Sum.var", main="Slices (punctuated:deltran)", diversity=log(slat_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Sum.var", main="Slices (gradual)", diversity=log(diversity_full_slater), y2lab="Diversity (log)")
+plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Sum.var", main="Slices (gradual)", diversity=log(slat_div_nod), y2lab="Diversity (log)")
 abline(v= 22, col="red")
 
 #Product of ranges
@@ -238,27 +235,27 @@ plot.disparity(dis_tips_slater, xlab="", ylab="Product of ranges", measure="Prod
 abline(v= 17.5, col="red")
 plot.disparity(dis_nodes_slater, xlab="", ylab="", measure="Prod.range", main="Intervals (tips and nodes)", diversity=log(dis_nodes_slater$rarefaction), y2lab="", cex.xaxis=0.7)
 abline(v= 17.5, col="red")
-plot.disparity(dis_ran_slater, xlab="", ylab="", measure="Prod.range", main="Slices (punctuated)", diversity=log(diversity_full_slater), y2lab="")
+plot.disparity(dis_ran_slater, xlab="", ylab="", measure="Prod.range", main="Slices (punctuated)", diversity=log(slat_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_acc_slater, xlab="", ylab="", measure="Prod.range", main="Slices (punctuated:acctran)", diversity=log(diversity_full_slater), y2lab="")
+plot.disparity(dis_acc_slater, xlab="", ylab="", measure="Prod.range", main="Slices (punctuated:acctran)", diversity=log(slat_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_del_slater, xlab="", ylab="", measure="Prod.range", main="Slices (punctuated:deltran)", diversity=log(diversity_full_slater), y2lab="")
+plot.disparity(dis_del_slater, xlab="", ylab="", measure="Prod.range", main="Slices (punctuated:deltran)", diversity=log(slat_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Prod.range", main="Slices (gradual)", diversity=log(diversity_full_slater), y2lab="Diversity (log)")
+plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Prod.range", main="Slices (gradual)", diversity=log(slat_div_nod), y2lab="Diversity (log)")
 abline(v= 22, col="red")
 
 #Product of variance
-plot.disparity(dis_tips_slater, xlab="Time bins (Mya)", ylab="Product of variances", measure="Prod.var", main="Intervals (tips only)", diversity=log(dis_tips_slater$rarefaction), y2lab="", cex.xaxis=0.7)
+plot.disparity(dis_tips_slater, xlab="", ylab="Product of variances", measure="Prod.var", main="Intervals (tips only)", diversity=log(dis_tips_slater$rarefaction), y2lab="", cex.xaxis=0.7)
 abline(v= 17.5, col="red")
-plot.disparity(dis_nodes_slater, xlab="Time bins (Mya)", ylab="", measure="Prod.var", main="Intervals (tips and nodes)", diversity=log(dis_nodes_slater$rarefaction), y2lab="", cex.xaxis=0.7)
+plot.disparity(dis_nodes_slater, xlab="", ylab="", measure="Prod.var", main="Intervals (tips and nodes)", diversity=log(dis_nodes_slater$rarefaction), y2lab="", cex.xaxis=0.7)
 abline(v= 17.5, col="red")
-plot.disparity(dis_ran_slater, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated)", diversity=log(diversity_full_slater), y2lab="")
+plot.disparity(dis_ran_slater, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated)", diversity=log(slat_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_acc_slater, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated:acctran)", diversity=log(diversity_full_slater), y2lab="")
+plot.disparity(dis_acc_slater, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated:acctran)", diversity=log(slat_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_del_slater, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated:deltran)", diversity=log(diversity_full_slater), y2lab="")
+plot.disparity(dis_del_slater, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated:deltran)", diversity=log(slat_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_slater, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (gradual)", diversity=log(diversity_full_slater), y2lab="Diversity (log)")
+plot.disparity(dis_pro_slater, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (gradual)", diversity=log(slat_div_nod), y2lab="Diversity (log)")
 abline(v= 22, col="red")
 
 par(op)
@@ -268,8 +265,8 @@ par(op)
 #-------------------
 
 
-dis_tips_beck <-extract.disp(disparity_full_tip_beck$quantiles, rarefaction="max")
-dis_nodes_beck<-extract.disp(disparity_full_node_beck$quantiles, rarefaction="max")
+dis_tips_beck <-extract.disp(disparity_full_int_beck$quantiles, rarefaction="max")
+dis_nodes_beck<-extract.disp(disparity_full_ino_beck$quantiles, rarefaction="max")
 dis_ran_beck  <-extract.disp(disparity_full_ran_beck$quantiles, rarefaction="max")
 dis_acc_beck  <-extract.disp(disparity_full_acc_beck$quantiles, rarefaction="max")
 dis_del_beck  <-extract.disp(disparity_full_del_beck$quantiles, rarefaction="max")
@@ -285,13 +282,13 @@ plot.disparity(dis_tips_beck, xlab="", ylab="Distance from centroid", measure="C
 abline(v= 10.5, col="red")
 plot.disparity(dis_nodes_beck, xlab="", ylab="", measure="Cent.dist", main="Intervals (tips and nodes)", diversity=log(dis_nodes_beck$rarefaction), y2lab="", cex.xaxis=0.8)
 abline(v= 10.5, col="red")
-plot.disparity(dis_ran_beck, xlab="", ylab="", measure="Cent.dist", main="Slices (punctuated)", diversity=log(diversity_full_beck), y2lab="")
+plot.disparity(dis_ran_beck, xlab="", ylab="", measure="Cent.dist", main="Slices (punctuated)", diversity=log(beck_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_acc_beck, xlab="", ylab="", measure="Cent.dist", main="Slices (punctuated:acctran)", diversity=log(diversity_full_beck), y2lab="")
+plot.disparity(dis_acc_beck, xlab="", ylab="", measure="Cent.dist", main="Slices (punctuated:acctran)", diversity=log(beck_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_del_beck, xlab="", ylab="", measure="Cent.dist", main="Slices (punctuated:deltran)", diversity=log(diversity_full_beck), y2lab="")
+plot.disparity(dis_del_beck, xlab="", ylab="", measure="Cent.dist", main="Slices (punctuated:deltran)", diversity=log(beck_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_beck, xlab="", ylab="", measure="Cent.dist", main="Slices (gradual)", diversity=log(diversity_full_beck), y2lab="Diversity (log)")
+plot.disparity(dis_pro_beck, xlab="", ylab="", measure="Cent.dist", main="Slices (gradual)", diversity=log(beck_div_nod), y2lab="Diversity (log)")
 abline(v= 22, col="red")
 
 #Sum of ranges
@@ -299,13 +296,13 @@ plot.disparity(dis_tips_beck, xlab="", ylab="Sum of ranges", measure="Sum.range"
 abline(v= 10.5, col="red")
 plot.disparity(dis_nodes_beck, xlab="", ylab="", measure="Sum.range", main="Intervals (tips and nodes)", diversity=log(dis_nodes_beck$rarefaction), y2lab="", cex.xaxis=0.8)
 abline(v= 10.5, col="red")
-plot.disparity(dis_ran_beck, xlab="", ylab="", measure="Sum.range", main="Slices (punctuated)", diversity=log(diversity_full_beck), y2lab="")
+plot.disparity(dis_ran_beck, xlab="", ylab="", measure="Sum.range", main="Slices (punctuated)", diversity=log(beck_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_acc_beck, xlab="", ylab="", measure="Sum.range", main="Slices (punctuated:acctran)", diversity=log(diversity_full_beck), y2lab="")
+plot.disparity(dis_acc_beck, xlab="", ylab="", measure="Sum.range", main="Slices (punctuated:acctran)", diversity=log(beck_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_del_beck, xlab="", ylab="", measure="Sum.range", main="Slices (punctuated:deltran)", diversity=log(diversity_full_beck), y2lab="")
+plot.disparity(dis_del_beck, xlab="", ylab="", measure="Sum.range", main="Slices (punctuated:deltran)", diversity=log(beck_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_beck, xlab="", ylab="", measure="Sum.range", main="Slices (gradual)", diversity=log(diversity_full_beck), y2lab="Diversity (log)")
+plot.disparity(dis_pro_beck, xlab="", ylab="", measure="Sum.range", main="Slices (gradual)", diversity=log(beck_div_nod), y2lab="Diversity (log)")
 abline(v= 22, col="red")
 
 #Sum of variance
@@ -313,13 +310,13 @@ plot.disparity(dis_tips_beck, xlab="", ylab="Sum of variances", measure="Sum.var
 abline(v= 10.5, col="red")
 plot.disparity(dis_nodes_beck, xlab="", ylab="", measure="Sum.var", main="Intervals (tips and nodes)", diversity=log(dis_nodes_beck$rarefaction), y2lab="", cex.xaxis=0.8)
 abline(v= 10.5, col="red")
-plot.disparity(dis_ran_beck, xlab="", ylab="", measure="Sum.var", main="Slices (punctuated)", diversity=log(diversity_full_beck), y2lab="")
+plot.disparity(dis_ran_beck, xlab="", ylab="", measure="Sum.var", main="Slices (punctuated)", diversity=log(beck_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_acc_beck, xlab="", ylab="", measure="Sum.var", main="Slices (punctuated:acctran)", diversity=log(diversity_full_beck), y2lab="")
+plot.disparity(dis_acc_beck, xlab="", ylab="", measure="Sum.var", main="Slices (punctuated:acctran)", diversity=log(beck_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_del_beck, xlab="", ylab="", measure="Sum.var", main="Slices (punctuated:deltran)", diversity=log(diversity_full_beck), y2lab="")
+plot.disparity(dis_del_beck, xlab="", ylab="", measure="Sum.var", main="Slices (punctuated:deltran)", diversity=log(beck_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_beck, xlab="", ylab="", measure="Sum.var", main="Slices (gradual)", diversity=log(diversity_full_beck), y2lab="Diversity (log)")
+plot.disparity(dis_pro_beck, xlab="", ylab="", measure="Sum.var", main="Slices (gradual)", diversity=log(beck_div_nod), y2lab="Diversity (log)")
 abline(v= 22, col="red")
 
 #Product of ranges
@@ -327,27 +324,27 @@ plot.disparity(dis_tips_beck, xlab="", ylab="Product of ranges", measure="Prod.r
 abline(v= 10.5, col="red")
 plot.disparity(dis_nodes_beck, xlab="", ylab="", measure="Prod.range", main="Intervals (tips and nodes)", diversity=log(dis_nodes_beck$rarefaction), y2lab="", cex.xaxis=0.8)
 abline(v= 10.5, col="red")
-plot.disparity(dis_ran_beck, xlab="", ylab="", measure="Prod.range", main="Slices (punctuated)", diversity=log(diversity_full_beck), y2lab="")
+plot.disparity(dis_ran_beck, xlab="", ylab="", measure="Prod.range", main="Slices (punctuated)", diversity=log(beck_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_acc_beck, xlab="", ylab="", measure="Prod.range", main="Slices (punctuated:acctran)", diversity=log(diversity_full_beck), y2lab="")
+plot.disparity(dis_acc_beck, xlab="", ylab="", measure="Prod.range", main="Slices (punctuated:acctran)", diversity=log(beck_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_del_beck, xlab="", ylab="", measure="Prod.range", main="Slices (punctuated:deltran)", diversity=log(diversity_full_beck), y2lab="")
+plot.disparity(dis_del_beck, xlab="", ylab="", measure="Prod.range", main="Slices (punctuated:deltran)", diversity=log(beck_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_beck, xlab="", ylab="", measure="Prod.range", main="Slices (gradual)", diversity=log(diversity_full_beck), y2lab="Diversity (log)")
+plot.disparity(dis_pro_beck, xlab="", ylab="", measure="Prod.range", main="Slices (gradual)", diversity=log(beck_div_nod), y2lab="Diversity (log)")
 abline(v= 22, col="red")
 
 #Product of variance
-plot.disparity(dis_tips_beck, xlab="Time bins (Mya)", ylab="Product of variances", measure="Prod.var", main="Intervals (tips only)", diversity=log(dis_tips_beck$rarefaction), y2lab="", cex.xaxis=0.8)
+plot.disparity(dis_tips_beck, xlab="", ylab="Product of variances", measure="Prod.var", main="Intervals (tips only)", diversity=log(dis_tips_beck$rarefaction), y2lab="", cex.xaxis=0.8)
 abline(v= 10.5, col="red")
-plot.disparity(dis_nodes_beck, xlab="Time bins (Mya)", ylab="", measure="Prod.var", main="Intervals (tips and nodes)", diversity=log(dis_nodes_beck$rarefaction), y2lab="", cex.xaxis=0.8)
+plot.disparity(dis_nodes_beck, xlab="", ylab="", measure="Prod.var", main="Intervals (tips and nodes)", diversity=log(dis_nodes_beck$rarefaction), y2lab="", cex.xaxis=0.8)
 abline(v= 10.5, col="red")
-plot.disparity(dis_ran_beck, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated)", diversity=log(diversity_full_beck), y2lab="")
+plot.disparity(dis_ran_beck, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated)", diversity=log(beck_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_acc_beck, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated:acctran)", diversity=log(diversity_full_beck), y2lab="")
+plot.disparity(dis_acc_beck, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated:acctran)", diversity=log(beck_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_del_beck, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated:deltran)", diversity=log(diversity_full_beck), y2lab="")
+plot.disparity(dis_del_beck, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated:deltran)", diversity=log(beck_div_nod), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_beck, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (gradual)", diversity=log(diversity_full_beck), y2lab="Diversity (log)")
+plot.disparity(dis_pro_beck, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (gradual)", diversity=log(beck_div_nod), y2lab="Diversity (log)")
 abline(v= 22, col="red")
 
 par(op)

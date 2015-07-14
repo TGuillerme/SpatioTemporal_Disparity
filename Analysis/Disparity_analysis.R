@@ -55,9 +55,11 @@ diversity_full_beck  <-get(beck_div)
 ######################################
 
 #Plot the tree (slater)
-geoscalePhylo(ladderize(tree_slater), cex.age=0.6, cex.ts=0.8, cex.tip=0.5)
+geoscalePhylo(ladderize(tree_slater), cex.age=0.6, cex.ts=0.7, cex.tip=0.5, units=c("Period","Epoch"), boxes="Epoch")
+abline(v=240, col="red")
 dev.new()
-geoscalePhylo(ladderize(tree_beck), cex.age=0.6, cex.ts=0.8, cex.tip=0.5)
+geoscalePhylo(ladderize(tree_beck), cex.age=0.6, cex.ts=0.7, cex.tip=0.5, units=c("Period","Epoch"), boxes="Epoch")
+abline(v=106, col="red")
 dev.new()
 
 ######################################
