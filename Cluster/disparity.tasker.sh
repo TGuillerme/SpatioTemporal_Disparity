@@ -101,7 +101,7 @@ cp R_scripts_${chain}/R_script_template.tmp R_scripts_${chain}/R_disparity_nodes
 echo "
 #load the distance matrix
 load(paste(data_path, chain_name, '/', chain_name, '_distance-tips.Rda', sep='')) #dist_tips
-trimmed_max_data_tips<-TrimMorphDistMatrix(dist_tips\$max.dist.matrix)
+trimmed_max_data_tips<-TrimMorphDistMatrix(dist_tips\$gower.dist.matrix)
 tree_tips<-drop.tip(tree, trimmed_max_data_tips\$removed.taxa) ; tree_tips\$root.time<-max(tree.age(tree_tips)[,1])
 #pco
 pco_data_tips<-cmdscale(trimmed_max_data_tips\$dist.matrix, k=nrow(trimmed_max_data_tips\$dist.matrix) - 2, add=T)\$points
@@ -109,7 +109,7 @@ pco_data_tips<-cmdscale(trimmed_max_data_tips\$dist.matrix, k=nrow(trimmed_max_d
 echo "
 #load the distance matrix
 load(paste(data_path, chain_name, '/', chain_name, '_distance-nodes.Rda', sep='')) #dist_nodes
-trimmed_max_data_nodes<-TrimMorphDistMatrix(dist_nodes\$max.dist.matrix)
+trimmed_max_data_nodes<-TrimMorphDistMatrix(dist_nodes\$gower.dist.matrix)
 tree_nodes<-drop.tip(tree, trimmed_max_data_nodes\$removed.taxa) ; tree_nodes\$root.time<-max(tree.age(tree_nodes)[,1])
 trimmed_max_data_nodes\$dist.matrix<-trimmed_max_data_nodes\$dist.matrix[c(tree_nodes\$tip.label, tree_nodes\$node.label),c(tree_nodes\$tip.label, tree_nodes\$node.label)]
 #pco
@@ -118,7 +118,7 @@ pco_data_nodes<-cmdscale(trimmed_max_data_nodes\$dist.matrix, k=nrow(trimmed_max
 echo "
 #load the distance matrix
 load(paste(data_path, chain_name, '/', chain_name, '_distance-nodes95.Rda', sep='')) #dist_nodes95
-trimmed_max_data_nodes95<-TrimMorphDistMatrix(dist_nodes95\$max.dist.matrix)
+trimmed_max_data_nodes95<-TrimMorphDistMatrix(dist_nodes95\$gower.dist.matrix)
 tree_nodes95<-drop.tip(tree, trimmed_max_data_nodes95\$removed.taxa) ; tree_nodes95\$root.time<-max(tree.age(tree_nodes95)[,1])
 trimmed_max_data_nodes95\$dist.matrix<-trimmed_max_data_nodes95\$dist.matrix[c(tree_nodes95\$tip.label, tree_nodes95\$node.label),c(tree_nodes95\$tip.label, tree_nodes95\$node.label)]
 #pco
