@@ -73,16 +73,16 @@ permanova_ran_slater<-disparity.test.time(pco_slice_slater_ran, method="euclidea
 permanova_ran_beck  <-disparity.test.time(pco_slice_beck_ran  , method="euclidean", permutations=1000)
 
 #reference
-#reftest_pro_slater<-disparity.test(pco_slice_slater_pro[22:35], method="centroid", test="reference", bootstraps=1000)
+reftest_pro_slater<-disparity.test(pco_slice_slater_pro[22:35], method="centroid", test="reference", bootstraps=1000)
 reftest_pro_beck  <-disparity.test(pco_slice_beck_pro[22:35]  , method="centroid", test="reference", bootstraps=1000)
 #reftest_ran_slater<-disparity.test(pco_slice_slater_ran[22:35], method="centroid", test="reference", bootstraps=1000)
 reftest_ran_beck  <-disparity.test(pco_slice_beck_ran[22:35]  , method="centroid", test="reference", bootstraps=1000)
 
 #reference (rarefied)
-#reftestRAR_pro_slater<-disparity.test(pco_slice_slater_pro[22:35], method="centroid", test="reference", bootstraps=1000, rarefaction=8)
-reftestRAR_pro_beck  <-disparity.test(pco_slice_beck_pro[22:35]  , method="centroid", test="reference", bootstraps=1000, rarefaction=3)
+reftestRAR_pro_slater<-disparity.test(pco_slice_slater_pro[22:35], method="centroid", test="reference", bootstraps=1000, rarefaction=8)
+reftestRAR_pro_beck  <-disparity.test(pco_slice_beck_pro[22:35]  , method="centroid", test="reference", bootstraps=1000, rarefaction=8)
 #reftestRAR_ran_slater<-disparity.test(pco_slice_slater_ran[22:35], method="centroid", test="reference", bootstraps=1000, rarefaction=8)
-reftestRAR_ran_beck  <-disparity.test(pco_slice_beck_ran[22:35]  , method="centroid", test="reference", bootstraps=1000, rarefaction=3)
+reftestRAR_ran_beck  <-disparity.test(pco_slice_beck_ran[22:35]  , method="centroid", test="reference", bootstraps=1000, rarefaction=8)
 
 
 #sequential
@@ -138,10 +138,21 @@ make.table.permanova<-function() {
 }
 
 #permanova table
-xtable(make.table.permanova())
+xtable(make.table.permanova(), digits=4)
 
 #lag test table (to modify manually in LaTeX)
-xtable(cbind(reftest_pro_beck[[1]][,-5], reftest_ran_beck[[1]][,-5]))
+xtable(cbind(reftest_pro_beck[[1]][,-5], reftest_ran_beck[[1]][,-5]), digits=4)
 #xtable(cbind(reftest_ran_beck[[1]][,-5], reftest_ran_slater[[1]][,-5]))
 cat("add: & & gradual & & & & punctuated & & \\\\' in the header.")
+cat("replace 'rrrrrrrrr' by 'rrrrr|rrrr'.")
+
+xtable(cbind(reftestRAR_pro_beck[[1]][,-5], reftestRAR_ran_beck[[1]][,-5]), digits=4)
+#xtable(cbind(reftest_ran_beck[[1]][,-5], reftest_ran_slater[[1]][,-5]))
+cat("add: & & gradual & & & & punctuated & & \\\\' in the header.")
+cat("replace 'rrrrrrrrr' by 'rrrrr|rrrr'.")
+
+
+xtable(cbind(reftest_pro_slater[[1]][,-5], reftestRAR_pro_slater[[1]][,-5]), digits=4)
+#xtable(cbind(reftest_ran_beck[[1]][,-5], reftest_ran_slater[[1]][,-5]))
+cat("add: & & full data & & & & rarefied & & \\\\' in the header.")
 cat("replace 'rrrrrrrrr' by 'rrrrr|rrrr'.")

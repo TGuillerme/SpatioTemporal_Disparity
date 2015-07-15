@@ -85,9 +85,9 @@ par(op)
 ######################################
 # Rarefaction
 ######################################
-dis_pro_max_beck<-extract.disp(disparity_full_ran_beck$quantiles, rarefaction="min")
+dis_pro_max_beck<-extract.disp(disparity_full_ran_beck$quantiles, rarefaction=8)
 dis_pro_max_slater<-extract.disp(disparity_full_ran_slater$quantiles, rarefaction="min")
-dis_ran_max_beck<-extract.disp(disparity_full_pro_beck$quantiles, rarefaction="min")
+dis_ran_max_beck<-extract.disp(disparity_full_pro_beck$quantiles, rarefaction=8)
 dis_ran_max_slater<-extract.disp(disparity_full_pro_slater$quantiles, rarefaction="min")
 
 #Pretty plot with the tree and the disparity
