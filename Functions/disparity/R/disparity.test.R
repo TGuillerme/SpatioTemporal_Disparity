@@ -313,7 +313,7 @@ disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bo
     corr<-paste(simpleCap(correction), " correction applied was applied to p-values.", sep="")
 
     #Output
-    if(no.test==TRUE){
+    if(no_test==TRUE){
         return(list("results"=output_table))
     } else {
         if(rarefaction != FALSE) {
