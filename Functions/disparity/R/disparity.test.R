@@ -223,17 +223,24 @@ disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bo
         output_table<-as.data.frame(matrix(NA, nrow=n_comparisons, ncol=5))
         colnames(output_table)<-c("difference", "Df", "T", "p.value", " ")
         rownames(output_table)<-row_names
-        rounds<-c(2,0,3,5)
-        for (col in 1:(ncol(output_table)-1)) {
-            output_table[,col]<-round(test_results[[col]][lower.tri(test_results[[col]])], rounds[col])
+        
+        if(any(unlist(lapply(test_results, is.na)))) {
+            #Output an NA table
+            no_test<-TRUE
+        } else {
+            #Build the output table
+            rounds<-c(2,0,3,5)
+            for (col in 1:(ncol(output_table)-1)) {
+                output_table[,col]<-round(test_results[[col]][lower.tri(test_results[[col]])], rounds[col])
+            }
+            output_table[, 5]<-rep(" ", n_comparisons)
+
+            #Applying the p-value correction
+            output_table$p.value<-round(p.adjust(test_results$p[lower.tri(test_results$p)], method=correction),5)
+
+            #Adding significant tokens
+            output_table[,5]<-signif.token(output_table$p.value)
         }
-        output_table[, 5]<-rep(" ", n_comparisons)
-
-        #Applying the p-value correction
-        output_table$p.value<-round(p.adjust(test_results$p[lower.tri(test_results$p)], method=correction),5)
-
-        #Adding significant tokens
-        output_table[,5]<-signif.token(output_table$p.value)
     
     } else {
 
@@ -272,24 +279,31 @@ disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bo
         output_table<-as.data.frame(matrix(NA, nrow=n_comparisons, ncol=5))
         colnames(output_table)<-c("difference", "Df", "T", "p.value", " ")
         rownames(output_table)<-row_names
-        rounds<-c(2,0,3,5)
 
-        for(col in 1:(ncol(output_table)-1)) {
-            for (seq in 1:n_comparisons) {
-                output_table[seq,col]<-round(test_results[[col]][row_seq[seq],col_seq[seq]], rounds[col])
+        if(any(unlist(lapply(test_results, is.na)))) {
+            #Output an NA table
+            no_test<-TRUE
+        } else {
+            #Build the output table
+            rounds<-c(2,0,3,5)
+
+            for(col in 1:(ncol(output_table)-1)) {
+                for (seq in 1:n_comparisons) {
+                    output_table[seq,col]<-round(test_results[[col]][row_seq[seq],col_seq[seq]], rounds[col])
+                }
             }
-        }
-        output_table[, 5]<-rep(" ", n_comparisons)
+            output_table[, 5]<-rep(" ", n_comparisons)
 
-        #Applying the p-value correction
-        pvals<-vector()
-        for (seq in 1:n_comparisons) {
-            pvals<-c(pvals, test_results$p[row_seq[seq],col_seq[seq]])
-        }
-        output_table$p.value<-round(p.adjust(pvals, method=correction),5)
+            #Applying the p-value correction
+            pvals<-vector()
+            for (seq in 1:n_comparisons) {
+                pvals<-c(pvals, test_results$p[row_seq[seq],col_seq[seq]])
+            }
+            output_table$p.value<-round(p.adjust(pvals, method=correction),5)
 
-        #Adding significant tokens
-        output_table[,5]<-signif.token(output_table$p.value)
+            #Adding significant tokens
+            output_table[,5]<-signif.token(output_table$p.value)
+        }
     }
 
     #reporting details
@@ -299,11 +313,15 @@ disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bo
     corr<-paste(simpleCap(correction), " correction applied was applied to p-values.", sep="")
 
     #Output
-    if(rarefaction != FALSE) {
-        rare<-paste("Differences are calculated on the rarefied data-set (", rarefaction, " taxa per interval).", sep="")
-        return(list("results"=output_table, "details"=c(signif.codes, test, boots, corr, rare)))
+    if(no.test==TRUE){
+        return(list("results"=output_table))
     } else {
-        return(list("results"=output_table, "details"=c(signif.codes, test, boots, corr)))
+        if(rarefaction != FALSE) {
+            rare<-paste("Differences are calculated on the rarefied data-set (", rarefaction, " taxa per interval).", sep="")
+            return(list("results"=output_table, "details"=c(signif.codes, test, boots, corr, rare)))
+        } else {
+            return(list("results"=output_table, "details"=c(signif.codes, test, boots, corr)))
+        }
     }
 #End
 }

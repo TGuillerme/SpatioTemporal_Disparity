@@ -128,11 +128,17 @@ Anderson.test<-function(BSresults, time_pco) {
             difference[row,col]<-mean.difference(row,col, mean_int)
             #Calculate T
             t_statistic[row,col]<-mean.difference(row,col, mean_int)/sqrt(term.A(row,col,sample_size,variance_int)*term.B(row,col,sample_size))
+            if(!is.finite(t_statistic[row,col])) {
+                #Exist the loop if some variance or differences are not finit numbers.
+                message("T statistic cannot be calculate. Probable reason: some values are is near Inf or -Inf.")
+                return(list("diff"=difference, "df"=degrees_freedom, "T"=t_statistic, "p"=p_values))
+            }
+
             #Calculate df
             degrees_freedom[row,col]<-sample_size[row]+sample_size[col]-2
             #Calculate p
             p_values[row,col]<- 1-pt(t_statistic[row, col], df = degrees_freedom[row, col])
-            
+
             #make test two-tailed
             if (p_values [row,col] > 0.5) {
                 p_values [row,col] <- 2*(1-p_values[row,col])
