@@ -16,6 +16,7 @@ export(time.disparity)
 export(tree.age)
 export(make.nexus) #utilities
 export(cor.diversity) #utilities
+export(cor.time.pco) #utilities
 export(states.count) #utilities
 export(extract.dist) #utilities
 export(combine.disp) #utilities

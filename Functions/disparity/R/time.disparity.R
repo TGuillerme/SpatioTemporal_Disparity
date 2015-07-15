@@ -33,56 +33,7 @@ time.disparity<-function(time_pco, relative=FALSE, method=c("centroid", "sum.ran
     }
 
     #Managing bins with only one data point
-    while(any(as.numeric(unlist(lapply(time_pco, nrow))) < 3)) {
-        wrong_intervals<-which(as.numeric(unlist(lapply(time_pco, nrow))) < 3)
-        #Moving the first wrong interval to the next interval in time (unless the wrong interval is the last one)
-        if(wrong_intervals[1] != length(time_pco)) {
-            host_interval<-wrong_intervals[1]+1
-            message("Intervals ", names(time_pco)[wrong_intervals[1]], " and ", names(time_pco)[host_interval], " are combined due to insufficient data.")
-        } else {
-            #Moving the wrong interval in the preceding one
-            host_interval<-wrong_intervals[1]-1
-            message("Intervals ", names(time_pco)[host_interval], " and ", names(time_pco)[wrong_intervals[1]], " are combined due to insufficient data.")
-        }
-
-        #If both the host and the wrong interval have the same rownames, just delete the wrong interval and rename the host interval
-        if(nrow(time_pco[[wrong_intervals[1]]]) == nrow(time_pco[[host_interval]]) &
-            all(sort(rownames(time_pco[[wrong_intervals[1]]])) == sort(rownames(time_pco[[host_interval]])))) {
-         
-            #Creating the new time_pco data
-            new_time_pco<-time_pco
-            #renaming the interval
-            if(wrong_intervals[1] != length(time_pco)) {
-                names(new_time_pco)[host_interval]<-paste(strsplit(names(new_time_pco)[wrong_intervals[1]], split="-")[[1]][1],strsplit(names(new_time_pco)[host_interval], split="-")[[1]][2],sep="-")
-            } else {
-                names(new_time_pco)[host_interval]<-paste(strsplit(names(new_time_pco)[host_interval], split="-")[[1]][1],strsplit(names(new_time_pco)[wrong_intervals[1]], split="-")[[1]][2],sep="-")
-            }
-            #Removing the wrong time interval
-            new_time_pco[[wrong_intervals[1]]]<-NULL
-
-        } else {
-
-            #Creating the new interval
-            new_interval<-rbind(time_pco[[wrong_intervals[1]]], time_pco[[host_interval]])
-            #Making sure there are no duplicated taxa in the new interval
-            new_interval<-new_interval[c(unique(rownames(new_interval))),]
-            #Creating the new time_pco data
-            new_time_pco<-time_pco ; names(new_time_pco)<-names(time_pco)
-            #replacing the wrong interval
-            new_time_pco[[host_interval]]<-new_interval
-            #renaming the interval
-            if(wrong_intervals[1] != length(time_pco)) {
-                names(new_time_pco)[host_interval]<-paste(strsplit(names(new_time_pco)[wrong_intervals[1]], split="-")[[1]][1],strsplit(names(new_time_pco)[host_interval], split="-")[[1]][2],sep="-")
-            } else {
-                names(new_time_pco)[host_interval]<-paste(strsplit(names(new_time_pco)[host_interval], split="-")[[1]][1],strsplit(names(new_time_pco)[wrong_intervals[1]], split="-")[[1]][2],sep="-")
-            }
-            #removing empty interval
-            new_time_pco[[wrong_intervals[1]]]<-NULL
-
-        }
-
-        time_pco<-new_time_pco
-    }
+    time_pco<-cor.time_pco(time_pco, minimum=3)
 
     #CALCULATING THE DISPARITY FOR EACH BIN
     disparity_interval<-lapply(time_pco, disparity, method=method, CI=CI, bootstraps=bootstraps, central_tendency=central_tendency, rarefaction=rarefaction, verbose=verbose, rm.last.axis=rm.last.axis, save.all=save.all, centroid.type=centroid.type, boot.method=boot.method)

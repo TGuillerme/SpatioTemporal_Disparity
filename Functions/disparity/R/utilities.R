@@ -66,8 +66,9 @@ make.nexus<-function(matrix, header, ordering, weights) {
 #----
 #SYNTAX :
 #<diversity> a vector of taxa count as produced by the disparity function
+#<minimum> the minimum number of species per time intervals
 #----
-cor.diversity<-function(diversity) {
+cor.diversity<-function(diversity, minimum=3) {
     #SANITIZING
     check.class(diversity, "integer", " must be a vector of taxa counts.")
     if(is.null(names(diversity))) {
@@ -75,22 +76,20 @@ cor.diversity<-function(diversity) {
     }
     
     #CORRECTING THE DIVERSITY VECTOR
-    while(any(diversity < 2)) {
+    while(any(diversity < minimum)) {
         
         #Selecting the wrong interval
-        wrong_intervals<-which(diversity < 2)
+        wrong_intervals<-which(diversity < minimum)
         names(wrong_intervals)<-NULL
         
         #Moving the first wrong interval to the next interval in time (unless the wrong interval is the last one)
         if(wrong_intervals[1] != length(diversity)) {
             host_interval<-wrong_intervals[1]+1
             names(host_interval)<-NULL
-            #message("Intervals ", names(diversity)[wrong_intervals[1]], " and ", names(diversity)[host_interval], " are combined due to insufficient data.")
         } else {
             #Moving the wrong interval in the preceding one
             host_interval<-wrong_intervals[1]-1
             names(host_interval)<-NULL
-            #message("Intervals ", names(diversity)[host_interval], " and ", names(diversity)[wrong_intervals[1]], " are combined due to insufficient data.")
         }
 
         #Creating the new interval
@@ -111,6 +110,72 @@ cor.diversity<-function(diversity) {
     }
 
     return(diversity)
+}
+
+
+##########################
+#cor.diversity
+##########################
+#Correct a time_pco list to contain a given minimum of species
+#----
+#SYNTAX :
+#<time_pco> a vector of time_pco data
+#<minimum> the minimum number of species per time intervals
+#----
+cor.time.pco<-function(time_pco, minimum=3) {
+
+    while(any(as.numeric(unlist(lapply(time_pco, nrow))) < minimum)) {
+        wrong_intervals<-which(as.numeric(unlist(lapply(time_pco, nrow))) < minimum)
+        #Moving the first wrong interval to the next interval in time (unless the wrong interval is the last one)
+        if(wrong_intervals[1] != length(time_pco)) {
+            host_interval<-wrong_intervals[1]+1
+            message("Intervals ", names(time_pco)[wrong_intervals[1]], " and ", names(time_pco)[host_interval], " are combined due to insufficient data.")
+        } else {
+            #Moving the wrong interval in the preceding one
+            host_interval<-wrong_intervals[1]-1
+            message("Intervals ", names(time_pco)[host_interval], " and ", names(time_pco)[wrong_intervals[1]], " are combined due to insufficient data.")
+        }
+
+        #If both the host and the wrong interval have the same rownames, just delete the wrong interval and rename the host interval
+        if(nrow(time_pco[[wrong_intervals[1]]]) == nrow(time_pco[[host_interval]]) &
+            all(sort(rownames(time_pco[[wrong_intervals[1]]])) == sort(rownames(time_pco[[host_interval]])))) {
+         
+            #Creating the new time_pco data
+            new_time_pco<-time_pco
+            #renaming the interval
+            if(wrong_intervals[1] != length(time_pco)) {
+                names(new_time_pco)[host_interval]<-paste(strsplit(names(new_time_pco)[wrong_intervals[1]], split="-")[[1]][1],strsplit(names(new_time_pco)[host_interval], split="-")[[1]][2],sep="-")
+            } else {
+                names(new_time_pco)[host_interval]<-paste(strsplit(names(new_time_pco)[host_interval], split="-")[[1]][1],strsplit(names(new_time_pco)[wrong_intervals[1]], split="-")[[1]][2],sep="-")
+            }
+            #Removing the wrong time interval
+            new_time_pco[[wrong_intervals[1]]]<-NULL
+
+        } else {
+
+            #Creating the new interval
+            new_interval<-rbind(time_pco[[wrong_intervals[1]]], time_pco[[host_interval]])
+            #Making sure there are no duplicated taxa in the new interval
+            new_interval<-new_interval[c(unique(rownames(new_interval))),]
+            #Creating the new time_pco data
+            new_time_pco<-time_pco ; names(new_time_pco)<-names(time_pco)
+            #replacing the wrong interval
+            new_time_pco[[host_interval]]<-new_interval
+            #renaming the interval
+            if(wrong_intervals[1] != length(time_pco)) {
+                names(new_time_pco)[host_interval]<-paste(strsplit(names(new_time_pco)[wrong_intervals[1]], split="-")[[1]][1],strsplit(names(new_time_pco)[host_interval], split="-")[[1]][2],sep="-")
+            } else {
+                names(new_time_pco)[host_interval]<-paste(strsplit(names(new_time_pco)[host_interval], split="-")[[1]][1],strsplit(names(new_time_pco)[wrong_intervals[1]], split="-")[[1]][2],sep="-")
+            }
+            #removing empty interval
+            new_time_pco[[wrong_intervals[1]]]<-NULL
+
+        }
+
+        time_pco<-new_time_pco
+    }
+
+    return(time_pco)
 }
 
 ##########################
