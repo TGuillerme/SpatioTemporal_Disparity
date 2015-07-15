@@ -284,6 +284,7 @@ disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bo
             #Output an NA table
             no_test<-TRUE
         } else {
+            no_test<-FALSE
             #Build the output table
             rounds<-c(2,0,3,5)
 
