@@ -200,7 +200,7 @@ disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bo
     }
 
     #Running the pairwise test
-    test_results<-Anderson.Friedman.test(BSresults, time_pco)
+    test_results<-Anderson.test(BSresults, time_pco)
 
     #-----------------------------
     #OUTPUT

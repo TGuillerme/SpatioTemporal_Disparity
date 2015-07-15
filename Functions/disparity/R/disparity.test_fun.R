@@ -102,7 +102,7 @@ make.age.interval<-function(int_befor, int_after, data) {
     return(list("before"=interval_bef, "after"=interval_aft))
 }
 
-Anderson.Friedman.test<-function(BSresults, time_pco) {
+Anderson.test<-function(BSresults, time_pco) {
     #Disparity T-Test calculation from Anderson and Friedman 2012.
     #Code modified from Smith et al. 2014 - Evolution
 
