@@ -81,3 +81,25 @@ abline(v=22, col="red")
 plot.disparity(dis_pro_max_slater, diversity=log(dis_pro_max_slater$rarefaction), main="Mammaliformes (gradual)", xlab="Time (Mya)", y2lab="Diversity (log)", ylab="")
 abline(v=22, col="red")
 par(op)
+
+######################################
+# Rarefaction
+######################################
+dis_pro_max_beck<-extract.disp(disparity_full_ran_beck$quantiles, rarefaction="min")
+dis_pro_max_slater<-extract.disp(disparity_full_ran_slater$quantiles, rarefaction="min")
+dis_ran_max_beck<-extract.disp(disparity_full_pro_beck$quantiles, rarefaction="min")
+dis_ran_max_slater<-extract.disp(disparity_full_pro_slater$quantiles, rarefaction="min")
+
+#Pretty plot with the tree and the disparity
+op<-par(mfrow=c(2,2), bty="n", mar=c(4,4,4,4))
+plot.disparity(dis_ran_max_beck, diversity=log(dis_ran_max_beck$rarefaction), main="Eutherian (punctuated)", xlab="Time (Mya)", y2lab="", ylab="Distance from centroid")
+abline(v=22, col="red")
+plot.disparity(dis_ran_max_slater, diversity=log(dis_ran_max_slater$rarefaction), main="Mammaliformes (punctuated)", xlab="Time (Mya)", y2lab="Diversity (log)", ylab="")
+abline(v=22, col="red")
+plot.disparity(dis_pro_max_beck, diversity=log(dis_pro_max_beck$rarefaction), main="Eutherian (gradual)", xlab="Time (Mya)", y2lab="", ylab="Distance from centroid")
+abline(v=22, col="red")
+plot.disparity(dis_pro_max_slater, diversity=log(dis_pro_max_slater$rarefaction), main="Mammaliformes (gradual)", xlab="Time (Mya)", y2lab="Diversity (log)", ylab="")
+abline(v=22, col="red")
+par(op)
+
+

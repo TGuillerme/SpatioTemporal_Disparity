@@ -44,10 +44,12 @@ beck_dist<-load(paste(data_path, chain_name[2], "/", chain_name[2], distance_gow
 
 #Extracting the data
 #Trees
-tree_slater<-slat_tmp1[[2]]
+#For slater, get the trimmed tree!
+tree_slater<-get(load(paste(strsplit(file_tree[1], ".tre")[[1]], ".trimmed_nod", sep="")))
 tree_beck  <-beck_tmp1[[2]]
 #Distance
-distance_gower_slater<-get(slat_dist)[[3]] #BUG WITH SLATER TREE! #Add trimmed tree and trimmed matrix
+#For slater, get the trimmed tree!
+distance_gower_slater<-get(load(paste(strsplit(paste(data_path, chain_name[1], "/", chain_name[1], distance_gowr, sep=""), ".Rda")[[1]], ".trimmed", sep="")))
 distance_gower_beck  <-get(beck_dist)[[3]]
 
 #Running the pco
@@ -56,7 +58,9 @@ pco_beck  <-cmdscale(distance_gower_beck  , k=nrow(distance_gower_beck  ) - 2, a
 
 #Slicing
 pco_slice_slater_pro<-slice.pco(pco_slater, tree_slater, slices, method='proximity', FAD_LAD=FADLADslat, verbose=TRUE)
+pco_slice_slater_ran<-slice.pco(pco_slater, tree_slater, slices, method='random'  , FAD_LAD=FADLADslat, verbose=TRUE)
 pco_slice_beck_pro  <-slice.pco(pco_beck  , tree_beck  , slices, method='proximity', FAD_LAD=FADLADbeck, verbose=TRUE)
+pco_slice_beck_ran  <-slice.pco(pco_beck  , tree_beck  , slices, method='random', FAD_LAD=FADLADbeck, verbose=TRUE)
 
 ######################################
 # Significance testing
@@ -65,26 +69,33 @@ pco_slice_beck_pro  <-slice.pco(pco_beck  , tree_beck  , slices, method='proximi
 #PERMANOVA
 permanova_pro_slater<-disparity.test.time(pco_slice_slater_pro, method="euclidean", permutations=1000)
 permanova_pro_beck  <-disparity.test.time(pco_slice_beck_pro  , method="euclidean", permutations=1000)
-permanova_ran_slater<-disparity.test.time(pco_slice_slater_ran, method="euclidean", permutations=1000)
+permanova_ran_slater<-disparity.test.time(pco_slice_slater_ran, method="euclidean", permutations=10000)
 permanova_ran_beck  <-disparity.test.time(pco_slice_beck_ran  , method="euclidean", permutations=1000)
 
 #reference
-reftest_pro_slater<-disparity.test(pco_slice_slater_pro[22:35], method="centroid", test="reference", bootstraps=1000)
+#reftest_pro_slater<-disparity.test(pco_slice_slater_pro[22:35], method="centroid", test="reference", bootstraps=1000)
 reftest_pro_beck  <-disparity.test(pco_slice_beck_pro[22:35]  , method="centroid", test="reference", bootstraps=1000)
-reftest_ran_slater<-disparity.test(pco_slice_slater_ran[22:35], method="centroid", test="reference", bootstraps=1000)
+#reftest_ran_slater<-disparity.test(pco_slice_slater_ran[22:35], method="centroid", test="reference", bootstraps=1000)
 reftest_ran_beck  <-disparity.test(pco_slice_beck_ran[22:35]  , method="centroid", test="reference", bootstraps=1000)
 
+#reference (rarefied)
+#reftestRAR_pro_slater<-disparity.test(pco_slice_slater_pro[22:35], method="centroid", test="reference", bootstraps=1000, rarefaction=8)
+reftestRAR_pro_beck  <-disparity.test(pco_slice_beck_pro[22:35]  , method="centroid", test="reference", bootstraps=1000, rarefaction=3)
+#reftestRAR_ran_slater<-disparity.test(pco_slice_slater_ran[22:35], method="centroid", test="reference", bootstraps=1000, rarefaction=8)
+reftestRAR_ran_beck  <-disparity.test(pco_slice_beck_ran[22:35]  , method="centroid", test="reference", bootstraps=1000, rarefaction=3)
+
+
 #sequential
-seqtest_pro_slater<-disparity.test(pco_slice_slater_pro, method="centroid", test="sequential", bootstraps=1000)
-seqtest_pro_beck  <-disparity.test(pco_slice_beck_pro  , method="centroid", test="sequential", bootstraps=1000)
+#seqtest_pro_slater<-disparity.test(pco_slice_slater_pro, method="centroid", test="sequential", bootstraps=1000)
+#seqtest_pro_beck  <-disparity.test(pco_slice_beck_pro  , method="centroid", test="sequential", bootstraps=1000)
 
 
 #KT test
-KTdata_pro_slater<-int.pco(pco_slater, tree_slater , c(170,65,0), FAD_LAD=FADLADbeck)
-KTtest_pro_slater<-disparity.test(KTdata_pro_slater, method="centroid", test="pairwise", bootstraps=1000)
+#KTdata_pro_slater<-int.pco(pco_slater, tree_slater , c(170,65,0), FAD_LAD=FADLADbeck)
+#KTtest_pro_slater<-disparity.test(KTdata_pro_slater, method="centroid", test="pairwise", bootstraps=1000)
 
-KTdata_pro_beck  <-int.pco(pco_beck  , tree_beck  , c(170,65,0), FAD_LAD=FADLADbeck)
-KTtest_pro_beck  <-disparity.test(KTdata_pro_beck, method="centroid", test="pairwise", bootstraps=1000)
+#KTdata_pro_beck  <-int.pco(pco_beck  , tree_beck  , c(170,65,0), FAD_LAD=FADLADbeck)
+#KTtest_pro_beck  <-disparity.test(KTdata_pro_beck, method="centroid", test="pairwise", bootstraps=1000)
 
 ######################################
 # Making the xtable
@@ -131,6 +142,6 @@ xtable(make.table.permanova())
 
 #lag test table (to modify manually in LaTeX)
 xtable(cbind(reftest_pro_beck[[1]][,-5], reftest_ran_beck[[1]][,-5]))
-xtable(cbind(reftest_pro_slater[[1]][,-5], reftest_ran_slater[[1]][,-5]))
+#xtable(cbind(reftest_ran_beck[[1]][,-5], reftest_ran_slater[[1]][,-5]))
 cat("add: & & gradual & & & & punctuated & & \\\\' in the header.")
 cat("replace 'rrrrrrrrr' by 'rrrrr|rrrr'.")
