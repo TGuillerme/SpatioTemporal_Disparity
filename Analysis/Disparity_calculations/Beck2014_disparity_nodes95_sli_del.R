@@ -50,7 +50,7 @@ tree<-lapply.root(tree, max(tree.age(tree)$age))
 
 #load the distance matrix
 load(paste(data_path, chain_name, '/', chain_name, '_distance-nodes95.Rda', sep='')) #dist_nodes95
-trimmed_max_data_nodes95<-TrimMorphDistMatrix(dist_nodes95$max.dist.matrix)
+trimmed_max_data_nodes95<-TrimMorphDistMatrix(dist_nodes95$gower.dist.matrix)
 tree_nodes95<-drop.tip(tree, trimmed_max_data_nodes95$removed.taxa) ; tree_nodes95$root.time<-max(tree.age(tree_nodes95)[,1])
 trimmed_max_data_nodes95$dist.matrix<-trimmed_max_data_nodes95$dist.matrix[c(tree_nodes95$tip.label, tree_nodes95$node.label),c(tree_nodes95$tip.label, tree_nodes95$node.label)]
 #pco
