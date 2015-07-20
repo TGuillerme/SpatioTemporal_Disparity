@@ -168,8 +168,11 @@ We also rarefied both data sets for all the metrics and all the methods using on
 \end{landscape}
 
 \subsection{Statistical test}
-We applied the Permutational Analysis of Variance \citep{permanova} and the \textit{post-hoc} t-test as described in the main text (see methods) on all the disparity measurements and all the methods for sampling disparity through time.
+We applied the Permutational Analysis of Variance \citep{permanova} and the \textit{post-hoc} t-test (following \citealt{Anderson2011}) as described in the main text (see methods) on all the disparity measurements and all the methods for sampling disparity through time.
 The results are available in .csv file available here (ADD THE LINK).
+Note that it was not possible to perform any \textit{post-hoc} t-test for the product of variance metric.
+his was because we didn't removed any axis of the ordination based on an arbitrary value (c.f. selecting only $m$ dimensions that represent up to 90\% of the variance in the distance matrix; \citealt{Brusatte12092008,toljagictriassic-jurassic2013}) and thus, the last axis hold a really small amount of variance.
+Therefore, it was computationally impossible to calculate the product of variance because the resulting values were $<$ $1$$\times$$10^{-324}$ which is treated as being equal to $0$ in \texttt{R}.
 
 
 
