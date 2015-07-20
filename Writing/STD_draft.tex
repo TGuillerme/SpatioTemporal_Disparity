@@ -71,6 +71,8 @@
 %               Proc B (nice story + thorough method in the supplementaries?)
 %               MEE (new method (time slicing) + increment on former methods (disparity)) 
 % TG: paper is now aimed to Evolution but after reflection this is maybe not the most ambitious choice. After the TEM adventure, I think it might actually be better to try to send it somewhere higher... I think we have some good selling points: (1) the story is nice (2) the results are clear (3) the method is original. I think we first wanted to emphasize the third point but I think that it is less necessary career wise since I want to do in the future some proper methodological paper on the subject (i.e. difference between slicing and binning + difference between the metrics + proper way to calculate statistics). Anyway, it's worth discussing it later on. Let's stick to Evolution for now.
+% TG: update on this thought: after a tea room discussion with Emma, Andrew and Adam, they strongly suggested me to send it higher than Evolution. Obviously they don't know the details about the paper but I think it's a sensible think to do (even if it'll end up in Evolution). As I said in the reflection above, I'm writing this manuscript Evolution style for the thesis. The idea was to get it published fast but after this PLoS WANK adventure I got a bit disillusioned from all this "speed" thingy, especially after getting back to the slow line (down from Syst.Biol.) and getting such nice reviews on the second try only (MPE). Therefore I think writing two versions one long (this one) for the thesis at least and probably for Evolution down the line; and one short for Science at first and maybe other journals down the line (PNAS, Nature communications, Current Biology, Science reports, PLoS Biology?).
+% 
 
 % NC: Make sure to format for whichever journal we choose...
 
@@ -180,7 +182,8 @@ There are two main reasons why there is still debate about the timing of the div
     \item \textbf{Diversity can be defined in different ways.}
     % 5§ So why is it still different? disparity
     Diversity is a difficult concept to define. 
-    In many studies it is measured as phylogenetic diversity or species richness \citep{Stadler12042011,meredithimpacts2011,O'Leary08022013}, but often the more interesting aspect of diversity is related to the ecological niches the species occupy \citep{Wesley-Hunt2005,Brusatte12092008,toljagictriassic-jurassic2013}, particularly if we want to make hypotheses about macroevolutionary processes \citep{Pearman2008149,OlsonRadiation,Losos2010,glor2010phylogenetic}.
+    In many studies it is measured as phylogenetic diversity % TG or "taxonomic diversity" like you suggested (and is used in many other papers to designate species richness). However, I prefer phylogenetic diversity as it is what is really measured (i.e. number of tips through time). And I don't like refering to taxonomy. It sounds stamp collecting to me.
+     or species richness \citep{Stadler12042011,meredithimpacts2011,O'Leary08022013}, but often the more interesting aspect of diversity is related to the ecological niches the species occupy \citep{Wesley-Hunt2005,Brusatte12092008,toljagictriassic-jurassic2013}, particularly if we want to make hypotheses about macroevolutionary processes \citep{Pearman2008149,OlsonRadiation,Losos2010,glor2010phylogenetic}.
     Sometimes phylogenetic diversity is used as a proxy for other kinds of diversity, however, species richness can be decoupled from morphological diversity \citep{slaterCetacean,ruta2013,hopkinsdecoupling2013}, so phylogenetic diversity may not be the best proxy for ecological diversity.
     For example in \cite{Slater2012MEE}, the diversity of mammalian body mass is studied instead as the sheer number of species.
     In this particular case, body mass diversity rather than species diversity can be a better proxy for describing mammalian diversity.
@@ -312,7 +315,7 @@ where:
 \end{equation}
 
 % NC: Check and recheck this equation
-% NC: Above and below: $kn$ or $k_{n}$?
+% NC: Above and below: $kn$ or $k_{n}$? TG: just k.
 \noindent
 $k$ is the size of the distance matrix (i.e. the total number of taxa), $\mathbf{v}_{n}$ is any of the $n$ eigenvectors (i.e. the $n^{th}$ dimension of the cladisto-space),% $\mathbf{v}_{n_{i}}$ is the score for each taxa for $\mathbf{v}_{n}$ % TG: or is the part "Sum from i to k" in the equation sufficient to explain that?
  and $Centroid_{n}$ is the centroid euclidean distance of the $n^{th}$ eigenvector (equation \ref{centroid}).
@@ -527,13 +530,19 @@ Mammaliaformes & gradual    & time      & 34  & 6525.61  & 191.930 & 1.1660 & 0.
 %---------------------------------------------
 
 \section{Discussion}
-Our results show that there is an effect of time on changes in disparity under the assumption of gradual evolution in Mammaliaformes and Eutherians as well as under the assumption of punctuated evolution for Eutherians (table \ref{tab:Tab_permanova}).
+Our results show that there is a significant effect of time on changes in disparity under the assumption of gradual evolution in Mammaliaformes and Eutherians as well as under the assumption of punctuated evolution for Eutherians (table \ref{tab:Tab_permanova}).
 However, regardless the taxonomic level (i.e. family \textit{vs.} genus) and regardless the evolutionary model (i.e. gradual or punctuated evolution), there is no effect of the K-Pg event on mammalian disparity (Figure \ref{fig:Fig_Rar_results}).
 In fact, after correcting for species richness, we did not detect any significant difference between the last sub-sample of the Cretaceous and any of the sub-samples of the Cenozoic.
-This shows that, within the frame of our data set, there is no significant changes in mammalian morphological variety across the K-Pg boundary.
+This shows that, within the frame of our data set, there is no significant changes in mammalian disparity across the K-Pg boundary.
 In fact the disparity in Eutherians seems to reach a plateau at the end of the Jurassic (150 Mya) and probably before the Middle Jurassic (170 Mya) for the Mammaliaformes.
 
 \subsection{Effect of the K-Pg boundary on mammalian disparity}
+
+These results are in accordance % TG: Ew, I don't like that phrasing
+ with previous studies on mammalian disparity and on disparity in general.
+In fact, as previously shown, both focal taxonomic levels (i.e. family \textit{vs.} genus) reaches disparity early in their history \cite{Hughes20082013} and seem to plateau at their maximum disparity regardless from their phylogenetic diversity \citep{slaterCetacean,ruta2013,hopkinsdecoupling2013}.
+The results for the Mammaliaforms data-set disparity variation are in accordance with a recent study from \cite{Close2015} showing a peak of Mammalian disparity during the Early to Middle Jurassic.
+
 As previously shown, disparity is likely to evolve relatively fast within a clades history \cite{Hughes20082013}.
 It appears to be the same for mammals.
 Differences between Gradual and Punctuated are probably due because the truth is a mix of both \cite{Hunt21042015}.
@@ -542,6 +551,11 @@ Differences between Gradual and Punctuated are probably due because the truth is
 Difference with \cite{Slater2012MEE}: only one trait (body mass) is measured in \cite{Slater2012MEE}. In this study we look at an aggregate of traits (the ~400 morphological characters) that do not directly measure body mass.
 This might cause the differences between our findings (no effect of K-Pg) and \cite{Slater2012MEE}'s ones (effect of K-Pg in shift of modal body mass).
 One way to fix that would be to incorporate also life history traits as continuous characters in our matrix. 
+Mammalian disparity highest during the Jurassic \citep{Close2015}
+Mammalian disparity decreases during the Cretaceous \citep{Grossnickle2013} - Difference because morphometrics? (+ Only dental)
+Mammalian diversity peak at the latest Cretaceous \citep{Newham201432}
+Mammalian body size and taxonomic diversification rates declined from the origin of placentals towards the present, and very probably correlate to each other \citep{Raia2012}
+
 
 %Caveats
 Our data set is limited.
@@ -587,7 +601,6 @@ Howevers, biases:
 %-poor sampling of living taxa (Guillerme & Cooper)
 
 %Therefore, the cladisto-space is likely to be more influenced by phylogeny than the morphospace \citep{Foote29111996,Wagner01011997}. However, discrete cladistic characters are still the best source for quantifying overall morphology for large and diverse groups \citep{Brusatte12092008}. % NC: Make this justification better. why does the phylogney effect matter. Should this be mentioned here at all? TG: not specially, might be something a reviewer might point out. I remember you pointing it out ;). However, STD is become fairly common these days so maybe people have accepted the idea.
-
 
 %---------------------------------------------
 %
