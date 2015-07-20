@@ -110,35 +110,8 @@ beck_div_ino<-int.pco(pco_data_tips, tree_tips, intervals, include.nodes=FALSE, 
 
 
 ######################################
-#Rarefaction analysis on both data sets
+#Rarefaction analysis on beck
 ######################################
-
-#Gradual
-#Slater
-dis_ran_max_slater<-extract.disp(disparity_full_ran_slater$quantiles, rarefaction="max")
-dis_pro_max_slater<-extract.disp(disparity_full_pro_slater$quantiles, rarefaction="max")
-dis_ran_min_slater<-extract.disp(disparity_full_ran_slater$quantiles, rarefaction="min")
-dis_pro_min_slater<-extract.disp(disparity_full_pro_slater$quantiles, rarefaction="min")
-dis_ran_mod_slater<-extract.disp(disparity_full_ran_slater$quantiles, rarefaction=mode.val(slat_div_nod))
-dis_pro_mod_slater<-extract.disp(disparity_full_pro_slater$quantiles, rarefaction=mode.val(slat_div_nod))
-
-#Plot
-op<-par(mfrow=c(3,2), bty="n", mar=c(4,4,4,4))
-plot.disparity(dis_ran_max_slater, diversity=dis_ran_max_slater$rarefaction, main="Punctuated (Maximum; all taxa)", xlab="Time (Mya)", y2lab="", ylab="Distance from centroid")
-abline(v=22, col="red")
-plot.disparity(dis_pro_max_slater, diversity=dis_pro_max_slater$rarefaction, main="Gradual (Maximum; all taxa)", xlab="Time (Mya)", y2lab="Species richness", ylab="")
-abline(v=22, col="red")
-
-plot.disparity(dis_ran_mod_slater, diversity=dis_ran_mod_slater$rarefaction, main=paste("Mode (", mode.val(slat_div_nod), " taxa)", sep=""), xlab="Time (Mya)", y2lab="", ylab="Distance from centroid")
-abline(v=22, col="red")
-plot.disparity(dis_pro_mod_slater, diversity=dis_pro_mod_slater$rarefaction, main=paste("Mode (", mode.val(slat_div_nod), " taxa)", sep=""), xlab="Time (Mya)", y2lab="Species richness", ylab="")
-abline(v=22, col="red")
-
-plot.disparity(dis_ran_min_slater, diversity=dis_ran_min_slater$rarefaction, main=paste("Minimum (", unique(dis_ran_min_slater$rarefaction), " taxa)", sep=""), xlab="Time (Mya)", y2lab="", ylab="Distance from centroid")
-abline(v=22, col="red")
-plot.disparity(dis_pro_min_slater, diversity=dis_pro_min_slater$rarefaction, main=paste("Minimum (", unique(dis_ran_min_slater$rarefaction), " taxa)", sep=""), xlab="Time (Mya)", y2lab="Species richness", ylab="")
-abline(v=22, col="red")
-par(op)
 
 #Gradual
 #Beck
@@ -146,24 +119,24 @@ dis_ran_max_beck  <-extract.disp(disparity_full_ran_beck  $quantiles, rarefactio
 dis_pro_max_beck  <-extract.disp(disparity_full_pro_beck  $quantiles, rarefaction="max")
 dis_ran_min_beck  <-extract.disp(disparity_full_ran_beck  $quantiles, rarefaction="min")
 dis_pro_min_beck  <-extract.disp(disparity_full_pro_beck  $quantiles, rarefaction="min")
-dis_ran_mod_beck  <-extract.disp(disparity_full_ran_beck  $quantiles, rarefaction=mode.val(beck_div_nod  ))
-dis_pro_mod_beck  <-extract.disp(disparity_full_pro_beck  $quantiles, rarefaction=mode.val(beck_div_nod  ))
+dis_ran_mod_beck  <-extract.disp(disparity_full_ran_beck  $quantiles, rarefaction=8)
+dis_pro_mod_beck  <-extract.disp(disparity_full_pro_beck  $quantiles, rarefaction=8)
 
 #Plot
 op<-par(mfrow=c(3,2), bty="n", mar=c(4,4,4,4))
-plot.disparity(dis_ran_max_beck  , diversity=dis_ran_max_beck  $rarefaction, main="Punctuated (Maximum; all taxa)", xlab="Time (Mya)", y2lab="", ylab="Distance from centroid")
+plot.disparity(dis_ran_max_beck  , diversity=dis_ran_max_beck  $rarefaction, main="Punctuated (all taxa)", xlab="Time (Mya)", y2lab="", ylab="Distance from centroid")
 abline(v=22, col="red")
-plot.disparity(dis_pro_max_beck  , diversity=dis_pro_max_beck  $rarefaction, main="Gradual (Maximum; all taxa)", xlab="Time (Mya)", y2lab="Species richness", ylab="")
-abline(v=22, col="red")
-
-plot.disparity(dis_ran_mod_beck  , diversity=dis_ran_mod_beck  $rarefaction, main=paste("Mode (", mode.val(beck_div_nod  ), " taxa)", sep=""), xlab="Time (Mya)", y2lab="", ylab="Distance from centroid")
-abline(v=22, col="red")
-plot.disparity(dis_pro_mod_beck  , diversity=dis_pro_mod_beck  $rarefaction, main=paste("Mode (", mode.val(beck_div_nod  ), " taxa)", sep=""), xlab="Time (Mya)", y2lab="Species richness", ylab="")
+plot.disparity(dis_pro_max_beck  , diversity=dis_pro_max_beck  $rarefaction, main="Gradual (all taxa)", xlab="Time (Mya)", y2lab="Species richness", ylab="")
 abline(v=22, col="red")
 
-plot.disparity(dis_ran_min_beck  , diversity=dis_ran_min_beck  $rarefaction, main=paste("Minimum (", unique(dis_ran_min_beck  $rarefaction), " taxa)", sep=""), xlab="Time (Mya)", y2lab="", ylab="Distance from centroid")
+plot.disparity(dis_ran_mod_beck  , diversity=dis_ran_mod_beck  $rarefaction, main="Punctuated (8 taxa)", xlab="Time (Mya)", y2lab="", ylab="Distance from centroid")
 abline(v=22, col="red")
-plot.disparity(dis_pro_min_beck  , diversity=dis_pro_min_beck  $rarefaction, main=paste("Minimum (", unique(dis_ran_min_beck  $rarefaction), " taxa)", sep=""), xlab="Time (Mya)", y2lab="Species richness", ylab="")
+plot.disparity(dis_pro_mod_beck  , diversity=dis_pro_mod_beck  $rarefaction, main="Gradual (8 taxa)", xlab="Time (Mya)", y2lab="Species richness", ylab="")
+abline(v=22, col="red")
+
+plot.disparity(dis_ran_min_beck  , diversity=dis_ran_min_beck  $rarefaction, main="Punctuated (3 taxa)", xlab="Time (Mya)", y2lab="", ylab="Distance from centroid")
+abline(v=22, col="red")
+plot.disparity(dis_pro_min_beck  , diversity=dis_pro_min_beck  $rarefaction, main="Gradual (3 taxa)", xlab="Time (Mya)", y2lab="Species richness", ylab="")
 abline(v=22, col="red")
 par(op)
 
