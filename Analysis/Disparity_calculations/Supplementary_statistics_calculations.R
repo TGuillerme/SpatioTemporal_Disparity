@@ -256,7 +256,7 @@ save(reftests_product.variance_beck, file="reftests_product.variance_beck.Rda")
 
 ##################################
 #
-#REFERENCE TESTING
+#SEQUENTIAL TESTING
 #
 ##################################
 #centroid
@@ -269,8 +269,8 @@ seqtest_centroid_acc_slater<-disparity.test(pco_slice_slater_acc, method="centro
 seqtest_centroid_del_slater<-disparity.test(pco_slice_slater_del, method="centroid", test="sequential", bootstraps=1000)
 seqtest_centroid_pro_slater<-disparity.test(pco_slice_slater_pro, method="centroid", test="sequential", bootstraps=1000)
 #Saving
-reftests_centroid_slater<-list("intervals"=seqtest_centroid_int_slater, "int+nodes"=seqtest_centroid_ino_slater, "punctuate"=seqtest_centroid_ran_slater, "acctran"=seqtest_centroid_acc_slater, "deltran"=seqtest_centroid_del_slater, "gradual"=seqtest_centroid_pro_slater)
-save(reftests_centroid_slater, file="reftests_centroid_slater.Rda")
+seqtests_centroid_slater<-list("intervals"=seqtest_centroid_int_slater, "int+nodes"=seqtest_centroid_ino_slater, "punctuate"=seqtest_centroid_ran_slater, "acctran"=seqtest_centroid_acc_slater, "deltran"=seqtest_centroid_del_slater, "gradual"=seqtest_centroid_pro_slater)
+save(seqtests_centroid_slater, file="seqtests_centroid_slater.Rda")
 
 #beck
 seqtest_centroid_int_beck<-disparity.test(pco_int_beck_int, method="centroid", test="sequential", bootstraps=1000)
@@ -280,8 +280,8 @@ seqtest_centroid_acc_beck<-disparity.test(pco_slice_beck_acc, method="centroid",
 seqtest_centroid_del_beck<-disparity.test(pco_slice_beck_del, method="centroid", test="sequential", bootstraps=1000)
 seqtest_centroid_pro_beck<-disparity.test(pco_slice_beck_pro, method="centroid", test="sequential", bootstraps=1000)
 #Saving
-reftests_centroid_beck<-list("intervals"=seqtest_centroid_int_beck, "int+nodes"=seqtest_centroid_ino_beck, "punctuate"=seqtest_centroid_ran_beck, "acctran"=seqtest_centroid_acc_beck, "deltran"=seqtest_centroid_del_beck, "gradual"=seqtest_centroid_pro_beck)
-save(reftests_centroid_beck, file="reftests_centroid_beck.Rda")
+seqtests_centroid_beck<-list("intervals"=seqtest_centroid_int_beck, "int+nodes"=seqtest_centroid_ino_beck, "punctuate"=seqtest_centroid_ran_beck, "acctran"=seqtest_centroid_acc_beck, "deltran"=seqtest_centroid_del_beck, "gradual"=seqtest_centroid_pro_beck)
+save(seqtests_centroid_beck, file="seqtests_centroid_beck.Rda")
 
 #################
 #sum.range
@@ -294,8 +294,8 @@ seqtest_sum.range_acc_slater<-disparity.test(pco_slice_slater_acc, method="sum.r
 seqtest_sum.range_del_slater<-disparity.test(pco_slice_slater_del, method="sum.range", test="sequential", bootstraps=1000)
 seqtest_sum.range_pro_slater<-disparity.test(pco_slice_slater_pro, method="sum.range", test="sequential", bootstraps=1000)
 #Saving
-reftests_sum.range_slater<-list("intervals"=seqtest_sum.range_int_slater, "int+nodes"=seqtest_sum.range_ino_slater, "punctuate"=seqtest_sum.range_ran_slater, "acctran"=seqtest_sum.range_acc_slater, "deltran"=seqtest_sum.range_del_slater, "gradual"=seqtest_sum.range_pro_slater)
-save(reftests_sum.range_slater, file="reftests_sum.range_slater.Rda")
+seqtests_sum.range_slater<-list("intervals"=seqtest_sum.range_int_slater, "int+nodes"=seqtest_sum.range_ino_slater, "punctuate"=seqtest_sum.range_ran_slater, "acctran"=seqtest_sum.range_acc_slater, "deltran"=seqtest_sum.range_del_slater, "gradual"=seqtest_sum.range_pro_slater)
+save(seqtests_sum.range_slater, file="seqtests_sum.range_slater.Rda")
 
 #beck
 seqtest_sum.range_int_beck<-disparity.test(pco_int_beck_int, method="sum.range", test="sequential", bootstraps=1000)
@@ -305,8 +305,8 @@ seqtest_sum.range_acc_beck<-disparity.test(pco_slice_beck_acc, method="sum.range
 seqtest_sum.range_del_beck<-disparity.test(pco_slice_beck_del, method="sum.range", test="sequential", bootstraps=1000)
 seqtest_sum.range_pro_beck<-disparity.test(pco_slice_beck_pro, method="sum.range", test="sequential", bootstraps=1000)
 #Saving
-reftests_sum.range_beck<-list("intervals"=seqtest_sum.range_int_beck, "int+nodes"=seqtest_sum.range_ino_beck, "punctuate"=seqtest_sum.range_ran_beck, "acctran"=seqtest_sum.range_acc_beck, "deltran"=seqtest_sum.range_del_beck, "gradual"=seqtest_sum.range_pro_beck)
-save(reftests_sum.range_beck, file="reftests_sum.range_beck.Rda")
+seqtests_sum.range_beck<-list("intervals"=seqtest_sum.range_int_beck, "int+nodes"=seqtest_sum.range_ino_beck, "punctuate"=seqtest_sum.range_ran_beck, "acctran"=seqtest_sum.range_acc_beck, "deltran"=seqtest_sum.range_del_beck, "gradual"=seqtest_sum.range_pro_beck)
+save(seqtests_sum.range_beck, file="seqtests_sum.range_beck.Rda")
 
 #################
 #product.range
@@ -319,8 +319,8 @@ seqtest_product.range_acc_slater<-disparity.test(pco_slice_slater_acc, method="p
 seqtest_product.range_del_slater<-disparity.test(pco_slice_slater_del, method="product.range", test="sequential", bootstraps=1000)
 seqtest_product.range_pro_slater<-disparity.test(pco_slice_slater_pro, method="product.range", test="sequential", bootstraps=1000)
 #Saving
-reftests_product.range_slater<-list("intervals"=seqtest_product.range_int_slater, "int+nodes"=seqtest_product.range_ino_slater, "punctuate"=seqtest_product.range_ran_slater, "acctran"=seqtest_product.range_acc_slater, "deltran"=seqtest_product.range_del_slater, "gradual"=seqtest_product.range_pro_slater)
-save(reftests_product.range_slater, file="reftests_product.range_slater.Rda")
+seqtests_product.range_slater<-list("intervals"=seqtest_product.range_int_slater, "int+nodes"=seqtest_product.range_ino_slater, "punctuate"=seqtest_product.range_ran_slater, "acctran"=seqtest_product.range_acc_slater, "deltran"=seqtest_product.range_del_slater, "gradual"=seqtest_product.range_pro_slater)
+save(seqtests_product.range_slater, file="seqtests_product.range_slater.Rda")
 
 #beck
 seqtest_product.range_int_beck<-disparity.test(pco_int_beck_int, method="product.range", test="sequential", bootstraps=1000)
@@ -330,8 +330,8 @@ seqtest_product.range_acc_beck<-disparity.test(pco_slice_beck_acc, method="produ
 seqtest_product.range_del_beck<-disparity.test(pco_slice_beck_del, method="product.range", test="sequential", bootstraps=1000)
 seqtest_product.range_pro_beck<-disparity.test(pco_slice_beck_pro, method="product.range", test="sequential", bootstraps=1000)
 #Saving
-reftests_product.range_beck<-list("intervals"=seqtest_product.range_int_beck, "int+nodes"=seqtest_product.range_ino_beck, "punctuate"=seqtest_product.range_ran_beck, "acctran"=seqtest_product.range_acc_beck, "deltran"=seqtest_product.range_del_beck, "gradual"=seqtest_product.range_pro_beck)
-save(reftests_product.range_beck, file="reftests_product.range_beck.Rda")
+seqtests_product.range_beck<-list("intervals"=seqtest_product.range_int_beck, "int+nodes"=seqtest_product.range_ino_beck, "punctuate"=seqtest_product.range_ran_beck, "acctran"=seqtest_product.range_acc_beck, "deltran"=seqtest_product.range_del_beck, "gradual"=seqtest_product.range_pro_beck)
+save(seqtests_product.range_beck, file="seqtests_product.range_beck.Rda")
 
 #################
 #sum.variance
@@ -344,8 +344,8 @@ seqtest_sum.variance_acc_slater<-disparity.test(pco_slice_slater_acc, method="su
 seqtest_sum.variance_del_slater<-disparity.test(pco_slice_slater_del, method="sum.variance", test="sequential", bootstraps=1000)
 seqtest_sum.variance_pro_slater<-disparity.test(pco_slice_slater_pro, method="sum.variance", test="sequential", bootstraps=1000)
 #Saving
-reftests_sum.variance_slater<-list("intervals"=seqtest_sum.variance_int_slater, "int+nodes"=seqtest_sum.variance_ino_slater, "punctuate"=seqtest_sum.variance_ran_slater, "acctran"=seqtest_sum.variance_acc_slater, "deltran"=seqtest_sum.variance_del_slater, "gradual"=seqtest_sum.variance_pro_slater)
-save(reftests_sum.variance_slater, file="reftests_sum.variance_slater.Rda")
+seqtests_sum.variance_slater<-list("intervals"=seqtest_sum.variance_int_slater, "int+nodes"=seqtest_sum.variance_ino_slater, "punctuate"=seqtest_sum.variance_ran_slater, "acctran"=seqtest_sum.variance_acc_slater, "deltran"=seqtest_sum.variance_del_slater, "gradual"=seqtest_sum.variance_pro_slater)
+save(seqtests_sum.variance_slater, file="seqtests_sum.variance_slater.Rda")
 
 #beck
 seqtest_sum.variance_int_beck<-disparity.test(pco_int_beck_int, method="sum.variance", test="sequential", bootstraps=1000)
@@ -355,8 +355,8 @@ seqtest_sum.variance_acc_beck<-disparity.test(pco_slice_beck_acc, method="sum.va
 seqtest_sum.variance_del_beck<-disparity.test(pco_slice_beck_del, method="sum.variance", test="sequential", bootstraps=1000)
 seqtest_sum.variance_pro_beck<-disparity.test(pco_slice_beck_pro, method="sum.variance", test="sequential", bootstraps=1000)
 #Saving
-reftests_sum.variance_beck<-list("intervals"=seqtest_sum.variance_int_beck, "int+nodes"=seqtest_sum.variance_ino_beck, "punctuate"=seqtest_sum.variance_ran_beck, "acctran"=seqtest_sum.variance_acc_beck, "deltran"=seqtest_sum.variance_del_beck, "gradual"=seqtest_sum.variance_pro_beck)
-save(reftests_sum.variance_beck, file="reftests_sum.variance_beck.Rda")
+seqtests_sum.variance_beck<-list("intervals"=seqtest_sum.variance_int_beck, "int+nodes"=seqtest_sum.variance_ino_beck, "punctuate"=seqtest_sum.variance_ran_beck, "acctran"=seqtest_sum.variance_acc_beck, "deltran"=seqtest_sum.variance_del_beck, "gradual"=seqtest_sum.variance_pro_beck)
+save(seqtests_sum.variance_beck, file="seqtests_sum.variance_beck.Rda")
 
 #################
 #product.variance
@@ -369,8 +369,8 @@ seqtest_product.variance_acc_slater<-disparity.test(pco_slice_slater_acc, method
 seqtest_product.variance_del_slater<-disparity.test(pco_slice_slater_del, method="product.variance", test="sequential", bootstraps=1000)
 seqtest_product.variance_pro_slater<-disparity.test(pco_slice_slater_pro, method="product.variance", test="sequential", bootstraps=1000)
 #Saving
-reftests_product.variance_slater<-list("intervals"=seqtest_product.variance_int_slater, "int+nodes"=seqtest_product.variance_ino_slater, "punctuate"=seqtest_product.variance_ran_slater, "acctran"=seqtest_product.variance_acc_slater, "deltran"=seqtest_product.variance_del_slater, "gradual"=seqtest_product.variance_pro_slater)
-save(reftests_product.variance_slater, file="reftests_product.variance_slater.Rda")
+seqtests_product.variance_slater<-list("intervals"=seqtest_product.variance_int_slater, "int+nodes"=seqtest_product.variance_ino_slater, "punctuate"=seqtest_product.variance_ran_slater, "acctran"=seqtest_product.variance_acc_slater, "deltran"=seqtest_product.variance_del_slater, "gradual"=seqtest_product.variance_pro_slater)
+save(seqtests_product.variance_slater, file="seqtests_product.variance_slater.Rda")
 
 #beck
 seqtest_product.variance_int_beck<-disparity.test(pco_int_beck_int, method="product.variance", test="sequential", bootstraps=1000)
@@ -380,5 +380,5 @@ seqtest_product.variance_acc_beck<-disparity.test(pco_slice_beck_acc, method="pr
 seqtest_product.variance_del_beck<-disparity.test(pco_slice_beck_del, method="product.variance", test="sequential", bootstraps=1000)
 seqtest_product.variance_pro_beck<-disparity.test(pco_slice_beck_pro, method="product.variance", test="sequential", bootstraps=1000)
 #Saving
-reftests_product.variance_beck<-list("intervals"=seqtest_product.variance_int_beck, "int+nodes"=seqtest_product.variance_ino_beck, "punctuate"=seqtest_product.variance_ran_beck, "acctran"=seqtest_product.variance_acc_beck, "deltran"=seqtest_product.variance_del_beck, "gradual"=seqtest_product.variance_pro_beck)
-save(reftests_product.variance_beck, file="reftests_product.variance_beck.Rda")
+seqtests_product.variance_beck<-list("intervals"=seqtest_product.variance_int_beck, "int+nodes"=seqtest_product.variance_ino_beck, "punctuate"=seqtest_product.variance_ran_beck, "acctran"=seqtest_product.variance_acc_beck, "deltran"=seqtest_product.variance_del_beck, "gradual"=seqtest_product.variance_pro_beck)
+save(seqtests_product.variance_beck, file="seqtests_product.variance_beck.Rda")
