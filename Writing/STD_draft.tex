@@ -242,7 +242,7 @@ We chose these two data sets because they have a similar number of taxa and morp
 \cite{Slater2012MEE} ranges from 310 million years ago (Mya; Late Carboniferous) to the present and focuses on Mammaliamorpha at the family-level.
 \cite{beckancient2014} ranges from 170 Mya (Middle Jurassic) to the present and focuses on Eutheria at the genus-level.
 We used the first and last occurrences reported in \cite{Slater2012MEE} and \cite{beckancient2014} as the temporal range of each taxon in our analysis.
-Both phylogenies are illustrated in the supplementaries (@@@).
+Both phylogenies are illustrated in the supplementaries material (see Figure S1 and S2 @@@).
 
 \subsection{Estimating ancestral character states}
 For both datasets we used the re-rooting method \citep{Yang01121995,Garland2000} to get Maximum Likelihood estimates of the ancestral states for each character at every node in the tree, using the \texttt{rerootingMethod} function from the R package \texttt{phytools} version 0.4-45 \citep{phytools,R}.
@@ -325,9 +325,7 @@ Note that we also calculated the sum and products of ranges and variances to com
 Changes in disparity through time are generally investigated by calculating the disparity of taxa that occupy the cladisto-space during specific time intervals \citep[e.g][]{cisneros2010,prentice2011,Hughes20082013,hopkinsdecoupling2013,bentonmodels2014,bensonfaunal2014}.
 These time intervals are usually defined based on biostratigraphy \citep[e.g.][]{cisneros2010,prentice2011,Hughes20082013,bentonmodels2014} but can also be arbitrarily chosen time periods of equal duration \citep{hopkinsdecoupling2013,bensonfaunal2014}.
 However, this approach suffers from two main biases. 
-First, if biostratigraphy is used to determine the time intervals, disparity may be distorted towards higher differences between time intervals because biostratigraphical % TG: biostratigraphal or biostratigraphic
-% NC: biostratigraphical is the correct english not biostratigraphal
- periods are geologically defined based on differences in the morphology of fossils found in the different strata.
+First, if biostratigraphy is used to determine the time intervals, disparity may be distorted towards higher differences between time intervals because biostratigraphical periods are geologically defined based on differences in the morphology of fossils found in the different strata.
 Second, this approach assumes that all characters evolve following a punctuated equilibrium model, because disparity is only estimated once for each interval resulting in all changes in disparity occurring between intervals, rather than also allowing for gradual changes within intervals \citep{Hunt21042015}.
 
 To address these issues, we use a ``time-slicing'' approach that considers subsets of taxa in the cladisto-space at specific equidistant points in time, as opposed to considering subsets of taxa between two time points.
