@@ -54,18 +54,21 @@ pco_data_nodes95<-cmdscale(trimmed_max_data_nodes95$dist.matrix, k=nrow(trimmed_
 
 
 #slices
-pco_slices_nodes95_ran<-slice.pco(pco_data_nodes95, tree_nodes95, slices, method='random', FAD_LAD=FADLAD, verbose=TRUE, diversity=TRUE)
-pco_slices_nodes95_pro<-slice.pco(pco_data_nodes95, tree_nodes95, slices, method='proximity', FAD_LAD=FADLAD, verbose=TRUE)
-slices_nodes95_div<-pco_slices_nodes95_ran[[2]] ; pco_slices_nodes95_ran<-pco_slices_nodes95_ran[[1]]
-save(slices_nodes95_div,file=paste(data_path, chain_name, '/',chain_name,'-Full-slices_nodes95_div.Rda', sep=''))
+#pco_slices_nodes95_ran<-slice.pco(pco_data_nodes95, tree_nodes95, slices, method='random', FAD_LAD=FADLAD, verbose=TRUE, diversity=TRUE)
+#pco_slices_nodes95_pro<-slice.pco(pco_data_nodes95, tree_nodes95, slices, method='proximity', FAD_LAD=FADLAD, verbose=TRUE)
+#slices_nodes95_div<-pco_slices_nodes95_ran[[2]] ; pco_slices_nodes95_ran<-pco_slices_nodes95_ran[[1]]
+#save(slices_nodes95_div,file=paste(data_path, chain_name, '/',chain_name,'-Full-slices_nodes95_div.Rda', sep=''))
+load(paste(data_path, chain_name, '/',chain_name,'-Full-slices_nodes95_div.Rda', sep=''))
 
 
 #Disparity
-disp_sli_nodes95_ran<-time.disparity(pco_slices_nodes95_ran, method='centroid', verbose=TRUE, rarefaction=TRUE, save.all=TRUE)
-save(disp_sli_nodes95_ran, file=paste(data_path, chain_name, '/',chain_name,'-Full-disp_sli_nodes95_ran.Rda', sep=''))
+#disp_sli_nodes95_ran<-time.disparity(pco_slices_nodes95_ran, method='centroid', verbose=TRUE, rarefaction=TRUE, save.all=TRUE)
+#save(disp_sli_nodes95_ran, file=paste(data_path, chain_name, '/',chain_name,'-Full-disp_sli_nodes95_ran.Rda', sep=''))
+load(paste(data_path, chain_name, '/',chain_name,'-Full-disp_sli_nodes95_ran.Rda', sep=''))
 
-disp_sli_nodes95_pro<-time.disparity(pco_slices_nodes95_pro, method='centroid', verbose=TRUE, rarefaction=TRUE, save.all=TRUE)
-save(disp_sli_nodes95_pro, file=paste(data_path, chain_name, '/',chain_name,'-Full-disp_sli_nodes95_pro.Rda', sep=''))
+#disp_sli_nodes95_pro<-time.disparity(pco_slices_nodes95_pro, method='centroid', verbose=TRUE, rarefaction=TRUE, save.all=TRUE)
+#save(disp_sli_nodes95_pro, file=paste(data_path, chain_name, '/',chain_name,'-Full-disp_sli_nodes95_pro.Rda', sep=''))
+load(paste(data_path, chain_name, '/',chain_name,'-Full-disp_sli_nodes95_pro.Rda', sep=''))
 
 ######################################
 #Plotting the disparity
@@ -74,11 +77,11 @@ save(disp_sli_nodes95_pro, file=paste(data_path, chain_name, '/',chain_name,'-Fu
 
 op<-par(mfrow=c(2,2), bty="n", mar=c(4,4,4,4))
 plot.disparity(extract.disp(disp_sli_nodes95_ran[[1]], rarefaction="max"), diversity=slices_nodes95_div, main="Mammaliaformes (punctuated)", xlab="Time (Mya)", y2lab="", ylab="Distance from centroid")
-abline(v=22, col="red")
+abline(v=47, col="red")
 plot.disparity(extract.disp(disp_sli_nodes95_pro[[1]], rarefaction="max"), diversity=slices_nodes95_div, main="Mammaliaformes (gradual)", xlab="Time (Mya)", y2lab="Species richness", ylab="")
-abline(v=22, col="red")
+abline(v=47, col="red")
 plot.disparity(extract.disp(disp_sli_nodes95_ran[[1]], rarefaction=8), diversity=rep(8, length(slices_nodes95_div)), main="Mammaliaformes (punctuated - rarefied)", xlab="Time (Mya)", y2lab="", ylab="Distance from centroid")
-abline(v=22, col="red")
+abline(v=47, col="red")
 plot.disparity(extract.disp(disp_sli_nodes95_pro[[1]], rarefaction=8), diversity=rep(8, length(slices_nodes95_div)), main="Mammaliaformes (gradual - rarefied)", xlab="Time (Mya)", y2lab="Species richness", ylab="")
-abline(v=22, col="red")
+abline(v=47, col="red")
 par(op)
