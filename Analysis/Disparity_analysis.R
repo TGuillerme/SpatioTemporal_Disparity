@@ -101,5 +101,3 @@ abline(v=22, col="red")
 plot.disparity(dis_pro_max_slater, diversity=dis_pro_max_slater$rarefaction, main="Mammaliaformes (gradual)", xlab="Time (Mya)", y2lab="Species richness", ylab="")
 abline(v=22, col="red")
 par(op)
-
-
