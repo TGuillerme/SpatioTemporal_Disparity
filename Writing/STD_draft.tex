@@ -188,7 +188,7 @@ There are two main reasons why there is still debate about the timing of the div
     Sometimes phylogenetic diversity is used as a proxy for other kinds of diversity, however, species richness can be decoupled from morphological diversity \citep{slaterCetacean,ruta2013,hopkinsdecoupling2013}, so phylogenetic diversity may not be the best proxy for ecological diversity.
     For example in \cite{Slater2012MEE}, the diversity of mammalian body mass is studied instead as the sheer number of species.
     In this particular case, body mass diversity rather than species diversity can be a better proxy for describing mammalian diversity.
-    One can also use morphological diversity, also known as disparity \citep[e.g.][]{Wills1994,Hughes20082013}, as a way to quantify changes in mammalian diversity that should relate to the ecology of the species.
+    One can also use morphological diversity, also known as disparity \citep[e.g.][]{Wills1994,Erwin2007,Hughes20082013}, as a way to quantify changes in mammalian diversity that should relate to the ecology of the species.
     % 6§ But disparity is outdated
     However some methods form measuring disparity are outdated and make inappropriate assumptions.
     Many studies quantifying changes in morphological diversity were proposed $>$ 20 years ago \citep{Foote01071994,Wills1994} and are sometimes used without modifications \citep[e.g.,][]{brusatte50,Brusatte12092008,cisneros2010,thorneresetting2011,prentice2011,brusattedinosaur2012,toljagictriassic-jurassic2013,ruta2013,bentonmodels2014,bensonfaunal2014}, even when the statistical assumptions of the methods are violated (see Methods).
@@ -608,14 +608,15 @@ This is how we believe they improve disparity through time analysis.
     When looking at the details of this results, the same data sets shows also no significant effect of time when using the time bin method (including nodes) or when assuming that disparity evolves under an ACCTRAN model. (see supplementary permanova results @@@).
     This suggests that an effect of time on Mammaliaformes a mix between punctuated delay evolution (DELTRAN) and gradual evolution (random walk) meaning that when a particular morphology (i.e. a set of particular states for cladistic characters) is observed within a clade, this particular morphology will be likely conserved through time.
 \end{enumerate}
+Two major caveats, however, arise from using such a method.
+First, this method relies on good estimates of characters states at the nodes of the phylogeny.
+Estimating discrete ancestral characters can sometimes be tricky and can lead to low scaled likelihood values supporting any states of a particular character, especially when data is missing in the observed cladistic matrix.
+However, in this particular study, we made the methodological choice to select only characters with a high scaled likelihood support ($> 0.95$).
+Additionally, using trees containing fossil taxa also improves the ability to correctly estimate ancestral characters \citep{Poly2001,Finarelli2006,Albert2009,Slater2012MEE}.
+Finally, because, this method samples every phylogenetic element (tip, node or edge) through time, disparity calculated close to the root of the tree can exhibit result with large confidence intervals (e.g. when only three phylogenetic elements are sampled see Figure S3 @@@).
+However, it is encouraging to note that measuring disparity from time-slices is decoupled from taxonomic diversity at least after a minimal number of taxa \citep{slaterCetacean,ruta2013,hopkinsdecoupling2013}
 
-However, it is also important to note few biases to these methodological increments.
-
-    -Ancestral states reconstruction can be tricky
-        But the use of fossils helps a lot \citep{Poly2001,Finarelli2006,Albert2009,Slater2012MEE}
-    -Might be sensitive to sample size (but does not seem to much)
-    -Link between phylogeny and cladistic disparity
-   %Therefore, the cladisto-space is likely to be more influenced by phylogeny than the morphospace \citep{Foote29111996,Wagner01011997}. However, discrete cladistic characters are still the best source for quantifying overall morphology for large and diverse groups \citep{Brusatte12092008}. % NC: Make this justification better. why does the phylogney effect matter. Should this be mentioned here at all? TG: not specially, might be something a reviewer might point out. I remember you pointing it out ;). However, STD is become fairly common these days so maybe people have accepted the idea.
+% TG: needs a finishing sentence
 
 %---------------------------------------------
 %
