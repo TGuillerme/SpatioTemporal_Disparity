@@ -72,6 +72,19 @@ However, this is only correct if each axis of the $n$ object are independent, wh
 
 The problem with these methods is that they assume the data is multivariate normal and independent. Both assumptions are easily violated. In this paper we propose a new view of the whole thing. Where we can measure the volume and the spread within the $n$ dimension space.
 
+For example, the eigen decomposition of a distance matrix containing three taxa ($k=3$) creates a cladisto-space of $n=2$ dimensions.
+In this case, the product of variance, $\prod\sigma^2$, of this cladisto-space is:
+\begin{equation} % NC: Check and double check this is the correct equation.
+   \prod\sigma^2=
+   \begin{cases}
+     \sigma^2(n_1) \times \sigma^2(n_2), & \text{if}\ \sigma(n_1,n_2)=0 \\
+     [\sigma^2(n_1)+2\sigma(n_1,n_2)] \times [\sigma^2(n_2)+2\sigma(n_1,n_2)], & \text{otherwise}
+   \end{cases}
+   \label{prod_var}
+\end{equation}
+Where $\sigma^2(n)$ is the variance of the eigenvector $n$ and $\sigma(n_{1}, n_{2})$ is the covariance between the two eigenvectors.
+Note that the same is true for the sum of variance with the difference that the terms are added rather than multiplied (equation \ref{prod_var}).
+
 
 Two other ways to calculate the variation in the data is: (1) the distance from centroid \cite{finlay2015morphological} representing the spread of the data in the $n$ dimension volume and (2) the $n$ dimension ellipsoid volume \cite{DonohueDim} representing the occupancy of the data in the $n$ dimension volume.
 
@@ -90,8 +103,6 @@ Where $k$ is the size of the distance matrix; $n$ us the number of dimensions; $
 Volume={{\pi^{n/2}} \over {\Gamma({n\over2}+1)}}\prod\limits{i=1}^n(\lambda_{i}^{0.5})
 \end{equation}
 Where $n$ is the number of dimensions; $\Gamma$ is a gamma distribution and $\lambda_i$ is the $i^{th}$ eigen value of the covariance matrix.1.
-
-
 
 
 \section{Problems with calculating disparity through time}
