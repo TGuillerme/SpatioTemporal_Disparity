@@ -1,6 +1,21 @@
 %LaTeX template : http://systbio.org/files/SB_LaTeX_Template_txt_extension.txt
 %Author instructions: http://www.oxfordjournals.org/our_journals/sysbio/for_authors/ms_preparation.html
 
+
+% This version is currently approx 5000 words
+%Other versions:
+% Science: http://www.sciencemag.org/site/feature/contribinfo/prep/gen_info.xhtml#original_research
+        %Research Articles (up to ~4500 words, including references, notes and captions, or ~5 printed pages) are expected to present a major advance. Research Articles include an abstract, an introduction, up to six figures or tables, sections with brief subheadings, and about 40 references. Materials and Methods should usually be included in supplementary materials, which should also include information needed to support the paper's conclusions.
+% Nature communications: http://www.nature.com/ncomms/authors/submit.html#Manuscript-text
+% PNAS: http://www.pnas.org/site/authors/format.xhtml
+% Current Biology: http://www.cell.com/current-biology/authors
+        %Articles present conceptual advances of unusual significance regarding a biological question of wide interest. Articles are typically limited to ten journal pages (usually around 5000 words of main text, i.e. all of the text in the manuscript except for the summary, references, and any Supplemental Information text), and there should be no more than seven display items (figures and tables). Additional items and details may be published online as Supplemental Information at the discretion of the editor (please see the Supplemental Information guidelines for more information).
+% PLoS Biology: http://journals.plos.org/plosbiology/s/submission-guidelines
+% Scientific reports: http://www.nature.com/srep/authors/index.html#initial-submission
+        %Articles should be no more than 11 typeset pages in length. As a guide, the main text (not including Abstract, Methods, References and figure legends) should be no more than 4,500 words. The maximum title length is 20 words. The Abstract — which must be no more than 200 words long and contain no references — should serve both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. For the main body of the text, there are no explicit requirements for section organization. According to the authors' preference, the text may be organized as best suits the research. As a guideline and in the majority of cases, however, we recommend that you structure your manuscript as follows: Introduction; Results (with subheadings); Discussion (without subheadings);Methods
+
+
+
 \documentclass[12pt,letterpaper]{article}
 \usepackage{natbib}
 
@@ -90,7 +105,7 @@ Version dated: \today
 \begin{center}
 
 \noindent{\Large \bf Cretaceous-Palaeogene extinction does not affect mammalian disparity.} 
-\noindent{\Large \bf DISCLAIMER: THIS DRAFT IS NOT FULLY COMPLETED.} 
+\noindent{\Large \bf DISCLAIMER: THIS DRAFT IS NOT FULLY COMPLETED AND HAS NOT BEEN PROOF READ.} 
 % NC: still think this might need some work
 
 \bigskip
@@ -126,7 +141,7 @@ $^3$Department of Life Sciences, Natural History Museum, Cromwell Road, London, 
 
 %Here we propose a new approach to test if eutherians undergo an adaptive radiation after the K-Pg event. We use trees containing both living and fossil taxa based on all the available data (Total Evidence) and the state-of-the-art method in dating (tip dating) along side with a better proxy for niche occupancy (morphological diversity as opposed to taxonomic diversity) and finer grain analysis through time (introducing a time slicing method).
 
-%Our results shows that eutherians don't display significantly higher changes in morphological disparity that expected under a Brownian motion after the K-Pg boundary. We therefore propose that eutherian mammals don't undergo an adaptive radiation during the Palaeogene.
+%Our results shows that mammals don't display significantly changes in morphological disparity that expected under a Brownian motion after the K-Pg boundary. We therefore propose that eutherian mammals don't undergo an adaptive radiation during the Palaeogene.
 
 %Why is our stuff better?
 %1-More accurate timing (TEM+tip dating vs. molecular node date or morphological parsimony)
@@ -152,7 +167,7 @@ $^3$Department of Life Sciences, Natural History Museum, Cromwell Road, London, 
 \section{Introduction}
 % 1§ mass extinctions = bad. Loss of species (e.g. P/T 95%). But what comes after is more interesting
 Throughout history, life on Earth has suffered a series of mass extinction events resulting in drastic declines in global biodiversity \citep[e.g.][]{RaupPT,BentonPT,rennetime2013,Brusatte2015}.
-However, the long-term effects of mass extinctions are more varied \citep{Erwin1998344}, and include increases in species richness in some clades \citep{friedmanexplosive2010}, species richness declines in others \citep{Benton85}, changes in morphological diversity \citep{Ciampaglio2001,Ciampaglio2004,kornextinction2013} and shifts in ecological dominance \citep[e.g.][]{Brusatte12092008,toljagictriassic-jurassic2013,bensonfaunal2014}.
+However, the long-term effects of mass extinctions are more varied \citep{Erwin1998344}, and include species richness increases in some clades \citep{friedmanexplosive2010} or declines in others \citep{Benton85}, changes in morphological diversity \citep{Ciampaglio2001,Ciampaglio2004,kornextinction2013} and shifts in ecological dominance \citep[e.g.][]{Brusatte12092008,toljagictriassic-jurassic2013,bensonfaunal2014}.
 These shifts are characterized by the decline of one clade that is replaced by a different unrelated clade with a similar ecological role (e.g. Brachiopoda and Bivalvia at the end Permian extinction \citealt{Sepkiski1981,CLAPHAM01102006} but see \citealt{Payne22052014}). 
 Shifts in ecological dominance are of particular interest because they are a fairly common pattern observed in the fossil record (e.g. Foraminifera; \citealt{D'Hondt01011996,Coxall01042006}; Ichtyosauria; \citealt{thorneresetting2011}; Plesiosauria; \citealt{bensonfaunal2014}) and are often linked to major macroevolutionary processes such as adaptive \citep{Losos2010} or competitive radiations \citep{Brusatte12092008}.
 
@@ -550,8 +565,6 @@ This difference can be due to the number of traits used in \cite{Slater2012MEE} 
 In this study we look at an aggregate of discrete traits (the 446 morphological characters) in opposition of one continuous trait \citep[body mass in][]{Slater2012MEE}.
 However, when using the two independent data sets with two focal taxonomic level, we still find no evidences for a significant effect of the K-Pg boundary on changes in mammalian disparity through time.
 
-%Add something on the evolutionary models?
-
 %Caveats
 Few caveats can be underlined however.
 Firstly, both our data sets are limited and do not represent the full known mammalian taxonomic diversity, especially in the Neogene (23 Mya) where no fossils were represented in our data set.
@@ -620,7 +633,7 @@ In summary, the majority attempts to solve the debate on whether placental mamma
 In this study, we proposed a different approach looking at morphological diversity (i.e. disparity) through time using a continuous time sampling approach that allows use to specify assumption on the mode of evolution (i.e. punctuated or gradual).
 We based our analysis on the palaeontological discoveries of the last decade showing an unprecedented and unexpected taxonomic and morphological diversity prior to the Cenozoic \citep{luo2007,Close2015}.
 We found no evidences for an effect of the K-Pg boundary on mammalian disparity at both the family and the genus level and under both assumption of gradual or punctual evolution.
-
+We therefore suggest that, contra to popular believe, mammals didn't underwent any adaptive radiation (sensu CITE) after the K-Pg due to the extinction of dominant non-avian dinosaurs.
 
 %---------------------------------------------
 
