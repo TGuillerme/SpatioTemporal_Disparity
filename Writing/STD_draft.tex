@@ -406,29 +406,31 @@ Because these \textit{post-hoc} t-tests involve multiple p-values (13 comparison
 %---------------------------------------------
 
 \section{Results}
-Both data sets do not display a change in species richness after and before the K-Pg boundary (Figure \ref{fig:Fig_Raw_results}): respectively a decrease in Eutherians \citep[data from][]{beckancient2014} and an increase in Mammaliaformes \citep[data from][]{Slater2012MEE}.
-However, this variations in species richness are not linked with changes in disparity (Figure \ref{fig:Fig_Rar_results}).
-We measured a significant effect of time on disparity in Eutherians under both gradual and punctuated evolution model and in Mammaliaformes only under the gradual evolution model (table \ref{tab:Tab_permanova}).
-Regarding the effect of the K-Pg boundary, we detected a lag effect on disparity in Eutherians under both gradual and punctuated evolution model (table \ref{tab:Tab_beck_raw}) but not any more after taking species richness into account (i.e. rarefaction; table \ref{tab:Tab_beck_rar}).
-For the Mammaliaformes under gradual evolution model, there was no effect of the K-Pg boundary in both the raw and the rarefied data (table \ref{tab:Tab_slater}).
+Both data sets do display a change in taxonomic diversity after and before the K-Pg boundary (Figure \ref{fig:Fig_Raw_results}): respectively a decrease in Eutherians \citep[data from][]{beckancient2014} and an increase in Mammaliaformes \citep[data from][]{Slater2012MEE}.
+However, these variations in taxonomic diversity are not linked with changes in disparity (Figure \ref{fig:Fig_Rar_results}).
+In both data sets, we measured similar changes in morphological disparity in the last 170 Million years for both the full data sets and the rarefied data sets (Figure \ref{fig:Fig_Raw_results} and \ref{fig:Fig_Rar_results})
+We measured a significant effect of time on disparity in Eutherians under both gradual and punctuated evolution model and in Mammaliaformes only under the gradual evolution model only (table \ref{tab:Tab_permanova}).
+For the Eutherians data set, we detected at least one significant difference between the disparity in the last sub-sample of the Cretaceous and any sub-sample of the Cenozoic suggesting an effect of the K-Pg boundary on disparity (table \ref{tab:Tab_beck_raw}).
+However, once corrected for taxonomic diversity, we did not detect any significant difference, either under gradual or punctuated evolution model (table \ref{tab:Tab_beck_rar}).
+For the Mammaliaformes data set under gradual evolution model, there was no significant difference between the disparity in the last sub-sample of the Cretaceous and any sub-sample of the Cenozoic in both the raw and the rarefied data (table \ref{tab:Tab_slater}).
 
 \begin{figure}[!htbp]
 \centering
     \includegraphics[keepaspectratio=true]{Figures/Main_results.pdf}
-\caption{Observed variations of disparity through time among Eutherian and Mammaliaformes with a punctuated or gradual evolution model. The x axis represents the time in Million of years ago (Mya). The y axis represents the disparity measured as the median distance from centroid per sub-sample. The solid black lines is the mean disparity; the confidence intervals (CI) are represent by the grey polygons (50\% CI in dark grey and 95\% CI in light grey). The dashed line represent the species richness in each sub-sample (values are reported on the right hand side of each graphs). The red vertical line represents the K-Pg boundary (66 Mya).}
+\caption{Observed variations of disparity through time among Eutherian and Mammaliaformes under punctuated or gradual evolution model. The x axis represents the time in Million of years ago (Mya). The y axis represents the disparity measured as the mean distance from centroid per sub-sample. The solid black lines is the median disparity from the bootstrapped pseudo-replicates; the confidence intervals (CI) are represent by the grey polygons (50\% CI in dark grey and 95\% CI in light grey). The dashed line represent the species richness in each sub-sample (values are reported on the right hand side of each graphs). The red vertical line represents the K-Pg boundary (66 Mya).}
 \label{fig:Fig_Raw_results}
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
     \includegraphics[keepaspectratio=true]{Figures/Main_results_rarefied.pdf}
-\caption{Rarefied variations of disparity through time among Eutherian and Mammaliaformes with a punctuated or gradual evolution model. The x axis represents the time in Million of years ago (Mya). The y axis represents the disparity measured as the median distance from centroid per sub-sample. The solid black lines is the mean disparity; the confidence intervals (CI) are represent by the grey polygons (50\% CI in dark grey and 95\% CI in light grey). The dashed line represent the species richness in each sub-sample (values are reported on the right hand side of each graphs). The red vertical line represents the K-Pg boundary (66 Mya).}
+\caption{Rarefied variations of disparity through time among Eutherian and Mammaliaformes under punctuated or gradual evolution model. The x axis represents the time in Million of years ago (Mya). The y axis represents the disparity measured as the mean distance from centroid per sub-sample. The solid black lines is the median disparity from the bootstrapped pseudo-replicates; the confidence intervals (CI) are represent by the grey polygons (50\% CI in dark grey and 95\% CI in light grey). The dashed line represent the species richness in each sub-sample (values are reported on the right hand side of each graphs). The red vertical line represents the K-Pg boundary (66 Mya).}
 \label{fig:Fig_Rar_results}
 \end{figure}
 
 \begin{landscape}
 \begin{table}[ht]
-\caption{Permanova results of testing the effect of time on the ordinated distance matrix with 1000 permutations based on euclidean distance. Data: Eutherian \citep[data from][]{beckancient2014}; Mammaliaformes, \citep[data from][]{Slater2012MEE}. Model: evolutionary model. Significant effects are highlighted in bold: one star (*) signifies a p-value between 0.05 and 0.005; two starts between 0.005 and 0.0005 and three stars $<$ 0.0005.}
+\caption{Permanova results of testing the effect of time on the ordinated distance matrix using euclidean distance with 1000 permutations. Data: Eutherian \citep[data from][]{beckancient2014}; Mammaliaformes, \citep[data from][]{Slater2012MEE}. Model: evolutionary model. Significant effects are highlighted in bold: one star (*) signifies a p-value between 0.05 and 0.005; two starts between 0.005 and 0.0005 and three stars $<$ 0.0005.} %Or just say three stars since it's the only results?
 \label{tab:Tab_permanova}
 \centering
 \begin{tabular}{rrrcccccccc}
@@ -504,7 +506,7 @@ Mammaliaformes & gradual    & time      & 34  & 6525.61  & 191.930 & 1.1660 & 0.
 
 
 \begin{table}[ht]
-\caption{Results of the \textit{post-hoc} t-tests for comparing the disparity at the last sub-sample of the Cretaceous (65 Mya) to all the sub-samples of the Cenozoic for the Mammaliaformes \citep[data from][]{Slater2012MEE} under gradual evolution model. Raw data: bootstrapped data without rarefaction; Rarefied data: rarefied bootstrapped data. Other column heads explained same as given in table \ref{tab:Tab_beck_raw}.}
+\caption{Results of the \textit{post-hoc} t-tests for comparing the disparity at the last sub-sample of the Cretaceous (65 Mya) to all the sub-samples of the Cenozoic for the Mammaliaformes \citep[data from][]{Slater2012MEE} under gradual evolution model. Raw data: data without correcting for taxonomic diversity; Rarefied data: rarefied bootstrapped data. Other column heads explained same as given in table \ref{tab:Tab_beck_raw}.}
 \label{tab:Tab_slater}
 \centering
 \begin{tabular}{r|cccc|cccc}
