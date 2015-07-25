@@ -105,6 +105,13 @@ Volume={{\pi^{n/2}} \over {\Gamma({n\over2}+1)}}\prod\limits{i=1}^n(\lambda_{i}^
 Where $n$ is the number of dimensions; $\Gamma$ is a gamma distribution and $\lambda_i$ is the $i^{th}$ eigen value of the covariance matrix.1.
 
 
+3-Thoughts about what do we want to represent from the cladisto-space:
+The median distance from centroids represents the spread of the data in the cladisto-space: if the median value is high, it means that half the data is far away from the centroid (but using the median makes it not too sensitive to outliers).
+The two interesting aspects here are the volume of the data and it's spread (being evenly spread, randomly or clustered).
+One interesting way would be to (1) give both proxies (volume + spread) or combine them into one reflecting both.
+For example, we can make the volume relative to the full cladisto-space (from 0 to 1, with 0 meaning no volume taken in the cladisto space and 1 full cladisto space) and then scale it by a measure of spread.
+For example, if the spread is even, the spread metric is 1, if it's randomly distributed it's 0 and if it's clustered it's -1.
+
 \section{Problems with calculating disparity through time}
 
 \begin{enumerate}
