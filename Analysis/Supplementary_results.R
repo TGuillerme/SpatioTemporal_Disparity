@@ -124,17 +124,17 @@ dis_pro_mod_beck  <-extract.disp(disparity_full_pro_beck  $quantiles, rarefactio
 
 #Plot
 op<-par(mfrow=c(3,2), bty="n", mar=c(4,4,4,4))
-plot.disparity(dis_ran_max_beck  , diversity=dis_ran_max_beck  $rarefaction, main="Punctuated (all taxa)", xlab="Time (Mya)", y2lab="", ylab="Distance from centroid")
+plot.disparity(dis_ran_max_beck  , diversity=dis_ran_max_beck  $rarefaction, main="Punctuated (all taxa)", xlab="Time (Mya)", y2lab="", ylab="Median distance from centroid")
 abline(v=22, col="red")
 plot.disparity(dis_pro_max_beck  , diversity=dis_pro_max_beck  $rarefaction, main="Gradual (all taxa)", xlab="Time (Mya)", y2lab="Species richness", ylab="")
 abline(v=22, col="red")
 
-plot.disparity(dis_ran_mod_beck  , diversity=dis_ran_mod_beck  $rarefaction, main="Punctuated (8 taxa)", xlab="Time (Mya)", y2lab="", ylab="Distance from centroid")
+plot.disparity(dis_ran_mod_beck  , diversity=dis_ran_mod_beck  $rarefaction, main="Punctuated (8 taxa)", xlab="Time (Mya)", y2lab="", ylab="Median distance from centroid")
 abline(v=22, col="red")
 plot.disparity(dis_pro_mod_beck  , diversity=dis_pro_mod_beck  $rarefaction, main="Gradual (8 taxa)", xlab="Time (Mya)", y2lab="Species richness", ylab="")
 abline(v=22, col="red")
 
-plot.disparity(dis_ran_min_beck  , diversity=dis_ran_min_beck  $rarefaction, main="Punctuated (3 taxa)", xlab="Time (Mya)", y2lab="", ylab="Distance from centroid")
+plot.disparity(dis_ran_min_beck  , diversity=dis_ran_min_beck  $rarefaction, main="Punctuated (3 taxa)", xlab="Time (Mya)", y2lab="", ylab="Median distance from centroid")
 abline(v=22, col="red")
 plot.disparity(dis_pro_min_beck  , diversity=dis_pro_min_beck  $rarefaction, main="Gradual (3 taxa)", xlab="Time (Mya)", y2lab="Species richness", ylab="")
 abline(v=22, col="red")
@@ -162,7 +162,7 @@ quartz(width = 15.6, height = 11.2) #A5 landscape
 #Windows dimensions
 op<-par(mfrow=c(5, 6), bty="n", mar=c(4,4,4,4))# oma=c(bottom, left, top, right)
 #Centroid
-plot.disparity(dis_tips_slater, xlab="", ylab="Distance from centroid", measure="Cent.dist", main="Intervals (tips only)", diversity=dis_tips_slater$rarefaction, y2lab="", cex.xaxis=0.7)
+plot.disparity(dis_tips_slater, xlab="", ylab="Median distance from centroid", measure="Cent.dist", main="Intervals (tips only)", diversity=dis_tips_slater$rarefaction, y2lab="", cex.xaxis=0.7)
 abline(v= 17.5, col="red")
 plot.disparity(dis_nodes_slater, xlab="", ylab="", measure="Cent.dist", main="Intervals (tips and nodes)", diversity=dis_nodes_slater$rarefaction, y2lab="", cex.xaxis=0.7)
 abline(v= 17.5, col="red")
@@ -251,7 +251,7 @@ quartz(width = 15.6, height = 11.2) #A5 landscape
 #Windows dimensions
 op<-par(mfrow=c(5, 6), bty="n", mar=c(4,4,4,4))# oma=c(bottom, left, top, right)
 #Centroid
-plot.disparity(dis_tips_beck, xlab="", ylab="Distance from centroid", measure="Cent.dist", main="Intervals (tips only)", diversity=dis_tips_beck$rarefaction, y2lab="", cex.xaxis=0.8)
+plot.disparity(dis_tips_beck, xlab="", ylab="Median distance from centroid", measure="Cent.dist", main="Intervals (tips only)", diversity=dis_tips_beck$rarefaction, y2lab="", cex.xaxis=0.8)
 abline(v= 10.5, col="red")
 plot.disparity(dis_nodes_beck, xlab="", ylab="", measure="Cent.dist", main="Intervals (tips and nodes)", diversity=dis_nodes_beck$rarefaction, y2lab="", cex.xaxis=0.8)
 abline(v= 10.5, col="red")
@@ -340,7 +340,7 @@ quartz(width = 15.6, height = 11.2) #A5 landscape
 #Windows dimensions
 op<-par(mfrow=c(5, 6), bty="n", mar=c(4,4,4,4))# oma=c(bottom, left, top, right)
 #Centroid
-plot.disparity(dis_tips_slater, xlab="", ylab="Distance from centroid", measure="Cent.dist", main="Intervals (tips only)", diversity=dis_tips_slater$rarefaction, y2lab="", cex.xaxis=0.7)
+plot.disparity(dis_tips_slater, xlab="", ylab="Median distance from centroid", measure="Cent.dist", main="Intervals (tips only)", diversity=dis_tips_slater$rarefaction, y2lab="", cex.xaxis=0.7)
 abline(v= 17.5, col="red")
 plot.disparity(dis_nodes_slater, xlab="", ylab="", measure="Cent.dist", main="Intervals (tips and nodes)", diversity=dis_nodes_slater$rarefaction, y2lab="", cex.xaxis=0.7)
 abline(v= 17.5, col="red")
@@ -428,7 +428,7 @@ quartz(width = 15.6, height = 11.2) #A5 landscape
 #Windows dimensions
 op<-par(mfrow=c(5, 6), bty="n", mar=c(4,4,4,4))# oma=c(bottom, left, top, right)
 #Centroid
-plot.disparity(dis_tips_beck, xlab="", ylab="Distance from centroid", measure="Cent.dist", main="Intervals (tips only)", diversity=dis_tips_beck$rarefaction, y2lab="", cex.xaxis=0.8)
+plot.disparity(dis_tips_beck, xlab="", ylab="Median distance from centroid", measure="Cent.dist", main="Intervals (tips only)", diversity=dis_tips_beck$rarefaction, y2lab="", cex.xaxis=0.8)
 abline(v= 10.5, col="red")
 plot.disparity(dis_nodes_beck, xlab="", ylab="", measure="Cent.dist", main="Intervals (tips and nodes)", diversity=dis_nodes_beck$rarefaction, y2lab="", cex.xaxis=0.8)
 abline(v= 10.5, col="red")

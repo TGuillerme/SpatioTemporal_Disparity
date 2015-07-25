@@ -75,13 +75,16 @@ load(paste(data_path, chain_name, '/',chain_name,'-Full-disp_sli_nodes95_pro.Rda
 ######################################
 #load the relevant files generated before!
 
+#corrected rar div
+rar_diversity<-extract.disp(disp_sli_nodes95_pro[[1]], rarefaction=8)$rarefaction
+
 op<-par(mfrow=c(2,2), bty="n", mar=c(4,4,4,4))
-plot.disparity(extract.disp(disp_sli_nodes95_ran[[1]], rarefaction="max"), diversity=slices_nodes95_div, main="Mammaliaformes (punctuated)", xlab="Time (Mya)", y2lab="", ylab="Distance from centroid")
+plot.disparity(extract.disp(disp_sli_nodes95_ran[[1]], rarefaction="max"), diversity=slices_nodes95_div, main="Mammaliaformes (punctuated)", xlab="Time (Mya)", y2lab="", ylab="Median distance from centroid")
 abline(v=47, col="red")
 plot.disparity(extract.disp(disp_sli_nodes95_pro[[1]], rarefaction="max"), diversity=slices_nodes95_div, main="Mammaliaformes (gradual)", xlab="Time (Mya)", y2lab="Species richness", ylab="")
 abline(v=47, col="red")
-plot.disparity(extract.disp(disp_sli_nodes95_ran[[1]], rarefaction=8), diversity=rep(8, length(slices_nodes95_div)), main="Mammaliaformes (punctuated - rarefied)", xlab="Time (Mya)", y2lab="", ylab="Distance from centroid")
+plot.disparity(extract.disp(disp_sli_nodes95_ran[[1]], rarefaction="min"), diversity=rar_diversity, main="Mammaliaformes (punctuated - rarefied)", xlab="Time (Mya)", y2lab="", ylab="Median distance from centroid")
 abline(v=47, col="red")
-plot.disparity(extract.disp(disp_sli_nodes95_pro[[1]], rarefaction=8), diversity=rep(8, length(slices_nodes95_div)), main="Mammaliaformes (gradual - rarefied)", xlab="Time (Mya)", y2lab="Species richness", ylab="")
+plot.disparity(extract.disp(disp_sli_nodes95_pro[[1]], rarefaction="min"), diversity=rar_diversity, main="Mammaliaformes (gradual - rarefied)", xlab="Time (Mya)", y2lab="Species richness", ylab="")
 abline(v=47, col="red")
 par(op)
