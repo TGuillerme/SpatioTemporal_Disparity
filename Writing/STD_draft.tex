@@ -310,21 +310,28 @@ This is only statistically valid if the eigenvectors are independent.
 In multidimensional scaling, all $n$ eigenvectors are calculated from the same distance matrix and are therefore not independent, thus covariances among eigenvectors should be included when estimating disparity.
 In addition, because we include all $n$ dimensions in the analysis (see above), the products of ranges and variances will tend towards zero since the scores of the last dimension are usually really close to zero themselves. 
 These features make using the sum and products of ranges and variances unfeasible in our study.
-Instead, we use a different  metric that comes with no statistical assumptions for measuring the dispersion of the data in the cladisto-space: the distance from centroid (similar but not equivalent to \citealt{Wills1994,kornextinction2013,huang2015origins}) calculated as:
+Instead, we use a different metric that comes with no statistical assumptions for measuring the dispersion of the data in the cladisto-space: the median distance from centroid (similar but not equivalent to \citealt{Wills1994,kornextinction2013,huang2015origins}) calculated as:
+
+% TG: this is the mean distance from centroid
+%\begin{equation}
+%    Disparity=\frac{\displaystyle\sqrt{\sum_{i=1}^{k}{(\mathbf{v}_{n_{i}}-Centroid_{n})^2}}}{k} 
+%\end{equation}
+% here we use the median (mathematically noted as Md) distance from centroid (we don't divide by k)
 \begin{equation}
-    Disparity=\frac{\displaystyle\sqrt{\sum_{i=1}^{k}{(\mathbf{v}_{n_{i}}-Centroid_{n})^2}}}{k}
+   Disparity=Md{\displaystyle\sqrt{\sum_{i=1}^{k}{(\mathbf{v}_{n_{i}}-Centroid_{n})^2}}}
+    \label{disparity}
 \end{equation}
 where:
 \begin{equation}
-    Centroid_{n}=\frac{\displaystyle\sum_{i=1}^{k}(\mathbf{v}_{n_{i}})}{k}
+    Centroid_{n}=\frac{\displaystyle\sum_{i=1}^{k}(\mathbf{v}_{n_{i}})}{k} % TG: however, for the centroid, yes, it's just the mean value of each dimension (so divided by k)
     \label{centroid}
 \end{equation}
 
-% NC: Check and recheck this equation
+% NC: Check and recheck this equation. TG: triple checked
 % NC: Above and below: $kn$ or $k_{n}$? TG: just k.
 \noindent
 $k$ is the size of the distance matrix (i.e. the total number of taxa), $\mathbf{v}_{n}$ is any of the $n$ eigenvectors (i.e. any of the $n$ dimension of the cladisto-space), % $\mathbf{v}_{n_{i}}$ is the score for each taxa for $\mathbf{v}_{n}$ % TG: or is the part "Sum from i to k" in the equation sufficient to explain that?
- and $Centroid_{n}$ is the centroid euclidean distance of the $n^{th}$ eigenvector (equation \ref{centroid}).
+$Centroid_{n}$ is the centroid euclidean distance of the $n^{th}$ eigenvector (equation \ref{centroid}) and $Md$ is the median value of the distance from centroid (equation \ref{disparity}).
 Note that we also calculated the sum and products of ranges and variances in the supplementary material (@@@). % link to supp.
 
 \subsection{Estimating disparity through time} 
@@ -417,14 +424,14 @@ For the Mammaliaformes data set under gradual evolution model, there was no sign
 \begin{figure}[!htbp]
 \centering
     \includegraphics[keepaspectratio=true]{Figures/Main_results.pdf}
-\caption{Observed variations of disparity through time among Eutherian and Mammaliaformes under punctuated or gradual evolution model. The x axis represents the time in Million of years ago (Mya). The y axis represents the disparity measured as the mean distance from centroid per sub-sample. The solid black lines is the median disparity from the bootstrapped pseudo-replicates; the confidence intervals (CI) are represent by the grey polygons (50\% CI in dark grey and 95\% CI in light grey). The dashed line represent the species richness in each sub-sample (values are reported on the right hand side of each graphs). The red vertical line represents the K-Pg boundary (66 Mya).}
+\caption{Observed variations of disparity through time among Eutherian and Mammaliaformes under punctuated or gradual evolution model. The x axis represents the time in Million of years ago (Mya). The y axis represents the disparity measured as the median distance from centroid per sub-sample. The solid black lines is the mean disparity from the bootstrapped pseudo-replicates; the confidence intervals (CI) are represent by the grey polygons (50\% CI in dark grey and 95\% CI in light grey). The dashed line represent the species richness in each sub-sample (values are reported on the right hand side of each graphs). The red vertical line represents the K-Pg boundary (66 Mya).}
 \label{fig:Fig_Raw_results}
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
     \includegraphics[keepaspectratio=true]{Figures/Main_results_rarefied.pdf}
-\caption{Rarefied variations of disparity through time among Eutherian and Mammaliaformes under punctuated or gradual evolution model. The x axis represents the time in Million of years ago (Mya). The y axis represents the disparity measured as the mean distance from centroid per sub-sample. The solid black lines is the median disparity from the bootstrapped pseudo-replicates; the confidence intervals (CI) are represent by the grey polygons (50\% CI in dark grey and 95\% CI in light grey). The dashed line represent the species richness in each sub-sample (values are reported on the right hand side of each graphs). The red vertical line represents the K-Pg boundary (66 Mya).}
+\caption{Rarefied variations of disparity through time among Eutherian and Mammaliaformes under punctuated or gradual evolution model. The x axis represents the time in Million of years ago (Mya). The y axis represents the disparity measured as the median distance from centroid per sub-sample. The solid black lines is the mean disparity from the bootstrapped pseudo-replicates; the confidence intervals (CI) are represent by the grey polygons (50\% CI in dark grey and 95\% CI in light grey). The dashed line represent the species richness in each sub-sample (values are reported on the right hand side of each graphs). The red vertical line represents the K-Pg boundary (66 Mya).}
 \label{fig:Fig_Rar_results}
 \end{figure}
 
@@ -591,13 +598,17 @@ This is how we believe they improve disparity through time analysis.
 % TG or no need for a list?
 \begin{enumerate}
     \item \textbf{Using all the axis of the cladisto-space}
-    Previous studies focusing on disparity have used various ways to select a subsample of the the full cladisto-space (i.e. a sub-sample of the ordinated distance matrix) arguing that the $m$ first axis of the cladisto-space bear most of the variance \citep[e.g][]{brusatte50,cisneros2010,prentice2011,anderson2012using,Butler2012,Hughes20082013,bentonmodels2014}.
+    Previous studies focusing on disparity have used various ways to select a subsample of the the full cladisto-space (i.e. a sub-sample of the ordinated distance matrix) arguing that the $m$ first axis of the cladisto-space usually bear most of the data-set's variance \citep[e.g][]{brusatte50,cisneros2010,prentice2011,anderson2012using,Butler2012,Hughes20082013,bentonmodels2014}.
     For example in \cite{Brusatte12092008} and \cite{toljagictriassic-jurassic2013}, the authors decided to select only the $m$ first dimensions that represent up to 90\% of the variance in the distance matrix.
     The cut-off value is either given arbitrary or by visually detecting a substantial break in the slop of a scree plot of the variance per axis \citep{Wills1994}.
-    We argue that even if the last dimensions of the cladisto-space bear a trivial amount of variance, there is no statistical justification to exclude them.
-    However, by doing so, we included dimensions of the cladisto-space with a near to $0$ variance and range, making the claculation of certain disparity metrics impossible (see below).
-    An alternative and successful method to avoid this $n$ dimensional axis variance problem is to not ordinated the data and measure disparity just from the $k$ distance matrix \citep{bensonfaunal2014,Close2015}.
-    \item \textbf{Using the median centroid distance as disparity metric}
+    We argue that even if the last dimensions of the cladisto-space bears a trivial amount of variance, there is no statistical justification to exclude them.
+    However, by doing so, we included dimensions of the cladisto-space with a near 0 variance and range (variance of $2\times10^{-14}$ and $1.15\times10^{-15}$ and range of $7.31\times10^{-7}$ and $3.33\times10^{-7}$ in respectively \citealt{Slater2012MEE} and \citealt{beckancient2014})
+    This makes the claculation of certain disparity metrics impossible (see below).
+    An alternative method to avoid these near 0 dimensional axis problem is to simply not ordinated the data and measure disparity just from the $k$ distance matrix \citep[e.g.][]{bensonfaunal2014,Close2015}.
+    \item \textbf{Using the median distance from centroid as a disparity metric}
+
+    %STOPPED HERE
+    
     As stated above (see methods section), we deliberately chose to use the median distance from centroid as a metric from measuring disparity among many other \citep[e.g.][]{Wills1994,Ciampaglio2004,thorneresetting2011,hopkinsdecoupling2013,huang2015origins}.
     Using this metric gave use several advantages upon the four classic sum and products of ranges and variance.
     First, this metric comes with no special statistical assumptions (c.f. sum and products of variance \textit{and} covariance).
