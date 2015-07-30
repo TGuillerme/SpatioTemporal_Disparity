@@ -137,6 +137,7 @@ cor.time.pco<-function(time_pco, minimum=3) {
         }
 
         #If both the host and the wrong interval have the same rownames, just delete the wrong interval and rename the host interval
+        options(warn=-1) #warn off
         if(nrow(time_pco[[wrong_intervals[1]]]) == nrow(time_pco[[host_interval]]) &
             all(sort(rownames(time_pco[[wrong_intervals[1]]])) == sort(rownames(time_pco[[host_interval]])))) {
          
@@ -171,7 +172,7 @@ cor.time.pco<-function(time_pco, minimum=3) {
             new_time_pco[[wrong_intervals[1]]]<-NULL
 
         }
-
+        options(warn=0) #warn on
         time_pco<-new_time_pco
     }
 
