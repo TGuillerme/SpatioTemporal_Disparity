@@ -218,3 +218,21 @@ plot.disparity(disparity_per_bin, measure="Prod.var", diversity=pco_in_bins$dive
 par(op)
 
 # I developed more function on how to look at the tree through time (using ancestral states, etc...) but here's the global idead
+
+
+
+dis_data<-trimmed.max.data[[1]]
+pco_data <- cmdscale(trimmed.max.data$dist.matrix, k=nrow(trimmed.max.data$dist.matrix) - 1, add=T, eig=TRUE)$points
+
+bins<-rev(seq(from=0, to=100, by=20))
+
+pco_bins<-int.pco(pco_data, tree.data, bins, diversity=TRUE)
+dis_bins<-int.pco(dist_data, tree.data, bins, diversity=TRUE)
+
+#Diversity is the same
+all(pco_bins[[2]]==dis_bins[[2]])
+
+set.seed(1); disparity_pco_bin<-time.disparity(pco_bins$pco_intervals, relative=FALSE, verbose=TRUE, bootstraps=1000)
+set.seed(1); disparity_dis_bin<-time.disparity(dis_bins$pco_intervals, relative=FALSE, verbose=TRUE, bootstraps=1000)
+
+# Both are fairly different!
