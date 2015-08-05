@@ -69,7 +69,7 @@ pco_slice_beck_ran  <-slice.pco(pco_beck  , tree_beck  , slices, method='random'
 #PERMANOVA
 permanova_pro_slater<-disparity.test.time(pco_slice_slater_pro, method="euclidean", permutations=1000)
 permanova_pro_beck  <-disparity.test.time(pco_slice_beck_pro  , method="euclidean", permutations=1000)
-permanova_ran_slater<-disparity.test.time(pco_slice_slater_ran, method="euclidean", permutations=10000)
+permanova_ran_slater<-disparity.test.time(pco_slice_slater_ran, method="euclidean", permutations=1000)
 permanova_ran_beck  <-disparity.test.time(pco_slice_beck_ran  , method="euclidean", permutations=1000)
 
 #reference
