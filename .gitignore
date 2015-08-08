@@ -2,7 +2,11 @@
 Main_results.tex
 
 # Remove the data folder
-Data/*
+Data/Beck2014/
+Data/Slater2013/
+Data/ace_test/
+Data/null_test/
+Data/Statistics/
 
 # Cluster unsorted files #
 Cluster/Beck2014/*.Rda
