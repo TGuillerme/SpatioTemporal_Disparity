@@ -1,6 +1,9 @@
 #Main results recapitulation
 Main_results.tex
 
+# Remove the data folder
+Data/*
+
 # Cluster unsorted files #
 Cluster/Beck2014/*.Rda
 Cluster/Beck2/*.Rda
