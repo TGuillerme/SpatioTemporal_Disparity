@@ -249,7 +249,7 @@ We chose these two data sets because they have a similar number of taxa and morp
 \cite{Slater2012MEE} ranges from 310 million years ago (Mya; Late Carboniferous) to the present and focuses on the clade Mammaliaformes at the family-level.
 \cite{beckancient2014} ranges from 170 Mya (Middle Jurassic) to the present and focuses on Eutherians at the genus-level.
 We used the first and last occurrences reported in \cite{Slater2012MEE} and \cite{beckancient2014} as the temporal range of each taxon in our analysis.
-Both phylogenies are illustrated in the supplementary material (see Figure S1 and S2 @@@).
+Both phylogenies are illustrated in the supplementary material (see Fig S1 and S2 @@@).
 
 \subsection{Estimating ancestral character states}
 For both datasets we used the re-rooting method \citep{Yang01121995,Garland2000} to get Maximum Likelihood estimates of the ancestral states for each character at every node in the tree, using the \texttt{rerootingMethod} function from the \texttt{R} package \texttt{phytools} \citep[version 0.4-45;][]{phytools,R}.
@@ -402,13 +402,13 @@ Because these \textit{post-hoc} t-tests involve multiple p-values (13 comparison
 %---------------------------------------------
 
 \section{Results}
-Both data sets do display a change in taxonomic diversity after and before the K-Pg boundary (Figure \ref{fig:Fig_Raw_results}): respectively a decrease in Eutherians \citep[data from][]{beckancient2014} and an increase in Mammaliaformes \citep[data from][]{Slater2012MEE}.
-However, these variations in taxonomic diversity are not linked with changes in disparity (Figure \ref{fig:Fig_Rar_results}).
-In both data sets, we measured similar changes in morphological disparity in the last 170 Million years for both the full data sets and the rarefied data sets (Figure \ref{fig:Fig_Raw_results} and \ref{fig:Fig_Rar_results})
-We measured a significant effect of time on disparity in Eutherians under both gradual and punctuated evolution model and in Mammaliaformes only under the gradual evolution model only (table \ref{tab:Tab_permanova}).
-For the Eutherians data set, we detected at least one significant difference between the disparity in the last sub-sample of the Cretaceous and any sub-sample of the Cenozoic suggesting an effect of the K-Pg boundary on disparity (table \ref{tab:Tab_beck_raw}).
-However, once corrected for taxonomic diversity, we did not detect any significant difference, either under gradual or punctuated evolution model (table \ref{tab:Tab_beck_rar}).
-For the Mammaliaformes data set under gradual evolution model, there was no significant difference between the disparity in the last sub-sample of the Cretaceous and any sub-sample of the Cenozoic in both the raw and the rarefied data (table \ref{tab:Tab_slater}).
+Both data sets do display a change in taxonomic diversity after and before the K-Pg boundary (Fig \ref{fig:Fig_Raw_results}): respectively a decrease in Eutherians \citep[data from][]{beckancient2014} and an increase in Mammaliaformes \citep[data from][]{Slater2012MEE}.
+However, these variations in taxonomic diversity are not linked with changes in disparity (Fig \ref{fig:Fig_Rar_results}).
+In both data sets, we measured similar changes in morphological disparity in the last 170 Million years for both the full data sets and the rarefied data sets (Fig \ref{fig:Fig_Raw_results} and \ref{fig:Fig_Rar_results})
+We measured a significant effect of time on disparity in Eutherians under both gradual and punctuated evolution model and in Mammaliaformes only under the gradual evolution model only (Table \ref{tab:Tab_permanova}).
+For the Eutherians data set, we detected at least one significant difference between the disparity in the last sub-sample of the Cretaceous and any sub-sample of the Cenozoic suggesting an effect of the K-Pg boundary on disparity (Table \ref{tab:Tab_beck_raw}).
+However, once corrected for taxonomic diversity, we did not detect any significant difference, either under gradual or punctuated evolution model (Table \ref{tab:Tab_beck_rar}).
+For the Mammaliaformes data set under gradual evolution model, there was no significant difference between the disparity in the last sub-sample of the Cretaceous and any sub-sample of the Cenozoic in both the raw and the rarefied data (Table \ref{tab:Tab_slater}).
 
 \begin{figure}[!htbp]
 \centering
@@ -475,7 +475,7 @@ Mammaliaformes & gradual    & time      & 34  & 6525.61  & 191.930 & 1.1660 & 0.
 \end{table}
 
 \begin{table}[ht]
-\caption{Results of the \textit{post-hoc} t-tests for comparing the disparity at the last sub-sample of the Cretaceous (65 Mya) to all the sub-samples of the Cenozoic for the rarefied Eutherians \citep[data from][]{beckancient2014}. Column heads explained same as given in table ~\ref{tab:Tab_beck_raw}.}
+\caption{Results of the \textit{post-hoc} t-tests for comparing the disparity at the last sub-sample of the Cretaceous (65 Mya) to all the sub-samples of the Cenozoic for the rarefied Eutherians \citep[data from][]{beckancient2014}. Column heads explained same as given in Table ~\ref{tab:Tab_beck_raw}.}
 \label{tab:Tab_beck_rar}
 \centering
 \begin{tabular}{r|cccc|cccc}
@@ -502,7 +502,7 @@ Mammaliaformes & gradual    & time      & 34  & 6525.61  & 191.930 & 1.1660 & 0.
 
 
 \begin{table}[ht]
-\caption{Results of the \textit{post-hoc} t-tests for comparing the disparity at the last sub-sample of the Cretaceous (65 Mya) to all the sub-samples of the Cenozoic for the Mammaliaformes \citep[data from][]{Slater2012MEE} under gradual evolution model. Raw data: data without correcting for taxonomic diversity; Rarefied data: rarefied bootstrapped data. Other column heads explained same as given in table \ref{tab:Tab_beck_raw}.}
+\caption{Results of the \textit{post-hoc} t-tests for comparing the disparity at the last sub-sample of the Cretaceous (65 Mya) to all the sub-samples of the Cenozoic for the Mammaliaformes \citep[data from][]{Slater2012MEE} under gradual evolution model. Raw data: data without correcting for taxonomic diversity; Rarefied data: rarefied bootstrapped data. Other column heads explained same as given in Table \ref{tab:Tab_beck_raw}.}
 \label{tab:Tab_slater}
 \centering
 \begin{tabular}{r|cccc|cccc}
@@ -534,9 +534,9 @@ Mammaliaformes & gradual    & time      & 34  & 6525.61  & 191.930 & 1.1660 & 0.
 %---------------------------------------------
 
 \section{Discussion}
-Our results show that there is a significant effect of time on changes in disparity under the assumption of gradual evolution in Mammaliaformes and Eutherians as well as under the assumption of punctuated evolution for Eutherians (table \ref{tab:Tab_permanova}).
-However, regardless the taxonomic level (i.e. family \textit{vs.} genus) and regardless the evolutionary model (i.e. gradual or punctuated evolution), there is no significant difference in disparity between the latests Cretaceous sub-sample and any of the Cenozoic sub-samples (Figure \ref{fig:Fig_Rar_results}).
-In fact the disparity seems to reach a plateau at the end of the Jurassic (150 Mya) for Eutherians and during the late Triassic (Norian; 220 Mya) for the Mammaliaformes and stays relatively constant after that (see Figure \ref{fig:Fig_Rar_results} and S4 @@@).
+Our results show that there is a significant effect of time on changes in disparity under the assumption of gradual evolution in Mammaliaformes and Eutherians as well as under the assumption of punctuated evolution for Eutherians (Table \ref{tab:Tab_permanova}).
+However, regardless the taxonomic level (i.e. family \textit{vs.} genus) and regardless the evolutionary model (i.e. gradual or punctuated evolution), there is no significant difference in disparity between the latests Cretaceous sub-sample and any of the Cenozoic sub-samples (Fig \ref{fig:Fig_Rar_results}).
+In fact the disparity seems to reach a plateau at the end of the Jurassic (150 Mya) for Eutherians and during the late Triassic (Norian; 220 Mya) for the Mammaliaformes and stays relatively constant after that (see Fig \ref{fig:Fig_Rar_results} and S4 @@@).
 These results shows that, within the frame of our data-sets, we did not detect any short term or long term effect of the K-Pg event on mammalian disparity.
 Therefore, we argue that the extinction of the many terrestrial vertebrates (namely non-avian dinosaurs) at the K-Pg boundary did not directly affected mammals evolution during the Cenozoic, or at least their morphological diversity.
 % TG: just a thought: actually this is pretty intuitive. Even if the Cenozoic display the emergence of some crazy shapes (i.e. wales and bats), most of the stuff are just rats-like creatures that where apparently already well settled deep in the Jurassic.
@@ -599,13 +599,13 @@ This is how we believe they improve disparity through time analysis:
     Using this metric gave use several advantages upon the four classic sum and products of ranges and variance.
     First, this metric comes with no special statistical assumptions (c.f. sum and products of variance \textit{and} covariance). % TG: now not sure about the practicality of this one as mentioned in the methods part. The stats assumptions is true no mater what but I have the feeling that covariances = 0 even with PCO.
     Secondly, this metric is not affected by the last dimensions of the cladisto-space problem (see above).
-    And thirdly, this metric seems less coupled with taxonomic diversity (especially for the products of ranges and variance and the sum of ranges, see supplementary figures @@@).
+    And thirdly, this metric seems less coupled with taxonomic diversity (especially for the products of ranges and variance and the sum of ranges, see supplementary Figs @@@).
     \item \textbf{Using time slicing method.}
     Contra to numerous studies focusing on disparity \citep[e.g][]{cisneros2010,prentice2011,Hughes20082013,hopkinsdecoupling2013,bentonmodels2014,bensonfaunal2014}, we chose not to bin our data in time intervals but rather to look it as a continuous process.
     We argue that by doing so, we can avoid two caveats of such method: 
     \begin{enumerate}[(i)]
         \item firstly, using time intervals based on biostratigraphy is tautologic.
-        In fact, such method is likely to artefactualy emphasize disparity differences between time intervals because the same time intervals are based on notable differences in fossil fauna and flora (see supplementary figures @@@ where differences in disparity through time are much more contrasted in the interval methods than in the slicing methods).
+        In fact, such method is likely to artefactualy emphasize disparity differences between time intervals because the same time intervals are based on notable differences in fossil fauna and flora (see supplementary Figs @@@ where differences in disparity through time are much more contrasted in the interval methods than in the slicing methods).
         But note that not all studies use biostratigraphy and sometimes arbitrarily time bins of equal duration are used which also fix this caveat \citep{Butler2012,hopkinsdecoupling2013,bensonfaunal2014}.
         \item secondly, in both cases (time bins based on biostratigraphy or arbitrary durations), such method does not allow to specify assumptions on the evolutionary model.
         In fact, the underlying assumption to such method is that changes in disparity occur between the time intervals in a punctuated evolutionary model fashion.
@@ -630,7 +630,7 @@ First, this method relies on good estimates of characters states at the nodes of
 Estimating discrete ancestral characters can sometimes be tricky and can lead to low scaled likelihood values supporting any states of a particular character, especially when many data are missing in the observed cladistic matrix.
 However, in this particular study, we made the methodological choice of selecting only characters with a high scaled likelihood support ($> 0.95$).
 Additionally, using trees containing fossil taxa also improves the ability to correctly estimate ancestral characters \citep{Poly2001,Finarelli2006,Albert2009,Slater2012MEE}.
-Finally, because, this method samples every phylogenetic element (tip, node or edge) through time, disparity calculated close to the root of the tree can exhibit result with large confidence intervals (e.g. when only three phylogenetic elements are sampled see Figure S3 and S@@@).
+Finally, because, this method samples every phylogenetic element (tip, node or edge) through time, disparity calculated close to the root of the tree can exhibit result with large confidence intervals (e.g. when only three phylogenetic elements are sampled see Fig S3 and S@@@).
 However, it is encouraging to note that measuring disparity from time-slices is decoupled from taxonomic diversity at least after a minimal number of taxa \citep{slaterCetacean,ruta2013,hopkinsdecoupling2013}
 
 %Conclusion
