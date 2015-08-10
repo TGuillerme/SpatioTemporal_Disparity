@@ -22,6 +22,11 @@ Data/Older_data/Slater2013/
 Data/Beck2014/Beck2014-disparity_null-*.Rda
 Data/Slater2013/Slater2013-disparity_null-*.Rda
 
+# Old analysis #
+Analysis/Testings/
+Analysis/Old_STD/
+
+
 # Mails#
 *-mail.txt
 # Illustrator figures#
