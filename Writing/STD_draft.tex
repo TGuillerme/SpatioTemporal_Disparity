@@ -220,8 +220,8 @@ These results suggest that the extinction of non-avian dinosaurs and other terre
 \subsection{Cladistic data and phylogenies}
 We used the cladistic morphological matrices and the Total Evidence tip-dated trees \citep{ronquista2012} from \citet[][103 taxa with 446 morphological characters]{Slater2012MEE} and \citet[][102 taxa with 421 morphological characters]{beckancient2014}.
 We chose these two data sets because they have a similar number of taxa and morphological characters.
-\cite{Slater2012MEE} ranges from 310 million years ago (Mya; Late Carboniferous) to the present and focuses on the clade Mammaliaformes at the family-level.
-\cite{beckancient2014} ranges from 170 Mya (Middle Jurassic) to the present and focuses on Eutherians at the genus-level.
+\cite{Slater2012MEE} ranges from 310 million years ago (Ma; Late Carboniferous) to the present and focuses on the clade Mammaliaformes at the family-level.
+\cite{beckancient2014} ranges from 170 Ma (Middle Jurassic) to the present and focuses on Eutherians at the genus-level.
 We used the first and last occurrences reported in \cite{Slater2012MEE} and \cite{beckancient2014} as the temporal range of each taxon in our analysis.
 Both phylogenies are illustrated in the supplementary material (see Fig S1 and S2 @@@).
 
@@ -331,7 +331,7 @@ When the phylogenetic elements are branches we chose the eigenvector score for t
     We therefore considered that changes from a character state A to B where just dependant on the branch length.
 \end{enumerate}
 %What did we do (the main figure)
-We applied our time-slicing approach to the two cladisto-spaces calculated from \cite{Slater2012MEE} and \cite{beckancient2014}, time-slicing the phylogeny every five million years from 170 Mya to the present resulting in 35 sub-samples of the cladisto-space.
+We applied our time-slicing approach to the two cladisto-spaces calculated from \cite{Slater2012MEE} and \cite{beckancient2014}, time-slicing the phylogeny every five million years from 170 Ma to the present resulting in 35 sub-samples of the cladisto-space.
 For each sub-sample, we estimated its disparity assuming punctuated (ACCTRAN, DELTRAN and random) and gradual evolution as described above.
 To reduce the influence of outliers on our disparity estimates, we bootstrapped each disparity measurement by randomly re-sampling with replacement a new sub-sample of taxa from the observed taxa in the sub-sample 1000 times.
 We then calculated the median disparity value for each sub-sample along with the 50\% and the 95\% confidence intervals.
@@ -340,8 +340,8 @@ We also reported the number of phylogenetic elements (branches, nodes and tips) 
 Disparity may be higher in sub-samples with more phylogenetic elements simply because there are more taxa represented.
 To test whether our analyses were biased in this way, we rarefied our sub-samples during the bootstrap procedure by randomly re-sampling a fix number of taxa across each sub-sample.
 In \cite{Slater2012MEE}, the minimum number of taxa in each sub-sample from 170 to present was 8.
-In \cite{beckancient2014}, the minimum number of taxa however was 3, however, from 150 Mya until the present, the minimum number of taxa is 8.
-To make both data sets comparable, we used 8 as a minimum number of taxa for the rarefied bootstrap measurements in \cite{beckancient2014} ignoring therefore the sub-sample between 170 and 150 Mya.
+In \cite{beckancient2014}, the minimum number of taxa however was 3, however, from 150 Ma until the present, the minimum number of taxa is 8.
+To make both data sets comparable, we used 8 as a minimum number of taxa for the rarefied bootstrap measurements in \cite{beckancient2014} ignoring therefore the sub-sample between 170 and 150 Ma.
 We report both results of the bootstrapped measurements and the rarefied bootstrap measurements.
 
 To compare our results to previous studies we also repeated our analyses using the time interval approache based on biostratigraphy \citep[e.g.][]{cisneros2010,prentice2011,Hughes20082013,bentonmodels2014} using each geological stage from the Middle Jurassic to the present.
@@ -351,7 +351,7 @@ We report the results of these analyses in the Supplementary Materials (@@@). % 
 Finally, to assess if the K-Pg boundary had a significant effect on mammals disparity, we performed \cite{permanova}'s Permutational Analysis of Variance \citep[also referred to as PERMANOVA or NPANOVA; e.g.][]{brusatte50,ruta2013} to test whether there was a significant effect of time on our calculated disparity.
 We calculated the euclidean distance of the ordinated data with 1000 permutations on both data sets and on both evolutionary scenario using the \texttt{adonis} function from the \texttt{R} package \texttt{vegan} \citep{vegan}.
 When a significant effect of time on disparity was measured, we ran a series of \textit{post-hoc} t-test between the time sub-samples \citep{anderson2012using,zelditch2012geometric,smith2014joined} to test whether there was a significant effect between of the K-Pg boundary.
-We measured the difference between the last sub-sample of the Cretaceous (65 Mya) to all the slices of the Cenozoic to test whether there was either:
+We measured the difference between the last sub-sample of the Cretaceous (65 Ma) to all the slices of the Cenozoic to test whether there was either:
 \begin{enumerate}
     \item{no effect of the K-Pg event: no significant difference between the last Cretaceous sub-sample and any of the Cenozoic sub-samples.}
     \item{a direct effect of the K-Pg event: significant difference between the last Cretaceous sub-sample and the first Cenozoic sub-sample.}
@@ -387,19 +387,19 @@ For the Mammaliaformes data set under gradual evolution model, there was no sign
 \begin{figure}[!htbp]
 \centering
     \includegraphics[keepaspectratio=true]{Figures/Main_results.pdf}
-\caption{Observed variations of disparity through time among Eutherian and Mammaliaformes under punctuated or gradual evolution model. The x axis represents the time in Million of years ago (Mya). The y axis represents the disparity measured as the median distance from centroid per sub-sample. The solid black lines is the mean disparity from the bootstrapped pseudo-replicates; the confidence intervals (CI) are represent by the grey polygons (50\% CI in dark grey and 95\% CI in light grey). The dashed line represent the species richness in each sub-sample (values are reported on the right hand side of each graphs). The red vertical line represents the K-Pg boundary (66 Mya).}
+\caption{Observed variations of disparity through time among Eutherian and Mammaliaformes under punctuated or gradual evolution model. The x axis represents the time in Million of years ago (Ma). The y axis represents the disparity measured as the median distance from centroid per sub-sample. The solid black lines is the mean disparity from the bootstrapped pseudo-replicates; the confidence intervals (CI) are represent by the grey polygons (50\% CI in dark grey and 95\% CI in light grey). The dashed line represent the species richness in each sub-sample (values are reported on the right hand side of each graphs). The red vertical line represents the K-Pg boundary (66 Ma).}
 \label{fig:Fig_Raw_results}
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
     \includegraphics[keepaspectratio=true]{Figures/Main_results_rarefied.pdf}
-\caption{Rarefied variations of disparity through time among Eutherian and Mammaliaformes under punctuated or gradual evolution model. The x axis represents the time in Million of years ago (Mya). The y axis represents the disparity measured as the median distance from centroid per sub-sample. The solid black lines is the mean disparity from the bootstrapped pseudo-replicates; the confidence intervals (CI) are represent by the grey polygons (50\% CI in dark grey and 95\% CI in light grey). The dashed line represent the species richness in each sub-sample (values are reported on the right hand side of each graphs). The red vertical line represents the K-Pg boundary (66 Mya).}
+\caption{Rarefied variations of disparity through time among Eutherian and Mammaliaformes under punctuated or gradual evolution model. The x axis represents the time in Million of years ago (Ma). The y axis represents the disparity measured as the median distance from centroid per sub-sample. The solid black lines is the mean disparity from the bootstrapped pseudo-replicates; the confidence intervals (CI) are represent by the grey polygons (50\% CI in dark grey and 95\% CI in light grey). The dashed line represent the species richness in each sub-sample (values are reported on the right hand side of each graphs). The red vertical line represents the K-Pg boundary (66 Ma).}
 \label{fig:Fig_Rar_results}
 \end{figure}
 
 \begin{landscape}
-\begin{table}[ht]
+\begin{table}[!ht]
 \caption{Permanova results of testing the effect of time on the ordinated distance matrix using euclidean distance with 1000 permutations. Data: Eutherian \citep[data from][]{beckancient2014}; Mammaliaformes, \citep[data from][]{Slater2012MEE}. Model: evolutionary model. Significant effects are highlighted in bold: one star (*) signifies a p-value between 0.05 and 0.005; two starts between 0.005 and 0.0005 and three stars $<$ 0.0005.} %Or just say three stars since it's the only results?
 \label{tab:Tab_permanova}
 \centering
@@ -422,14 +422,14 @@ Mammaliaformes & gradual    & time      & 34  & 6525.61  & 191.930 & 1.1660 & 0.
 
 
 %TG: don't know why these tables are sent to the end of the document...
-\begin{table}[ht]
-\caption{Results of the \textit{post-hoc} t-tests for comparing the disparity at the last sub-sample of the Cretaceous (65 Mya) to all the sub-samples of the Cenozoic for the Eutherians \citep[data from][]{beckancient2014}. Sub-samples: reference sample (65 Million years ago; Mya) to Cenozoic sample (from 60 Mya to present). Gradual: gradual evolution; punctuated: punctuated evolution. Difference: mean sub-sample difference; Df: degrees of freedom; T: T statistic; p-value: adjusted p-value using Holm-Bonferroni correction. Significant differences are highlighted in bold: one star (*) signifies a p-value between 0.05 and 0.005; two starts between 0.005 and 0.0005 and three stars $<$ 0.0005.}
+\begin{table}[!ht]
+\caption{Results of the \textit{post-hoc} t-tests for comparing the disparity at the last sub-sample of the Cretaceous (65 Ma) to all the sub-samples of the Cenozoic for the Eutherians \citep[data from][]{beckancient2014}. Sub-samples: reference sample (65 Million years ago; Ma) to Cenozoic sample (from 60 Ma to present). Gradual: gradual evolution; punctuated: punctuated evolution. Difference: mean sub-sample difference; Df: degrees of freedom; T: T statistic; p-value: adjusted p-value using Holm-Bonferroni correction. Significant differences are highlighted in bold: one star (*) signifies a p-value between 0.05 and 0.005; two starts between 0.005 and 0.0005 and three stars $<$ 0.0005.}
 \label{tab:Tab_beck_raw}
 \centering
 \begin{tabular}{r|ccccl|ccccl}
   \hline
   Sub-samples & \multicolumn{5}{c|}{Gradual} & \multicolumn{5}{c}{Punctuated} \\
-  (Mya) & Difference & Df & T & p.value & & Difference & Df & T & p.value &\\ 
+  (Ma) & Difference & Df & T & p.value & & Difference & Df & T & p.value &\\ 
   \hline
   65:60 & 0.06 & 76 & 1.055 & 1      & & 0.04 & 76 & 0.760 & 1      &\\ 
   65:55 & 0.05 & 75 & 0.999 & 1      & & 0.16 & 75 & 3.145 & \textbf{0.0310} & \textbf{*} \\ 
@@ -448,14 +448,14 @@ Mammaliaformes & gradual    & time      & 34  & 6525.61  & 191.930 & 1.1660 & 0.
 \end{tabular}
 \end{table}
 
-\begin{table}[ht]
-\caption{Results of the \textit{post-hoc} t-tests for comparing the disparity at the last sub-sample of the Cretaceous (65 Mya) to all the sub-samples of the Cenozoic for the rarefied Eutherians \citep[data from][]{beckancient2014}. Column heads explained same as given in Table ~\ref{tab:Tab_beck_raw}.}
+\begin{table}[!ht]
+\caption{Results of the \textit{post-hoc} t-tests for comparing the disparity at the last sub-sample of the Cretaceous (65 Ma) to all the sub-samples of the Cenozoic for the rarefied Eutherians \citep[data from][]{beckancient2014}. Column heads explained same as given in Table ~\ref{tab:Tab_beck_raw}.}
 \label{tab:Tab_beck_rar}
 \centering
 \begin{tabular}{r|cccc|cccc}
   \hline
   Sub-samples & \multicolumn{4}{c|}{Gradual} & \multicolumn{4}{c}{Punctuated} \\
-  (Mya) & Difference & Df & T & p.value & Difference & Df & T & p.value \\ 
+  (Ma) & Difference & Df & T & p.value & Difference & Df & T & p.value \\ 
   \hline
   65:60 & 0.04  & 76 & 0.218  & 1 & 0.01 & 76 & 0.064 & 1 \\ 
   65:55 & 0.04  & 75 & 0.213  & 1 & 0.14 & 75 & 0.797 & 1 \\ 
@@ -475,14 +475,14 @@ Mammaliaformes & gradual    & time      & 34  & 6525.61  & 191.930 & 1.1660 & 0.
 \end{table}
 
 
-\begin{table}[ht]
-\caption{Results of the \textit{post-hoc} t-tests for comparing the disparity at the last sub-sample of the Cretaceous (65 Mya) to all the sub-samples of the Cenozoic for the Mammaliaformes \citep[data from][]{Slater2012MEE} under gradual evolution model. Raw data: data without correcting for taxonomic diversity; Rarefied data: rarefied bootstrapped data. Other column heads explained same as given in Table \ref{tab:Tab_beck_raw}.}
+\begin{table}[!ht]
+\caption{Results of the \textit{post-hoc} t-tests for comparing the disparity at the last sub-sample of the Cretaceous (65 Ma) to all the sub-samples of the Cenozoic for the Mammaliaformes \citep[data from][]{Slater2012MEE} under gradual evolution model. Raw data: data without correcting for taxonomic diversity; Rarefied data: rarefied bootstrapped data. Other column heads explained same as given in Table \ref{tab:Tab_beck_raw}.}
 \label{tab:Tab_slater}
 \centering
 \begin{tabular}{r|cccc|cccc}
   \hline
   Sub-samples & \multicolumn{4}{c|}{Raw data} & \multicolumn{4}{c}{Rarefied data} \\
-  (Mya) & Difference & Df & T & p.value & Difference & Df & T & p.value \\ 
+  (Ma) & Difference & Df & T & p.value & Difference & Df & T & p.value \\ 
   \hline
   65:60 & 0.49  & 19 & 0.826  & 1      & 0.26  & 19 & 0.365  & 1 \\ 
   65:55 & 0.45  & 20 & 0.734  & 1      & 0.31  & 20 & 0.428  & 1 \\ 
@@ -510,7 +510,7 @@ Mammaliaformes & gradual    & time      & 34  & 6525.61  & 191.930 & 1.1660 & 0.
 \section{Discussion}
 Our results show that there is a significant effect of time on changes in disparity under the assumption of gradual evolution in Mammaliaformes and Eutherians as well as under the assumption of punctuated evolution for Eutherians (Table \ref{tab:Tab_permanova}).
 However, regardless the taxonomic level (i.e. family \textit{vs.} genus) and regardless the evolutionary model (i.e. gradual or punctuated evolution), there is no significant difference in disparity between the latests Cretaceous sub-sample and any of the Cenozoic sub-samples (Fig \ref{fig:Fig_Rar_results}).
-In fact the disparity seems to reach a plateau at the end of the Jurassic (150 Mya) for Eutherians and during the late Triassic (Norian; 220 Mya) for the Mammaliaformes and stays relatively constant after that (see Fig \ref{fig:Fig_Rar_results} and S4 @@@).
+In fact the disparity seems to reach a plateau at the end of the Jurassic (150 Ma) for Eutherians and during the late Triassic (Norian; 220 Ma) for the Mammaliaformes and stays relatively constant after that (see Fig \ref{fig:Fig_Rar_results} and S4 @@@).
 These results shows that, within the frame of our data-sets, we did not detect any short term or long term effect of the K-Pg event on mammalian disparity.
 Therefore, we argue that the extinction of the many terrestrial vertebrates (namely non-avian dinosaurs) at the K-Pg boundary did not directly affected mammals evolution during the Cenozoic, or at least their morphological diversity.
 % TG: just a thought: actually this is pretty intuitive. Even if the Cenozoic display the emergence of some crazy shapes (i.e. wales and bats), most of the stuff are just rats-like creatures that where apparently already well settled deep in the Jurassic.
@@ -536,8 +536,8 @@ Besides, few caveats can be underlined.  % TG: Bleuah. When will we be able to d
 
 %Caveats
 Firstly, both our data sets are limited.
-They do not represent the full known mammalian taxonomic diversity, especially during the Neogene (23--2.58 Mya) where no fossils were represented in both data sets.
-However, this might not cause a serious under-sampling problem, at least in the Mammaliaformes dataset, since their diversity peaked during the late Cretaceous \citep[Campanian; 72.1--83.6 Mya; ][]{Newham201432}.
+They do not represent the full known mammalian taxonomic diversity, especially during the Neogene (23--2.58 Ma) where no fossils were represented in both data sets.
+However, this might not cause a serious under-sampling problem, at least in the Mammaliaformes dataset, since their diversity peaked during the late Cretaceous \citep[Campanian; 72.1--83.6 Ma; ][]{Newham201432}.
 Additionally \cite{Raia2012} have shown that mammalian diversification rates declined throughout the whole Cenozoic.
 In our study, these findings could suggest that an effect of the K-Pg boundary would be more likely detected during the Palaeogene when mammalian diversification rates where still high.
 Also, both data sets contains cladistic data for only a few living mammals which can also have a effect of topological accuracy \citep{GuillermeCooper,MissingMammals}.
