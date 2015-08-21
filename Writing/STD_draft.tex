@@ -163,16 +163,17 @@ The long-term effects of mass extinctions, however, are more varied \citep{Erwin
 These shifts are characterized by the decline of one clade that is replaced by a different unrelated clade with a similar ecological role (e.g. Brachiopoda and Bivalvia at the end Permian extinction; \citealt{Sepkiski1981,CLAPHAM01102006} but see \citealt{Payne22052014}). 
 Shifts in ecological dominance are of particular interest because they are a fairly common pattern observed in the fossil record (e.g. Foraminifera; \citealt{D'Hondt01011996,Coxall01042006}; Ichtyosauria; \citealt{thorneresetting2011}; Plesiosauria; \citealt{bensonfaunal2014}) and are often linked to major macroevolutionary processes such as adaptive \citep{Losos2010} or competitive \citep{Brusatte12092008} radiations.
 
+% NC: Probably want to add a citation to Benton's new (crappy) paper here somewhere. 
+
 % 2§ explaining the rise of the age of the mammals view.
 One classical example of a shift in ecological dominance is at the Cretaceous-Palaeogene (K-Pg) mass extinction 66 million years ago \citep{rennetime2013}, where many terrestrial vertebrates (including the dominant non-avian dinosaur group; \citealt{archibald2011extinction,rennetime2013,Brusatte2015}) went extinct, allowing placental mammals to dominate the fauna \citep[][; the ``rise of the age of mammals'']{archibald2011extinction,Lovergrove}. 
-% NC: These two paragraphs said the same thing so I've condensed it (though it meant I had to remove your sarcastic "rise of the age of the mammals"). TG: maybe add it in brackets?
+% NC: These two paragraphs said the same thing so I've condensed it (though it meant I had to remove your sarcastic "rise of the age of the mammals"). TG: maybe add it in brackets? NC: I think leave it out for now.
 Some authors suggest this reflects placental mammals filling the ``empty'' niches left after the K-Pg extinction event \citep{archibald2011extinction}, others suggest it reflects a release from predation and/or competition \citep{Lovergrove}.
 However, evidence for the diversification of placental mammals being driven by the K-Pg extinction event is mixed.
 Thorough analysis of the fossil record \citep[e.g.][]{goswamia2011,O'Leary08022013} supports the idea that placental mammals diversified after the K-Pg extinction event as there are no undebated placental mammal fossils before it and many afterwards \citep{archibald2011extinction,goswamia2011,Slater2012MEE,O'Leary08022013,Wilson2013,Brusatte2015}. 
 Conversely, evidence from molecular data suggests that the diversification of placental mammals started prior to the K-Pg extinction event without being drastically affected by it (e.g. \citealt{Douady2003285,bininda2007delayed,meredithimpacts2011,Stadler12042011}).
 Therefore, whether the diversification of placental mammals began before the K-Pg extinction event, or in response to the extinctions at K-Pg, is a matter of great debate \citep{dosReis2012,O'Leary08022013,Springer09082013,O’Leary09082013,dosReis2014}. 
 
-% NC: I'm not sure the bullets are working, because really what you need to say is that here are the problems, and here is how we fix them. Instead you've got these disjointed links. So I've rearranged it a bit.
 There are two main reasons why there is still debate about the timing of the diversification of placental mammals. 
 Firstly, palaeontological and neontological data show different patterns; palaeontological data generally suggest that placental mammals diversified after K-Pg \citep[e.g.][]{O'Leary08022013}, whereas neontological data suggest that K-Pg extinction event had little to no effect on mammalian diversification \citep{bininda2007delayed,meredithimpacts2011,Stadler12042011}.
 We can solve this issue by using both palaeontological and neontological data in our analyses. 
@@ -190,9 +191,6 @@ Here we use two recent Total Evidence tip-dated phylogenies of mammals \citep{Sl
 A second issue is that diversity can be defined in many different ways.
 In many studies it is measured as taxonomic diversity or species richness \citep{Stadler12042011,meredithimpacts2011,O'Leary08022013}, but often the more interesting aspect of diversity is related to the ecological niches the species occupy \citep{Wesley-Hunt2005,Brusatte12092008,toljagictriassic-jurassic2013}, particularly if we want to make hypotheses about macroevolutionary processes \citep{Pearman2008149,OlsonRadiation,Losos2010,glor2010phylogenetic}.
 Sometimes taxonomic diversity is used as a proxy for other kinds of diversity, however, species richness can be decoupled from morphological diversity \citep{slaterCetacean,ruta2013,hopkinsdecoupling2013}, so it may not be the best proxy for ecological diversity.
-    % NC: Not sure of the logic of this example. Graham doesn't *show* that body mass is better than species richness. He chose body mass because that's what interests him. So it doesn't really support your point.
-    %For example in \cite{Slater2012MEE}, the diversity of mammalian body mass is studied instead of species richness.
-    %In this particular case, body mass diversity rather than species diversity can be a better proxy for describing mammalian diversity.
 We can instead use morphological diversity, also known as disparity \citep[e.g.][]{Wills1994,Erwin2007,Hughes20082013}, as a way to quantify changes in mammalian morphology that should relate to the ecology of the species.
     % 6§ But disparity is outdated
 However some methods for measuring disparity are outdated and make inappropriate assumptions.
@@ -208,7 +206,7 @@ Finally, to test whether mammals display significant changes in disparity after 
 We find no significant changes in mammalian disparity between the end of the Cretaceous and any time during the Cenozoic.
 These results suggest that the extinction of non-avian dinosaurs and other terrestrial vertebrate clades at the end of the Cretaceous did not affect mammalian morphological evolution.
 
-
+% NC: Probably needs a bit of rewriting here to explain why it is so novel and awesome.
 %---------------------------------------------
 %
 %       METHODS
@@ -226,7 +224,7 @@ We used the first and last occurrences reported in \cite{Slater2012MEE} and \cit
 Both phylogenies are illustrated in the supplementary material (see Fig S1 and S2 @@@).
 
 \subsection{Estimating ancestral character states}
-For both datasets we used the re-rooting method \citep{Yang01121995,Garland2000} to get Maximum Likelihood estimates of the ancestral states for each character at every node in the tree, using the \texttt{rerootingMethod} function from the \texttt{R} package \texttt{phytools} \citep[version 0.4-45;][]{phytools,R}.
+For both datasets we used the re-rooting method \citep{Yang01121995,Garland2000} to get Maximum Likelihood estimates of the ancestral states for each character at every node in the tree, using the \texttt{rerootingMethod} function from the \texttt{R} package \texttt{phytools} version 0.4-45 \citep{phytools,R}.
 Where there was missing character data for a taxon we followed the method of \cite{Claddis} and treated missing data as any possible observed state for each character.
 For example, if a character had two observed states ($0$ and $1$) across all taxa, we attributed the multi-state ``$0$\&$1$" value to the taxon with missing data, representing an equal probability of being either $0$ or $1$.
 This allows the ancestral node of a taxon with missing data to be estimated with no assumptions other than that the taxon has one of the observed character states.
@@ -234,13 +232,13 @@ To prevent poor ancestral state reconstructions from biasing our results, especi
 Ancestral state reconstructions with scaled Likelihoods below this threshold were replaced by missing data (``?'').
 
 \subsection{Building the cladisto-space}
-To explore variations in mammalian disparity through time (defined here as the variation in morphologies through time), we use a cladisto-space approach \citep[e.g.][]{Foote01071994,Foote29111996,Wesley-Hunt2005,Brusatte12092008,friedmanexplosive2010,toljagictriassic-jurassic2013,Hughes20082013}.
+To explore variations in mammalian disparity through time (defined here as the variation in morphologies through time), we used a cladisto-space approach \citep[e.g.][]{Foote01071994,Foote29111996,Wesley-Hunt2005,Brusatte12092008,friedmanexplosive2010,toljagictriassic-jurassic2013,Hughes20082013}.
 This approach is similar to constructing a morphospace based on continuous morphological data \citep[e.g.][]{friedmanexplosive2010}, except a cladisto-space is an approximation of the morphospace based on cladistic data (i.e. the discrete morphological characters used to build a phylogenetic tree).
 Mathematically, a cladisto-space is an $n$ dimensional object that summarizes the cladistic distances between the taxa present in a cladistic matrix (see details below).
 \cite{foth2012different} and \cite{hetherington2015cladistic} have empirically shown inter-taxon distances are not different in a morphospace or a cladisto-space.
 However, we prefer referring to this object as a cladisto-space to make it clear that this space is estimated using cladistic data and not morphometric data and because both objects have slightly different properties.
 In fact, because of its inherent combinatory properties, a cladisto-space is a finite theoretical object limited by the product of the number of character states (c.f. the morphospace that is an infinite theoretical object). %TG: I think this is a nice semantic justification for using the word cladisto-space rather than morphospace. Heterington et al show that they measure the same things biologically but by definition, they are different because one is finite and the other not.
-Thus a cladisto-space will be overloaded if the number of taxa is higher than the product of the number of character states, although this is rarely an issue with empirical data (our cladisto-spaces have maximal capacities of $1.9$$\times$$10^{181}$ taxa; \citealp{Slater2012MEE}, and $4.5$$\times$$10^{159}$ taxa; \citealp{beckancient2014}). % TG: that's 101 order of magnitudes higher than the number of particles in the universe for Slater's data set. Big numbers are cool!
+Thus a cladisto-space will be overloaded if the number of taxa is higher than the product of the number of character states, although this is rarely an issue with empirical data (our cladisto-spaces have maximal capacities of $1.9$$\times$$10^{181}$ taxa, i.e. 101 orders of magnitude more taxa than the number of particles in the universe; \citealp{Slater2012MEE}, and $4.5$$\times$$10^{159}$ taxa; \citealp{beckancient2014}). % TG: that's 101 order of magnitudes higher than the number of particles in the universe for Slater's data set. Big numbers are cool! % NC: Wow, you should add that in!
 
 To estimate the cladisto-spaces for each of our datasets we first constructed pairwise distance matrices of length $k$, where $k$ is the total number of taxa in the dataset. 
 For each dataset separately, we calculated the $k$$\times$$k$ distances using the Gower distance \citep{Gower71}, i.e. the Euclidean distance between two taxa divided by the number of shared characters. 
@@ -248,28 +246,26 @@ This allows us to correct for distances between two taxa that share many charact
 For cladistic matrices, using this corrected distance is preferable to the raw Euclidean distance because of its ability to deal with discrete or/and ordinated characters as well as with missing data \citep{anderson2012using}.
 However, the Gower distance cannot calculate distances when taxa have no overlapping data.
 Therefore, we used the \texttt{TrimMorphDistMatrix} function from the \texttt{Claddis} R package \citep{Claddis} to remove pairs of taxa with no cladistic characters in common.
-This led us to remove 11 taxa from \cite{Slater2012MEE} but none from \cite{beckancient2014}.
+This led to us removing 11 taxa from \cite{Slater2012MEE} but none from \cite{beckancient2014}.
 % TG: I rewrote it this way to sound less dramatic.
 %92/103 % NC : Wow your analyses aren't based on many taxa! - TG: I know, I'm more and more consirdering that that might be picked up by the reviewers. However that's just the sad reality here and for many of these projects: we're limited by the number of taxa palaeontologists coded. And yes it's actually miserably low (note that these are the two of the 'biggest' total evidence trees! check here: http://tguillerme.github.io/trees for example of number of taxa - and that includes living species with only molecular data)).
-
+% NC: It's possibly worth explicitly stating this somewhere, maybe in the introduction?
 
 %\subsubsection{Ordination}
 After calculating our distance matrices we transformed them using classical multidimensional scaling \citep[MDS;][]{torgerson1965multidimensional,GOWER01121966,cailliez1983analytical}.
 This method (also referred to as PCO; e.g. \citealt{Brusatte2015}; or PCoA; e.g. \citealt{paradisape:2004}) is an eigen decomposition of the distance matrix.
 Because we used Gower distances instead of raw Euclidean distances, negative eigenvalues can be calculated.
 To avoid this problem, we first transformed the distance matrices by applying the Cailliez correction \citep{cailliez1983analytical} which adds a constant $c^*$ to the values in a distance matrix (apart from the diagonal) so that all the Gower distances become Euclidean ($d_{Gower}+c^*=d_{Euclidean}$; \citealt{cailliez1983analytical}). 
-% NC: It doesn't need any more explanation than this, the equation is helpful so that we know where c* comes from. Might need to be more specific in the thesis that you solve for c*.
-We were then able to extract $n$ eigenvectors for each matrix (representing the $n$ dimensions of the cladisto-space) where $n$ is equal to $k-2$, i.e. the number of taxa in the matrix ($k$) minus the two last eigenvector which are always null after applying the Cailliez correction.
-Contrary to previous studies \citep[e.g][]{brusatte50,cisneros2010,prentice2011,anderson2012using,Hughes20082013,bentonmodels2014}, we use all $n$ dimensions of our cladisto-spaces and not a sub-sample representing the majority of the variance in the distance matrix (e.g. selecting only $m$ dimensions that represent up to 90\% of the variance in the distance matrix; \citealt{Brusatte12092008,toljagictriassic-jurassic2013}).
+We were then able to extract $n$ eigenvectors for each matrix (representing the $n$ dimensions of the cladisto-space) where $n$ is equal to $k-2$, i.e. the number of taxa in the matrix ($k$) minus the last two eigenvectors that are always null after applying the Cailliez correction.
+Contrary to previous studies \citep[e.g][]{brusatte50,cisneros2010,prentice2011,anderson2012using,Hughes20082013,bentonmodels2014}, we use all $n$ dimensions of our cladisto-spaces and not a subsample representing the majority of the variance in the distance matrix (e.g. selecting only $m$ dimensions that represent up to 90\% of the variance in the distance matrix; \citealt{Brusatte12092008,toljagictriassic-jurassic2013}).
 
 Note that our cladisto-spaces represent an ordination of all possible mammalian morphologies coded in each study through time.
 It is unlikely that all morphologies will co-occur at each time point, therefore, the disparity of the whole cladisto-space is expected to be $\geq$ the disparity at any specific point in time.
-% NC: Much better
 
 \subsection{Calculating disparity}
 Disparity can be estimated in many different ways \citep[e.g.][]{Wills1994,Ciampaglio2004,thorneresetting2011,hopkinsdecoupling2013,huang2015origins}, however most studies estimate disparity using four metrics: the sum and products of ranges and variances, each of which gives a slightly different estimate of how the data fits within the cladisto-space \citep{Foote01071994,Wills1994,brusatte50,Brusatte12092008,cisneros2010,thorneresetting2011,prentice2011,brusattedinosaur2012,toljagictriassic-jurassic2013,ruta2013,bentonmodels2014,bensonfaunal2014}.
-The sum and products of ranges and variances are based on the ranges and variances of the eigenvectors calculated from a distance matrix. % TG: is it true also with the sum/prod of ranges? Are the ranges not independent? % NC: No idea!
-However, these metrics do not take into account the covariance among eigenvectors. % TG: I think I need a bit of chat with Dr Jackson here. He's statement that sum of variance is not correct because it ignores covariance might be actually not a good argument. He's still right but in practice, the covariance between the eigenvectors seems to be always 0 (because each axis are orthogonal to each other). It doesn't change anything for our story but it might be good to no state that these variance calculations are wrong if they are ok (in practice, again, in theory, they remain wrong).
+The sum and products of ranges and variances are based on the ranges and variances of the eigenvectors calculated from a distance matrix. 
+However, these metrics do not take into account the covariance among eigenvectors. % TG: I think I need a bit of chat with Dr Jackson here. He's statement that sum of variance is not correct because it ignores covariance might be actually not a good argument. He's still right but in practice, the covariance between the eigenvectors seems to be always 0 (because each axis are orthogonal to each other). It doesn't change anything for our story but it might be good to no state that these variance calculations are wrong if they are ok (in practice, again, in theory, they remain wrong). % NC: Up to you. You could cut this whole section and just say we use centroids like Wills to estimate disparity.
 This is only statistically valid if the eigenvectors are independent.
 In multidimensional scaling, all $n$ eigenvectors are calculated from the same distance matrix and are therefore not independent, thus covariances among eigenvectors should be included when estimating disparity.
 Furthermore, range metrics are also strongly affected by the uneven sampling of the fossil record \citep{Butler2012}
@@ -292,12 +288,12 @@ where:
     \label{centroid}
 \end{equation}
 
-% NC: Check and recheck this equation. TG: triple checked
-% NC: Above and below: $kn$ or $k_{n}$? TG: just k.
+% NC: I'm not sure why it's vni, rather than just vi. We should discuss. Also I'm not liking Md as a symbol, it's not really standard in this literature.
+
 \noindent
-$k$ is the size of the distance matrix (i.e. the total number of taxa), $\mathbf{v}_{n}$ is any of the $n$ eigenvectors (i.e. any of the $n$ dimension of the cladisto-space), % $\mathbf{v}_{n_{i}}$ is the score for each taxa for $\mathbf{v}_{n}$ % TG: or is the part "Sum from i to k" in the equation sufficient to explain that?
-$Centroid_{n}$ is the centroid euclidean distance of the $n^{th}$ eigenvector (equation \ref{centroid}) and $Md$ is the median value of the distance from centroid (equation \ref{disparity}).
-Note that we also calculated the sum and products of ranges and variances in the supplementary material (@@@). % link to supp.
+$k$ is the size of the distance matrix (i.e. the total number of taxa), $\mathbf{v}_{n}$ is any of the $n$ eigenvectors (i.e. any of the $n$ dimension of the cladisto-space), % $\mathbf{v}_{n_{i}}$ is the score for each taxa for $\mathbf{v}_{n}$ % TG: or is the part "Sum from i to k" in the equation sufficient to explain that? % NC: This is a bit confusingly explained, let's discuss.
+$Centroid_{n}$ is the centroid Euclidean distance of the $n^{th}$ eigenvector (equation \ref{centroid}) and $Md$ is the median value of the distance from centroid (equation \ref{disparity}).
+Note that we also calculated the sum and products of ranges and variances and refer to these results in the supplementary material (@@@). % link to supp.
 
 \subsection{Estimating disparity through time} 
 Changes in disparity through time are generally investigated by calculating the disparity of taxa that occupy the cladisto-space during specific time intervals \citep[e.g][]{cisneros2010,prentice2011,Hughes20082013,hopkinsdecoupling2013,bentonmodels2014,bensonfaunal2014}.
@@ -306,8 +302,8 @@ However, this approach suffers from two main biases.
 First, if biostratigraphy is used to determine the time intervals, disparity may be distorted towards higher differences between time intervals because biostratigraphical periods are geologically defined based on differences in the morphology of fossils found in the different strata.
 Second, this approach assumes that all characters evolve following a punctuated equilibrium model, because disparity is only estimated once for each interval resulting in all changes in disparity occurring between intervals, rather than also allowing for gradual changes within intervals \citep{Hunt21042015}.
 
-To address these issues, we use a ``time-slicing'' approach that considers subsets of taxa in the cladisto-space at specific equidistant points in time, as opposed to considering subsets of taxa between two points in time.
-This results in even-sampling of the cladisto-space across time and permits us to define the underlying model of character evolution (such as punctuated or gradual).  
+To address these issues, we used a ``time-slicing'' approach that considers subsets of taxa in the cladisto-space at specific equidistant points in time, as opposed to considering subsets of taxa between two points in time.
+This results in even-sampling of the cladisto-space across time and permits us to define the underlying model of character evolution (punctuated or gradual).  
 In practice, time-slicing considers the disparity of any element present in the phylogeny (branches, nodes and tips) at any point in time.
 When the phylogenetic elements are nodes or tips, the eigenvector scores for the nodes (estimated using ancestral state reconstruction as described above) or tips are directly used for estimating disparity.
 When the phylogenetic elements are branches we chose the eigenvector score for the branch using one of two evolutionary models:
@@ -317,47 +313,52 @@ When the phylogenetic elements are branches we chose the eigenvector score for t
     Similarly to the time interval approach, this reflects a model of punctuated evolution where changes in disparity occur either at the start or at the end of a branch over a relatively short time period and clades undergo a long stasis period during their evolution \citep{Gould1977,Hunt20112007}.
     We applied this model in three ways: 
     \begin{enumerate}[(i)]
-      \item selecting the eigenvector score of the ancestral node of the branch
-      \item selecting the eigenvector score of the descendant node/tip of the branch
-      \item randomly selecting either the eigenvector score of the ancestral node or the descendant node/tip of the branch
+      \item selecting the eigenvector score of the ancestral node of the branch.
+      \item selecting the eigenvector score of the descendant node/tip of the branch.
+      \item randomly selecting either the eigenvector score of the ancestral node or the descendant node/tip of the branch.
     \end{enumerate}
-    Method (i) assumes that changes always occurs early on the branch (accelerated transition, ACCTRAN) and (ii) assumes that changes always occur later (delayed transition, DELTRAN).
+    Method (i) assumes that changes always occur early on the branch (accelerated transition, ACCTRAN) and (ii) assumes that changes always occur later (delayed transition, DELTRAN).
     We prefer not to make either assumption so we report the results from (iii), although the ACCTRAN and DELTRAN results are available in the Supplementary Information @@@. % link
     \item{\textbf{Gradual evolution.}}
     This model also selects the eigenvector score from either the ancestral node or the descendant node/tip of the branch, but the choice depends on the distance between the sampling time point and the end of the branch.
     If the sampling time point falls in the first half of the branch length the eigenvector score is taken from the ancestral node, conversely, if the sampling time point falls in the second half of the branch length the eigenvector score is taken from the descendant node/tip.
     This reflects a model of gradual evolution where changes in disparity are gradual and cumulative along the branch.
-    Under this model, the gradual changes could be either directional or random, however, directional evolution have been empiricaly shown to be rare \citep[only 5\% of the time][]{Hunt20112007}.
-    We therefore considered that changes from a character state A to B where just dependant on the branch length.
+    Under this model, the gradual changes could be either directional or random, however, directional evolution have been empirically shown to be rare \citep[only 5\% of the time][]{Hunt20112007}.
+    We therefore considered that changes from a character state A to B were only dependent on the branch length.
 \end{enumerate}
 %What did we do (the main figure)
-We applied our time-slicing approach to the two cladisto-spaces calculated from \cite{Slater2012MEE} and \cite{beckancient2014}, time-slicing the phylogeny every five million years from 170 Ma to the present resulting in 35 sub-samples of the cladisto-space.
-For each sub-sample, we estimated its disparity assuming punctuated (ACCTRAN, DELTRAN and random) and gradual evolution as described above.
-To reduce the influence of outliers on our disparity estimates, we bootstrapped each disparity measurement by randomly re-sampling with replacement a new sub-sample of taxa from the observed taxa in the sub-sample 1000 times.
-We then calculated the median disparity value for each sub-sample along with the 50\% and the 95\% confidence intervals.
+We applied our time-slicing approach to the two cladisto-spaces calculated from \cite{Slater2012MEE} and \cite{beckancient2014}, time-slicing the phylogeny every five million years from 170 Ma to the present resulting in 35 subsamples of the cladisto-space.
+For each subsample, we estimated its disparity assuming punctuated (ACCTRAN, DELTRAN and random) and gradual evolution as described above.
+To reduce the influence of outliers on our disparity estimates, we bootstrapped each disparity measurement by randomly resampling with replacement a new subsample of taxa from the observed taxa in the subsample 1000 times.
+We then calculated the median disparity value for each subsample along with the 50\% and the 95\% confidence intervals.
 
-We also reported the number of phylogenetic elements (branches, nodes and tips) in each sub-sample representing the observed taxonomic diversity.
-Disparity may be higher in sub-samples with more phylogenetic elements simply because there are more taxa represented.
-To test whether our analyses were biased in this way, we rarefied our sub-samples during the bootstrap procedure by randomly re-sampling a fix number of taxa across each sub-sample.
-In \cite{Slater2012MEE}, the minimum number of taxa in each sub-sample from 170 to present was 8.
-In \cite{beckancient2014}, the minimum number of taxa however was 3, however, from 150 Ma until the present, the minimum number of taxa is 8.
-To make both data sets comparable, we used 8 as a minimum number of taxa for the rarefied bootstrap measurements in \cite{beckancient2014} ignoring therefore the sub-sample between 170 and 150 Ma.
-We report both results of the bootstrapped measurements and the rarefied bootstrap measurements.
+We also recorded the number of phylogenetic elements (branches, nodes and tips) in each subsample representing the observed taxonomic diversity.
+Disparity may be higher in subsamples with more phylogenetic elements simply because there are more taxa represented.
+To test whether our analyses were biased in this way, we rarefied our subsamples during the bootstrap procedure by randomly resampling a fixed number of taxa across each subsample.
+In \cite{Slater2012MEE}, the minimum number of taxa in each subsample from 170 Ma to present was eight.
+In \cite{beckancient2014}, the minimum number of taxa in each subsample was three, however, from 150 Ma until the present, the minimum number of taxa is eight.
+To make both data sets comparable, we used eight as a minimum number of taxa for the rarefied bootstrap measurements, therefore in \cite{beckancient2014} we ignored the subsample between 170 and 150 Ma that only has three taxa.
+%We report both results of the bootstrapped measurements and the rarefied bootstrap measurements.
+% NC: No need to say you report it if it's in the results, only to link to supp mat
 
-To compare our results to previous studies we also repeated our analyses using the time interval approache based on biostratigraphy \citep[e.g.][]{cisneros2010,prentice2011,Hughes20082013,bentonmodels2014} using each geological stage from the Middle Jurassic to the present.
+To compare our results to previous studies we also repeated our analyses using the time interval approach based on biostratigraphy \citep[e.g.][]{cisneros2010,prentice2011,Hughes20082013,bentonmodels2014} using each geological stage from the Middle Jurassic to the present.
 We report the results of these analyses in the Supplementary Materials (@@@). % link
 
 %Testing the difference section
-Finally, to assess if the K-Pg boundary had a significant effect on mammals disparity, we performed \cite{permanova}'s Permutational Analysis of Variance \citep[also referred to as PERMANOVA or NPANOVA; e.g.][]{brusatte50,ruta2013} to test whether there was a significant effect of time on our calculated disparity.
-We calculated the euclidean distance of the ordinated data with 1000 permutations on both data sets and on both evolutionary scenario using the \texttt{adonis} function from the \texttt{R} package \texttt{vegan} \citep{vegan}.
-When a significant effect of time on disparity was measured, we ran a series of \textit{post-hoc} t-test between the time sub-samples \citep{anderson2012using,zelditch2012geometric,smith2014joined} to test whether there was a significant effect between of the K-Pg boundary.
-We measured the difference between the last sub-sample of the Cretaceous (65 Ma) to all the slices of the Cenozoic to test whether there was either:
+\subsection{Testing the effects of the K-Pg extinction on mammalian disparity} 
+To assess if the K-Pg extinction event had a significant effect on mammalian disparity, we first tested whether there was a significant effect of time on disparity using \cite{permanova}'s Permutational Analysis of Variance \citep[also referred to as PERMANOVA or NPANOVA; e.g.][]{brusatte50,ruta2013}.
+We calculated the Euclidean distance of the ordinated data with 1000 permutations on both datasets and on both evolutionary scenarios using the \texttt{adonis} function from the R package \texttt{vegan} \citep{vegan}.
+% NC: I feel like there are details missing here - what's the explanatory variable and the response etc. 
+
+When we found a significant effect of time on disparity % NC: Again there's a bit missing here but should be easy to fix.
+, we ran a series of \textit{post-hoc} t-tests among the time subsamples before and after the K-Pg boundary \citep{anderson2012using,zelditch2012geometric,smith2014joined} as follows.
+We measured the difference between the last subsample of the Cretaceous (65 Ma) to all the slices of the Cenozoic to test whether there was either:
 \begin{enumerate}
-    \item{no effect of the K-Pg event: no significant difference between the last Cretaceous sub-sample and any of the Cenozoic sub-samples.}
-    \item{a direct effect of the K-Pg event: significant difference between the last Cretaceous sub-sample and the first Cenozoic sub-sample.}
-    \item{a lag effect of the K-Pg event: a significant difference between the last Cretaceous sub-sample and some sub-samples during the Cenozoic.}
+    \item{no effect of the K-Pg event: no significant difference between the last Cretaceous subsample and any of the Cenozoic subsamples.}
+    \item{a direct effect of the K-Pg event: significant difference between the last Cretaceous subsample and the first Cenozoic subsample.}
+    \item{a lag effect of the K-Pg event: a significant difference between the last Cretaceous subsample and some subsamples during the Cenozoic.}
 \end{enumerate}
-Because these \textit{post-hoc} t-tests involve multiple p-values (13 comparisons), we corrected each p-value by multiplying them by the number of comparisons \citep[Holm-Bonferonni correction;][]{holm1979simple}.
+Because these \textit{post-hoc} t-tests involve multiple comparisons, we corrected each p-value by multiplying them by the number of comparisons \citep[Holm-Bonferonni correction;][]{holm1979simple}.
 
 
 % TG: I think the following part can go to the supplementaries. I know we discussed various test together (before vs. after KT; patterns of changes during the whole time; and lag test). However, I think the only test that answers our question is the lag effect o
@@ -369,6 +370,7 @@ Because these \textit{post-hoc} t-tests involve multiple p-values (13 comparison
 % Each of these test are detecting different aspects in changes in disparity.
 % The ``K-Pg test'' was chosen to detect an overall difference between the Mesozoic and the Cenozoic; the ``sequential test'' was chosen to describe the overall pattern of changes in disparity since the Jurassic; the ``lag test'' was chosen to detect any lag in potential changes in disparity after the K-Pg boundary event.
 
+% NC: I think the original plan was that we look at disparity through time AND the K-Pg effect. But if you want to focus on that question that's fine.
 %---------------------------------------------
 %
 %       RESULTS
@@ -380,21 +382,21 @@ Both data sets do display a change in taxonomic diversity after and before the K
 However, these variations in taxonomic diversity are not linked with changes in disparity (Fig \ref{fig:Fig_Rar_results}).
 In both data sets, we measured similar changes in morphological disparity in the last 170 Million years for both the full data sets and the rarefied data sets (Fig \ref{fig:Fig_Raw_results} and \ref{fig:Fig_Rar_results})
 We measured a significant effect of time on disparity in Eutherians under both gradual and punctuated evolution model and in Mammaliaformes only under the gradual evolution model only (Table \ref{tab:Tab_permanova}).
-For the Eutherians data set, we detected at least one significant difference between the disparity in the last sub-sample of the Cretaceous and any sub-sample of the Cenozoic suggesting an effect of the K-Pg boundary on disparity (Table \ref{tab:Tab_beck_raw}).
+For the Eutherians data set, we detected at least one significant difference between the disparity in the last subsample of the Cretaceous and any subsample of the Cenozoic suggesting an effect of the K-Pg boundary on disparity (Table \ref{tab:Tab_beck_raw}).
 However, once corrected for taxonomic diversity, we did not detect any significant difference, either under gradual or punctuated evolution model (Table \ref{tab:Tab_beck_rar}).
-For the Mammaliaformes data set under gradual evolution model, there was no significant difference between the disparity in the last sub-sample of the Cretaceous and any sub-sample of the Cenozoic in both the raw and the rarefied data (Table \ref{tab:Tab_slater}).
+For the Mammaliaformes data set under gradual evolution model, there was no significant difference between the disparity in the last subsample of the Cretaceous and any subsample of the Cenozoic in both the raw and the rarefied data (Table \ref{tab:Tab_slater}).
 
 \begin{figure}[!htbp]
 \centering
     \includegraphics[keepaspectratio=true]{Figures/Main_results.pdf}
-\caption{Observed variations of disparity through time among Eutherian and Mammaliaformes under punctuated or gradual evolution model. The x axis represents the time in Million of years ago (Ma). The y axis represents the disparity measured as the median distance from centroid per sub-sample. The solid black lines is the mean disparity from the bootstrapped pseudo-replicates; the confidence intervals (CI) are represent by the grey polygons (50\% CI in dark grey and 95\% CI in light grey). The dashed line represent the species richness in each sub-sample (values are reported on the right hand side of each graphs). The red vertical line represents the K-Pg boundary (66 Ma).}
+\caption{Observed variations of disparity through time among Eutherian and Mammaliaformes under punctuated or gradual evolution model. The x axis represents the time in Million of years ago (Ma). The y axis represents the disparity measured as the median distance from centroid per subsample. The solid black lines is the mean disparity from the bootstrapped pseudo-replicates; the confidence intervals (CI) are represent by the grey polygons (50\% CI in dark grey and 95\% CI in light grey). The dashed line represent the species richness in each subsample (values are reported on the right hand side of each graphs). The red vertical line represents the K-Pg boundary (66 Ma).}
 \label{fig:Fig_Raw_results}
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
     \includegraphics[keepaspectratio=true]{Figures/Main_results_rarefied.pdf}
-\caption{Rarefied variations of disparity through time among Eutherian and Mammaliaformes under punctuated or gradual evolution model. The x axis represents the time in Million of years ago (Ma). The y axis represents the disparity measured as the median distance from centroid per sub-sample. The solid black lines is the mean disparity from the bootstrapped pseudo-replicates; the confidence intervals (CI) are represent by the grey polygons (50\% CI in dark grey and 95\% CI in light grey). The dashed line represent the species richness in each sub-sample (values are reported on the right hand side of each graphs). The red vertical line represents the K-Pg boundary (66 Ma).}
+\caption{Rarefied variations of disparity through time among Eutherian and Mammaliaformes under punctuated or gradual evolution model. The x axis represents the time in Million of years ago (Ma). The y axis represents the disparity measured as the median distance from centroid per subsample. The solid black lines is the mean disparity from the bootstrapped pseudo-replicates; the confidence intervals (CI) are represent by the grey polygons (50\% CI in dark grey and 95\% CI in light grey). The dashed line represent the species richness in each subsample (values are reported on the right hand side of each graphs). The red vertical line represents the K-Pg boundary (66 Ma).}
 \label{fig:Fig_Rar_results}
 \end{figure}
 
@@ -423,12 +425,12 @@ Mammaliaformes & gradual    & time      & 34  & 6525.61  & 191.930 & 1.1660 & 0.
 
 %TG: don't know why these tables are sent to the end of the document...
 \begin{table}[!ht]
-\caption{Results of the \textit{post-hoc} t-tests for comparing the disparity at the last sub-sample of the Cretaceous (65 Ma) to all the sub-samples of the Cenozoic for the Eutherians \citep[data from][]{beckancient2014}. Sub-samples: reference sample (65 Million years ago; Ma) to Cenozoic sample (from 60 Ma to present). Gradual: gradual evolution; punctuated: punctuated evolution. Difference: mean sub-sample difference; Df: degrees of freedom; T: T statistic; p-value: adjusted p-value using Holm-Bonferroni correction. Significant differences are highlighted in bold: one star (*) signifies a p-value between 0.05 and 0.005; two starts between 0.005 and 0.0005 and three stars $<$ 0.0005.}
+\caption{Results of the \textit{post-hoc} t-tests for comparing the disparity at the last subsample of the Cretaceous (65 Ma) to all the subsamples of the Cenozoic for the Eutherians \citep[data from][]{beckancient2014}. Subsamples: reference sample (65 Million years ago; Ma) to Cenozoic sample (from 60 Ma to present). Gradual: gradual evolution; punctuated: punctuated evolution. Difference: mean subsample difference; Df: degrees of freedom; T: T statistic; p-value: adjusted p-value using Holm-Bonferroni correction. Significant differences are highlighted in bold: one star (*) signifies a p-value between 0.05 and 0.005; two starts between 0.005 and 0.0005 and three stars $<$ 0.0005.}
 \label{tab:Tab_beck_raw}
 \centering
 \begin{tabular}{r|ccccl|ccccl}
   \hline
-  Sub-samples & \multicolumn{5}{c|}{Gradual} & \multicolumn{5}{c}{Punctuated} \\
+  Subsamples & \multicolumn{5}{c|}{Gradual} & \multicolumn{5}{c}{Punctuated} \\
   (Ma) & Difference & Df & T & p.value & & Difference & Df & T & p.value &\\ 
   \hline
   65:60 & 0.06 & 76 & 1.055 & 1      & & 0.04 & 76 & 0.760 & 1      &\\ 
@@ -449,12 +451,12 @@ Mammaliaformes & gradual    & time      & 34  & 6525.61  & 191.930 & 1.1660 & 0.
 \end{table}
 
 \begin{table}[!ht]
-\caption{Results of the \textit{post-hoc} t-tests for comparing the disparity at the last sub-sample of the Cretaceous (65 Ma) to all the sub-samples of the Cenozoic for the rarefied Eutherians \citep[data from][]{beckancient2014}. Column heads explained same as given in Table ~\ref{tab:Tab_beck_raw}.}
+\caption{Results of the \textit{post-hoc} t-tests for comparing the disparity at the last subsample of the Cretaceous (65 Ma) to all the subsamples of the Cenozoic for the rarefied Eutherians \citep[data from][]{beckancient2014}. Column heads explained same as given in Table ~\ref{tab:Tab_beck_raw}.}
 \label{tab:Tab_beck_rar}
 \centering
 \begin{tabular}{r|cccc|cccc}
   \hline
-  Sub-samples & \multicolumn{4}{c|}{Gradual} & \multicolumn{4}{c}{Punctuated} \\
+  Subsamples & \multicolumn{4}{c|}{Gradual} & \multicolumn{4}{c}{Punctuated} \\
   (Ma) & Difference & Df & T & p.value & Difference & Df & T & p.value \\ 
   \hline
   65:60 & 0.04  & 76 & 0.218  & 1 & 0.01 & 76 & 0.064 & 1 \\ 
@@ -476,12 +478,12 @@ Mammaliaformes & gradual    & time      & 34  & 6525.61  & 191.930 & 1.1660 & 0.
 
 
 \begin{table}[!ht]
-\caption{Results of the \textit{post-hoc} t-tests for comparing the disparity at the last sub-sample of the Cretaceous (65 Ma) to all the sub-samples of the Cenozoic for the Mammaliaformes \citep[data from][]{Slater2012MEE} under gradual evolution model. Raw data: data without correcting for taxonomic diversity; Rarefied data: rarefied bootstrapped data. Other column heads explained same as given in Table \ref{tab:Tab_beck_raw}.}
+\caption{Results of the \textit{post-hoc} t-tests for comparing the disparity at the last subsample of the Cretaceous (65 Ma) to all the subsamples of the Cenozoic for the Mammaliaformes \citep[data from][]{Slater2012MEE} under gradual evolution model. Raw data: data without correcting for taxonomic diversity; Rarefied data: rarefied bootstrapped data. Other column heads explained same as given in Table \ref{tab:Tab_beck_raw}.}
 \label{tab:Tab_slater}
 \centering
 \begin{tabular}{r|cccc|cccc}
   \hline
-  Sub-samples & \multicolumn{4}{c|}{Raw data} & \multicolumn{4}{c}{Rarefied data} \\
+  Subsamples & \multicolumn{4}{c|}{Raw data} & \multicolumn{4}{c}{Rarefied data} \\
   (Ma) & Difference & Df & T & p.value & Difference & Df & T & p.value \\ 
   \hline
   65:60 & 0.49  & 19 & 0.826  & 1      & 0.26  & 19 & 0.365  & 1 \\ 
@@ -509,7 +511,7 @@ Mammaliaformes & gradual    & time      & 34  & 6525.61  & 191.930 & 1.1660 & 0.
 
 \section{Discussion}
 Our results show that there is a significant effect of time on changes in disparity under the assumption of gradual evolution in Mammaliaformes and Eutherians as well as under the assumption of punctuated evolution for Eutherians (Table \ref{tab:Tab_permanova}).
-However, regardless the taxonomic level (i.e. family \textit{vs.} genus) and regardless the evolutionary model (i.e. gradual or punctuated evolution), there is no significant difference in disparity between the latests Cretaceous sub-sample and any of the Cenozoic sub-samples (Fig \ref{fig:Fig_Rar_results}).
+However, regardless the taxonomic level (i.e. family \textit{vs.} genus) and regardless the evolutionary model (i.e. gradual or punctuated evolution), there is no significant difference in disparity between the latests Cretaceous subsample and any of the Cenozoic subsamples (Fig \ref{fig:Fig_Rar_results}).
 In fact the disparity seems to reach a plateau at the end of the Jurassic (150 Ma) for Eutherians and during the late Triassic (Norian; 220 Ma) for the Mammaliaformes and stays relatively constant after that (see Fig \ref{fig:Fig_Rar_results} and S4 @@@).
 These results shows that, within the frame of our data-sets, we did not detect any short term or long term effect of the K-Pg event on mammalian disparity.
 Therefore, we argue that the extinction of the many terrestrial vertebrates (namely non-avian dinosaurs) at the K-Pg boundary did not directly affected mammals evolution during the Cenozoic, or at least their morphological diversity.
@@ -561,7 +563,7 @@ This is how we believe they improve disparity through time analysis:
 % TG or no need for a list?
 \begin{enumerate}
     \item \textbf{Using all the axis of the cladisto-space.}
-    Previous studies focusing on disparity have used various ways to select a sub-sample of the the full cladisto-space (i.e. a sub-sample of the ordinated distance matrix) arguing that the $m$ first axis of the cladisto-space usually bear most of the data-set's variance \citep[e.g][]{brusatte50,cisneros2010,prentice2011,anderson2012using,Hughes20082013,bentonmodels2014}.
+    Previous studies focusing on disparity have used various ways to select a subsample of the the full cladisto-space (i.e. a subsample of the ordinated distance matrix) arguing that the $m$ first axis of the cladisto-space usually bear most of the data-set's variance \citep[e.g][]{brusatte50,cisneros2010,prentice2011,anderson2012using,Hughes20082013,bentonmodels2014}.
     For example in \cite{Brusatte12092008} and \cite{toljagictriassic-jurassic2013}, the authors decided to select only the $m$ first dimensions that represent up to 90\% of the variance in the distance matrix.
     The cut-off value is either given arbitrary or by visually detecting a substantial break in the slop of a scree plot of the variance per axis \citep{Wills1994}.
     We argue that even if the last dimensions of the cladisto-space bears a trivial amount of variance, there is no statistical justification to exclude them.
