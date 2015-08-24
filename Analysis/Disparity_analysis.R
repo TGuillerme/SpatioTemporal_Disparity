@@ -72,13 +72,13 @@ dis_ran_max_slater<-extract.disp(disparity_full_pro_slater$quantiles, rarefactio
 
 #Pretty plot with the tree and the disparity
 op<-par(mfrow=c(2,2), bty="n", mar=c(4,4,4,4))
-plot.disparity(dis_ran_max_beck, diversity=dis_ran_max_beck$rarefaction, main="Eutheria (punctuated)", xlab="Time (Ma)", y2lab="", ylab="Median distance from centroid")
+plot.disparity(dis_ran_max_beck, diversity=dis_ran_max_beck$rarefaction, main="Eutheria (punctuated)", xlab="Time (Ma)", y2lab="", ylab="Tips and nodes median distance from centroid")
 abline(v=22, col="red")
-plot.disparity(dis_ran_max_slater, diversity=dis_ran_max_slater$rarefaction, main="Mammaliaformes (punctuated)", xlab="Time (Ma)", y2lab="Species richness", ylab="")
+plot.disparity(dis_ran_max_slater, diversity=dis_ran_max_slater$rarefaction, main="Mammaliaformes (punctuated)", xlab="Time (Ma)", y2lab="Number of tips and nodes", ylab="")
 abline(v=22, col="red")
-plot.disparity(dis_pro_max_beck, diversity=dis_pro_max_beck$rarefaction, main="Eutheria (gradual)", xlab="Time (Ma)", y2lab="", ylab="Median distance from centroid")
+plot.disparity(dis_pro_max_beck, diversity=dis_pro_max_beck$rarefaction, main="Eutheria (gradual)", xlab="Time (Ma)", y2lab="", ylab="Tips and nodes median distance from centroid")
 abline(v=22, col="red")
-plot.disparity(dis_pro_max_slater, diversity=dis_pro_max_slater$rarefaction, main="Mammaliaformes (gradual)", xlab="Time (Ma)", y2lab="Species richness", ylab="")
+plot.disparity(dis_pro_max_slater, diversity=dis_pro_max_slater$rarefaction, main="Mammaliaformes (gradual)", xlab="Time (Ma)", y2lab="Number of tips and nodes", ylab="")
 abline(v=22, col="red")
 par(op)
 
@@ -92,12 +92,12 @@ dis_ran_max_slater<-extract.disp(disparity_full_pro_slater$quantiles, rarefactio
 
 #Pretty plot with the tree and the disparity
 op<-par(mfrow=c(2,2), bty="n", mar=c(4,4,4,4))
-plot.disparity(dis_ran_max_beck, diversity=dis_ran_max_beck$rarefaction, main="Eutheria (punctuated)", xlab="Time (Ma)", y2lab="", ylab="Median distance from centroid")
+plot.disparity(dis_ran_max_beck, diversity=dis_ran_max_beck$rarefaction, main="Eutheria (punctuated)", xlab="Time (Ma)", y2lab="", ylab="Tips and nodes median distance from centroid")
 abline(v=22, col="red")
-plot.disparity(dis_ran_max_slater, diversity=dis_ran_max_slater$rarefaction, main="Mammaliaformes (punctuated)", xlab="Time (Ma)", y2lab="Species richness", ylab="")
+plot.disparity(dis_ran_max_slater, diversity=dis_ran_max_slater$rarefaction, main="Mammaliaformes (punctuated)", xlab="Time (Ma)", y2lab="Number of tips and nodes", ylab="")
 abline(v=22, col="red")
-plot.disparity(dis_pro_max_beck, diversity=dis_pro_max_beck$rarefaction, main="Eutheria (gradual)", xlab="Time (Ma)", y2lab="", ylab="Median distance from centroid")
+plot.disparity(dis_pro_max_beck, diversity=dis_pro_max_beck$rarefaction, main="Eutheria (gradual)", xlab="Time (Ma)", y2lab="", ylab="Tips and nodes median distance from centroid")
 abline(v=22, col="red")
-plot.disparity(dis_pro_max_slater, diversity=dis_pro_max_slater$rarefaction, main="Mammaliaformes (gradual)", xlab="Time (Ma)", y2lab="Species richness", ylab="")
+plot.disparity(dis_pro_max_slater, diversity=dis_pro_max_slater$rarefaction, main="Mammaliaformes (gradual)", xlab="Time (Ma)", y2lab="Number of tips and nodes", ylab="")
 abline(v=22, col="red")
 par(op)
