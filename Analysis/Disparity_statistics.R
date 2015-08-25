@@ -67,22 +67,22 @@ pco_slice_beck_ran  <-slice.pco(pco_beck  , tree_beck  , slices, method='random'
 ######################################
 
 #PERMANOVA
-permanova_pro_slater<-disparity.test.time(pco_slice_slater_pro, method="euclidean", permutations=1000)
-permanova_pro_beck  <-disparity.test.time(pco_slice_beck_pro  , method="euclidean", permutations=1000)
-permanova_ran_slater<-disparity.test.time(pco_slice_slater_ran, method="euclidean", permutations=1000)
-permanova_ran_beck  <-disparity.test.time(pco_slice_beck_ran  , method="euclidean", permutations=1000)
+#permanova_pro_slater<-disparity.test.time(pco_slice_slater_pro, method="euclidean", permutations=1000)
+#permanova_pro_beck  <-disparity.test.time(pco_slice_beck_pro  , method="euclidean", permutations=1000)
+#permanova_ran_slater<-disparity.test.time(pco_slice_slater_ran, method="euclidean", permutations=1000)
+#permanova_ran_beck  <-disparity.test.time(pco_slice_beck_ran  , method="euclidean", permutations=1000)
 
 #reference
-reftest_pro_slater<-disparity.test(pco_slice_slater_pro[22:35], method="centroid", test="reference", bootstraps=1000)
-reftest_pro_beck  <-disparity.test(pco_slice_beck_pro[22:35]  , method="centroid", test="reference", bootstraps=1000)
-#reftest_ran_slater<-disparity.test(pco_slice_slater_ran[22:35], method="centroid", test="reference", bootstraps=1000)
-reftest_ran_beck  <-disparity.test(pco_slice_beck_ran[22:35]  , method="centroid", test="reference", bootstraps=1000)
+reftest_pro_slater<-disparity.test(pco_slice_slater_pro[21:28], method="centroid", test="reference", bootstraps=1000, correction="none")
+reftest_pro_beck  <-disparity.test(pco_slice_beck_pro[21:28]  , method="centroid", test="reference", bootstraps=1000, correction="none")
+reftest_ran_slater<-disparity.test(pco_slice_slater_ran[21:28], method="centroid", test="reference", bootstraps=1000, correction="none")
+reftest_ran_beck  <-disparity.test(pco_slice_beck_ran[21:28]  , method="centroid", test="reference", bootstraps=1000, correction="none")
 
 #reference (rarefied)
-reftestRAR_pro_slater<-disparity.test(pco_slice_slater_pro[22:35], method="centroid", test="reference", bootstraps=1000, rarefaction=8)
-reftestRAR_pro_beck  <-disparity.test(pco_slice_beck_pro[22:35]  , method="centroid", test="reference", bootstraps=1000, rarefaction=8)
-#reftestRAR_ran_slater<-disparity.test(pco_slice_slater_ran[22:35], method="centroid", test="reference", bootstraps=1000, rarefaction=8)
-reftestRAR_ran_beck  <-disparity.test(pco_slice_beck_ran[22:35]  , method="centroid", test="reference", bootstraps=1000, rarefaction=8)
+reftestRAR_pro_slater<-disparity.test(pco_slice_slater_pro[21:28], method="centroid", test="reference", bootstraps=1000, rarefaction=8, correction="none")
+reftestRAR_pro_beck  <-disparity.test(pco_slice_beck_pro[21:28]  , method="centroid", test="reference", bootstraps=1000, rarefaction=8, correction="none")
+reftestRAR_ran_slater<-disparity.test(pco_slice_slater_ran[21:28], method="centroid", test="reference", bootstraps=1000, rarefaction=8, correction="none")
+reftestRAR_ran_beck  <-disparity.test(pco_slice_beck_ran[21:28]  , method="centroid", test="reference", bootstraps=1000, rarefaction=8, correction="none")
 
 
 #sequential
@@ -102,47 +102,53 @@ reftestRAR_ran_beck  <-disparity.test(pco_slice_beck_ran[22:35]  , method="centr
 ######################################
 library(xtable)
 
-make.table.permanova<-function() {
-    #Fixed rows
-    #Empty matrix
-    permanova_terms<-as.data.frame(matrix(" ", nrow=8, ncol=3))
-    #Column names
-    colnames(permanova_terms)<-c("Data", "model", "terms")#, c(colnames(permanova_pro_beck[[1]][1,])))
-    #Data
-    permanova_terms$Data<-c("Eutherian", rep(" ", 3), "Mammaliformes", rep(" ", 3))
-    permanova_terms$model<-rep(c(c("gradual", rep(" ", 1)),c("punctuate", rep(" ", 1))),2)
-    permanova_terms$terms<-rep(c("time", "Residuals"), 4)
+# make.table.permanova<-function() {
+#     #Fixed rows
+#     #Empty matrix
+#     permanova_terms<-as.data.frame(matrix(" ", nrow=8, ncol=3))
+#     #Column names
+#     colnames(permanova_terms)<-c("Data", "model", "terms")#, c(colnames(permanova_pro_beck[[1]][1,])))
+#     #Data
+#     permanova_terms$Data<-c("Eutherian", rep(" ", 3), "Mammaliformes", rep(" ", 3))
+#     permanova_terms$model<-rep(c(c("gradual", rep(" ", 1)),c("punctuate", rep(" ", 1))),2)
+#     permanova_terms$terms<-rep(c("time", "Residuals"), 4)
 
-    #Fixed rows
-    #Empty matrix
-    permanova_results<-as.data.frame(matrix(NA, nrow=8, ncol=6))
-    #Column names
-    colnames(permanova_results)<-c(colnames(permanova_pro_beck[[1]][1,]))
+#     #Fixed rows
+#     #Empty matrix
+#     permanova_results<-as.data.frame(matrix(NA, nrow=8, ncol=6))
+#     #Column names
+#     colnames(permanova_results)<-c(colnames(permanova_pro_beck[[1]][1,]))
 
-    #Variable rows
-    permanova_results[1, ]<-as.vector(permanova_pro_beck[[1]][1,])
-    permanova_results[2, ]<-as.vector(permanova_pro_beck[[1]][2,])
-    permanova_results[3, ]<-as.vector(permanova_ran_beck[[1]][1,])
-    permanova_results[4, ]<-as.vector(permanova_ran_beck[[1]][2,])
-    permanova_results[5, ]<-as.vector(permanova_pro_slater[[1]][1,])
-    permanova_results[6, ]<-as.vector(permanova_pro_slater[[1]][2,])
-    permanova_results[7, ]<-as.vector(permanova_ran_slater[[1]][1,])
-    permanova_results[8, ]<-as.vector(permanova_ran_slater[[1]][2,])
+#     #Variable rows
+#     permanova_results[1, ]<-as.vector(permanova_pro_beck[[1]][1,])
+#     permanova_results[2, ]<-as.vector(permanova_pro_beck[[1]][2,])
+#     permanova_results[3, ]<-as.vector(permanova_ran_beck[[1]][1,])
+#     permanova_results[4, ]<-as.vector(permanova_ran_beck[[1]][2,])
+#     permanova_results[5, ]<-as.vector(permanova_pro_slater[[1]][1,])
+#     permanova_results[6, ]<-as.vector(permanova_pro_slater[[1]][2,])
+#     permanova_results[7, ]<-as.vector(permanova_ran_slater[[1]][1,])
+#     permanova_results[8, ]<-as.vector(permanova_ran_slater[[1]][2,])
 
-    #Rounding
-    for (n in 1:6) {
-        permanova_results[,n]<-round(permanova_results[,n], digit=n)
-    }
+#     #Rounding
+#     for (n in 1:6) {
+#         permanova_results[,n]<-round(permanova_results[,n], digit=n)
+#     }
 
-    return(cbind(permanova_terms, permanova_results))
-}
+#     return(cbind(permanova_terms, permanova_results))
+# }
 
-#permanova table
-xtable(make.table.permanova(), digits=4)
+# #permanova table
+# xtable(make.table.permanova(), digits=4)
 
 #lag test table (to modify manually in LaTeX)
 xtable(cbind(reftest_pro_beck[[1]][,-5], reftest_ran_beck[[1]][,-5]), digits=4)
 #xtable(cbind(reftest_ran_beck[[1]][,-5], reftest_ran_slater[[1]][,-5]))
+cat("add: & & gradual & & & & punctuated & & \\\\' in the header.")
+cat("replace 'rrrrrrrrr' by 'rrrrr|rrrr'.")
+
+#lag test table (to modify manually in LaTeX)
+xtable(cbind(reftest_pro_slater[[1]][,-5], reftest_ran_slater[[1]][,-5]), digits=4)
+#xtable(cbind(reftest_ran_slater[[1]][,-5], reftest_ran_slater[[1]][,-5]))
 cat("add: & & gradual & & & & punctuated & & \\\\' in the header.")
 cat("replace 'rrrrrrrrr' by 'rrrrr|rrrr'.")
 
@@ -151,8 +157,7 @@ xtable(cbind(reftestRAR_pro_beck[[1]][,-5], reftestRAR_ran_beck[[1]][,-5]), digi
 cat("add: & & gradual & & & & punctuated & & \\\\' in the header.")
 cat("replace 'rrrrrrrrr' by 'rrrrr|rrrr'.")
 
-
-xtable(cbind(reftest_pro_slater[[1]][,-5], reftestRAR_pro_slater[[1]][,-5]), digits=4)
-#xtable(cbind(reftest_ran_beck[[1]][,-5], reftest_ran_slater[[1]][,-5]))
-cat("add: & & full data & & & & rarefied & & \\\\' in the header.")
+xtable(cbind(reftestRAR_pro_slater[[1]][,-5], reftestRAR_ran_slater[[1]][,-5]), digits=4)
+#xtable(cbind(reftest_ran_slater[[1]][,-5], reftest_ran_slater[[1]][,-5]))
+cat("add: & & gradual & & & & punctuated & & \\\\' in the header.")
 cat("replace 'rrrrrrrrr' by 'rrrrr|rrrr'.")
