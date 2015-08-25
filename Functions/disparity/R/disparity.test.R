@@ -229,7 +229,8 @@ disparity.test<-function(time_pco, method, test, bootstraps=1000, correction="bo
             no_test<-TRUE
         } else {
             #Build the output table
-            rounds<-c(2,0,3,5)
+            #rounds<-c(2,0,3,5)
+            rounds<-c(3,0,3,3) #consistency!
             for (col in 1:(ncol(output_table)-1)) {
                 output_table[,col]<-round(test_results[[col]][lower.tri(test_results[[col]])], rounds[col])
             }
