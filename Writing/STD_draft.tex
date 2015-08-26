@@ -1,19 +1,11 @@
-%LaTeX template : http://systbio.org/files/SB_LaTeX_Template_txt_extension.txt
-%Author instructions: http://www.oxfordjournals.org/our_journals/sysbio/for_authors/ms_preparation.html
 
+% PLoS Biology: http://journals.plos.org/plosbiology/s/submission-guidelines - No restrictions! Send definitely here first! IF:9.34
+% Proceedings B:  ~5000 words (incl. everything!) IF:5.05
+% Evolution (thesis format) IF:4.6
 
-% This version is currently approx 5000 words
-%Other versions:
-% Science: http://www.sciencemag.org/site/feature/contribinfo/prep/gen_info.xhtml#original_research
-        %Research Articles (up to ~4500 words, including references, notes and captions, or ~5 printed pages) are expected to present a major advance. Research Articles include an abstract, an introduction, up to six figures or tables, sections with brief subheadings, and about 40 references. Materials and Methods should usually be included in supplementary materials, which should also include information needed to support the paper's conclusions.
-% Nature communications: http://www.nature.com/ncomms/authors/submit.html#Manuscript-text ~5000 words
-% PNAS: http://www.pnas.org/site/authors/format.xhtml
-% Current Biology: http://www.cell.com/current-biology/authors
-        %Articles present conceptual advances of unusual significance regarding a biological question of wide interest. Articles are typically limited to ten journal pages (usually around 5000 words of main text, i.e. all of the text in the manuscript except for the summary, references, and any Supplemental Information text), and there should be no more than seven display items (figures and tables). Additional items and details may be published online as Supplemental Information at the discretion of the editor (please see the Supplemental Information guidelines for more information).
-% PLoS Biology: http://journals.plos.org/plosbiology/s/submission-guidelines
-% Scientific reports: http://www.nature.com/srep/authors/index.html#initial-submission
-        %Articles should be no more than 11 typeset pages in length. As a guide, the main text (not including Abstract, Methods, References and figure legends) should be no more than 4,500 words. The maximum title length is 20 words. The Abstract — which must be no more than 200 words long and contain no references — should serve both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. For the main body of the text, there are no explicit requirements for section organization. According to the authors' preference, the text may be organized as best suits the research. As a guideline and in the majority of cases, however, we recommend that you structure your manuscript as follows: Introduction; Results (with subheadings); Discussion (without subheadings);Methods
+% texcount -incbib STD_draft.tex
 
+%
 
 
 \documentclass[12pt,letterpaper]{article}
@@ -96,19 +88,22 @@ Version dated: \today
 \begin{center}
 
 
-\noindent{\Large \bf Mammalian morphological diversity does not increase in response to the Cretaceous-Palaeogene (K-Pg) extinction event and the extinction of the (non-avian) dinosaurs.} 
+\noindent{\Large \bf Mammalian morphological diversity does not increase in response to the Cretaceous-Paleogene (K-Pg) extinction event and the extinction of the (non-avian) dinosaurs.} 
 % NC: This seems a bit more accurate as it wasn't just dinosaurs going extinct.
+% TG: It's PalAEogene in the Oxford dictionary but PalEogene in the International Commission on Stratigraphy Chart.
+% TG: shorter version:
+% Mammalian morphological diversity does not change in response to the Cretaceous-Paleogene extinction event.
 \bigskip
 
-\noindent {\normalsize \sc Thomas Guillerme$^1$$^,$$^2$$^*$, and Natalie Cooper$^1$$^,$$^2$$^,$$^3$}\\
+\noindent {\normalsize \sc Thomas Guillerme$^1$$^,$$^*$ and Natalie Cooper$^1$$^,$$^2$}\\
 \noindent {\small \it 
 $^1$School of Natural Sciences, Trinity College Dublin, Dublin 2, Ireland.\\
-$^2$Trinity Centre for Biodiversity Research, Trinity College Dublin, Dublin 2, Ireland.\\
-$^3$Department of Life Sciences, Natural History Museum, Cromwell Road, London, SW7 5BD, UK.}\\
+$^2$Department of Life Sciences, Natural History Museum, Cromwell Road, London, SW7 5BD, UK.}\\
 \end{center}
 \medskip
-\noindent{*\bf Corresponding author.} \textit{Zoology Building, Trinity College Dublin, Dublin 2, Ireland; E-mail: guillert@tcd.ie; Fax: +353 1 6778094; Tel: +353 1 896 2571.}\\
+\noindent{*\bf Corresponding author.} \textit{guillert@tcd.ie}\\  
 \vspace{1in}
+% TG: I removed the centre for biodiversity for gaining space
 
 %Line numbering
 \modulolinenumbers[1]
@@ -123,25 +118,26 @@ $^3$Department of Life Sciences, Natural History Museum, Cromwell Road, London, 
 \newpage
 \begin{abstract}
 % NC: As ever I'm ignoring this until we are finished with the rest!
-%Massive global extinctions have a turn-over effect on biodiversity. When some large group of taxa suffers from a high rate of extinction, it is expected that niches becomes available for potentially unrelated clades that can undergo an adaptive radiation to fill these vacant niches.
-%Therefore, in a context of current global biotic and abiotic changes, resolving this question is crucial to understand the effect of mass extinction events on biodiversity.
-%The causes and effects of such events are well understood for marine organisms with a good fossil record (e.g. Ammonoidea and Foraminifera) but the effects remains unclear on some iconic vertebrate groups.
+% TG: This is just here unedited for giving an idea of the length
+% IGNORE THE ABSTRACT
+Massive global extinctions have a turn-over effect on biodiversity. When some large group of taxa suffers from a high rate of extinction, it is expected that niches becomes available for potentially unrelated clades that can undergo an adaptive radiation to fill these vacant niches.
+Therefore, in a context of current global biotic and abiotic changes, resolving this question is crucial to understand the effect of mass extinction events on biodiversity.
+The causes and effects of such events are well understood for marine organisms with a good fossil record (e.g. Ammonoidea and Foraminifera) but the effects remains unclear on some iconic vertebrate groups.
 
-%Typically, placental mammals (eutherians) are shown by some studies to be undergoing an adaptive radiation after the Cretaceous-Palaeogene mass extinction event (K-Pg) by originating shortly before the K-Pg event and displaying high morphological evolutionary rates leading to high diversification during the Palaeogene. However, some other studies have demonstrated that eutherians originates during the Cretaceous and don't display significantly high diversification after the K-Pg event.
+Typically, placental mammals (eutherians) are shown by some studies to be undergoing an adaptive radiation after the Cretaceous-Palaeogene mass extinction event (K-Pg) by originating shortly before the K-Pg event and displaying high morphological evolutionary rates leading to high diversification during the Palaeogene. However, some other studies have demonstrated that eutherians originates during the Cretaceous and don't display significantly high diversification after the K-Pg event.
 
-%Here we propose a new approach to test if eutherians undergo an adaptive radiation after the K-Pg event. We use trees containing both living and fossil taxa based on all the available data (Total Evidence) and the state-of-the-art method in dating (tip dating) along side with a better proxy for niche occupancy (morphological diversity as opposed to taxonomic diversity) and finer grain analysis through time (introducing a time slicing method).
+Here we propose a new approach to test if eutherians undergo an adaptive radiation after the K-Pg event. We use trees containing both living and fossil taxa based on all the available data (Total Evidence) and the state-of-the-art method in dating (tip dating) along side with a better proxy for niche occupancy (morphological diversity as opposed to taxonomic diversity) and finer grain analysis through time (introducing a time slicing method).
 
-%Our results shows that mammals don't display significantly changes in morphological disparity that expected under a Brownian motion after the K-Pg boundary. We therefore propose that eutherian mammals don't undergo an adaptive radiation during the Palaeogene.
+Our results shows that mammals don't display significantly changes in morphological disparity that expected under a Brownian motion after the K-Pg boundary. We therefore propose that eutherian mammals don't undergo an adaptive radiation during the Palaeogene.
 
-%Why is our stuff better?
-%1-More accurate timing (TEM+tip dating vs. molecular node date or morphological parsimony)
-%2-Better proxy for niche occupancy (morphological disparity + diversity vs. species diversity) (but niches concept is shite anyway)
-%3-Better measure for disparity (centroid distance vs. Foote's quartet)
-%4-Two evolutionary models instead of one for looking at disparity through time (punctuated+constant vs. punctuate)
-%5-Systematic time units for looking at disparity through time (slices vs. intervals)
+
+%Our analyses provide a new approach to this debate by using both living and fossil species as well as morphological diversity (disparity) rather than taxonomic diversity as a proxy for mammalian diversity. 
+%Our findings might change the long-lasting idea that the non-avian dinosaurs where restraining mammal evolution \citep{Lovergrove} or that their extinction liberate ecology niches for mammals to evolve in \citep{archibald2011extinction}.
+% NC: This seems more like a conclusion/abstract than the discussion.
 
 \end{abstract}
 
+%IGNORE THE KEY WORDS
 \noindent (Keywords: disparity, diversity, punctuated equilibrium, gradual evolution, time slicing)\\
 
 \vspace{1.5in}
@@ -155,13 +151,14 @@ $^3$Department of Life Sciences, Natural History Museum, Cromwell Road, London, 
 %---------------------------------------------
 
 \section{Introduction}
-% 1§ mass extinctions = bad. Loss of species (e.g. P/T 95%). But what comes after is more interesting
+%
+% CUT DOWN THE NUMBER OF CITES FOR THE SUBMISSION ONLY (NOT THE THESIS)
+%
 Throughout history, life on Earth has suffered a series of mass extinction events resulting in drastic declines in global biodiversity \citep[e.g.][]{RaupPT,BentonPT,rennetime2013,Brusatte2015}.
 The long-term effects of mass extinctions, however, are more varied \citep{Erwin1998344}, and include species richness increases in some clades \citep{friedmanexplosive2010} and declines in others \citep{Benton85}, changes in morphological diversity \citep{Ciampaglio2001,Ciampaglio2004,kornextinction2013} and shifts in ecological dominance \citep[e.g.][]{Brusatte12092008,toljagictriassic-jurassic2013,bensonfaunal2014}.
 These shifts are characterized by the decline of one clade that is replaced by a different unrelated clade with a similar ecological role (e.g. Brachiopoda and Bivalvia at the end Permian extinction; \citealt{Sepkiski1981,CLAPHAM01102006,Liow2015} but see \citealt{Payne22052014}). 
 Shifts in ecological dominance are of particular interest because they are a fairly common pattern observed in the fossil record (e.g. Foraminifera; \citealt{D'Hondt01011996,Coxall01042006}; Ichtyosauria; \citealt{thorneresetting2011}; Plesiosauria; \citealt{bensonfaunal2014}) and are often linked to major macroevolutionary processes such as adaptive \citep{Losos2010} or competitive \citep{Brusatte12092008} radiations.
 
-% 2§ explaining the rise of the age of the mammals view.
 One classical example of a shift in ecological dominance is at the Cretaceous-Palaeogene (K-Pg) mass extinction 66 million years ago \citep{rennetime2013}, where many terrestrial vertebrates (including the dominant non-avian dinosaur group; \citealt{archibald2011extinction,rennetime2013,Brusatte2015}) went extinct, allowing placental mammals to dominate the fauna \citep{archibald2011extinction,Lovergrove}. 
 Some authors suggest this reflects placental mammals filling the ``empty'' niches left after the K-Pg extinction event \citep{archibald2011extinction}, others suggest it reflects a release from predation and/or competition \citep{Lovergrove}.
 However, evidence for the diversification of placental mammals being driven by the K-Pg extinction event is mixed.
@@ -187,7 +184,6 @@ A second issue is that diversity can be defined in many different ways.
 In many studies it is measured as taxonomic diversity or species richness \citep{Stadler12042011,meredithimpacts2011,O'Leary08022013}, but often the more interesting aspect of diversity is related to the ecological niches the species occupy \citep{Wesley-Hunt2005,Brusatte12092008,toljagictriassic-jurassic2013}, particularly if we want to make hypotheses about macroevolutionary processes \citep{Pearman2008149,OlsonRadiation,Losos2010,glor2010phylogenetic,benton2015}.
 Sometimes taxonomic diversity is used as a proxy for other kinds of diversity, however, species richness can be decoupled from morphological diversity \citep[e.g.][]{slaterCetacean,ruta2013,hopkinsdecoupling2013}, so it may not be the best proxy for ecological diversity.
 We can instead use morphological diversity, also known as disparity \citep[e.g.][]{Wills1994,Erwin2007,Hughes20082013}, as a way to quantify changes in mammalian morphology that should relate to the ecology of the species.
-    % 6§ But disparity is outdated
 However some methods for measuring disparity are outdated and make inappropriate assumptions.
 Many methods for quantifying changes in morphological diversity were proposed $>$ 20 years ago \citep{Foote01071994,Wills1994} and are sometimes used without modifications \citep[e.g.,][]{brusatte50,Brusatte12092008,cisneros2010,thorneresetting2011,prentice2011,brusattedinosaur2012,toljagictriassic-jurassic2013,ruta2013,bentonmodels2014,bensonfaunal2014}, even when the statistical assumptions of the methods are violated (see Methods).
 Additionally, previous methods are based on an underlying assumption that changes in disparity occur by punctuated evolution \citep[e.g.][]{Wesley-Hunt2005} which is not always the case \citep{Hunt21042015}.
@@ -195,6 +191,7 @@ Finally, most studies of disparity through time use unequal time units based on 
 This can be tautological as biostratigraphy is already based on changes in fossil assemblages and morphology through time.
 To deal with these issues, we propose an updated approach to test whether mammals diversified before or after K-Pg, using morphological disparity, measured as cladistic disparity (see Methods), as our proxy for diversity.
 
+% TG: Add Wilson in this paragraph
 Here we measure the disparity of living and fossil mammals before or after K-Pg, using data taken from two previously published studies \citep{Slater2012MEE,beckancient2014}. 
 Using a novel time-slicing approach, we produce fine-grained estimates of disparity through time under two different models of morphological character evolution (either gradual or punctuated). 
 We also test whether mammals display significant changes in disparity between the end of the Cretaceous and throughout the Cenozoic.
@@ -217,7 +214,6 @@ We chose these two datasets because they have a similar number of taxa and morph
 \cite{beckancient2014} ranges from 170 Ma (Middle Jurassic) to the present and focuses on Eutheria at the genus-level.
 We used the first and last occurrences reported in \cite{Slater2012MEE} and \cite{beckancient2014} as the temporal range of each taxon in our analysis.
 Both phylogenies are illustrated in the supplementary material (see Fig S1 and S2 @@@).
-%
 Both trees contain few taxa compared to the overall species richness of living and fossil mammals \citep{wilson2005mammal,archibald2011extinction}. %TG: or actually maybe cite the book on my desk in Dublin.
 This is because Total Evidence trees need a lot of data, particularly morphological data for living taxa that can be hard to locate \citep{MissingMammals}.
 Therefore, most Total Evidence studies to date contain one or two orders of magnitude fewer taxa than phylogenies based solely on molecular data (e.g. thousands of taxa in \citealt{bininda2007delayed,meredithimpacts2011} \textit{vs.} hundreds in \citealt{ronquista2012,Slater2012MEE,Wood01032013,beckancient2014}).
@@ -260,6 +256,7 @@ It is unlikely that all morphologies will co-occur at each time point, therefore
 
 \subsection{Calculating disparity}
 Disparity can be estimated in many different ways \citep[e.g.][]{Wills1994,Ciampaglio2004,thorneresetting2011,hopkinsdecoupling2013,huang2015origins}, however most studies estimate disparity using four metrics: the sum and products of ranges and variances, each of which gives a slightly different estimate of how the data fits within the cladisto-space \citep{Foote01071994,Wills1994,brusatte50,Brusatte12092008,cisneros2010,thorneresetting2011,prentice2011,brusattedinosaur2012,toljagictriassic-jurassic2013,ruta2013,bentonmodels2014,bensonfaunal2014}.
+% KEEP THE RANT BELOW
 %The sum and products of ranges and variances are based on the ranges and variances of the eigenvectors calculated from a distance matrix. 
 %However, these metrics do not take into account the covariance among eigenvectors. % TG: I think I need a bit of chat with Dr Jackson here. He's statement that sum of variance is not correct because it ignores covariance might be actually not a good argument. He's still right but in practice, the covariance between the eigenvectors seems to be always 0 (because each axis are orthogonal to each other). It doesn't change anything for our story but it might be good to no state that these variance calculations are wrong if they are ok (in practice, again, in theory, they remain wrong). % NC: Up to you. You could cut this whole section and just say we use centroids like Wills to estimate disparity.
 %This is only statistically valid if the eigenvectors are independent.
@@ -329,7 +326,7 @@ We report the results of these analyses in the Supplementary Materials (@@@). % 
 \subsection{Testing the effects of the K-Pg extinction on mammalian disparity}
 If the K-Pg extinction event had a significant effect on mammalian disparity, we should see a significant difference between disparity at the end of the Cretaceous and disparity at the start of the Paleogene.
 To test this, we performed t-tests among the time subsamples before and after the K-Pg boundary 66 million years ago, i.e. the subsamples at 70 and 65 Ma \citep[e.g. as used in]{anderson2012using,zelditch2012geometric,smith2014joined}, for both Mammaliaformes and Eutheria and using both the gradual and punctuated evolutionary models.
-Because the effect of a mass extinction event on a group's evolution might not be detectable directly after the event due to delays in recovery \citep{chen2012timing,chen2014complete} %will find that one later one FIND THE DURATION OF LAG FROM THERE
+Because the effect of a mass extinction event on a group's evolution might not be detectable directly after the event due to delays in recovery \citep{chen2012timing,chen2014complete} % TG: will find that one later one FIND THE DURATION OF LAG FROM THERE
 , we also tested whether there was a significant difference in disparity between the end of the Cretaceous and any subsample from the Paleocene and the Eocene (up to the Late Priabonian; 35 Ma).
 Because these analyses involved multiple t-tests, we used Bonferonni correction \citep{holm1979simple} on the significant p-values.
 
@@ -357,15 +354,6 @@ To make both datasets comparable, we used eight as a minimum number of taxa for 
 % \end{enumerate}
 % Because these \textit{post-hoc} t-tests involve multiple comparisons, we corrected each p-value by multiplying them by the number of comparisons \citep[Holm-Bonferonni correction;][]{holm1979simple}.
 
-% TG: I think the following part can go to the supplementaries. I know we discussed various test together (before vs. after KT; patterns of changes during the whole time; and lag test). However, I think the only test that answers our question is the lag effect o
-% \begin{enumerate}
-  % \item{all the slices before and after the K-Pg boundary (hereafter referred as the \textit{``K-Pg test''})} % Not sure about this one. If it shows a difference, why should it be due to KT limit? Why not just time dependent?
-%   \item{each slices taken sequentially (hereafter referred as the \textit{``sequential test''})}
-%   \item{the last slice of the Cretaceous and every slice of the Tertiary (hereafter referred as the \textit{``lag test''})}
-% \end{enumerate}
-% Each of these test are detecting different aspects in changes in disparity.
-% The ``K-Pg test'' was chosen to detect an overall difference between the Mesozoic and the Cenozoic; the ``sequential test'' was chosen to describe the overall pattern of changes in disparity since the Jurassic; the ``lag test'' was chosen to detect any lag in potential changes in disparity after the K-Pg boundary event.
-
 %---------------------------------------------
 %
 %       RESULTS
@@ -374,7 +362,6 @@ To make both datasets comparable, we used eight as a minimum number of taxa for 
 
 %NC: Up to this point you consistently talk about Mammaliaformes first, then Eutheria. Maybe stick to that and reformat from here on? OR reformat above. Up to you.
 % TG: ok, will standardise later on.
-
 
 \section{Results}
 %§1 - How does disparity change through time?
@@ -396,9 +383,7 @@ We found no differences between the last subsample of the Cretaceous (70 Ma) and
 \begin{figure}[!htbp]
 \centering
     \includegraphics[keepaspectratio=true]{Figures/Main_results.pdf}
-\caption{Disparity through time in Eutheria and Mammaliaformes calculated using a model of punctuated or gradual evolution. The x axis represents time in millions of years before the present (Ma). The y axis represents disparity, measured as the median distance from centroid at each time slice. %NC: Might need a clearer explanation - centroid of what?
- The solid black lines show the mean disparity estimated from 1000 bootstrapped pseudoreplicates; the confidence intervals (CI) are represented by the grey polygons (50\% CI in dark grey and 95\% CI in light grey). The right hand axis represents species richness, and the dashed line shows the species richness in each time slice. The red vertical line indicates the Cretaceous-Paleogene (K-Pg) boundary (66 Ma).
- Please note that scale bars are different.}
+\caption{Disparity through time in Eutheria and Mammaliaformes calculated using a model of punctuated or gradual evolution. The x axis represents time in millions of years before the present (Ma). The y axis represents disparity, measured as the median distance between the centroid point of the ordinated space and each tips/nodes at each time slice. The solid black lines show the mean disparity estimated from 1000 bootstrapped pseudoreplicates; the confidence intervals (CI) are represented by the grey polygons (50\% CI in dark grey and 95\% CI in light grey). The dashed line and the right hand axis represents the number of tips/nodes in each time slice. The red vertical line indicates the Cretaceous-Paleogene (K-Pg) boundary (66 Ma). Please note that scale bars are different between between the panels.}
 \label{fig:Fig_Raw_results}
 \end{figure}
 
@@ -445,24 +430,6 @@ We found no differences between the last subsample of the Cretaceous (70 Ma) and
    \hline
 \end{tabular}
 \end{table}
-
-
-
-%§2 - And how is that linked to diversity? linked or not to number of nodes and tips (i.e. a proxy for taxonomic diversity).
-
-% %NC: Needs some work to make it clear and to describe all the results
-% Both datasets show a change in taxonomic diversity % Actually proxy for taxonomic diversity
-% before and after the K-Pg boundary (Fig \ref{fig:Fig_Raw_results}): respectively a decrease in Eutheria \citep[data from][]{beckancient2014} and an increase in Mammaliaformes \citep[data from][]{Slater2012MEE}. % NC: Be more specific. There is a decrease in the number of eutherian families, species? Also worth describing the overall pattern I think. 
-% However, these changes in taxonomic diversity are not linked with changes in disparity; in both datasets, we found similar changes % NC: more specific? 
-% in morphological disparity over the last 170 Million years (Fig \ref{fig:Fig_Raw_results}). 
-% The rarefaction analyses show that these results are not due to variations in the number of taxa in each subset (\ref{fig:Fig_Rar_results}).
-% We measured a significant effect of time on disparity in Eutheria under both the gradual and punctuated evolution models and in Mammaliaformes but only under the gradual evolution model (Table \ref{tab:Tab_permanova}).
-% For the Eutheria, we detected at least one significant difference between the disparity in the last subsample of the Cretaceous and any subsample of the Cenozoic suggesting an effect of the K-Pg boundary on disparity (Table \ref{tab:Tab_beck_raw}).
-% However, once corrected for taxonomic diversity, we did not detect any significant difference, either under gradual or punctuated evolution model (Table \ref{tab:Tab_beck_rar}).
-% For the Mammaliaformes dataset under gradual evolution model, there was no significant difference between the disparity in the last subsample of the Cretaceous and any subsample of the Cenozoic in both the raw and the rarefied data (Table \ref{tab:Tab_slater}). % NC: Need to explain this a bit more clearly.
-
-% NC: Edit the figure so it's Eutheria not Eutherian, Ma not Mya
-% NC: I've changed it from subsample to time slice as that seems more intuitive
 
 % \begin{figure}[!htbp] MOVE TO SUPPLEMENTARY @@@
 % \centering
@@ -513,14 +480,6 @@ We found no differences between the last subsample of the Cretaceous (70 Ma) and
 % \end{tabular}
 % \end{table}
 
-
-PETM caveat: in the Eutheria data set however, we detected a possible significant lag effect during the Eocene suggesting that mammalian disparity did slightly increased (yet significantly) after the K-Pg boundary.
-However, these increases only occur as late as 20 and 30 million years after the K-Pg boundary.
-It would be therefore spurious to link these increases in disparity only to the K-Pg boundary, especially since they occur after the Paleocene–Eocene Thermal Maximum event (PETM; $\sim$56 Ma) that was the theatre of big faunal changes especially in mammals (CITE).
-
-t-test caveats: not really correct bus best way yet \citep{anderson2012using & co.}
-another way could be to do sequential regressions with the intercept in at each time-slice being estimated from the former time-slice regression (Jackson pers. com.) but this method would not get rid of the fact that our subsamples are not independant and, by definition, strongly correlate trhough time and phylogenty.
-
 %---------------------------------------------
 %
 %       DISCUSSION
@@ -538,18 +497,15 @@ Initially, disparity increases rapidly but then seems to reach a plateau at the 
 These patterns of mammalian disparity are consistent with previous mammalian studies (\citealt{Close2015} but see \citealt{Grossnickle2013}) as well as with patterns of disparity in metazoans more generally \citep[e.g.][]{Hughes20082013}. 
 Additionally, our analyses did not detect any effect of the K-Pg extinction event on mammalian disparity between 65 and 50 Ma @@@@. % NC: I removed "short term" as 15 million years is not really short...
 This suggests that the numerous extinctions of terrestrial vertebrates, including the dominant non-avian dinosaur group, at the K-Pg boundary did not directly affect mammalian morphological evolution during the Cenozoic.
-We do find evidence for an effect of K-Pg in Eutheria at around 55-50 Ma@@@, but this may reflect changes at the Palaeocene-Eocene Thermal Maximum % NC: This needs to be added in light of the new results. Bit more to add on why it's probably not the K-Pg and probably not that interesting.
+We do find evidence for a lag effect of the K-Pg boundary in Eutheria under a punctuated evolutionary model at 50 and 40 Ma.
+However, this may reflect changes in disparity due to the Palaeocene-Eocene Thermal Maximum Event (PETM; $\sim$56 Ma) rather than a lagged effect of the K-Pg boundary
+In fact, the changes are observed respectively 6 and 16 Ma after the PETM and 16 and 26 Ma after the K-Pg event.
+% NC: This needs to be added in light of the new results. Bit more to add on why it's probably not the K-Pg and probably not that interesting.
 
-%Our analyses provide a new approach to this debate by using both living and fossil species as well as morphological diversity (disparity) rather than taxonomic diversity as a proxy for mammalian diversity. 
-%Our findings might change the long-lasting idea that the non-avian dinosaurs where restraining mammal evolution \citep{Lovergrove} or that their extinction liberate ecology niches for mammals to evolve in \citep{archibald2011extinction}.
-% NC: This seems more like a conclusion/abstract than the discussion.
-
-There has been great debate about how mammalian evolution proceeded after the K-Pg boundary \citep{Stadler12042011,meredithimpacts2011,O'Leary08022013,dosReis2014}. 
-Previous results have often been split by whether fossil or living data were used, with palaeontological studies finding evidence for mammalian diversity increasing rapidly after the K-Pg extinction event and neontological studies finding no evidence of an effect. 
-%Our results differ from previous studies \citep[][ see below]{Grossnickle2013,Wilson2013} 
-% NC: Add these in somewhere above?
-Our analyses use both fossil and living taxa, and like the neontological analyses, we find no evidence for significant increases in mammalian disparity after K-Pg. % NC: Be more specific about dates of actual results
-Interestingly our results are fundamentally different to those of \cite{Slater2012MEE}, the dataset on which our Mammaliaformes analyses are based. 
+Our results are similar or different to Wilson (mentioned in the intro already) - might want to add to Grossnickle.
+They found this and that.
+One major difference is because TEM.
+However one other study use both living and fossil, and interestingly our results are fundamentally different to those of \cite{Slater2012MEE}, the dataset on which our Mammaliaformes analyses are based. 
 \cite{Slater2012MEE} showed evidence for a change in the mode of body-mass evolution at the K-Pg boundary, with mammalian body size evolution... % NC: how does it change? How does this relate to our hypotheses.
 We are confident that our results are robust as we detected the same lack of effect of the K-Pg boundary from the independent Eutheria dataset \citep[i.e.][]{beckancient2014}.
 The difference in our results may be related to differences in the number of traits used in \cite{Slater2012MEE} (one continuous trait: body mass) and the present study (446 discrete cladistic characters).
@@ -586,7 +542,7 @@ Secondly % NC: T-TESTS, MULTIPLE COMPARISONS ETC. You could use something else. 
 
 %Squizz that somewhere down:
 \subsection{Methodology improvements for measuring disparity}
-Our results may differ from previous studies because of our specific methodological choices \citep[e.g. compared to][]{Grossnickle2013,Wilson2013}.
+Our results may differ from previous studies because of our specific methodological choices.
 Throughout this paper, we propose several incremental changes to the classical ways of measuring disparity.
 % These differences can be due to the different input data to calculate disparity (morphometric data in \citealt{Grossnickle2013}; and cladistic data in the present study; but see \citealt{foth2012different,hetherington2015cladistic}), the different method to calculate disparity through time (time bin in \citealt{Grossnickle2013}; and time slicing in the present study; see below) or the different focal morphological aspect (dental morphology in \citealt{Grossnickle2013}; and overall - including dental - morphology in the present study).
 Firstly we used all the axes of the cladisto-space, as opposed to previous studies that selected a subsample of the cladisto-space arguing that the $m$ first axes usually contain most of the dataset's variance \citep[e.g][]{brusatte50,cisneros2010,prentice2011,anderson2012using,Hughes20082013,bentonmodels2014}.
@@ -601,7 +557,12 @@ For example, this metric comes with no special statistical assumptions, and it a
 (especially for the products of ranges and variance and the sum of ranges, see supplementary Figs @@@).
 
 %Finally
-Thirdly, we used a time-slicing method instead of binning the data into time intervals \citep[e.g in:][]{cisneros2010,prentice2011,Hughes20082013,hopkinsdecoupling2013,bentonmodels2014,bensonfaunal2014} thus allowing us to avoid two caveats of using the time intervals approach. Because time intervals are often based on biostratigraphy, which is in turn based on notable differences in fossil fauna and flora, this method is likely to artificially emphasize disparity differences among time intervals. It is also possible to use arbitrary time bins of equal duration rather than biostratigraphy \citep{Butler2012,hopkinsdecoupling2013,bensonfaunal2014}, but both approaches make the underlying assumption that disparity changes in a punctuated  manner, i.e. changes occur only between time intervals. However, gradual evolution has been shown to be relatively common in the fossil record \citep{Hunt20112007,Hunt21042015}, so this assumption is unfounded. Our approach allowed us to fit different evolutionary models to our data - either assuming punctuated or gradual evolution. This is an improvement on previous approaches but could be improved further by implementing other common but more complex models for example, a combined stasis and random walk \citep{Hunt21042015} or models based on morphological rates rather than just the sheer branch length.
+Thirdly, we used a time-slicing method instead of binning the data into time intervals \citep[e.g in:][]{cisneros2010,prentice2011,Hughes20082013,hopkinsdecoupling2013,bentonmodels2014,bensonfaunal2014} thus allowing us to avoid two caveats of using the time intervals approach.
+Because time intervals are often based on biostratigraphy, which is in turn based on notable differences in fossil fauna and flora, this method is likely to artificially emphasize disparity differences among time intervals.
+It is also possible to use arbitrary time bins of equal duration rather than biostratigraphy \citep{Butler2012,hopkinsdecoupling2013,bensonfaunal2014}, but both approaches make the underlying assumption that disparity changes in a punctuated  manner, i.e. changes occur only between time intervals.
+However, gradual evolution has been shown to be relatively common in the fossil record \citep{Hunt20112007,Hunt21042015}, so this assumption is unfounded.
+Our approach allowed us to fit different evolutionary models to our data - either assuming punctuated or gradual evolution.
+This is an improvement on previous approaches but could be improved further by implementing other common but more complex models for example, a combined stasis and random walk \citep{Hunt21042015} or models based on morphological rates rather than just the sheer branch length.
 
 
 %NC: OK I think this section can go. 1 - it sort of fits into the paragraph above a bit. 2 - it's more caveats than improvements and probably more detail than needed. Some of the caveats could go earlier
@@ -629,6 +590,8 @@ Thirdly, we used a time-slicing method instead of binning the data into time int
 %However, it is encouraging to note that measuring disparity from time-slices is decoupled from taxonomic diversity at least after a minimal number of taxa \citep{slaterCetacean,ruta2013,hopkinsdecoupling2013}
 
 \subsection{Conclusion}
+%There has been great debate about how mammalian evolution proceeded after the K-Pg boundary \citep{Stadler12042011,meredithimpacts2011,O'Leary08022013,dosReis2014}. 
+
 Evidence for whether mammals diversified before or after the K-Pg boundary is unclear \citep{meredithimpacts2011,O'Leary08022013,dosReis2014,beckancient2014}, and appears to be related to the kind of data used (fossils or living species) and how the analyses were conducted.
 %Among the variety of macroevolutionary process proposed to support an effect of the K-Pg boundary on mammalian evolution, some authors proposed the release of ecological niches after the K-Pg boundary \citep[e.g.][]{archibald2011extinction,O'Leary08022013} or a release of competition pressures \citep[e.g.][]{Slater2012MEE,Lovergrove}.
 Using both fossil and living taxa, and investigating morphological disparity through time rather than taxonomic diversity, we find no direct effect of the K-Pg extinction event on the diversity of mammals. 
