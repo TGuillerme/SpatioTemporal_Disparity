@@ -191,10 +191,11 @@ Finally, most studies of disparity through time use unequal time units based on 
 This can be tautological as biostratigraphy is already based on changes in fossil assemblages and morphology through time.
 To deal with these issues, we propose an updated approach to test whether mammals diversified before or after K-Pg, using morphological disparity, measured as cladistic disparity (see Methods), as our proxy for diversity.
 
-% TG: Add Wilson in this paragraph
 Here we measure the disparity of living and fossil mammals before or after K-Pg, using data taken from two previously published studies \citep{Slater2012MEE,beckancient2014}. 
 Using a novel time-slicing approach, we produce fine-grained estimates of disparity through time under two different models of morphological character evolution (either gradual or punctuated). 
 We also test whether mammals display significant changes in disparity between the end of the Cretaceous and throughout the Cenozoic.
+% TG: Added Wilson here
+Until now, this question was only assessed on data restrained to the northern-American Therian mammals (excluding Monotremata) and without formally testing the effect of the K-Pg event \citep{Wilson2013}.
 To our knowledge, this study is the first to approach the debate about the effects of the K-Pg extinction event on mammalian evolution using Total Evidence phylogenies and by calculating disparity through time in a continuous way \citep[but see][for a similar question]{halliday2013testing}.
 We find no significant changes in mammalian disparity between the end of the Cretaceous and any time during the Cenozoic.
 These results suggest that the extinction of non-avian dinosaurs and other terrestrial vertebrate clades at the end of the Cretaceous did not affect mammalian morphological evolution.
@@ -208,10 +209,10 @@ These results suggest that the extinction of non-avian dinosaurs and other terre
 \section{Methods}
 
 \subsection{Cladistic data and phylogenies}
-We used the cladistic morphological matrices and the Total Evidence tip-dated trees \citep{ronquista2012} from \citet[][103 taxa with 446 morphological characters]{Slater2012MEE} and \citet[][102 taxa with 421 morphological characters]{beckancient2014}.
+We used the cladistic morphological matrices and the Total Evidence tip-dated trees \citep{ronquista2012} from \citet[][103 taxa with 446 morphological characters;]{Slater2012MEE} and \citet[][102 taxa with 421 morphological characters]{beckancient2014}.
 We chose these two datasets because they have a similar number of taxa and morphological characters.
-\cite{Slater2012MEE} ranges from 310 million years ago (Ma; Late Carboniferous) to the present and focuses on the clade Mammaliaformes at the family-level.
-\cite{beckancient2014} ranges from 170 Ma (Middle Jurassic) to the present and focuses on Eutheria at the genus-level.
+\cite{Slater2012MEE} ranges from 310 million years ago (Ma; Late Carboniferous) to the present and focuses on the clade Mammaliaformes at the family-level and is called hereafter the Mammaliaformes dataset.
+\cite{beckancient2014} ranges from 170 Ma (Middle Jurassic) to the present and focuses on Eutheria at the genus-level and is called hereafter the Eutheria dataset.
 We used the first and last occurrences reported in \cite{Slater2012MEE} and \cite{beckancient2014} as the temporal range of each taxon in our analysis.
 Both phylogenies are illustrated in the supplementary material (see Fig S1 and S2 @@@).
 Both trees contain few taxa compared to the overall species richness of living and fossil mammals \citep{wilson2005mammal,archibald2011extinction}. %TG: or actually maybe cite the book on my desk in Dublin.
@@ -233,7 +234,7 @@ This approach is similar to constructing a morphospace based on continuous morph
 Mathematically, a cladisto-space is an $n$ dimensional object that summarizes the cladistic distances between the taxa present in a cladistic matrix (see details below).
 Although empirically inter-taxon distances are the same in a morphospace or a cladisto-space \citep{foth2012different,hetherington2015cladistic}, we prefer the term cladisto-space to make it clear that this space is estimated using cladistic data and not morphometric data and because both objects have slightly different properties.
 For example, because of its inherent combinatory properties, a cladisto-space is a finite theoretical object limited by the product of the number of character states, whereas a morphospace is an infinite theoretical object.
-Thus a cladisto-space will be overloaded if the number of taxa is higher than the product of the number of character states, although this is rarely an issue with empirical data (our cladisto-spaces have maximal capacities of $1.9$$\times$$10^{181}$ taxa, i.e. 101 orders of magnitude more taxa than the number of particles in the universe; \citealp{Slater2012MEE}, and $4.5$$\times$$10^{159}$ taxa; \citealp{beckancient2014}).
+Thus a cladisto-space will be overloaded if the number of taxa is higher than the product of the number of character states, although this is rarely an issue with empirical data (our cladisto-spaces have maximal capacities of $1.9$$\times$$10^{181}$ taxa for the Mammaliaformes data set, i.e. 101 orders of magnitude more taxa than the number of particles in the universe; and $4.5$$\times$$10^{159}$ taxa for the Eutheria dataset).
 
 To estimate the cladisto-spaces for each of our datasets we first constructed pairwise distance matrices of length $k$, where $k$ is the total number of taxa in the dataset. 
 For each dataset separately, we calculated the $k$$\times$$k$ distances using the Gower distance \citep{Gower71}, i.e. the Euclidean distance between two taxa divided by the number of shared characters. 
@@ -241,7 +242,7 @@ This allows us to correct for distances between two taxa that share many charact
 For cladistic matrices, using this corrected distance is preferable to the raw Euclidean distance because of its ability to deal with discrete or/and ordinated characters as well as with missing data \citep{anderson2012using}.
 However, the Gower distance cannot calculate distances when taxa have no overlapping data.
 Therefore, we used the \texttt{TrimMorphDistMatrix} function from the \texttt{Claddis} R package \citep{Claddis} to remove pairs of taxa with no cladistic characters in common.
-This led to us removing 11 taxa from the Mammaliaformes dataset \citep{Slater2012MEE} but none from the Eutheria dataset \citep{beckancient2014}.
+This led to us removing 11 taxa from the Mammaliaformes dataset but none from the Eutheria dataset.
 
 %\subsubsection{Ordination}
 After calculating our distance matrices we transformed them using classical multidimensional scaling \citep[MDS;][]{torgerson1965multidimensional,GOWER01121966,cailliez1983analytical}.
@@ -314,7 +315,7 @@ When the phylogenetic elements are branches we chose the eigenvector score for t
     We therefore considered that changes from a character state A to B were only dependent on the branch length.
 \end{enumerate}
 %What did we do (the main figure)
-We applied our time-slicing approach separately to the two cladisto-spaces calculated for Mammaliaformes \citep{Slater2012MEE} and Eutheria \citep{beckancient2014}, time-slicing the phylogeny every five million years from 170 Ma to the present resulting in 35 subsamples of the cladisto-space.
+We applied our time-slicing approach separately to the two cladisto-spaces calculated for the Mammaliaformes and Eutheria datasets, time-slicing the phylogeny every five million years from 170 Ma to the present resulting in 35 subsamples of the cladisto-space.
 For each subsample, we estimated its disparity assuming punctuated (ACCTRAN, DELTRAN and random) and gradual evolution as described above.
 To reduce the influence of outliers on our disparity estimates, we bootstrapped each disparity measurement by randomly resampling with replacement a new subsample of taxa from the observed taxa in the subsample 1000 times.
 We then calculated the median disparity value for each subsample along with the 50\% and 95\% confidence intervals.
@@ -360,19 +361,16 @@ To make both datasets comparable, we used eight as a minimum number of taxa for 
 %
 %---------------------------------------------
 
-%NC: Up to this point you consistently talk about Mammaliaformes first, then Eutheria. Maybe stick to that and reformat from here on? OR reformat above. Up to you.
-% TG: ok, will standardise later on.
-
 \section{Results}
 %§1 - How does disparity change through time?
-Disparity in Eutheria \citep[data from][]{beckancient2014} reaches a plateau at the end of the Jurassic (150 Ma) and in the mean time, the number of tips and nodes (i.e. a proxy for taxonomic richness) increases up to the K-Pg boundary and then decreases throughout the Cenozoic (Fig \ref{fig:Fig_Raw_results}).
-These changes in disparity do not appear to be fully linked to the number of tips and nodes used to estimate disparity.
-Changes in disparity among Mammaliaformes \citep[data from][]{Slater2012MEE}, however, are more idiosyncratic (Fig \ref{fig:Fig_Raw_results}).
-In fact, disparity reaches a plateau during the Anisian (middle Triassic; 245 Ma) and fluctuates during the rest of the Mesozoic and the Cenozoic (Fig @@@ supplementary).
-Contra to the patterns observed in Eutheria, disparity changes seems to be more linked to the number of tips and nodes available for estimating disparity (Fig \ref{fig:Fig_Raw_results}).
+Disparity in the Mammaliaformes dataset reaches a plateau a plateau during the Anisian (middle Triassic; 245 Ma) and fluctuates during the rest of the Mesozoic and the Cenozoic (Fig \ref{fig:Fig_Raw_results} and Fig @@@ supplementary).
+These changes in disparity do not appear to be fully linked to the number of tips and nodes used to estimate disparity  (Fig \ref{fig:Fig_Raw_results} and @@rar@@sup).
+Disparity in the Eutheria dataset reaches a plateau at the end of the Jurassic (150 Ma) and in the mean time, the number of tips and nodes (i.e. a proxy for taxonomic richness) increases up to the K-Pg boundary and then decreases throughout the Cenozoic (Fig \ref{fig:Fig_Raw_results}).
+Contra to the patterns observed in the Mammaliaformes dataset, disparity changes seems to be less linked to the number of tips and nodes available for estimating disparity (Fig \ref{fig:Fig_Raw_results}).
+
 Note that both evolutionary models (gradual or punctuated) seems to yield to sensibly similar results (Fig \ref{fig:Fig_Raw_results}).
-When we tested for a direct effect of the K-Pg boundary on both data sets and under both evolutionary models, we found no significant differences in disparity between the last subsample of the Cretaceous (70 Ma) and the first sub-sample of the Paleogene (65 Ma; Tables \ref{tab:Tab_beck} and \ref{tab:Tab_slater}).
-When testing for a lag effect after the K-Pg boundary, we found no significant differences in disparity between the last subsample of the Cretaceous (70 Ma) and any subsamples of the Paleocene and the Eocene in Mammaliaformes under both evolutionary models and in Eutheria under a gradual evolutionary model (Tables \ref{tab:Tab_beck} and \ref{tab:Tab_slater}).
+When we tested for a direct effect of the K-Pg boundary on both data sets and under both evolutionary models, we found no significant differences in disparity between the last subsample of the Cretaceous (70 Ma) and the first sub-sample of the Paleogene (65 Ma; Tables \ref{tab:Tab_slater} and \ref{tab:Tab_beck}).
+When testing for a lag effect after the K-Pg boundary, we found no significant differences in disparity between the last subsample of the Cretaceous (70 Ma) and any subsamples of the Paleocene and the Eocene in Mammaliaformes under both evolutionary models and in Eutheria under a gradual evolutionary model (Tables \ref{tab:Tab_slater} and \ref{tab:Tab_beck}).
 However, in Eutheria under punctuated evolutionary model, we found a significant difference (even after applying Bonferonni correction) in disparity between the last subsample of the Cretaceous (70 Ma) and the subsamples at 50 Ma (Late Ypressian) and 40 Ma (Bartonian; Table \ref{tab:Tab_beck})
 
 % TG: I'm now not entirely sure if this is relevant here. In the end we found no signif results appart from two during the Eocene that we discuss in the discussion (effect of PETM?).
