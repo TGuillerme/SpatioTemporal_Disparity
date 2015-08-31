@@ -517,15 +517,7 @@ In fact, disparity data between each subsample is not independent in three diffe
 When using a t-test, the assumption that the data is independent is therefore violated.
 Additionally, the third dependency source (bootstraps pseudo-replications) is likely to increase difference significance simply by increasing the number of bootstraps pseudo-replicates.
 Currently, however, such is still useful and widely used in disparity analysis \citep[e.g.]{anderson2012using,zelditch2012geometric,smith2014joined} and can lead to interpretable results when using p-value corrections \citep[e.g. Holm-Bonferonni][]{holm1979simple}.
-% NC: T-TESTS, MULTIPLE COMPARISONS ETC. You could use something else. Currently however everyone is doing t tests and we correct for multiple comparisons as best we can. (Doesn't need to be a long paragraph)/ TG: is that kind of OK? Note that I'm currently playing with a more correct way to compare the subsamples accounting for phylogeny and time that is based just on distance between taxa and centroid (no bootstraps) using moving-averaged phylogenetic logistic regression.
-
-% Secondly, the core of the debate in mammalian evolution is weather \textit{placental} mammals originated before or after the K-Pg boundary \citep{dosReis2012,O'Leary08022013,Springer09082013,O’Leary09082013,dosReis2014}.
-% The infraclass Placentalia can be defined as ``the least inclusive clade that includes all extant placentals'' \citep{beckancient2014}.
-% However, part of the dating debate might be due to the lack of clear characters that can be used to define early placental mammals \citep{bininda2012rocking,beckancient2014}. % What IS a placental mammal?
-% \cite{Cartmill2012} also argues that the use of higher taxa definition in general might be obsolete since ``there is only a long, geologically slow cascade of accumulating small apomorphies''.
-% Therefore, in this study, we made the deliberate choice to focus on the taxonomic levels (genus \textit{vs.} family) rather than on the higher clades definitions.
-% We argue that if a significant change in disparity occurred at the K-Pg boundary in any of such infraclass (Placentalia, Marsupialia, etc...) it would be detectable even at a higher level (i.e. changes in Placentalia correspond by definition to changes in Eutheria and Mammaliaformes).
-% Also, using Total Evidence tip-dated trees provides more accurate estimates of diversification times (\citealt{ronquista2012,Wood01032013,beckancient2014}; but see \citealt{Arcila2015131}) and allows the opportunity to look at changes in disparity for both living and fossil species.
+% NC: T-TESTS, MULTIPLE COMPARISONS ETC. You could use something else. Currently however everyone is doing t tests and we correct for multiple comparisons as best we can. (Doesn't need to be a long paragraph)/ TG: is that kind of OK? Note that I'm currently playing with a more correct way to compare the subsamples accounting for phylogeny and time that is based just on distance between taxa and centroid (no bootstraps) using moving-averaged phylogenetic logistic regression. Maybe we'll have a chat about that.
 
 % Secondly, the core of the debate in mammalian evolution is weather \textit{placental} mammals originated before or after the K-Pg boundary \citep{dosReis2012,O'Leary08022013,Springer09082013,O’Leary09082013,dosReis2014}.
 % The infraclass Placentalia can be defined as ``the least inclusive clade that includes all extant placentals'' \citep{beckancient2014}.
@@ -546,9 +538,9 @@ However, by doing so, we included dimensions of the cladisto-space with near $0$
 An alternative method avoids this problem by simply not ordinating the data and using the raw distance matrix \citep[e.g.][]{bensonfaunal2014,Close2015}. 
 However, in both this method and our method, the calculation of the products of ranges and variances is impossible.
 
-Secondly, we used median distance from centroid as a disparity metric, rather than the classical sums and products of ranges and variances \citep{} % NC CITATION?
+Secondly, we used median distance from centroid as a disparity metric, rather than the classical sums and products of ranges and variances \citep{Wills1994}.
 This metric is not affected by problems with using the last dimensions of the cladisto-space (see above) and therefore has several advantages over other metrics. % NC: I'm assuming the next sentence is the advantages?
-For example, this metric comes with no special statistical assumptions, and it appears to be less coupled with taxonomic diversity % NC: Need to explain where you got this from - your supp analyses?
+For example, this metric comes with no special statistical assumptions, and it appears to be less coupled with taxonomic diversity % NC: Need to explain where you got this from - your supp analyses? TG: yeah but it's not thorough. It just looks decoupled visually, didn't tested anything.
 (especially for the products of ranges and variance and the sum of ranges, see supplementary Figs @@@).
 
 %Finally
