@@ -338,9 +338,11 @@ We report the results of these analyses in the Supplementary Materials (@@@). % 
 %Testing the difference section
 \subsection{Testing the effects of the K-Pg extinction on mammalian disparity}
 If the K-Pg extinction event had a significant effect on mammalian disparity, we should see a significant difference between disparity at the end of the Cretaceous and disparity at the start of the Paleogene.
-To test this, we performed t-tests among the time subsamples before and after the K-Pg boundary 66 Ma, i.e. the subsamples at 70 and 65 Ma \citep[e.g. as used in][]{anderson2012using,zelditch2012geometric,smith2014joined}, for both Mammaliaformes and Eutheria datasets and using both the gradual and punctuated evolutionary models.
-Because the effect of a mass extinction event on a group's evolution might not be detectable directly after the event due to delays in recovery \citep[e.g.][estimated that ecosystems fully recovered 8 to 9 Ma after the Permo-Triassic Mass Extinction 251 Ma]{chen2012timing}, we also tested whether there was a significant difference in disparity between the end of the Cretaceous and any subsample from the Paleocene and the Eocene (up to the Late Priabonian; 35 Ma).
-Because these analyses involved multiple t-tests, we used Bonferonni correction \citep{holm1979simple} on the significant p-values.
+To test this, we performed t-tests to look for differences in disparity among the time subsamples before and after the K-Pg boundary at 66 Ma, i.e. the subsamples at 70 and 65 Ma \citep[e.g. as used in][]{anderson2012using,zelditch2012geometric,smith2014joined}, for both the Mammaliaformes and Eutheria datasets and using both the gradual and punctuated evolutionary models.
+Because the effect of a mass extinction event on a group's evolution might not be detectable directly after the event due to delays in recovery \citep[e.g.][estimated that ecosystems only fully recovered 8-9 Ma after the Permo-Triassic mass extinction]{chen2012timing}, we also tested whether there was a significant difference in disparity between the end of the Cretaceous and all subsamples from the Paleocene and the Eocene up to the Late Priabonian, 35 Ma.
+% NC: Explain why you stop at 35 Ma and not 50 Ma (60 - 9 = 51 not 35). Stuff about wanting to include the PETM.
+Because these analyses involved multiple comparisons, we used Bonferonni corrections \citep{holm1979simple} to ensure our significant results were robust to Type I error rate inflation. 
+
 
 %Moved that from above for explaining the rarefaction
 Finally, disparity may be higher in subsamples with more phylogenetic elements simply because there are more taxa represented.
@@ -348,9 +350,6 @@ To test whether this influenced our results, we repeated the t-tests using the r
 In the Mammaliaformes, the minimum number of taxa in each subsample from 170 Ma to present was eight.
 In the Eutheria, the minimum number of taxa in each subsample was three, however, from 150 Ma until the present, the minimum number of taxa is eight.
 To make both datasets comparable, we used eight as a minimum number of taxa for the rarefied bootstrap measurements, therefore in the Eutheria we ignored the subsample between 170 and 150 Ma that only contains three taxa.
-
-% NC: I wonder whether you need to mention slater and beck every single time, could just say eutheria or mammaliaformes.
-% TG: I standradised that
 
 % we first tested whether there was a significant effect of time on disparity using \cite{permanova}'s Permutational Analysis of Variance \citep[also referred to as PERMANOVA or NPANOVA; e.g.][]{brusatte50,ruta2013}.
 % We calculated the Euclidean distance of the ordinated data with 1000 permutations on both datasets and on both evolutionary scenarios using the \texttt{adonis} function from the R package \texttt{vegan} \citep{vegan}.
