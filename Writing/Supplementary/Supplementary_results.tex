@@ -116,20 +116,23 @@ This section contains the results from the rarefied Mammaliaformes and Eutheria 
 \begin{figure}[!htbp]
 \centering
     \includegraphics[keepaspectratio=true]{Figures/Main_results_rarefied.pdf}
-\caption{Disparity through time in Eutheria and Mammaliaformes calculated using a model of punctuated or gradual evolution, but controlling for variations in species richness at each time slice using rarefaction. The x axis represents time in millions of years before the present (Ma). The y axis represents disparity, measured as the median distance from centroid at each time slice.
- The solid black lines show the mean disparity estimated from 1000 bootstrapped pseudoreplicates; the confidence intervals (CI) are represented by the grey polygons (50\% CI in dark grey and 95\% CI in light grey). The right hand axis represents species richness, and the dashed line shows the species richness in each time slice. The red vertical line indicates the Cretaceous-Paleogene (K-Pg) boundary (66 Ma).}
+\caption{Rarefied disparity through time in Eutheria and Mammaliaformes calculated using a model of punctuated (upper panels) or gradual (lower panels) evolution. The x axis represents time in millions of years before the present (Ma). The y axis represents disparity, measured as the median distance between the centroid of the ordinated space and the tips/nodes in each time subsample. The solid black lines show the mean disparity estimated from 1000 bootstrapped pseudoreplicates and confidence intervals (CI) are represented by the grey polygons (50\% CI in dark grey and 95\% CI in light grey). The dashed line and the right hand axis represents the number of tips/nodes in each time slice. The red vertical line indicates the Cretaceous-Paleogene (K-Pg) boundary (66 Ma). Note that scale bars differ among panels.}
 \label{fig:Fig_Rar_results}
 \end{figure}
 
 
+
+
 \begin{table}[ht]
-\caption{Results of comparing the rarefied disparity at the last subsample of the Cretaceous (70 Ma) to the subsamples of the Paleocene and Eocene the Eutheria dataset under both gradual and punctuated evolutionary models. Difference: mean subsample difference; df: degrees of freedom; t: t statistic.}
+\caption{\tiny{Results of rarefied t-tests comparing disparity at the last subsample of the Cretaceous (70 Ma) to subsamples of the Paleocene and Eocene, under both gradual and punctuated evolutionary models, in Mammaliaformes and Eutheria. Difference = mean difference in disparity between the two subsamples being compared; df = degrees of freedom; p value = original p value prior to Bonferonni correction.}}
 \label{tab:Tab_beck}
 \centering
-\begin{tabular}{r|cccc|cccc}
+\begin{tabular}{c|cccc|cccc}
   \hline
-  Compared & \multicolumn{4}{c|}{Gradual model} & \multicolumn{4}{c}{Punctuated model} \\
-  subsamples & difference & df & t & p value & difference & df & t & p value \\ 
+  \textbf{Subsamples} & \multicolumn{4}{c|}{\textbf{Gradual evolution model}} & \multicolumn{4}{c}{\textbf{Punctuated evolution model}} \\
+  \textbf{compared} & \textbf{difference} & \textbf{df} & \textbf{t} & \textbf{p value} & \textbf{difference} & \textbf{df} & \textbf{t} & \textbf{p value} \\ 
+  \hline
+  \multicolumn{9}{c}{\textbf{Mammaliaformes}}\\
   \hline
   70 \textit{vs.} 65 Ma & -0.030 & 84 & -0.169 & 0.866 & 0.030 & 84 & 0.167 & 0.868 \\ 
   70 \textit{vs.} 60 Ma & 0.010 & 76 & 0.030 & 0.976 & 0.040 & 76 & 0.260 & 0.795 \\ 
@@ -138,18 +141,8 @@ This section contains the results from the rarefied Mammaliaformes and Eutheria 
   70 \textit{vs.} 45 Ma & 0.120 & 64 & 0.550 & 0.584 & 0.100 & 64 & 0.550 & 0.584 \\ 
   70 \textit{vs.} 40 Ma & 0.100 & 64 & 0.465 & 0.644 & 0.140 & 64 & 0.695 & 0.490 \\ 
   70 \textit{vs.} 35 Ma & 0.110 & 60 & 0.476 & 0.636 & 0.090 & 60 & 0.464 & 0.644 \\ 
-   \hline
-\end{tabular}
-\end{table}
-
-\begin{table}[ht]
-\caption{Results of comparing the rarefied disparity at the last subsample of the Cretaceous (70 Ma) to the subsamples of the Paleocene and Eocene the Mammaliaformes dataset under both gradual and punctuated evolutionary models. Column heads explained same as given in Table ~\ref{tab:Tab_beck}.}
-\label{tab:Tab_slater}
-\centering
-\begin{tabular}{r|cccc|cccc}
   \hline
-  Compared & \multicolumn{4}{c|}{Gradual model} & \multicolumn{4}{c}{Punctuated model} \\
-  subsamples & Difference & Df & T & p value & Difference & Df & T & p value \\ 
+  \multicolumn{9}{c}{\textbf{Eutheria}}\\
   \hline
   70 \textit{vs.} 65 Ma & -0.440 & 21 & -0.561 & 0.581 & -0.240 & 21 & -0.405 & 0.690 \\ 
   70 \textit{vs.} 60 Ma & -0.150 & 18 & -0.162 & 0.873 & 0.220 & 18 & 0.305 & 0.764 \\ 
@@ -161,6 +154,46 @@ This section contains the results from the rarefied Mammaliaformes and Eutheria 
    \hline
 \end{tabular}
 \end{table}
+
+% \begin{table}[ht]
+% \caption{Results of comparing the rarefied disparity at the last subsample of the Cretaceous (70 Ma) to the subsamples of the Paleocene and Eocene the Eutheria dataset under both gradual and punctuated evolutionary models. Difference: mean subsample difference; df: degrees of freedom; t: t statistic.}
+% \label{tab:Tab_beck}
+% \centering
+% \begin{tabular}{r|cccc|cccc}
+%   \hline
+%   Compared & \multicolumn{4}{c|}{Gradual model} & \multicolumn{4}{c}{Punctuated model} \\
+%   subsamples & difference & df & t & p value & difference & df & t & p value \\ 
+%   \hline
+%   70 \textit{vs.} 65 Ma & -0.030 & 84 & -0.169 & 0.866 & 0.030 & 84 & 0.167 & 0.868 \\ 
+%   70 \textit{vs.} 60 Ma & 0.010 & 76 & 0.030 & 0.976 & 0.040 & 76 & 0.260 & 0.795 \\ 
+%   70 \textit{vs.} 55 Ma & 0.010 & 75 & 0.039 & 0.969 & 0.010 & 75 & 0.031 & 0.976 \\ 
+%   70 \textit{vs.} 50 Ma & 0.080 & 68 & 0.409 & 0.684 & 0.130 & 68 & 0.686 & 0.495 \\ 
+%   70 \textit{vs.} 45 Ma & 0.120 & 64 & 0.550 & 0.584 & 0.100 & 64 & 0.550 & 0.584 \\ 
+%   70 \textit{vs.} 40 Ma & 0.100 & 64 & 0.465 & 0.644 & 0.140 & 64 & 0.695 & 0.490 \\ 
+%   70 \textit{vs.} 35 Ma & 0.110 & 60 & 0.476 & 0.636 & 0.090 & 60 & 0.464 & 0.644 \\ 
+%    \hline
+% \end{tabular}
+% \end{table}
+
+% \begin{table}[ht]
+% \caption{Results of comparing the rarefied disparity at the last subsample of the Cretaceous (70 Ma) to the subsamples of the Paleocene and Eocene the Mammaliaformes dataset under both gradual and punctuated evolutionary models. Column heads explained same as given in Table ~\ref{tab:Tab_beck}.}
+% \label{tab:Tab_slater}
+% \centering
+% \begin{tabular}{r|cccc|cccc}
+%   \hline
+%   Compared & \multicolumn{4}{c|}{Gradual model} & \multicolumn{4}{c}{Punctuated model} \\
+%   subsamples & Difference & Df & T & p value & Difference & Df & T & p value \\ 
+%   \hline
+%   70 \textit{vs.} 65 Ma & -0.440 & 21 & -0.561 & 0.581 & -0.240 & 21 & -0.405 & 0.690 \\ 
+%   70 \textit{vs.} 60 Ma & -0.150 & 18 & -0.162 & 0.873 & 0.220 & 18 & 0.305 & 0.764 \\ 
+%   70 \textit{vs.} 55 Ma & -0.120 & 19 & -0.130 & 0.898 & 0.150 & 19 & 0.213 & 0.834 \\ 
+%   70 \textit{vs.} 50 Ma & -0.330 & 20 & -0.405 & 0.690 & -0.170 & 20 & -0.277 & 0.785 \\ 
+%   70 \textit{vs.} 45 Ma & -0.390 & 23 & -0.509 & 0.616 & -0.220 & 23 & -0.342 & 0.736 \\ 
+%   70 \textit{vs.} 40 Ma & -0.500 & 24 & -0.668 & 0.510 & -0.310 & 24 & -0.570 & 0.574 \\ 
+%   70 \textit{vs.} 35 Ma & -0.560 & 26 & -0.740 & 0.466 & -0.230 & 26 & -0.360 & 0.722 \\ 
+%    \hline
+% \end{tabular}
+% \end{table}
 
 \begin{figure}[!htbp]
 \centering
