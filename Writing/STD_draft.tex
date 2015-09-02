@@ -393,12 +393,13 @@ Otherwise the results of the rarefied analyses are the same as when using the co
 \begin{figure}[!htbp]
 \centering
     \includegraphics[keepaspectratio=true]{Figures/Main_results.pdf}
-\caption{Disparity through time in Eutheria and Mammaliaformes calculated using a model of punctuated or gradual evolution. The x axis represents time in millions of years before the present (Ma). The y axis represents disparity, measured as the median distance between the centroid of the ordinated space and the tips/nodes in each time subsample. The solid black lines show the mean disparity estimated from 1000 bootstrapped pseudoreplicates and confidence intervals (CI) are represented by the grey polygons (50\% CI in dark grey and 95\% CI in light grey). The dashed line and the right hand axis represents the number of tips/nodes in each time slice. The red vertical line indicates the Cretaceous-Paleogene (K-Pg) boundary (66 Ma). Note that scale bars are different between the panels.}
+\caption{\tiny{Disparity through time in Eutheria and Mammaliaformes calculated using a model of punctuated (upper panels) or gradual  (lower panels) evolution. The x axis represents time in millions of years before the present (Ma). The y axis represents disparity, measured as the median distance between the centroid of the ordinated space and the tips/nodes in each time subsample. The solid black lines show the mean disparity estimated from 1000 bootstrapped pseudoreplicates and confidence intervals (CI) are represented by the grey polygons (50\% CI in dark grey and 95\% CI in light grey). The dashed line and the right hand axis represents the number of tips/nodes in each time slice. The red vertical line indicates the Cretaceous-Paleogene (K-Pg) boundary (66 Ma). Note that scale bars differ among panels.}}
 \label{fig:Fig_Raw_results}
 \end{figure}
+% NC: Figure legend has slipped off the bottom of the page so I've made the text tiny for now!
 
 \begin{table}[ht]
-\caption{Results of t tests comparing disparity at the last subsample of the Cretaceous (70 Ma) to subsamples of the Paleocene and Eocene, under both gradual and punctuated evolutionary models in Mammaliaformes. Difference = mean difference in disparity between the two subsamples being compared; df = degrees of freedom. }
+\caption{Results of t-tests comparing disparity at the last subsample of the Cretaceous (70 Ma) to subsamples of the Paleocene and Eocene, under both gradual and punctuated evolutionary models, in Mammaliaformes. Difference = mean difference in disparity between the two subsamples being compared; df = degrees of freedom; p value = original p value prior to Bonferonni correction. }
 \label{tab:Tab_slater}
 \centering
 \begin{tabular}{r|cccc|cccc}
@@ -418,7 +419,7 @@ Otherwise the results of the rarefied analyses are the same as when using the co
 \end{table}
 
 \begin{table}[ht]
-\caption{Results of t tests comparing disparity at the last subsample of the Cretaceous (70 Ma) to subsamples of the Paleocene and Eocene, under both gradual and punctuated evolutionary models in Eutheria. Difference = mean difference in disparity between the two subsamples being compared; df = degrees of freedom. Significant differences (after applying Bonferonni corrections for multiple comparisons) are highlighted in bold.}
+\caption{Results of t-tests comparing disparity at the last subsample of the Cretaceous (70 Ma) to subsamples of the Paleocene and Eocene, under both gradual and punctuated evolutionary models, in Eutheria. Difference = mean difference in disparity between the two subsamples being compared; df = degrees of freedom; p value = original p value prior to Bonferonni correction. Significant differences (after applying Bonferonni corrections for multiple comparisons) are highlighted in bold.}
 \label{tab:Tab_beck}
 \centering
 \begin{tabular}{r|cccc|cccc}
@@ -439,6 +440,67 @@ Otherwise the results of the rarefied analyses are the same as when using the co
    $^2$p value is \textbf{0.018} after applying Bonferonni correction;
    $^3$p value is \textbf{0.032} after applying Bonferonni correction.
 \end{table}
+
+
+\begin{table}[ht]
+\caption{Results of t-tests comparing disparity at the last subsample of the Cretaceous (70 Ma) to subsamples of the Paleocene and Eocene, under both gradual and punctuated evolutionary models, in Mammaliaformes. Difference = mean difference in disparity between the two subsamples being compared; df = degrees of freedom; p value = original p value prior to Bonferonni correction. }
+\label{tab:Tab_slater}
+\centering
+\begin{tabular}{r|cccc|cccc}
+  \hline
+  Subsamples & \multicolumn{4}{c|}{Gradual evolution model} & \multicolumn{4}{c}{Punctuated evolution model} \\
+  compared & difference & df & t & p value & difference & df & t & p value \\ 
+  \hline
+  70 \textit{vs.} 65 Ma & -0.420 & 21 & -0.772 & 0.449 & -0.310 & 21 & -0.732 & 0.472 \\ 
+  70 \textit{vs.} 60 Ma & 0.030 & 18 & 0.054 & 0.957 & 0.390 & 18 & 0.633 & 0.535 \\ 
+  70 \textit{vs.} 55 Ma & 0.010 & 19 & 0.018 & 0.986 & 0.210 & 19 & 0.383 & 0.706 \\ 
+  70 \textit{vs.} 50 Ma & -0.290 & 20 & -0.533 & 0.600 & -0.190 & 20 & -0.431 & 0.671 \\ 
+  70 \textit{vs.} 45 Ma & -0.470 & 23 & -0.976 & 0.339 & -0.340 & 23 & -0.812 & 0.425 \\ 
+  70 \textit{vs.} 40 Ma & -0.640 & 24 & -1.450 & 0.160 & -0.460 & 24 & -1.283 & 0.212 \\ 
+  70 \textit{vs.} 35 Ma & -0.750 & 26 & -1.820 & 0.080 & -0.460 & 26 & -1.270 & 0.215 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+% NC: What about this? Rule of thumb is that if the legends are the same and column headings are the same they should be the same table unless they're way too big to fit. These will be fine for the thesis if you get rid of double spacing. You may also want to highlight entire rows in grey shading if they are important - for the thesis not the paper.
+
+% NC: Make column headings bold
+
+\begin{table}[ht]
+\caption{\tiny{Results of t-tests comparing disparity at the last subsample of the Cretaceous (70 Ma) to subsamples of the Paleocene and Eocene, under both gradual and punctuated evolutionary models, in Mammaliaformes and Eutheria. Difference = mean difference in disparity between the two subsamples being compared; df = degrees of freedom; p value = original p value prior to Bonferonni correction. Significant differences (after applying Bonferonni corrections for multiple comparisons) are highlighted in bold.}}
+\label{tab:Tab_beck}
+\centering
+\begin{tabular}{r|cccc|cccc}
+  \hline
+  Subsamples & \multicolumn{4}{c|}{Gradual evolution model} & \multicolumn{4}{c}{Punctuated evolution model} \\
+  compared & difference & df & t & p value & difference & df & t & p value \\ 
+  \hline
+  \multicolumn{9}{c}{Mammaliaformes}\\
+  \hline
+  70 \textit{vs.} 65 Ma & -0.420 & 21 & -0.772 & 0.449 & -0.310 & 21 & -0.732 & 0.472 \\ 
+  70 \textit{vs.} 60 Ma & 0.030 & 18 & 0.054 & 0.957 & 0.390 & 18 & 0.633 & 0.535 \\ 
+  70 \textit{vs.} 55 Ma & 0.010 & 19 & 0.018 & 0.986 & 0.210 & 19 & 0.383 & 0.706 \\ 
+  70 \textit{vs.} 50 Ma & -0.290 & 20 & -0.533 & 0.600 & -0.190 & 20 & -0.431 & 0.671 \\ 
+  70 \textit{vs.} 45 Ma & -0.470 & 23 & -0.976 & 0.339 & -0.340 & 23 & -0.812 & 0.425 \\ 
+  70 \textit{vs.} 40 Ma & -0.640 & 24 & -1.450 & 0.160 & -0.460 & 24 & -1.283 & 0.212 \\ 
+  70 \textit{vs.} 35 Ma & -0.750 & 26 & -1.820 & 0.080 & -0.460 & 26 & -1.270 & 0.215 \\ 
+  \hline
+  \multicolumn{9}{c}{Eutheria}\\
+  \hline
+  70 \textit{vs.} 65 Ma & -0.020 & 84 & -0.546 & 0.586 & 0.030 & 84 & 0.756 & 0.452 \\ 
+  70 \textit{vs.} 60 Ma &  0.030 & 76 & 0.608 & 0.545 & 0.060 & 76 & 1.189 & 0.238 \\ 
+  70 \textit{vs.} 55 Ma &  0.030 & 75 & 0.562 & 0.576 & 0.020 & 75 & 0.383 & 0.703 \\ 
+  70 \textit{vs.} 50 Ma &  0.130 & 68 & 2.090 & 0.040$^1$ & 0.160 & 68 & 2.984 & \textbf{0.004}$^2$ \\ 
+  70 \textit{vs.} 45 Ma &  0.180 & 64 & 2.719 & 0.008$^1$ & 0.160 & 64 & 2.641 & 0.010$^1$ \\ 
+  70 \textit{vs.} 40 Ma &  0.150 & 64 & 2.280 & 0.026$^1$ & 0.200 & 64 & 3.172 & \textbf{0.002}$^3$ \\ 
+  70 \textit{vs.} 35 Ma &  0.200 & 60 & 2.532 & 0.014$^1$ & 0.170 & 60 & 2.598 & 0.012$^1$ \\ 
+   \hline
+\end{tabular} \\
+   \small{$^1$p value is non-significant after applying Bonferonni correction;
+   $^2$p value is \textbf{0.018} after applying Bonferonni correction;
+   $^3$p value is \textbf{0.032} after applying Bonferonni correction.}
+\end{table}
+
 
 
 %---------------------------------------------
