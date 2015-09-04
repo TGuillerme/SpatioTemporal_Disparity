@@ -73,15 +73,23 @@ pco_slice_beck_ran  <-slice.pco(pco_beck  , tree_beck  , slices, method='random'
 #permanova_ran_beck  <-disparity.test.time(pco_slice_beck_ran  , method="euclidean", permutations=1000)
 
 #reference
+set.seed(1)
 reftest_pro_slater<-disparity.test(pco_slice_slater_pro[21:28], method="centroid", test="reference", bootstraps=1000, correction="none")
+set.seed(1)
 reftest_pro_beck  <-disparity.test(pco_slice_beck_pro[21:28]  , method="centroid", test="reference", bootstraps=1000, correction="none")
+set.seed(1)
 reftest_ran_slater<-disparity.test(pco_slice_slater_ran[21:28], method="centroid", test="reference", bootstraps=1000, correction="none")
+set.seed(1)
 reftest_ran_beck  <-disparity.test(pco_slice_beck_ran[21:28]  , method="centroid", test="reference", bootstraps=1000, correction="none")
 
 #reference (rarefied)
+set.seed(1)
 reftestRAR_pro_slater<-disparity.test(pco_slice_slater_pro[21:28], method="centroid", test="reference", bootstraps=1000, rarefaction=8, correction="none")
+set.seed(1)
 reftestRAR_pro_beck  <-disparity.test(pco_slice_beck_pro[21:28]  , method="centroid", test="reference", bootstraps=1000, rarefaction=8, correction="none")
+set.seed(1)
 reftestRAR_ran_slater<-disparity.test(pco_slice_slater_ran[21:28], method="centroid", test="reference", bootstraps=1000, rarefaction=8, correction="none")
+set.seed(1)
 reftestRAR_ran_beck  <-disparity.test(pco_slice_beck_ran[21:28]  , method="centroid", test="reference", bootstraps=1000, rarefaction=8, correction="none")
 
 
