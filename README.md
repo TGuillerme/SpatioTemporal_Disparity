@@ -1,4 +1,4 @@
-# Cretaceous-Palaeogene extinction does not affect mammalian disparity.
+# Mammalian morphological diversity does not increase in response to the Cretaceous-Paleogene event and the extinction of the (non-avian) dinosaurs.
 [Thomas Guillerme](http://tguillerme.github.io) and [Natalie Cooper](https://http://nhcooper123.github.io/).
 
 This repository contains all the code and data used in the manuscript.
@@ -15,52 +15,51 @@ library(devtools)
 install_github("TGuillerme/SpatioTemporal_Disparity/Functions/disparity")
 library(disparity)
 ```
-Note that the following "package" is not a real package, just a set of functions to be used to reproduce this paper's analysis.
+Note that the following "package" is not a *real* package, just a set of functions to be used to reproduce this paper's analysis. Check out the [dispRity](https://github.com/TGuillerme/dispRity) package for the proper package (still in developement though).
 
 ## Data
 All the data will be available once every analysis is run (hopefully that means 'soon').
 
 ## Analysis
-Here are the following steps for running the full analysis (`shell` version only - a thorough `R` version should be coming soon.)
-####Estimating ancestral characters and calculating the distance matrices (`shell`)
-The [`Data.setup.sh`](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/Data.setup.sh) script allows you to generate the proper `R` script to run. The analysis may take a bit long on certain machines so I advise to run it as a background task on a terminal using the following script (as an example):
 
+The analysis is divided into four steps
+* 1.Estimating the ancestral characters states and the distance matrix for each cladistic matrix(based on [Claddis](https://cran.r-project.org/web/packages/Claddis/) `R` packages).
+* 2.Calculating disparity
+* 3.Plotting the results
+* 4.Testing the differences in disparity around the K-Pg boundary
+
+Note that the two first steps take some time (several hours on your usual desktop machine) so the results from these two steps is made directly available here. **DO ACTUALLY UPLOAD THIS DATA ON FIGSHARE**
+Note also that the three last steps are generalised in the [dispRity](https://github.com/TGuillerme/dispRity) package (still in development though).
+
+#### Estimating the ancestral characters states and the distance matrix
+The code is available separately for the [Mammaliaformes](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Analysis/Data_setups/Data_setup_Slater_claddis.R) and the [Eutheria](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Analysis/Data_setups/Data_setup_Beck_Claddis.R) datasets. The scripts are divided in four sections:
+* **Loading the data.**
+* **Cleaning the matrices and the trees:** removing the species with only missing data (i.e. the living species with only molecular data) and making sure the cladistic matrix and the tree matches exactly (label wise).
+* **Ancestral states reconstruction:** using a modified version of the `Claddis::AncStateEstMatrix` function (details [here](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity/R/anc.state.R) and [here (internal)](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity/R/anc.state_fun.R) that saves the scaled likelihood values for each reconstruction. This allows to get rid of all the characters < 0.95 scaled likelihood (using [anc.unc](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity/R/anc.unc.R)).
+* **Distance matrix:** calculating the Gower distance using the `Claddis::MorphDistMatrix` function.
+
+#### Calculating disparity
+All the different scripts for calculating disparity (i.e. different time-slicing methods, time binning method, different disparity metrics) are available in [this folder](https://github.com/TGuillerme/SpatioTemporal_Disparity/tree/master/Analysis/Disparity_calculations). Files are named as follows:
 ```
-# Generating the R script
-sh Data.setup.sh "Beck2014" "../Data/" "../Data/2014-Beck-ProcB-matrix-morpho.nex" "../Data/2014-Beck-ProcB-TEM.tre" "Claddis"
-
-# Launching the R script (as a verbose background task)
-R --no-save < Data_setup_Beck_Claddis.R > /dev/null
+Dataset_disparity_nodes_timeSeries_timeSlicing.R
 ```
+with `Dataset` being either `Slater2013` (Mammaliaformes) or `Beck2014` (Eutheria); `nodes` being either `nodes95` for matrices including only nodes with > 0.95 scaled likelihood ancestral reconstructions or just `nodes` for the matrices including all ancestral reconstructions; `timeSeries` being either `sli` for time-slicing method or `int` for time-bining method; and `timeSlicing` (if `sli`) for the time-slicing method (`acc` = ACCTRAN, `del` = DELTRAN, `ran` = punctuated (random) and `pro` = gradual (proximity)).
 
-####Calculating the disparity (`shell` version only - a thorough `R` version should be coming soon.)
-The [`disparity.calc.sh`](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity.calc.sh) script generates the `R` script. The analysis also takes some time so the same advice applies as above. Here's a follow up example:
+Each file does:
+* **Loading the data.**
+* **Cleaning the distance matrix:** using the `Claddis::TrimMorphDistMatrix` function for removing taxa with no overlaping data
+* **Ordinating the matrix:** using the `stats::cmdscale` function for ordinating the data
+* **Creating the time series:** (or intervals) for generating the time series using the [slice.pco](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity/R/slice.pco.R) or [int.pco](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity/R/int.pco.R) functions
+* **Calculating disparity:** using the [time.disparity](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity/R/time.disparity.R) function.
 
-```
-# Setting the intervals and the slices values
-intervals="170,155,140,125,110,95,80,65,50,35,20,0"
-slices="170,165,160,155,150,145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50,45,40,35,30,25,20,15,10,5,0"
+#### Plotting the results
+Following the two previous steps, the data can be plotted via [this script](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Analysis/Disparity_analysis.R).
 
-# Generating the R script
-sh disparity.calc.sh "Beck2014" "../Data/" "../Data/2014-Beck-ProcB-matrix-morpho.nex" "../Data/2014-Beck-ProcB-TEM.tre" "../Data/Beck2014/Beck2014Claddis_distance-nodes95.Rda" "gower.dist.matrix" $intervals $slices "../Data/Beck2014_FADLAD.csv"
+#### Testing the differences in disparity around the K-Pg boundary
+Independently, the differences between the last slice of the Cretaceous (70 Ma) and the slices in the Cenozoic up to 35 Ma can be analysed via [this script](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Analysis/Disparity_statistics.R).
 
-# Launching the R script (as a verbose background task)
-R --no-save < Beck2014-disparity-Claddis_distance-nodes95-gower.dist.matrix.R > /dev/null
-```
-
-####Null data (`shell` version only)
-In the mean time you can calculate the expected null disparity using the [`disparity.null.sh`](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/disparity.null.sh) script. Note that this is a single core version, to make it faster (up to 24 cores at the moment), use the [cluster version](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Functions/Cluster/disparity.null.sh) using [`slurm`](https://en.wikipedia.org/wiki/Slurm_Workload_Manager). Here is an example for calcualting the expected null centroid distance disparity based on the previous examples but under a Mkn model (Brownian):
-
-```
-# Setting the intervals and the slices values
-intervals="170,155,140,125,110,95,80,65,50,35,20,0"
-slices="170,165,160,155,150,145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50,45,40,35,30,25,20,15,10,5,0"
-
-#Generating the R script
-sh disparity.null.sh "Beck2014" "../Data/" "../Data/2014-Beck-ProcB-matrix-morpho.nex" "../Data/2014-Beck-ProcB-TEM.tre" "centroid" "sim.char" $intervals $slices 
-
-# Launching the R script (as a verbose background task)
-R --no-save < Beck2014-sim.char-centroid.R > /dev/null
-```
-
-###### More details and update are about to come as we complete the study.
+#### Supplementary analysis
+Three supplementary scripts allow to generate the tables and the figures from the appendices:
+* [Full analysis for the Mammaliaformes dataset](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Analysis/Supplementary_Slater_full.R)
+* [Plotting the results using all the disparity metrics](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Analysis/Supplementary_results.R)
+* [Testing the differences around the K-Pg boundary using all the disparity metrics](https://github.com/TGuillerme/SpatioTemporal_Disparity/blob/master/Analysis/Supplementary_results.R)
