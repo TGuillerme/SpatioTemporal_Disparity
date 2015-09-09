@@ -411,8 +411,6 @@ Otherwise the results of the rarefied analyses are the same as when using the co
 
 \section{Discussion}
 % §1 - What did we found
-%This study tested whether the extinction of many terrestrial vertebrates (including the non-avian dinosaurs) at the K-Pg extinction event influenced mammalian morphological evolution.
-% NC: Not sure we need this first sentence...
 Previous authors have suggested that the K-Pg extinction event released mammals from ecological pressures such as competition and predation, allowing them to radiate into newly available ecological niches \citep{archibald2011extinction,O'Leary08022013,Lovergrove,Slater2012MEE}.
 However, we did not detect any significant changes in mammalian disparity before and after K-Pg in either Mammaliaformes or Eutheria, under a model of punctuated or gradual evolution.
 Additionally, we tested whether the absence of a detectable effect might be due to a lag effect, with the effect only becoming obvious later in the Paleocene.
@@ -420,21 +418,18 @@ Even when accounting for such a lag effect, we did not detect any significant ef
 Our results imply that mammals did not diversify morphologically in response to the K-Pg extinction event.
 Instead, their diversification appears to have begun before the end of the Cretaceous \citep[Fig \ref{fig:Fig_Raw_results}, Table \ref{tab:Tab_results} and see ][]{meredithimpacts2011,dosReis2014,Close2015,Lee2015R759}.
 
-
-% §2 - What does it mean - TG: a posteriori comment: maybe we can skip the §1 since it says exactly the same as §2...
-% NC: Yeah you're right, I combined them. 
-
 % §3 - but PETM story
 We did, however, detect a small, yet significant, increase in disparity during the Eocene (45 Ma) under a punctuated evolutionary model using the Eutheria dataset.
- % NC: I'm right aren't I, it's just in Eutheria? 
 This might be due to a long lag effect of $\sim$21 Ma after K-Pg.
 Note however, that this is double the lag time observed in other mass extinctions \citep{chen2012timing}.
 Therefore, it may be more likely to be attributed to a lag effect of the Palaeocene-Eocene Thermal Maximum \citep[PETM; $\sim$11 Ma afterwards;][]{bininda2007delayed}.
-% NC: Worth redefining stuff in the discussion in case people didn't read the methods!
 However, this significant increase in disparity is only detected at 45 Ma but not afterwards (which would be expected if the increase was due to an evolutionary radiation) and is not seen under the gradual evolution model.
 This indicates that it is more likely due to differences in the evolutionary models rather than an actual increase in disparity.
 The 45 Ma time slice %TG: or subsample? Maybe standardize it by "subsample = the tips and nodes sampled a time X (i.e. tips and nodes are rarely present at time X)" and "time slice = the true biological instant photography of the species at time X"
 % NC: Your choice! Later on you use subsample... Check it for the whole discussion.
+%
+% TO DO
+%
  samples the long branch ($\sim$50 Ma) leading to \textit{Lepidictis} (33.9 to 33.3 Ma) that branches with its closest relative \textit{Gypsonictops} (66.8 to 66 Ma) in the early Upper Cretaceous $\sim$90 Ma (see Fig S2 @@@).
 Therefore, in this time-slice under the gradual evolution model, the data for \textit{Lepidictis} is always sampled, but under the punctuated evolution model the algorithm can also randomly sample the data from its ancestor in the early Upper Cretaceous (see methods).
 This may inflate differences compared to other slices.
@@ -449,7 +444,6 @@ This strongly implies that disparity was higher on a global scale.
 Secondly, most of the debate on mammalian diversification around the K-Pg boundary seems to be linked to the conflicting signal between palaeontological and neontological data (\citealt{meredithimpacts2011} \textit{vs.} \citealt{O'Leary08022013} but see \citealt{dosReis2014}).
 Therefore, an effect of the K-Pg extinction event might be detectable only when using just palaeontological data.
 In this study, however, we use Total Evidence tip-dated trees based on both palaeontological and neontological data \citep{Slater2012MEE,beckancient2014}, which may account for the differences between our study and that of \cite{Wilson2013} who used only fossil data.
-% TG: A funny note (not to include in this paper): I more and more start to believe that the K-Pg extinction is a global marine extinction but on the continents, it's only a Northern-American (and also maybe European) extinction...
 
 % §5 - However, our results differ from Slater
 Interestingly, however, our results also differ from \cite{Slater2012MEE}, the source of data for the Mammaliaformes dataset.
@@ -457,7 +451,10 @@ Interestingly, however, our results also differ from \cite{Slater2012MEE}, the s
 Our studies may show different results due to the difference between changes observed in one continuous life-history trait \citep[body mass;][]{Slater2012MEE} versus changes in an aggregate of 446 discrete morphological traits (the cladistic characters) in the present analysis.
 Body mass and disparity might be decoupled in a similar way to taxonomic diversity and disparity \citep[e.g.][]{slaterCetacean,ruta2013,hopkinsdecoupling2013} because the latter does not rely on size but rather on discrete morphological features.
 It is not unlikely that mammalian disparity \citep[\textit{sensu} ba\"{u}plan; e.g.][]{Hughes20082013} % NC: Not really sure why the sensu bauplan bit is here.
-increased rapidly early in their evolutionary history and then remained constant \citep[Fig \ref{fig:Fig_Raw_results};][]{Close2015,Lee2015R759} while body mass variation continued to increase, especially after K-Pg \citep{Slater2012MEE}.
+%
+% TO DO
+%
+ increased rapidly early in their evolutionary history and then remained constant \citep[Fig \ref{fig:Fig_Raw_results};][]{Close2015,Lee2015R759} while body mass variation continued to increase, especially after K-Pg \citep{Slater2012MEE}.
 Note, however, that our methods did not investigate changes in body mass across the K-Pg boundary so they do not allow us to test this hypothesis.
 We remain confident in our results because we recovered the same pattern from two independent datasets \citep{Slater2012MEE,beckancient2014}.
 
@@ -472,6 +469,9 @@ Therefore, an effect of the K-Pg boundary would be more likely to be detected du
 % §7 Caveat 2
 Secondly, testing for significant changes in disparity through time is problematic.
 The disparity of each subsample is necessarily dependent on disparity in the previous subsamples. % NC: Not exactly by definition...
+%
+% TO DO
+%
 For example, the tips and nodes used to estimate disparity are linked by common evolutionary history, therefore two tips or nodes sharing a close ancestor are more likely to have similar morphological features than more distantly related tips and nodes.
 Similarly, when looking at disparity through time, different subsamples are related by time, therefore, two subsamples closely together in time are more likely to have the same disparity value than more distant subsamples.
 Additionally, because disparity is a single value summarizing morphological disparity, its variance and mean were calculated by bootstrapping, thus the variances and means used in our \textit{t}-tests are calculated from non-independent pseudoreplicates rather than true replicates.
