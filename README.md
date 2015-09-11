@@ -15,10 +15,10 @@ library(devtools)
 install_github("TGuillerme/SpatioTemporal_Disparity/Functions/disparity")
 library(disparity)
 ```
-Note that the following "package" is not a *real* package, just a set of functions to be used to reproduce this paper's analysis. Check out the [dispRity](https://github.com/TGuillerme/dispRity) package for the proper package (still in developement though).
+Note that the following "package" is not a *real* package, just a set of functions to be used to reproduce this paper's analysis. Check out the [dispRity](https://github.com/TGuillerme/dispRity) package for the proper package (still in development though).
 
-## Data
-All the data will be available once every analysis is run (hopefully that means 'soon').
+## Data <a href="http://figshare.com/articles/Mammalian_morphological_diversity_does_not_increase_in_response_to_the_Cretaceous_Paleogene_mass_extinction_and_the_extinction_of_the_non_avian_dinosaurs_/1539545"><img src="http://tguillerme.github.io/images/logo-FS.png" height="26" widht="26"/></a> 
+All the raw data (trees, cladistic matrices and FAD/LAD) are available in the [data folder](https://github.com/TGuillerme/SpatioTemporal_Disparity/tree/master/Data) on this repository . Both the raw data and the processed data (distance matrices and disparity measurements) are also avaialble on [figshare](http://figshare.com/articles/Mammalian_morphological_diversity_does_not_increase_in_response_to_the_Cretaceous_Paleogene_mass_extinction_and_the_extinction_of_the_non_avian_dinosaurs_/1539545). 
 
 ## Analysis
 
