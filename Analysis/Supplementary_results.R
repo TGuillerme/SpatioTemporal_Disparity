@@ -124,19 +124,19 @@ dis_pro_mod_beck  <-extract.disp(disparity_full_pro_beck  $quantiles, rarefactio
 
 #Plot
 op<-par(mfrow=c(3,2), bty="n", mar=c(4,4,4,4))
-plot.disparity(dis_ran_max_beck  , diversity=dis_ran_max_beck  $rarefaction, main="Punctuated (all taxa)", xlab="Time (Mya)", y2lab="", ylab="Median distance from centroid")
+plot.disparity(dis_ran_max_beck  , diversity=dis_ran_max_beck  $rarefaction, main="Punctuated (all taxa)", xlab="Time (Ma)", y2lab="", ylab="Median distance from centroid")
 abline(v=22, col="red")
-plot.disparity(dis_pro_max_beck  , diversity=dis_pro_max_beck  $rarefaction, main="Gradual (all taxa)", xlab="Time (Mya)", y2lab="Species richness", ylab="")
-abline(v=22, col="red")
-
-plot.disparity(dis_ran_mod_beck  , diversity=dis_ran_mod_beck  $rarefaction, main="Punctuated (8 taxa)", xlab="Time (Mya)", y2lab="", ylab="Median distance from centroid")
-abline(v=22, col="red")
-plot.disparity(dis_pro_mod_beck  , diversity=dis_pro_mod_beck  $rarefaction, main="Gradual (8 taxa)", xlab="Time (Mya)", y2lab="Species richness", ylab="")
+plot.disparity(dis_pro_max_beck  , diversity=dis_pro_max_beck  $rarefaction, main="Gradual (all taxa)", xlab="Time (Ma)", y2lab="Number of tips and nodes", ylab="")
 abline(v=22, col="red")
 
-plot.disparity(dis_ran_min_beck  , diversity=dis_ran_min_beck  $rarefaction, main="Punctuated (3 taxa)", xlab="Time (Mya)", y2lab="", ylab="Median distance from centroid")
+plot.disparity(dis_ran_mod_beck  , diversity=dis_ran_mod_beck  $rarefaction, main="Punctuated (8 taxa)", xlab="Time (Ma)", y2lab="", ylab="Median distance from centroid")
 abline(v=22, col="red")
-plot.disparity(dis_pro_min_beck  , diversity=dis_pro_min_beck  $rarefaction, main="Gradual (3 taxa)", xlab="Time (Mya)", y2lab="Species richness", ylab="")
+plot.disparity(dis_pro_mod_beck  , diversity=dis_pro_mod_beck  $rarefaction, main="Gradual (8 taxa)", xlab="Time (Ma)", y2lab="Number of tips and nodes", ylab="")
+abline(v=22, col="red")
+
+plot.disparity(dis_ran_min_beck  , diversity=dis_ran_min_beck  $rarefaction, main="Punctuated (3 taxa)", xlab="Time (Ma)", y2lab="", ylab="Median distance from centroid")
+abline(v=22, col="red")
+plot.disparity(dis_pro_min_beck  , diversity=dis_pro_min_beck  $rarefaction, main="Gradual (3 taxa)", xlab="Time (Ma)", y2lab="Number of tips and nodes", ylab="")
 abline(v=22, col="red")
 par(op)
 
@@ -172,7 +172,7 @@ plot.disparity(dis_acc_slater, xlab="", ylab="", measure="Cent.dist", main="Slic
 abline(v= 22, col="red")
 plot.disparity(dis_del_slater, xlab="", ylab="", measure="Cent.dist", main="Slices (punctuated:deltran)", diversity=slat_div_nod, y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Cent.dist", main="Slices (gradual)", diversity=slat_div_nod, y2lab="Species richness")
+plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Cent.dist", main="Slices (gradual)", diversity=slat_div_nod, y2lab="Number of tips and nodes")
 abline(v= 22, col="red")
 
 #Sum of ranges
@@ -186,7 +186,7 @@ plot.disparity(dis_acc_slater, xlab="", ylab="", measure="Sum.range", main="Slic
 abline(v= 22, col="red")
 plot.disparity(dis_del_slater, xlab="", ylab="", measure="Sum.range", main="Slices (punctuated:deltran)", diversity=slat_div_nod, y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Sum.range", main="Slices (gradual)", diversity=slat_div_nod, y2lab="Species richness")
+plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Sum.range", main="Slices (gradual)", diversity=slat_div_nod, y2lab="Number of tips and nodes")
 abline(v= 22, col="red")
 
 #Sum of variance
@@ -200,7 +200,7 @@ plot.disparity(dis_acc_slater, xlab="", ylab="", measure="Sum.var", main="Slices
 abline(v= 22, col="red")
 plot.disparity(dis_del_slater, xlab="", ylab="", measure="Sum.var", main="Slices (punctuated:deltran)", diversity=slat_div_nod, y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Sum.var", main="Slices (gradual)", diversity=slat_div_nod, y2lab="Species richness")
+plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Sum.var", main="Slices (gradual)", diversity=slat_div_nod, y2lab="Number of tips and nodes")
 abline(v= 22, col="red")
 
 #Product of ranges
@@ -214,7 +214,7 @@ plot.disparity(dis_acc_slater, xlab="", ylab="", measure="Prod.range", main="Sli
 abline(v= 22, col="red")
 plot.disparity(dis_del_slater, xlab="", ylab="", measure="Prod.range", main="Slices (punctuated:deltran)", diversity=slat_div_nod, y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Prod.range", main="Slices (gradual)", diversity=slat_div_nod, y2lab="Species richness")
+plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Prod.range", main="Slices (gradual)", diversity=slat_div_nod, y2lab="Number of tips and nodes")
 abline(v= 22, col="red")
 
 #Product of variance
@@ -222,13 +222,13 @@ plot.disparity(dis_tips_slater, xlab="", ylab="Product of variances", measure="P
 abline(v= 17.5, col="red")
 plot.disparity(dis_nodes_slater, xlab="", ylab="", measure="Prod.var", main="Intervals (tips and nodes)", diversity=dis_nodes_slater$rarefaction, y2lab="", cex.xaxis=0.7)
 abline(v= 17.5, col="red")
-plot.disparity(dis_ran_slater, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated)", diversity=slat_div_nod, y2lab="")
+plot.disparity(dis_ran_slater, xlab="Time (Ma)", ylab="", measure="Prod.var", main="Slices (punctuated)", diversity=slat_div_nod, y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_acc_slater, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated:acctran)", diversity=slat_div_nod, y2lab="")
+plot.disparity(dis_acc_slater, xlab="Time (Ma)", ylab="", measure="Prod.var", main="Slices (punctuated:acctran)", diversity=slat_div_nod, y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_del_slater, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated:deltran)", diversity=slat_div_nod, y2lab="")
+plot.disparity(dis_del_slater, xlab="Time (Ma)", ylab="", measure="Prod.var", main="Slices (punctuated:deltran)", diversity=slat_div_nod, y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_slater, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (gradual)", diversity=slat_div_nod, y2lab="Species richness")
+plot.disparity(dis_pro_slater, xlab="Time (Ma)", ylab="", measure="Prod.var", main="Slices (gradual)", diversity=slat_div_nod, y2lab="Number of tips and nodes")
 abline(v= 22, col="red")
 
 par(op)
@@ -261,7 +261,7 @@ plot.disparity(dis_acc_beck, xlab="", ylab="", measure="Cent.dist", main="Slices
 abline(v= 22, col="red")
 plot.disparity(dis_del_beck, xlab="", ylab="", measure="Cent.dist", main="Slices (punctuated:deltran)", diversity=beck_div_nod, y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_beck, xlab="", ylab="", measure="Cent.dist", main="Slices (gradual)", diversity=beck_div_nod, y2lab="Species richness")
+plot.disparity(dis_pro_beck, xlab="", ylab="", measure="Cent.dist", main="Slices (gradual)", diversity=beck_div_nod, y2lab="Number of tips and nodes")
 abline(v= 22, col="red")
 
 #Sum of ranges
@@ -275,7 +275,7 @@ plot.disparity(dis_acc_beck, xlab="", ylab="", measure="Sum.range", main="Slices
 abline(v= 22, col="red")
 plot.disparity(dis_del_beck, xlab="", ylab="", measure="Sum.range", main="Slices (punctuated:deltran)", diversity=beck_div_nod, y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_beck, xlab="", ylab="", measure="Sum.range", main="Slices (gradual)", diversity=beck_div_nod, y2lab="Species richness")
+plot.disparity(dis_pro_beck, xlab="", ylab="", measure="Sum.range", main="Slices (gradual)", diversity=beck_div_nod, y2lab="Number of tips and nodes")
 abline(v= 22, col="red")
 
 #Sum of variance
@@ -289,7 +289,7 @@ plot.disparity(dis_acc_beck, xlab="", ylab="", measure="Sum.var", main="Slices (
 abline(v= 22, col="red")
 plot.disparity(dis_del_beck, xlab="", ylab="", measure="Sum.var", main="Slices (punctuated:deltran)", diversity=beck_div_nod, y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_beck, xlab="", ylab="", measure="Sum.var", main="Slices (gradual)", diversity=beck_div_nod, y2lab="Species richness")
+plot.disparity(dis_pro_beck, xlab="", ylab="", measure="Sum.var", main="Slices (gradual)", diversity=beck_div_nod, y2lab="Number of tips and nodes")
 abline(v= 22, col="red")
 
 #Product of ranges
@@ -303,7 +303,7 @@ plot.disparity(dis_acc_beck, xlab="", ylab="", measure="Prod.range", main="Slice
 abline(v= 22, col="red")
 plot.disparity(dis_del_beck, xlab="", ylab="", measure="Prod.range", main="Slices (punctuated:deltran)", diversity=beck_div_nod, y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_beck, xlab="", ylab="", measure="Prod.range", main="Slices (gradual)", diversity=beck_div_nod, y2lab="Species richness")
+plot.disparity(dis_pro_beck, xlab="", ylab="", measure="Prod.range", main="Slices (gradual)", diversity=beck_div_nod, y2lab="Number of tips and nodes")
 abline(v= 22, col="red")
 
 #Product of variance
@@ -311,13 +311,17 @@ plot.disparity(dis_tips_beck, xlab="", ylab="Product of variances", measure="Pro
 abline(v= 10.5, col="red")
 plot.disparity(dis_nodes_beck, xlab="", ylab="", measure="Prod.var", main="Intervals (tips and nodes)", diversity=dis_nodes_beck$rarefaction, y2lab="", cex.xaxis=0.8)
 abline(v= 10.5, col="red")
-plot.disparity(dis_ran_beck, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated)", diversity=beck_div_nod, y2lab="")
+plot.disparity(dis_ran_beck, xlab="Time (
+Ma)", ylab="", measure="Prod.var", main="Slices (punctuated)", diversity=beck_div_nod, y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_acc_beck, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated:acctran)", diversity=beck_div_nod, y2lab="")
+plot.disparity(dis_acc_beck, xlab="Time (
+Ma)", ylab="", measure="Prod.var", main="Slices (punctuated:acctran)", diversity=beck_div_nod, y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_del_beck, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated:deltran)", diversity=beck_div_nod, y2lab="")
+plot.disparity(dis_del_beck, xlab="Time (
+Ma)", ylab="", measure="Prod.var", main="Slices (punctuated:deltran)", diversity=beck_div_nod, y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_beck, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (gradual)", diversity=beck_div_nod, y2lab="Species richness")
+plot.disparity(dis_pro_beck, xlab="Time (
+Ma)", ylab="", measure="Prod.var", main="Slices (gradual)", diversity=beck_div_nod, y2lab="Number of tips and nodes")
 abline(v= 22, col="red")
 
 par(op)
@@ -350,7 +354,7 @@ plot.disparity(dis_acc_slater, xlab="", ylab="", measure="Cent.dist", main="Slic
 abline(v= 22, col="red")
 plot.disparity(dis_del_slater, xlab="", ylab="", measure="Cent.dist", main="Slices (punctuated:deltran)", diversity=rep(8, length(slat_div_nod)), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Cent.dist", main="Slices (gradual)", diversity=rep(8, length(slat_div_nod)), y2lab="Species richness")
+plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Cent.dist", main="Slices (gradual)", diversity=rep(8, length(slat_div_nod)), y2lab="Number of tips and nodes")
 abline(v= 22, col="red")
 
 #Sum of ranges
@@ -364,7 +368,7 @@ plot.disparity(dis_acc_slater, xlab="", ylab="", measure="Sum.range", main="Slic
 abline(v= 22, col="red")
 plot.disparity(dis_del_slater, xlab="", ylab="", measure="Sum.range", main="Slices (punctuated:deltran)", diversity=rep(8, length(slat_div_nod)), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Sum.range", main="Slices (gradual)", diversity=rep(8, length(slat_div_nod)), y2lab="Species richness")
+plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Sum.range", main="Slices (gradual)", diversity=rep(8, length(slat_div_nod)), y2lab="Number of tips and nodes")
 abline(v= 22, col="red")
 
 #Sum of variance
@@ -378,7 +382,7 @@ plot.disparity(dis_acc_slater, xlab="", ylab="", measure="Sum.var", main="Slices
 abline(v= 22, col="red")
 plot.disparity(dis_del_slater, xlab="", ylab="", measure="Sum.var", main="Slices (punctuated:deltran)", diversity=rep(8, length(slat_div_nod)), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Sum.var", main="Slices (gradual)", diversity=rep(8, length(slat_div_nod)), y2lab="Species richness")
+plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Sum.var", main="Slices (gradual)", diversity=rep(8, length(slat_div_nod)), y2lab="Number of tips and nodes")
 abline(v= 22, col="red")
 
 #Product of ranges
@@ -392,7 +396,7 @@ plot.disparity(dis_acc_slater, xlab="", ylab="", measure="Prod.range", main="Sli
 abline(v= 22, col="red")
 plot.disparity(dis_del_slater, xlab="", ylab="", measure="Prod.range", main="Slices (punctuated:deltran)", diversity=rep(8, length(slat_div_nod)), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Prod.range", main="Slices (gradual)", diversity=rep(8, length(slat_div_nod)), y2lab="Species richness")
+plot.disparity(dis_pro_slater, xlab="", ylab="", measure="Prod.range", main="Slices (gradual)", diversity=rep(8, length(slat_div_nod)), y2lab="Number of tips and nodes")
 abline(v= 22, col="red")
 
 #Product of variance
@@ -400,13 +404,13 @@ plot.disparity(dis_tips_slater, xlab="", ylab="Product of variances", measure="P
 abline(v= 17.5, col="red")
 plot.disparity(dis_nodes_slater, xlab="", ylab="", measure="Prod.var", main="Intervals (tips and nodes)", diversity=dis_nodes_slater$rarefaction, y2lab="", cex.xaxis=0.7)
 abline(v= 17.5, col="red")
-plot.disparity(dis_ran_slater, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated)", diversity=rep(8, length(slat_div_nod)), y2lab="")
+plot.disparity(dis_ran_slater, xlab="Time (Ma)", ylab="", measure="Prod.var", main="Slices (punctuated)", diversity=rep(8, length(slat_div_nod)), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_acc_slater, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated:acctran)", diversity=rep(8, length(slat_div_nod)), y2lab="")
+plot.disparity(dis_acc_slater, xlab="Time (Ma)", ylab="", measure="Prod.var", main="Slices (punctuated:acctran)", diversity=rep(8, length(slat_div_nod)), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_del_slater, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated:deltran)", diversity=rep(8, length(slat_div_nod)), y2lab="")
+plot.disparity(dis_del_slater, xlab="Time (Ma)", ylab="", measure="Prod.var", main="Slices (punctuated:deltran)", diversity=rep(8, length(slat_div_nod)), y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_slater, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (gradual)", diversity=rep(8, length(slat_div_nod)), y2lab="Species richness")
+plot.disparity(dis_pro_slater, xlab="Time (Ma)", ylab="", measure="Prod.var", main="Slices (gradual)", diversity=rep(8, length(slat_div_nod)), y2lab="Number of tips and nodes")
 abline(v= 22, col="red")
 
 par(op)
@@ -439,7 +443,7 @@ abline(v= 22, col="red")
 plot.disparity(dis_del_beck, xlab="", ylab="", measure="Cent.dist", main="Slices (punctuated:deltran)", diversity=dis_ran_mod_beck$rarefaction, y2lab="")
 abline(v= 22, col="red")
 plot.disparity(dis_pro_beck, xlab="", ylab="", measure="Cent.dist", main="Slices (gradual)", diversity=dis_ran_mod_beck$rarefaction
-, y2lab="Species richness")
+, y2lab="Number of tips and nodes")
 abline(v= 22, col="red")
 
 #Sum of ranges
@@ -454,7 +458,7 @@ abline(v= 22, col="red")
 plot.disparity(dis_del_beck, xlab="", ylab="", measure="Sum.range", main="Slices (punctuated:deltran)", diversity=dis_ran_mod_beck$rarefaction, y2lab="")
 abline(v= 22, col="red")
 plot.disparity(dis_pro_beck, xlab="", ylab="", measure="Sum.range", main="Slices (gradual)", diversity=dis_ran_mod_beck$rarefaction
-, y2lab="Species richness")
+, y2lab="Number of tips and nodes")
 abline(v= 22, col="red")
 
 #Sum of variance
@@ -469,7 +473,7 @@ abline(v= 22, col="red")
 plot.disparity(dis_del_beck, xlab="", ylab="", measure="Sum.var", main="Slices (punctuated:deltran)", diversity=dis_ran_mod_beck$rarefaction, y2lab="")
 abline(v= 22, col="red")
 plot.disparity(dis_pro_beck, xlab="", ylab="", measure="Sum.var", main="Slices (gradual)", diversity=dis_ran_mod_beck$rarefaction
-, y2lab="Species richness")
+, y2lab="Number of tips and nodes")
 abline(v= 22, col="red")
 
 #Product of ranges
@@ -484,7 +488,7 @@ abline(v= 22, col="red")
 plot.disparity(dis_del_beck, xlab="", ylab="", measure="Prod.range", main="Slices (punctuated:deltran)", diversity=dis_ran_mod_beck$rarefaction, y2lab="")
 abline(v= 22, col="red")
 plot.disparity(dis_pro_beck, xlab="", ylab="", measure="Prod.range", main="Slices (gradual)", diversity=dis_ran_mod_beck$rarefaction
-, y2lab="Species richness")
+, y2lab="Number of tips and nodes")
 abline(v= 22, col="red")
 
 #Product of variance
@@ -492,14 +496,13 @@ plot.disparity(dis_tips_beck, xlab="", ylab="Product of variances", measure="Pro
 abline(v= 10.5, col="red")
 plot.disparity(dis_nodes_beck, xlab="", ylab="", measure="Prod.var", main="Intervals (tips and nodes)", diversity=dis_nodes_beck$rarefaction, y2lab="", cex.xaxis=0.8)
 abline(v= 10.5, col="red")
-plot.disparity(dis_ran_beck, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated)", diversity=dis_ran_mod_beck$rarefaction, y2lab="")
+plot.disparity(dis_ran_beck, xlab="Time (Ma)", ylab="", measure="Prod.var", main="Slices (punctuated)", diversity=dis_ran_mod_beck$rarefaction, y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_acc_beck, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated:acctran)", diversity=dis_ran_mod_beck$rarefaction, y2lab="")
+plot.disparity(dis_acc_beck, xlab="Time (Ma)", ylab="", measure="Prod.var", main="Slices (punctuated:acctran)", diversity=dis_ran_mod_beck$rarefaction, y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_del_beck, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (punctuated:deltran)", diversity=dis_ran_mod_beck$rarefaction, y2lab="")
+plot.disparity(dis_del_beck, xlab="Time (Ma)", ylab="", measure="Prod.var", main="Slices (punctuated:deltran)", diversity=dis_ran_mod_beck$rarefaction, y2lab="")
 abline(v= 22, col="red")
-plot.disparity(dis_pro_beck, xlab="Time (Mya)", ylab="", measure="Prod.var", main="Slices (gradual)", diversity=dis_ran_mod_beck$rarefaction
-, y2lab="Species richness")
+plot.disparity(dis_pro_beck, xlab="Time (Ma)", ylab="", measure="Prod.var", main="Slices (gradual)", diversity=dis_ran_mod_beck$rarefaction, y2lab="Number of tips and nodes")
 abline(v= 22, col="red")
 
 par(op)
