@@ -1,5 +1,6 @@
 #Main results recapitulation
 Main_results.tex
+*.eps
 
 # Remove the data folder
 Data/Beck2014/
