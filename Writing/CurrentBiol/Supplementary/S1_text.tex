@@ -1,0 +1,127 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage{natbib}
+
+%Packages
+\usepackage{pdflscape}
+\usepackage{fixltx2e}
+\usepackage{textcomp}
+\usepackage{fullpage}
+\usepackage{float}
+\usepackage{latexsym}
+\usepackage{url}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{array}
+\usepackage[version=3]{mhchem}
+\usepackage{ifthen}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{amsthm}
+\usepackage{amstext}
+\usepackage{enumerate}
+\usepackage[osf]{mathpazo}
+\usepackage{dcolumn}
+\usepackage{lineno}
+\usepackage{dcolumn}
+\newcolumntype{d}[1]{D{.}{.}{#1}}
+
+\pagenumbering{arabic}
+
+
+%Pagination style and stuff
+\linespread{2}
+\raggedright
+\setlength{\parindent}{0.5in}
+\setcounter{secnumdepth}{0} 
+\renewcommand{\section}[1]{%
+\bigskip
+\begin{center}
+\begin{Large}
+\normalfont\scshape #1
+\medskip
+\end{Large}
+\end{center}}
+\renewcommand{\subsection}[1]{%
+\bigskip
+\begin{center}
+\begin{large}
+\normalfont\itshape #1
+\end{large}
+\end{center}}
+\renewcommand{\subsubsection}[1]{%
+\vspace{2ex}
+\noindent
+\textit{#1.}---}
+\renewcommand{\tableofcontents}{}
+
+\begin{document}
+
+%Running head
+\begin{flushright}
+Version dated: \today
+\end{flushright}
+\bigskip
+\noindent RH: No effect of the K-Pg event on mammal disparity.
+
+\bigskip
+\medskip
+\begin{center}
+
+\noindent{\Large \bf Mammalian morphological diversity does not increase in response to the Cretaceous-Paleogene mass extinction and the extinction of the (non-avian) dinosaurs.} 
+\bigskip
+
+\noindent {\normalsize \sc Thomas Guillerme$^1$$^,$$^2$$^*$, and Natalie Cooper$^1$$^,$$^2$$^,$$^3$}\\
+\noindent {\small \it 
+$^1$School of Natural Sciences, Trinity College Dublin, Dublin 2, Ireland.\\
+$^2$Trinity Centre for Biodiversity Research, Trinity College Dublin, Dublin 2, Ireland.\\
+$^3$Department of Life Sciences, Natural History Museum, Cromwell Road, London, SW7 5BD, UK.}\\
+\end{center}
+\medskip
+\noindent{*\bf Corresponding author.} \textit{guillert@tcd.ie}\\  
+\vspace{1in}
+
+\section{Comparison of different disparity metrics and time sampling methods}
+This section (Figure S6, S7, S8 and S9) contains the results of the variation of disparity through time analyses for Mammaliaformes and Eutheria using all the disparity metrics and methods for sampling disparity through time.
+The different disparity metrics are the median distance from centroid (see main text for details), and the sum and products of ranges and variances of the cladisto-space dimensions.
+The sum and products of ranges and variances are calculated as follows:
+
+\begin{equation}
+    \text{Sum of ranges}=\sum{(max(\mathbf{v}_{n})-min(\mathbf{v}_{n}))}
+\end{equation}
+\begin{equation}
+    \text{Sum of variances}=\sum{(\sigma^{2}(\mathbf{v}_{n}))}
+\end{equation}
+\begin{equation}
+    \text{Product of ranges}=\prod{(max(\mathbf{v}_{n})-min(\mathbf{v}_{n}))}
+\end{equation}
+\begin{equation}
+    \text{Product of variances}=\prod{(\sigma^{2}(\mathbf{v}_{n}))}
+\end{equation}
+
+\noindent
+where $\mathbf{v}_{n}$ is any of the $n$ eigenvectors (i.e. any of the $n$ dimensions of the cladisto-space), $max$ and $min$ are respectively the maximum and minimum values of each eigenvector $\mathbf{v}_{n}$, and $\sigma^{2}$ is the variance of each eigenvector $\mathbf{v}_{n}$. 
+
+The different time sampling methods are as follows:
+\begin{enumerate}
+\item \textbf{Intervals (tips only)}.
+We selected every tip present at every geological stage (i.e. the smaller stratigraphic units) from the early Middle Jurassic (Bajocian, starting at 170.3 Ma) to the present.
+We collapsed together every stage containing fewer than three tips so that every time interval contained at least three tips.
+Note that some tips were present in multiple stages due to their occurrence data (see main text for details).
+\item \textbf{Intervals (tips and nodes)}.
+We selected tips and nodes present at every stage from the early Middle Jurassic (Bajocian, starting at 170.3 Ma) to the present.
+We collapsed together every stage containing fewer than three elements (tips and/or nodes).
+\item \textbf{Slices (punctuated)}.
+These are the results presented in the main text where the cladisto-space is sampled every 5 Ma and the mode of evolution between each subsample is assumed to be punctuated (randomly selecting either data from the descendant or the ancestor when slicing through a branch; see main text for details).
+\item \textbf{Slices (punctuated: ACCTRAN)}.
+Similar to the slices (punctuated) method but data are always selected from the descendant (see main text for details).
+\item \textbf{Slices (punctuated: DELTRAN)}.
+Similar to the slices (punctuated) method but data are always selected from the ancestor (see main text for details).
+\item \textbf{Slices (gradual)}.
+These are the results presented in the main text where the cladisto-space is sampled every 5 Ma and the mode of evolution is assumed to be gradual (data is selected from the descendant or the ancestor based on branch length; see main text for details).
+\end{enumerate}
+We also rarefied both datasets for all the metrics and all the methods using the minimum of three taxa for the interval methods, and eight taxa for the slices methods.
+
+\end{document}
