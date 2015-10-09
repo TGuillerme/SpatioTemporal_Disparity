@@ -28,7 +28,7 @@ The analysis is divided into four steps
 * 3.Plotting the results
 * 4.Testing the differences in disparity around the K-Pg boundary
 
-Note that the two first steps take some time (several hours on your usual desktop machine) so the results from these two steps is made directly available here. **DO ACTUALLY UPLOAD THIS DATA ON FIGSHARE**
+Note that the two first steps take some time (several hours on your usual desktop machine) so the results from these two steps is made directly available [here](http://figshare.com/articles/Mammalian_morphological_diversity_does_not_increase_in_response_to_the_Cretaceous_Paleogene_mass_extinction_and_the_extinction_of_the_non_avian_dinosaurs_/1539545).
 Note also that the three last steps are generalised in the [dispRity](https://github.com/TGuillerme/dispRity) package (still in development though).
 
 #### Estimating the ancestral characters states and the distance matrix
