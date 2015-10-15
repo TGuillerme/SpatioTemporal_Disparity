@@ -1,5 +1,5 @@
 # Mammalian morphological diversity does not increase in response to the Cretaceous-Paleogene mass extinction.
-[Thomas Guillerme](http://tguillerme.github.io) and [Natalie Cooper](https://http://nhcooper123.github.io/).
+[Thomas Guillerme](http://tguillerme.github.io) and [Natalie Cooper](http://nhcooper123.github.io/).
 
 This repository contains all the code and data used in the manuscript.
 ###### Manuscript in review in Current Biology.
