@@ -1,8 +1,8 @@
-# Mammalian morphological diversity does not increase in response to the Cretaceous-Paleogene event and the extinction of the (non-avian) dinosaurs.
+# Mammalian morphological diversity does not increase in response to the Cretaceous-Paleogene mass extinction.
 [Thomas Guillerme](http://tguillerme.github.io) and [Natalie Cooper](https://http://nhcooper123.github.io/).
 
 This repository contains all the code and data used in the manuscript.
-###### Manuscript in prep.
+###### Manuscript in review in Current Biology.
 Part of the code used in the analysis is based on [Graeme T Lloyd](http://graemetlloyd.com/)'s [Claddis](https://github.com/graemetlloyd/Claddis) package. Make sure to have a look, it's great!
 
 -------
