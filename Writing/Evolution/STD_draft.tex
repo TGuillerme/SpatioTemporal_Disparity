@@ -273,7 +273,7 @@ Disparity can be estimated in many different ways \citep[e.g.][]{Wills1994,Ciamp
 Nonetheless, these methods suffer several methodological caveats.
 First, the range metrics are affected by the uneven sampling of the fossil record \citep{Butler2012}
 Second, because we include all $n$ dimensions in the analysis (see above), the products of ranges and variances will tend towards zero since the scores of the last dimension are usually really close to zero themselves. 
-These features make using the sum and products of ranges and variances problematic in our study.
+These features make using the sum and products of ranges and the product variances problematic in our study.
 Instead, we use a different metric that comes with no statistical assumptions for measuring the dispersion of the data in the cladisto-space: the median distance between tips and nodes and the centroid (similar but not equivalent to \citealt{Wills1994,kornextinction2013,huang2015origins}) calculated as:
 
 \begin{equation}
@@ -288,7 +288,9 @@ where:
 
 \noindent
 and $\mathbf{v}_{n}$ is any of the $n$ eigenvectors (i.e. any of the $n$ dimensions of the cladisto-space), $Centroid_{n}$ is the mean value of the $n^{th}$ eigenvector (equation \ref{centroid}) and $k$ is the total number of tips and nodes.
-Note that we also calculated the sum and products of ranges and variances and refer to these results in the supplementary material (Figure S6 to S9). % link to supp.
+%TG: some small changes here:
+Additionally, the sum of variances metric does not suffer from the caveats described above (sensitive to sampling and impractical when using all dimensions) and was therefore also calculated, along with the sum and products of ranges and the product variances in the supplementary material (Figure S6 to S9).
+Note that the results from the sum of variances metric are noticeably similar than the results when using the median distance from centroid. 
 
 \subsection{Estimating disparity through time} 
 Changes in disparity through time are generally investigated by calculating the disparity of taxa that occupy the cladisto-space during specific time intervals \citep[e.g][]{cisneros2010,prentice2011,Hughes20082013,hopkinsdecoupling2013,bentonmodels2014,bensonfaunal2014}.
