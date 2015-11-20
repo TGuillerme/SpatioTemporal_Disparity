@@ -1,8 +1,8 @@
-# Mammalian morphological diversity does not increase in response to the Cretaceous-Paleogene mass extinction.
+# Investigating the effects of the Cretaceous-Paleogene mass extinction on mammalian morphological diversity using a new methodological approach.
 [Thomas Guillerme](http://tguillerme.github.io) and [Natalie Cooper](http://nhcooper123.github.io/).
 
 This repository contains all the code and data used in the manuscript.
-###### Manuscript in review in Current Biology.
+<!-- ###### Manuscript in review in Current Biology. -->
 Part of the code used in the analysis is based on [Graeme T Lloyd](http://graemetlloyd.com/)'s [Claddis](https://github.com/graemetlloyd/Claddis) package. Make sure to have a look, it's great!
 
 Also note that all the code used in this analysis is now properly implemented in the [dispRity](https://github.com/TGuillerme/dispRity) package.
