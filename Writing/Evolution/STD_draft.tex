@@ -108,7 +108,7 @@ $^3$Department of Life Sciences, Natural History Museum, Cromwell Road, London, 
 
 \bigskip
 \noindent \textbf{Data availability and reproducibility:}\\
-\noindent All data are available on Figshare (\url{http://dx.doi.org/10.6084/m9.figshare.1539545}) and the code for reproducing the analyses is available on GitHub (\url{http://github.com/TGuillerme/SpatioTemporal_Disparity}). % NC: Is this what Evolution requests?
+\noindent All data are available on Figshare (\url{http://dx.doi.org/10.6084/m9.figshare.1539545}) and the code for reproducing the analyses is available on GitHub (\url{http://github.com/TGuillerme/SpatioTemporal_Disparity}). % NC: Is this what Evolution requests? TG: Yap
 
 
 %Line numbering
@@ -268,6 +268,7 @@ Note that because of the obvious difficulties of representing multidimensional o
 we do not represent any subset of dimensions of each dataset graphically \citep[c.f.][]{Foote01071994,Wesley-Hunt2005} as our analyses use all the dimensions and are thus impossible to graph. %but rather analyse the changes in the cladisto-space by using a summary metric of all the dimensions (i.e. disparity, see below). %The 2D representation of the first 9 pairs of dimensions of each cladisto-space is given in the supplementary figures S4 and S5 for illustrating the problem of representing a cladisto-space in 2 dimensions (note that the same problem applies with 3D).
 
 % NC: I'm not sure all this is necessary. Seems like a lot to defend not putting in a figure. This is the kind of thing I'd put in a response letter but not a manuscript, especially since it is not going back to Current Biol. Why add S3? How does that help the argument?
+% TG: fair enough, I removed S3 thingy then.
 
 \subsection{Calculating disparity}
 %Steve Brusatte: 4) Page 18, Calculating Disparity: The authors argue against using the four standard disparity metrics often employed in the literature: the sum and products of ranges and variances in morphospace/cladisto-space. I understand the issues with both range metrics: they are dependent on sample size (as are all range metrics), so can be easily affected by sampling biases. I understand the issues with both product metrics: with small ranges and variances on the final axes, the product measures will tend towards zero. But I do not understand what the problem is with the single metric left standing: the sum of the variances. This still seems to be pretty robust to me. This should be discussed, particularly as a major part of this paper is the authors presenting new methods that are held to be superior to everything that has been done previously. (This is not to say that I do not like the median distance metric with the authors use; I think it is a good one if you want to measure disparity as the spread of taxa in morphospace).
@@ -297,7 +298,7 @@ where:
 \noindent
 and $\mathbf{v}_{n}$ is any of the $n$ eigenvectors (i.e. any of the $n$ dimensions of the cladisto-space), $Centroid_{n}$ is the mean value of the $n^{th}$ eigenvector (equation \ref{centroid}) and $k$ is the total number of tips and nodes.
 %TG: some small changes here:
-The sum and products of ranges and variances was also calculated in the supplementary material (Figure S9 to S12).
+The sum and products of ranges and variances was also calculated in the supplementary material (Figure S6 to S9).
 Note that the sum of variances metric (that does not suffer from the caveats described above if one ignores the near zero covariance between the dimensions) gives similar results to analyses using the median distance from centroid. 
 
 \subsection{Estimating disparity-through-time} 
@@ -323,7 +324,7 @@ When the phylogenetic elements are branches we chose the eigenvector score for t
       \item randomly selecting either the eigenvector score of the ancestral node or the descendant node/tip of the branch (random).
     \end{enumerate}
     Method (i) assumes that changes always occur early on the branch (accelerated transition, ACCTRAN) and (ii) assumes that changes always occur later (delayed transition, DELTRAN).
-    We prefer not to make either assumption so we report the results from (iii), although the ACCTRAN and DELTRAN results are available in the Supplementary Information (Figure S9 to S12).
+    We prefer not to make either assumption so we report the results from (iii), although the ACCTRAN and DELTRAN results are available in the Supplementary Information (Figure S6 to S9).
     \item{\textbf{Gradual evolution.}}
     This model also selects the eigenvector score from either the ancestral node or the descendant node/tip of the branch, but the choice depends on the distance between the sampling time point and the end of the branch.
     If the sampling time point falls in the first half of the branch length the eigenvector score is taken from the ancestral node, conversely, if the sampling time point falls in the second half of the branch length the eigenvector score is taken from the descendant node/tip.
@@ -338,7 +339,7 @@ To reduce the influence of outliers on our disparity estimates, we bootstrapped 
 We then calculated the median disparity value for each subsample along with the 50\% and 95\% confidence intervals.
 We also recorded the number of phylogenetic elements (nodes and tips) in each subsample as a proxy for taxonomic diversity.
 To compare our results to previous studies we also repeated our analyses using the time interval approach based on biostratigraphy \citep[e.g.][]{cisneros2010,prentice2011,Hughes20082013,bentonmodels2014} using each geological stage from the Middle Jurassic to the present.
-We report the results of these analyses in the Supplementary Materials (Figure S9 to S12).
+We report the results of these analyses in the Supplementary Materials (Figure S6 to S9).
 
 %Testing the difference section
 \subsection{Testing the effects of the K-Pg extinction event on mammalian disparity}
@@ -365,10 +366,10 @@ To make both datasets comparable, we used eight as a minimum number of taxa for 
 %---------------------------------------------
 
 \section{Results}
-Disparity in the Mammaliaformes reaches a plateau during the Middle Triassic around 240 Ma, and fluctuates slightly around this during the rest of the Mesozoic and the Cenozoic (Figure \ref{fig:Fig_Raw_results} and Figure S8).
-The number of tips and nodes in each time subsample (a proxy for taxonomic richness), however, show a more idiosyncratic pattern with a steady increase until the Middle Jurassic around 170 Ma (Figure S8) followed by random fluctuations during the rest of the Mesozoic and the Cenozoic (Figure \ref{fig:Fig_Raw_results}).
+Disparity in the Mammaliaformes reaches a plateau during the Middle Triassic around 240 Ma, and fluctuates slightly around this during the rest of the Mesozoic and the Cenozoic (Figure \ref{fig:Fig_Raw_results} and Figure S5).
+The number of tips and nodes in each time subsample (a proxy for taxonomic richness), however, show a more idiosyncratic pattern with a steady increase until the Middle Jurassic around 170 Ma (Figure S5) followed by random fluctuations during the rest of the Mesozoic and the Cenozoic (Figure \ref{fig:Fig_Raw_results}).
 Disparity in the Eutheria reaches a plateau at the end of the Jurassic around 150 Ma, whereas the number of tips and nodes increases up to the K-Pg boundary and then decreases throughout the Cenozoic (Figure \ref{fig:Fig_Raw_results}).
-For both Mammaliaformes and Eutheria the same patterns in changes in disparity appear in the rarefied analyses (Figure \ref{fig:Fig_Raw_results} and S6).
+For both Mammaliaformes and Eutheria the same patterns in changes in disparity appear in the rarefied analyses (Figure \ref{fig:Fig_Raw_results} and S3).
 In both datasets the two evolutionary models (gradual or punctuated) also yield similar results (Figure \ref{fig:Fig_Raw_results}).
 
 We found no significant differences in disparity between the last subsample of the Cretaceous (70 Ma) and the first subsample of the Paleogene (65 Ma; Table \ref{tab:Tab_results}), using both datasets and under both evolutionary models. 
@@ -468,7 +469,7 @@ This indicates that it is more likely due to differences in the evolutionary mod
 The 45 Ma subsample samples the long branch ($\sim$50 million years) leading to \textit{Leptictis} (33.9 to 33.3 Ma) that branches with its closest relative \textit{Gypsonictops} (66.8 to 66 Ma) in the early Upper Cretaceous $\sim$90 Ma (see Figure S2).
 Therefore, in this time-slice under the gradual evolution model, the data for \textit{Leptictis} is always sampled, but under the punctuated evolution model the algorithm can also randomly sample the data from its ancestor in the early Upper Cretaceous (see methods).
 This may inflate differences compared to other slices.
-Incidentally, this increase can also be linked to the number of tips and nodes used in the comparison (43 versus 23 tips and nodes at respectively 70 and 45 Ma), because the increase is not significant in the rarefied analysis (see Figure S6 with only eight tips and nodes).
+Incidentally, this increase can also be linked to the number of tips and nodes used in the comparison (43 versus 23 tips and nodes at respectively 70 and 45 Ma), because the increase is not significant in the rarefied analysis (see Figure S3 with only eight tips and nodes).
 Given these caveats we believe that no strong conclusions can be drawn from the increase in disparity during the Eocene.
 
 % §4 - How does that compare to other people
