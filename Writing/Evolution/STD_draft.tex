@@ -271,6 +271,8 @@ we do not represent any subset of dimensions of each dataset graphically \citep[
 % NC: I'm not sure all this is necessary. Seems like a lot to defend not putting in a figure. This is the kind of thing I'd put in a response letter but not a manuscript, especially since it is not going back to Current Biol. Why add S3? How does that help the argument?
 % TG: fair enough, I removed S3 thingy then.
 
+%TG: TO CHECK (flow)!
+
 \subsection{Calculating disparity}
 %Steve Brusatte: 4) Page 18, Calculating Disparity: The authors argue against using the four standard disparity metrics often employed in the literature: the sum and products of ranges and variances in morphospace/cladisto-space. I understand the issues with both range metrics: they are dependent on sample size (as are all range metrics), so can be easily affected by sampling biases. I understand the issues with both product metrics: with small ranges and variances on the final axes, the product measures will tend towards zero. But I do not understand what the problem is with the single metric left standing: the sum of the variances. This still seems to be pretty robust to me. This should be discussed, particularly as a major part of this paper is the authors presenting new methods that are held to be superior to everything that has been done previously. (This is not to say that I do not like the median distance metric with the authors use; I think it is a good one if you want to measure disparity as the spread of taxa in morphospace).
 
@@ -281,7 +283,7 @@ Nonetheless, these methods suffer several methodological caveats.
 First, the range metrics are affected by the uneven sampling of the fossil record \citep{Butler2012}
 Second, because we include all $n$ dimensions in the analysis (see above), the products of ranges and variances will tend towards zero since the scores of the last dimension are usually really close to zero themselves.
 %TG: I've added this one as well"
-Third, even though covariance between dimensions is minimized by creating dimensions that are orthogonal to each other, one should calculate the sum and the product of variances as the sum and product of variance-\textit{covariance} % NC: Not sure I follow but I will take your word for it but do you mean variance-covariance or just covariance?
+Third, even though covariance between dimensions is minimized by creating dimensions that are orthogonal to each other, one should calculate the sum and the product of variances as the sum and product of variance-\textit{covariance} % NC: Not sure I follow but I will take your word for it but do you mean variance-covariance or just covariance? TG: var-covar.
 to calculate the exact variance of the ordinated matrix.
 These features make using the sum and products of ranges and variances problematic in our study.
 Instead, we use a different metric that comes with no statistical assumptions for measuring the dispersion of the data in the cladisto-space: the median distance between tips and nodes and the centroid (similar but not equivalent to \citealt{Wills1994,kornextinction2013,huang2015origins}) calculated as:
@@ -452,6 +454,8 @@ This does not necessarily mean that mammals did not evolve into new niches after
 
 % NC: OK I agree on the morphospace plots being stupid. But his other point is true. All you are measuring is TOTAL disparity. So on the plot below, disparity at X is the same as at Y. His point is that maybe you have (e.g.) bats pre KT and then dogs post KT. Same TOTAL disparity, but in a completely different region of morphospace. So technically what you are saying is not correct. I've tried to reword a bit here and in the abstract. It is just a question of calrifying exactly what we mean by disparity I think. You may need to change some "morphospaces" to cladistospaces.
  
+
+%TG: TO DO!!!
 
 
 %|X
