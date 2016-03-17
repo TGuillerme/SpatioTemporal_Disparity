@@ -11,13 +11,13 @@ library(Claddis)
 library(dispRity)
 
 # Loading the data
-tree <- read.nexus("../../Data/2014-Beck-ProcB-TEM.tre")
+tree <- read.nexus("../Data/2014-Beck-ProcB-TEM.tre")
 
 # Loading the matrix
-matrix <- ReadMorphNexus("../../Data/2014-Beck-ProcB-matrix-morpho.nex")
+matrix <- ReadMorphNexus("../Data/2014-Beck-ProcB-matrix-morpho.nex")
 
 # loading the first/last occurrence data
-FADLAD <- read.csv("../../Data/Beck2014_FADLAD.csv", row.names=1)
+FADLAD <- read.csv("../Data/Beck2014_FADLAD.csv", row.names=1)
 
 
 #####
@@ -35,9 +35,9 @@ tree$root.time <- max(tree.age(tree)[,1])
 #TG: Add the 0.95 lower limit for ancestral reconstruction using the anc.unc function.
 
 # Load the data (shortcut)
-load("../../Data/Beck2014/Beck2014_ancestral_states.Rda")
-source("../../Functions/disparity/R/sanitizing.R")
-source("../../Functions/disparity/R/anc.unc.R")
+load("../Data/Beck2014/Beck2014_ancestral_states.Rda")
+source("../Functions/disparity/R/sanitizing.R")
+source("../Functions/disparity/R/anc.unc.R")
 matrix_nodes <- anc.unc(anc_states, 0.95, NA)$state
 
 #####
@@ -49,7 +49,7 @@ matrix_nodes <- anc.unc(anc_states, 0.95, NA)$state
 #TG: Calculate only the gower distance + use the fast algorithm.
 
 # Load the data (shortcut)
-load("../../Data/Beck2014/Beck2014_distance-nodes95.Rda")
+load("../Data/Beck2014/Beck2014_distance-nodes95.Rda")
 dist_matrix <- dist_nodes95$gower
 
 # Ordinate the data
@@ -132,9 +132,6 @@ seq_disparity <- test.dispRity(disparity_time, test = sequential.test, family = 
 
 # Difference after K-Pg
 test.dispRity(get.dispRity(disparity_time, what = c(19:33)), test = t.test, comparisons = "referential")
-
-#TG: Problem with get.dispRity!
-#TG: Problem with test.dispRity, comparisons = list!
 
 
 
