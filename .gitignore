@@ -76,6 +76,7 @@ Analysis/Old_STD/
 *.ttt
 *.fdb_latexmk
 *.pdf
+*.fls
 
 # beamer
 *.nav
