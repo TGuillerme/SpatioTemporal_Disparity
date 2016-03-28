@@ -10,7 +10,7 @@
 #library(Claddis)
 
 #TG: For now install the development version on my own branch:
-library()
+
 
 library(dispRity)
 
@@ -74,34 +74,34 @@ categories[,2] <- rep("all", nrow(ord_matrix))
 categories[which(tree.age(tree)$age <= 66), 1] <- "pre"
 categories[which(tree.age(tree)$age > 66), 1] <- "post"
 # Creating the custom series
-cust_series <- cust.series(ord_matrix, categories)
+cust_series_matrix <- cust.series(ord_matrix, categories)
 
 # Time series (every 5 Ma)
 # Creating the time slices
 time <- rev(seq(from = 0, to = 160, by = 5))
 # Creating the time series
-time_series <- time.series(ord_matrix, tree, method = "continuous", time = time, model = "gradual", FADLAD = FADLAD, verbose = TRUE)
+time_series_matrix <- time.series(ord_matrix, tree, method = "continuous", time = time, model = "gradual", FADLAD = FADLAD, verbose = TRUE)
 
 #####
 # Bootstrapping the data
 #####
 
 # Bootstrapping the custom series
-cust_series <- boot.matrix(cust_series, bootstrap = 100) #TG: set to 1000
+cust_series_matrix <- boot.matrix(cust_series_matrix, bootstrap = 100) #TG: set to 1000
 
 # Bootstrapping the time series
-time_series <- boot.matrix(time_series, bootstrap = 100) #TG: set to 1000
+time_series_matrix <- boot.matrix(time_series_matrix, bootstrap = 100) #TG: set to 1000
 
 #####
 # Calculating disparity
 #####
 
 # Calculating disparity in the custom series
-disparity_cust <- dispRity(cust_series, metric = c(median, centroids))
+disparity_cust <- dispRity(cust_series_matrix, metric = c(median, centroids))
 #TG: median centroids = average radius of the morphspace. Maybe test sum of centroids: total dispersion of the morphospace (probably sensitive to morphospace).
 
 # Calculating disparity in the time series
-disparity_time <- dispRity(time_series, metric = c(median, centroids))
+disparity_time <- dispRity(time_series_matrix, metric = c(median, centroids))
 
 #####
 # Displaying the results

@@ -1,0 +1,260 @@
+\documentclass{article}
+\usepackage[sc]{mathpazo}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+\usepackage{url}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=2,
+ breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
+ {hyperref}
+\hypersetup{
+ pdfstartview={XYZ null null 1}}
+\begin{document}
+<<setup, include=FALSE, cache=FALSE>>=
+library(knitr)
+# set global chunk options
+opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold')
+options(formatR.arrow=TRUE,width=90)
+@
+
+
+\title{STD pipelined analysis v2.0!}
+
+\author{Thomas Guillerme}
+
+\maketitle
+
+New version of the spatio-temporal disparity analysis in mammals around the K-Pg boundary (using Beck's dataset only)
+
+\tableofcontents
+
+\section{Before starting}
+
+\subsection{Loading the package}
+First we need to install the packages.
+Note that if the packages need to be installed manually (the following code is not evaluated, assuming you have these packages already installed).
+To download them, just copy/paste the following code.
+
+%TG: Remember to change the Claddis INSTAL PATH whenever (if) Graeme uploads my new functionalities
+<<package, eval = FALSE>>=
+## The latest version of devtools and ape
+if(!require(devtools)) install.packages("devtools")
+if(!require(ape)) install.packages("ape")
+
+## The latest version of Claddis (on development on my own branch)
+install_github("TGuillerme/Claddis")
+
+## The latest version of dispRity 
+install_github("TGuillerme/dispRity")
+@
+
+\subsection{Loading the Data}
+
+<<data>>=
+## Loading the packages
+library(Claddis) ; library(dispRity)
+
+## Loading the discrete morphological matrix
+matrix <- ReadMorphNexus("../Data/2014-Beck-ProcB-matrix-morpho.nex")
+
+## Loading the tree
+tree <- read.nexus("../Data/2014-Beck-ProcB-TEM.tre")
+
+## Adding node labels to the tree
+tree <- makeNodeLabel(tree, method = "number", prefix = "n")
+
+## Adding root.time to the tree
+tree$root.time <- max(tree.age(tree)[,1])
+
+## loading the first/last occurrence data
+FADLAD <- read.csv("../Data/Beck2014_FADLAD.csv", row.names=1)
+@
+
+\section{Creating the cladisto-space}
+
+\subsection{Estimating the ancestral nodes states}
+
+This part takes some time to calculate (between 20 and 30 minutes on a 2.2GHz clock speed processor).
+
+<<AncStateEstMatrix_NotRun, eval = FALSE>>=
+## Estimating the ancestral states (with a uncertainty threshold of 0.95)
+matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
+    uncertainty.threshold = 0.95)
+
+## Saving the matrix
+save(matrix_nodes, file = "../Data/ancestral_states_beck2014.Rda")
+@
+
+It is however possible to skip it by loading the already estimated ancestral character states as following:
+
+<<AncStateEstMatrix>>=
+## Loading the matrix
+load("../Data/ancestral_states_beck2014.Rda")
+## The matrix was assigned to the object matrix_nodes (see above).
+
+## Adding the node names as row names
+row.names(matrix_nodes) <- tree$node.label
+
+## Combining the tips and the nodes in the same matrix
+matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
+@
+
+To exclude sloppy ancestral estimations, we included in our matrix only states with an ancestral states estimation's scaled likelihood $>$ 0.95.
+Whenever the scaled likelihood was below this level for a character, we replaced the estimated state by NA.
+When applying this threshold, only 40\% of the ancestral states estimations where saved (yet these values have are all really likely).
+
+\subsection{Calculating the distance matrix}
+
+This part also takes some time to calculate %ADD CPU TIME
+ .
+<<MorphDistMatrix_NotRun, eval = FALSE>>=
+## Calculating the Gower distance
+time3 <- system.time(matrix_dist <- MorphDistMatrix.fast(matrix, distance = "Gower"))
+
+## Saving the distance matrix
+save(matrix_dist, file = "../Data/distance_matrix_beck2014.Rda")
+@
+
+It is however possible to skip it by loading the already estimated ancestral character states as following:
+
+<<AncStateEstMatrix>>=
+## Loading the matrix
+load("../Data/distance_matrix_beck2014.Rda")
+## The matrix was assigned to the object matrix_dist (see above).
+@
+
+\subsection{Generating the cladisto-space}
+
+<<Ordination>>=
+## Ordinating the matrix
+matrix_ord <- cmdscale(matrix_dist, k=nrow(matrix_dist) - 2, add=T)
+
+## Saving the distance matrix
+save(matrix_dist, file = "../Data/distance_matrix_beck2014.Rda")
+@
+
+\section{Disparity analysis}
+
+\subsection{Creating the sub-samples of the cladisto-space}
+
+First let's create sub-samples (series) corresponding to the all the possible shapes before and after the K-Pg boundary
+
+<<Custom series>>=
+## Creating the empty data frame
+categories <- as.data.frame(matrix(data = rep(NA, nrow(ord_matrix)),
+    nrow = nrow(ord_matrix), ncol = 2, dimnames = list(rownames(ord_matrix))))
+
+## Adding column names
+colnames(categories) <- c("KPg", "")
+
+## Adding the factors for all mammals
+categories[,2] <- rep("all", nrow(ord_matrix))
+
+## Adding the pre/post factors for the K-Pg limit
+categories[which(tree.age(tree)$age <= 66), 1] <- "pre"
+categories[which(tree.age(tree)$age > 66), 1] <- "post"
+
+## Creating the custom series
+cust_series <- cust.series(ord_matrix, categories)
+@
+
+Secondly, let's create sub-samples that represent the observed disparity every 5 million years:
+
+<<Time series>>=
+## Creating the time slices
+time_slices <- rev(seq(from = 0, to = 160, by = 5))
+
+## Creating the time series
+time_series <- time.series(ord_matrix, tree, method = "continuous",
+    time = time_slices, model = "gradual", FADLAD = FADLAD, verbose = TRUE)
+@
+
+\subsection{Calculating disparity}
+
+First, let's bootstrap the matrices.
+
+<<Bootstraps>>=
+## Bootstrapping the custom series
+cust_series <- boot.matrix(cust_series, bootstrap = 1000)
+
+## Bootstrapping the time series
+time_series <- boot.matrix(time_series, bootstrap = 1000)
+@
+
+Second, let's calculate disparity as the median distance between each observed taxa in the sub-sample and the centroid of the sub-sample:
+%TG: median centroids = average radius of the morphspace. Maybe test sum of centroids: total dispersion of the morphospace (probably sensitive to morphospace).
+
+\begin{equation}
+   \text{Disparity}=median{\displaystyle\sqrt{\sum{(\mathbf{v}_{n}-Centroid_{n})^2}}}
+    \label{disparity}
+\end{equation}
+where:
+\begin{equation}
+    Centroid_{n}=\frac{\displaystyle\sum(\mathbf{v}_{n})}{k} 
+    \label{centroid}
+\end{equation}
+
+\noindent
+and $\mathbf{v}_{n}$ is any of the $n$ eigenvectors (i.e. any of the $n$ dimensions of the cladisto-space), $Centroid_{n}$ is the mean value of the $n^{th}$ eigenvector (equation \ref{centroid}) and $k$ is the total number of tips and nodes.
+
+<<Disparity>>=
+## Calculating disparity in the custom series
+disparity_cust <- dispRity(cust_series, metric = c(median, centroids))
+
+## Calculating disparity in the time series
+disparity_time <- dispRity(time_series, metric = c(median, centroids))
+@
+
+\subsection{Displaying the results}
+
+<<Summary>>=
+## Disparity in the custom series:
+summary(disparity_cust)
+
+## Disparity in the time series:
+summary(disparity_time)
+@
+
+<<Plotting1>>=
+## Graphical parameters
+op <- par(mfrow = c(2,1), bty = "n")
+
+## Plotting the disparity in the custom series:
+plot(disparity_cust, type = "polygon")
+
+## Plotting the disparity in the time series:
+plot(disparity_time)
+@
+
+\section{Differences in disparity around the K-Pg boundary}
+
+
+<<wilcox.test>>=
+# Is the disparity before and after K-Pg siginificatively different?
+test.dispRity(disparity_cust, test = wilcox.test, correction = "bonferroni")
+
+# How much do the distributions overlap?
+test.dispRity(disparity_cust, test = bhatt.coeff)
+#TG: disparity after K-Pg is significantly different than before?
+
+# Difference between each series?
+test.dispRity(disparity_time, test = t.test, correction = "bonferroni", comparisons = "sequential")
+test.dispRity(disparity_time, test = bhatt.coeff, comparisons = "sequential")
+@
+
+<<seq.test>>=
+# Sequential test
+plot(disparity_time)
+seq_disparity <- test.dispRity(disparity_time, test = sequential.test, family = gaussian, add = TRUE, lines.args = list(col = "red", lty = 3, lwd = 1.5), token.args = list(cex = 0.6))
+
+# Difference after K-Pg
+test.dispRity(get.dispRity(disparity_time, what = c(19:33)), test = t.test, comparisons = "referential")
+@
+
+%Add sample size effect!
+
+\end{document}
+
