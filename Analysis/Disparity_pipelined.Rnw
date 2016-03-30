@@ -1,11 +1,31 @@
-\documentclass{article}
-\usepackage[sc]{mathpazo}
-\usepackage[T1]{fontenc}
-\usepackage{geometry}
+\usepackage{pdflscape}
+\usepackage{fixltx2e}
+\usepackage{textcomp}
+\usepackage{fullpage}
+\usepackage{float}
+\usepackage{latexsym}
+\usepackage{url}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{array}
+\usepackage[version=3]{mhchem}
+\usepackage{ifthen}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{amsthm}
+\usepackage{amstext}
+\usepackage{enumerate}
+\usepackage[osf]{mathpazo}
+\usepackage{dcolumn}
+\usepackage{lineno}
+\usepackage{longtable}
+\pagenumbering{arabic}
 \geometry{verbose,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm}
 \setcounter{secnumdepth}{2}
 \setcounter{tocdepth}{2}
-\usepackage{url}
 \usepackage[unicode=true,pdfusetitle,
  bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=2,
  breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
@@ -40,7 +60,7 @@ To download them, just copy/paste the following code.
 
 %TG: Remember to change the Claddis INSTAL PATH whenever (if) Graeme uploads my new functionalities
 <<package, eval = FALSE>>=
-## The latest version of devtools and ape
+# The latest version of devtools and ape
 if(!require(devtools)) install.packages("devtools")
 if(!require(ape)) install.packages("ape")
 
@@ -63,6 +83,11 @@ matrix <- ReadMorphNexus("../Data/2014-Beck-ProcB-matrix-morpho.nex")
 ## Loading the tree
 tree <- read.nexus("../Data/2014-Beck-ProcB-TEM.tre")
 
+## Making sure the tree and the matrix are matching
+cleaned_data <- clean.data(matrix$matrix, tree)
+tree <- cleaned_data$tree
+matrix$matrix <- cleaned_data$data
+
 ## Adding node labels to the tree
 tree <- makeNodeLabel(tree, method = "number", prefix = "n")
 
@@ -71,6 +96,7 @@ tree$root.time <- max(tree.age(tree)[,1])
 
 ## loading the first/last occurrence data
 FADLAD <- read.csv("../Data/Beck2014_FADLAD.csv", row.names=1)
+
 @
 
 \section{Creating the cladisto-space}
@@ -108,32 +134,18 @@ When applying this threshold, only 40\% of the ancestral states estimations wher
 
 \subsection{Calculating the distance matrix}
 
-This part also takes some time to calculate %ADD CPU TIME
- .
-<<MorphDistMatrix_NotRun, eval = FALSE>>=
+
+<<MorphDistMatrix>>=
 ## Calculating the Gower distance
-time3 <- system.time(matrix_dist <- MorphDistMatrix.fast(matrix, distance = "Gower"))
-
-## Saving the distance matrix
-save(matrix_dist, file = "../Data/distance_matrix_beck2014.Rda")
+matrix_dist <- MorphDistMatrix.fast(matrix, distance = "Gower")
 @
-
-It is however possible to skip it by loading the already estimated ancestral character states as following:
-
-<<AncStateEstMatrix>>=
-## Loading the matrix
-load("../Data/distance_matrix_beck2014.Rda")
-## The matrix was assigned to the object matrix_dist (see above).
-@
+%This version of the code might change
 
 \subsection{Generating the cladisto-space}
 
 <<Ordination>>=
 ## Ordinating the matrix
-matrix_ord <- cmdscale(matrix_dist, k=nrow(matrix_dist) - 2, add=T)
-
-## Saving the distance matrix
-save(matrix_dist, file = "../Data/distance_matrix_beck2014.Rda")
+matrix_ord <- cmdscale(matrix_dist, k=nrow(matrix_dist) - 2, add=T)$points
 @
 
 \section{Disparity analysis}
@@ -144,21 +156,21 @@ First let's create sub-samples (series) corresponding to the all the possible sh
 
 <<Custom series>>=
 ## Creating the empty data frame
-categories <- as.data.frame(matrix(data = rep(NA, nrow(ord_matrix)),
-    nrow = nrow(ord_matrix), ncol = 2, dimnames = list(rownames(ord_matrix))))
+categories <- as.data.frame(matrix(data = rep(NA, nrow(matrix_ord)),
+    nrow = nrow(matrix_ord), ncol = 2, dimnames = list(rownames(matrix_ord))))
 
 ## Adding column names
 colnames(categories) <- c("KPg", "")
 
 ## Adding the factors for all mammals
-categories[,2] <- rep("all", nrow(ord_matrix))
+categories[,2] <- rep("all", nrow(matrix_ord))
 
 ## Adding the pre/post factors for the K-Pg limit
 categories[which(tree.age(tree)$age <= 66), 1] <- "pre"
 categories[which(tree.age(tree)$age > 66), 1] <- "post"
 
 ## Creating the custom series
-cust_series <- cust.series(ord_matrix, categories)
+cust_series <- cust.series(matrix_ord, categories)
 @
 
 Secondly, let's create sub-samples that represent the observed disparity every 5 million years:
@@ -168,7 +180,7 @@ Secondly, let's create sub-samples that represent the observed disparity every 5
 time_slices <- rev(seq(from = 0, to = 160, by = 5))
 
 ## Creating the time series
-time_series <- time.series(ord_matrix, tree, method = "continuous",
+time_series <- time.series(matrix_ord, tree, method = "continuous",
     time = time_slices, model = "gradual", FADLAD = FADLAD, verbose = TRUE)
 @
 
