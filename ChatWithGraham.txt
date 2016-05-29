@@ -1,0 +1,59 @@
+Implementing tests in dispRity
+
+
+CHECKING FOR SATURATION
+1-Compare the difference between the full cladisto-space (observed) and the bootstraps data of the subsamples.
+2-Check the phylogenetic structure of the pco matrix
+2.1-phylogenetic correlation within the matrix
+2.2-If correlation is strong, characters bear a strong phylo signal (low homoplasy - slow evolving) end up with saturation
+2.3-If correlation is weak, characters bear low phylo signal (high homoplasy - fast evolving) saturation less likely
+2.4-Expected saturation when low phylo-signal?
+
+TESTING DIFFERENCES
+For diversity testing, include lm method (correlated/estimated intercept).
+serial lm:
+Use linear vs. quadratic model (effect of time). See Sakamoto, Benton, Venditti talk.
+1-fit a lm between time slices 1 and 2 (use probabilistic model (between 0-1)
+2-test if slope is significant (if yes, difference, else, none)
+3-estimate the intercept at time slice 2
+4-fit lm between slice 2 and 3 with fixing intercept from step 3
+5-back to point 2 but with the slice 3
+
+CORRECT FOR PHYLOGENY
+Correct for the number of taxa in common between the two slices?
+-use phylogenetic diversity (i.e. total  branch length) between two slices and correct scores by ratio
+correlation<-sum(brlen slice1)/sum(brlen slice2)
+t.test(slice1~correlation, slice2~correlation)
+Idea is that you should increase the similarities between the two trees in the test
+-Or just use RF with branch length? Idea being that if slice-trees are the same, disparity is expected to be the same;
+if slice-trees are really different, disparity is expected to be possibly different.
+
+
+PGLS ON OBSERVED DISTTANCE FROM CENTROID (difference between two slices corrected for phylogeny).
+do PGLS between slices?
+distance from centroid ~ slice (1 & 2); random terms=combined phylogeny?
+Create a "sub-phylogeny" with tips and nodes (as tips)?
+Future: expand towards multiple slices (sequential)
+
+SAMPLING BIASE
+-do something along Butler's method?
+
+http://www.pnas.org.sci-hub.org/content/112/12/3758.short
+http://fishlab.ucdavis.edu/wp-content/uploads/2011/01/PricePRS2014.pdf
+
+OUwie package (Beaulieu)
+
+TEM tree on squamates
+Reeder 2015 PLoS ONE
+
+
+Hélène Morlon (ENS)
+
+
+
+dispRity:
+alllow one metric (volume, etc...) or two (sum of range, etc...)
+
+axis descriptor (range, variance) -> describing the space rules (axis)
+species descriptors (centroid, etc..) -> describing the space occupancy (taxa)
+volume -> describing both?
