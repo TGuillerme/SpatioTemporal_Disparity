@@ -200,7 +200,8 @@ Second, let's calculate disparity as the median distance between each observed t
 %TG: median centroids = average radius of the morphspace. Maybe test sum of centroids: total dispersion of the morphospace (probably sensitive to morphospace).
 
 \begin{equation}
-   \text{Disparity}=median{\displaystyle\sqrt{\sum{(\mathbf{v}_{n}-Centroid_{n})^2}}}
+   \text{Disparity}=\displaystyle\sqrt{\sum{(\mathbf{v}_{n}-Centroid_{n})^2}}
+   %\text{Disparity}=median{\displaystyle\sqrt{\sum{(\mathbf{v}_{n}-Centroid_{n})^2}}}
     \label{disparity}
 \end{equation}
 where:
@@ -214,10 +215,18 @@ and $\mathbf{v}_{n}$ is any of the $n$ eigenvectors (i.e. any of the $n$ dimensi
 
 <<Disparity>>=
 ## Calculating disparity in the custom series
-disparity_cust <- dispRity(cust_series, metric = c(median, centroids))
+disparity_cust <- dispRity(cust_series, metric = centroids)
+disparity_cust_cen <- dispRity(cust_series, metric = centroids,
+							   centroid = rep(0, ncol(matrix_ord)))
+med_disparity_cust <- dispRity(disparity_cust, metric = median)
+med_disparity_cust_cen <- dispRity(disparity_cust_cen, metric = median)
 
 ## Calculating disparity in the time series
-disparity_time <- dispRity(time_series, metric = c(median, centroids))
+disparity_time <- dispRity(time_series, metric = centroids)
+disparity_time_cen <- dispRity(time_series, metric = centroids,
+							   centroid = rep(0, ncol(matrix_ord)))
+med_disparity_time <- dispRity(disparity_time, metric = median)
+med_disparity_time_cen <- dispRity(disparity_time_cen, metric = median)
 @
 
 \subsection{Displaying the results}
@@ -225,45 +234,84 @@ disparity_time <- dispRity(time_series, metric = c(median, centroids))
 <<Summary>>=
 ## Disparity in the custom series:
 summary(disparity_cust)
+summary(disparity_cust_cen)
 
 ## Disparity in the time series:
 summary(disparity_time)
+summary(disparity_time_cen)
 @
 
 <<Plotting1>>=
 ## Graphical parameters
-op <- par(mfrow = c(2,1), bty = "n")
+op <- par(mfrow = c(2,2), bty = "n")
 
-## Plotting the disparity in the custom series:
-plot(disparity_cust, type = "polygon")
+## Plotting the median disparity in the custom (within the groups)
+plot(med_disparity_cust, type = "polygon", main = "Med_dis within groups")
+## Plotting the median disparity in the custom (within the groups)
+plot(med_disparity_cust_cen, type = "polygon", main = "Med_dis from center")
 
 ## Plotting the disparity in the time series:
-plot(disparity_time)
+plot(med_disparity_time, main = "Med_dis within groups")
+## Plotting the median disparity in the custom (within the groups)
+plot(med_disparity_time_cen, main = "Med_dis from center")
 @
 
 \section{Differences in disparity around the K-Pg boundary}
 
+First, let's check if there are any differences between all the taxa before and after the K-Pg event.
+I am not sure if this test is necessary since it's binning stuff that have not much to do with each other (i.e. it's probably silly to compare both the disparity in the paleogene and the present to the disparity in the jurassic and cretaceous combined).
 
-<<wilcox.test>>=
-# Is the disparity before and after K-Pg siginificatively different?
-test.dispRity(disparity_cust, test = wilcox.test, correction = "bonferroni")
-
+<<distribution overlap>>=
 # How much do the distributions overlap?
 test.dispRity(disparity_cust, test = bhatt.coeff)
-#TG: disparity after K-Pg is significantly different than before?
+@
 
+Though interestingly, there seems to be not much of a difference after and before the K-Pg (distributions nearly always fully overlap - Bhattacharyya Coefficient $>$ 0.95).
+
+Second, let's test that statistically with a \texttt{t.test} (and correcting for multiple tests using bonferronni).
+
+<<distribution_test>>=
+# Is the disparity before and after K-Pg siginificatively different?
+test.dispRity(disparity_cust, test = t.test, correction = "bonferroni")
+@
+
+Note that they all come out as significant but with huge degrees of freedom (the parameters in the results).
+This is because in effect, we are here comparing not just the disparity of the two distributions but of all the 1000 bootstraps!
+One solution is to apply the test to all the pairs of bootstraps and look at the quantiles of the results.
+
+<<distribution_test2>>=
+# Is the disparity before and after K-Pg siginificatively different?
+test.dispRity(disparity_cust, test = t.test, correction = "bonferroni",
+			  concatenate = FALSE)
+@
+
+Here we can see that the post-K-Pg disparity is always different than the overall disparity and that both post and pre are different in at least 75\% of the cases.
+
+<<sequential_test1>>=
 # Difference between each series?
-test.dispRity(disparity_time, test = t.test, correction = "bonferroni", comparisons = "sequential")
-test.dispRity(disparity_time, test = bhatt.coeff, comparisons = "sequential")
+sequential_t_test <- test.dispRity(disparity_time, test = t.test,
+	correction = "bonferroni", comparisons = "sequential", concatenate = FALSE)
+
+
 @
 
 <<seq.test>>=
 # Sequential test
+sequential_test <- test.dispRity(disparity_time, test = sequential.test,
+							     family = gaussian)
 plot(disparity_time)
-seq_disparity <- test.dispRity(disparity_time, test = sequential.test, family = gaussian, add = TRUE, lines.args = list(col = "red", lty = 3, lwd = 1.5), token.args = list(cex = 0.6))
+plot(sequential_test, add = TRUE,
+	lines.args = list(col = "red", lty = 3, lwd = 1.5),
+	token.args = list(cex = 0.6))
+
 
 # Difference after K-Pg
-test.dispRity(get.dispRity(disparity_time, what = c(19:33)), test = t.test, comparisons = "referential")
+test.dispRity(get.dispRity(disparity_time, what = c(19:33)), test = t.test,
+			  comparisons = "referential")
+test.dispRity(get.dispRity(med_disparity_time, what = c(19:33)), test = t.test,
+			  comparisons = "referential")
+test.dispRity(get.dispRity(disparity_time, what = c(19:33)), test = t.test,
+			  comparisons = "referential", concatenate = FALSE)
 @
 
 %Add sample size effect!
