@@ -95,7 +95,7 @@ tree <- makeNodeLabel(tree, method = "number", prefix = "n")
 tree$root.time <- max(tree.age(tree)[,1])
 
 ## loading the first/last occurrence data
-FADLAD <- read.csv("../Data/Beck2014_FADLAD.csv", row.names=1)
+FADLAD <- read.csv("../Data/Beck2014_FADLAD.csv", row.names = 1)
 
 @
 
@@ -303,6 +303,7 @@ plot(disparity_time)
 plot(sequential_test, add = TRUE,
 	lines.args = list(col = "red", lty = 3, lwd = 1.5),
 	token.args = list(cex = 0.6))
+
 
 
 # Difference after K-Pg
