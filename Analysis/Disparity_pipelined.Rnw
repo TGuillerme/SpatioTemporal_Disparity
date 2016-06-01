@@ -1,27 +1,8 @@
-\usepackage{pdflscape}
-\usepackage{fixltx2e}
-\usepackage{textcomp}
-\usepackage{fullpage}
-\usepackage{float}
-\usepackage{latexsym}
-\usepackage{url}
-\usepackage{epsfig}
-\usepackage{graphicx}
-\usepackage{amssymb}
+\documentclass{article}
+\usepackage[sc]{mathpazo}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
 \usepackage{amsmath}
-\usepackage{bm}
-\usepackage{array}
-\usepackage[version=3]{mhchem}
-\usepackage{ifthen}
-\usepackage{caption}
-\usepackage{hyperref}
-\usepackage{amsthm}
-\usepackage{amstext}
-\usepackage{enumerate}
-\usepackage[osf]{mathpazo}
-\usepackage{dcolumn}
-\usepackage{lineno}
-\usepackage{longtable}
 \pagenumbering{arabic}
 \geometry{verbose,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm}
 \setcounter{secnumdepth}{2}
@@ -47,7 +28,7 @@ options(formatR.arrow=TRUE,width=90)
 
 \maketitle
 
-New version of the spatio-temporal disparity analysis in mammals around the K-Pg boundary (using Beck's dataset only)
+New version of the spatio-temporal disparity analysis in mammals around the K-Pg boundary (using Beck's and Halliday's data)
 
 \tableofcontents
 
@@ -71,251 +52,270 @@ install_github("TGuillerme/Claddis")
 install_github("TGuillerme/dispRity")
 @
 
-\subsection{Loading the Data}
+
+\subsection{Loading the data}
+
+Using the data from Beck & Lee 2014 (same as previous one) as well as Halliday & Goswami 2015.
+Halliday's data contains more trees so a next version of the analysis will use the whole tree distribution for both data sets (\texttt{mulTree} style).
+The FADLAD tables are downloaded from the paleoDataBase with each first and last occurence datum being the most inclusive (i.e. taking the maximum and minimum time span of the genus).
 
 <<data>>=
+set.seed(123)
 ## Loading the packages
 library(Claddis) ; library(dispRity)
 
 ## Loading the discrete morphological matrix
-matrix <- ReadMorphNexus("../Data/2014-Beck-ProcB-matrix-morpho.nex")
+matrix_Beck <- ReadMorphNexus("../Data/2014-Beck-ProcB-matrix-morpho.nex")
+matrix_Hall <- ReadMorphNexus("../Data/2015-Halliday-LinSoc-matrix-morpho.nex")
 
 ## Loading the tree
-tree <- read.nexus("../Data/2014-Beck-ProcB-TEM.tre")
+tree_Beck <- read.nexus("../Data/2014-Beck-ProcB-TEM.tre")
+tree_Hall <- read.nexus("../Data/2015-Halliday-LinSoc-tree.nex")
+
+## Arbitrarily solving 0 branch lengths in Halliday's tree by setting them to
+## 1% of the minimum branch length
+min_brlen <- min(tree_Hall$edge.length[-which(tree_Hall$edge.length == 0)])*0.1
+tree_Hall$edge.length[which(tree_Hall$edge.length == 0)] <- min_brlen
 
 ## Making sure the tree and the matrix are matching
-cleaned_data <- clean.data(matrix$matrix, tree)
-tree <- cleaned_data$tree
-matrix$matrix <- cleaned_data$data
+clean.MorphNexus <- function(matrix, tree) {
+    cleaned_data <- clean.data(matrix$matrix, tree)
+    tree <- cleaned_data$tree
+    matrix$matrix <- cleaned_data$data
+    return(list(tree, matrix))
+}
+
+tmp <- clean.MorphNexus(matrix_Beck, tree_Beck)
+tree_Beck <- tmp[[1]] ; matrix_Beck <- tmp[[2]]
+
+tmp <- clean.MorphNexus(matrix_Hall, tree_Hall[[1]])
+tree_Hall <- tmp[[1]] ; matrix_Hall <- tmp[[2]]
+
 
 ## Adding node labels to the tree
-tree <- makeNodeLabel(tree, method = "number", prefix = "n")
+tree_Beck <- makeNodeLabel(tree_Beck, method = "number", prefix = "n")
+tree_Hall <- makeNodeLabel(tree_Hall, method = "number", prefix = "n")
 
 ## Adding root.time to the tree
-tree$root.time <- max(tree.age(tree)[,1])
+tree_Beck$root.time <- max(tree.age(tree_Beck)[,1])
+tree_Hall$root.time <- max(tree.age(tree_Hall)[,1])
 
 ## loading the first/last occurrence data
-FADLAD <- read.csv("../Data/Beck2014_FADLAD.csv", row.names = 1)
-
+FADLAD_Beck <- read.csv("../Data/Beck2014_FADLAD.csv", row.names = 1)
+FADLAD_Hall <- read.csv("../Data/Halliday2015_FADLAD.csv", row.names = 1)
 @
 
-\section{Creating the cladisto-space}
 
-\subsection{Estimating the ancestral nodes states}
+\section{Ordination}
 
-This part takes some time to calculate (between 20 and 30 minutes on a 2.2GHz clock speed processor).
+\subsection{Ancestral states reconstruction}
 
-<<AncStateEstMatrix_NotRun, eval = FALSE>>=
+First let's recreate the nodal states but excluding any estimation with less than 0.95 scaled likelihood value.
+
+<<anc.states1, eval = FALSE>>=
 ## Estimating the ancestral states (with a uncertainty threshold of 0.95)
-matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
-    uncertainty.threshold = 0.95)
-
+matrix_nodes_Beck <- AncStateEstMatrix(matrix_Beck, tree_Beck,
+    estimate.allchars = TRUE, uncertainty.threshold = 0.95)
 ## Saving the matrix
-save(matrix_nodes, file = "../Data/ancestral_states_beck2014.Rda")
+save(matrix_nodes_Beck, file = "../Data/ancestral_states_beck2014.Rda")
+
+## Estimating the ancestral states (with a uncertainty threshold of 0.95)
+matrix_nodes_Hall <- AncStateEstMatrix(matrix_Hall, tree_Hall,
+    estimate.allchars = TRUE, uncertainty.threshold = 0.95)
+## Saving the matrix
+save(matrix_nodes_Hall, file = "../Data/ancestral_states_halliday2015.Rda")
 @
 
-It is however possible to skip it by loading the already estimated ancestral character states as following:
+This takes some time (approx. one hour) so it can be skipped.
 
-<<AncStateEstMatrix>>=
+<<anc.states2>>=
 ## Loading the matrix
 load("../Data/ancestral_states_beck2014.Rda")
+load("../Data/ancestral_states_halliday2015.Rda")
 ## The matrix was assigned to the object matrix_nodes (see above).
 
 ## Adding the node names as row names
-row.names(matrix_nodes) <- tree$node.label
+row.names(matrix_nodes_Beck) <- tree_Beck$node.label
+row.names(matrix_nodes_Hall) <- tree_Hall$node.label
 
 ## Combining the tips and the nodes in the same matrix
-matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
+matrix_Beck$matrix <- rbind(matrix_Beck$matrix, matrix_nodes_Beck) 
+matrix_Hall$matrix <- rbind(matrix_Hall$matrix, matrix_nodes_Hall) 
 @
 
-To exclude sloppy ancestral estimations, we included in our matrix only states with an ancestral states estimation's scaled likelihood $>$ 0.95.
-Whenever the scaled likelihood was below this level for a character, we replaced the estimated state by NA.
-When applying this threshold, only 40\% of the ancestral states estimations where saved (yet these values have are all really likely).
+\subsection{Distance matrix}
 
-\subsection{Calculating the distance matrix}
+Let's then calculate the distance matrix (using Gower's distance).
+Same thing, the step takes some time (couple of minutes) so can be skipped for convenience.
 
-
-<<MorphDistMatrix>>=
+<<distmat1>>=
 ## Calculating the Gower distance
-matrix_dist <- MorphDistMatrix.fast(matrix, distance = "Gower")
-@
-%This version of the code might change
-
-\subsection{Generating the cladisto-space}
-
-<<Ordination>>=
-## Ordinating the matrix
-matrix_ord <- cmdscale(matrix_dist, k=nrow(matrix_dist) - 2, add=T)$points
+matrix_dist_Beck <- MorphDistMatrix.fast(matrix_Beck, distance = "Gower")
+save(matrix_dist_Beck, file = "../Data/distmatrix_beck2014.Rda")
+matrix_dist_Hall <- MorphDistMatrix.fast(matrix_Hall, distance = "Gower")
+save(matrix_dist_Hall, file = "../Data/distmatrix_halliday2015.Rda")
 @
 
-\section{Disparity analysis}
+\subsection{Ordination}
 
-\subsection{Creating the sub-samples of the cladisto-space}
+<<distmat2>>=
+## Loading the distance matrices
+load("../Data/distmatrix_beck2014.Rda")
+load("../Data/distmatrix_halliday2015.Rda")
 
-First let's create sub-samples (series) corresponding to the all the possible shapes before and after the K-Pg boundary
-
-<<Custom series>>=
-## Creating the empty data frame
-categories <- as.data.frame(matrix(data = rep(NA, nrow(matrix_ord)),
-    nrow = nrow(matrix_ord), ncol = 2, dimnames = list(rownames(matrix_ord))))
-
-## Adding column names
-colnames(categories) <- c("KPg", "")
-
-## Adding the factors for all mammals
-categories[,2] <- rep("all", nrow(matrix_ord))
-
-## Adding the pre/post factors for the K-Pg limit
-categories[which(tree.age(tree)$age <= 66), 1] <- "pre"
-categories[which(tree.age(tree)$age > 66), 1] <- "post"
-
-## Creating the custom series
-cust_series <- cust.series(matrix_ord, categories)
+## Ordinating the matrices
+matrix_ord_Beck <- cmdscale(matrix_dist_Beck,
+                            k = nrow(matrix_dist_Beck) - 2, add = T)$points
+matrix_ord_Hall <- cmdscale(matrix_dist_Hall,
+                            k = nrow(matrix_dist_Hall) - 2, add = T)$points
 @
 
-Secondly, let's create sub-samples that represent the observed disparity every 5 million years:
+\section{Disparity through time}
 
-<<Time series>>=
+\subsection{Time slicing}
+
+First let's slice the data into 33 slices (every 5 Mya) using the gradual model.
+
+<<slicing>>=
 ## Creating the time slices
-time_slices <- rev(seq(from = 0, to = 160, by = 5))
+time_slices <- rev(seq(from = 0, to = 120, by = 5))
 
 ## Creating the time series
-time_series <- time.series(matrix_ord, tree, method = "continuous",
-    time = time_slices, model = "gradual", FADLAD = FADLAD, verbose = TRUE)
+time_series_Beck <- time.series(matrix_ord_Beck, tree_Beck,
+    method = "continuous", time = time_slices, model = "gradual",
+    FADLAD = FADLAD_Beck, verbose = TRUE)
+time_series_Hall <- time.series(matrix_ord_Hall, tree_Hall,
+    method = "continuous", time = time_slices, model = "gradual",
+    FADLAD = FADLAD_Hall, verbose = TRUE)
+
+@
+
+\subsection{Bootstrapping}
+
+Then let's bootstrap 1000 times.
+
+<<boostrapping>>=
+## Bootstrapping the time series
+time_series_Beck <- boot.matrix(time_series_Beck, bootstrap = 1000)
+time_series_Hall <- boot.matrix(time_series_Hall, bootstrap = 1000)
 @
 
 \subsection{Calculating disparity}
 
-First, let's bootstrap the matrices.
+And now let's calculate disparity.
+Couple of changes here, first, disparity is now calculated as two distributions (and then summarised as the median later on) and two aspects are now measured:
+\begin{enumerate}
+\item the distances between each taxa in a slice and the their centroid (as before)
+\item the distances between each taxa in a slice and the overall centre of the morphospace.
+\end{enumerate}
+The first distribution tells us about the \textit{size} of the taxa's morphospace at each slice (i.e. the space occupied by the taxa at each size) and the second tells us about the \textit{position} of the taxa's morphospace at each slice (i.e. where in the morphospace they are).
+The reason for using distributions becomes more obvious later on in the testing part.
 
-<<Bootstraps>>=
-## Bootstrapping the custom series
-cust_series <- boot.matrix(cust_series, bootstrap = 1000)
+<<disparity>>=
+## Calculating the distance from the centroids
+dist_centroids_Beck <- dispRity(time_series_Beck, metric = centroids)
+dist_centroids_Hall <- dispRity(time_series_Hall, metric = centroids)
 
-## Bootstrapping the time series
-time_series <- boot.matrix(time_series, bootstrap = 1000)
+## Calculating the distance from the centre of the space
+dist_centre_Beck <- dispRity(time_series_Beck, metric = centroids,
+                               centroid = rep(0, ncol(matrix_ord_Beck)))
+dist_centre_Hall <- dispRity(time_series_Hall, metric = centroids,
+                               centroid = rep(0, ncol(matrix_ord_Hall)))
+
+## Calculating the medians of the distances from centroids/centre
+med_dist_centroids_Beck <- dispRity(dist_centroids_Beck, metric = median)
+med_dist_centroids_Hall <- dispRity(dist_centroids_Hall, metric = median)
+med_dist_centre_Beck <- dispRity(dist_centre_Beck, metric = median)
+med_dist_centre_Hall <- dispRity(dist_centre_Hall, metric = median)
 @
 
-Second, let's calculate disparity as the median distance between each observed taxa in the sub-sample and the centroid of the sub-sample:
-%TG: median centroids = average radius of the morphspace. Maybe test sum of centroids: total dispersion of the morphospace (probably sensitive to morphospace).
+\section{Results}
 
-\begin{equation}
-   \text{Disparity}=\displaystyle\sqrt{\sum{(\mathbf{v}_{n}-Centroid_{n})^2}}
-   %\text{Disparity}=median{\displaystyle\sqrt{\sum{(\mathbf{v}_{n}-Centroid_{n})^2}}}
-    \label{disparity}
-\end{equation}
-where:
-\begin{equation}
-    Centroid_{n}=\frac{\displaystyle\sum(\mathbf{v}_{n})}{k} 
-    \label{centroid}
-\end{equation}
+\subsection{Plot}
 
-\noindent
-and $\mathbf{v}_{n}$ is any of the $n$ eigenvectors (i.e. any of the $n$ dimensions of the cladisto-space), $Centroid_{n}$ is the mean value of the $n^{th}$ eigenvector (equation \ref{centroid}) and $k$ is the total number of tips and nodes.
-
-<<Disparity>>=
-## Calculating disparity in the custom series
-disparity_cust <- dispRity(cust_series, metric = centroids)
-disparity_cust_cen <- dispRity(cust_series, metric = centroids,
-							   centroid = rep(0, ncol(matrix_ord)))
-med_disparity_cust <- dispRity(disparity_cust, metric = median)
-med_disparity_cust_cen <- dispRity(disparity_cust_cen, metric = median)
-
-## Calculating disparity in the time series
-disparity_time <- dispRity(time_series, metric = centroids)
-disparity_time_cen <- dispRity(time_series, metric = centroids,
-							   centroid = rep(0, ncol(matrix_ord)))
-med_disparity_time <- dispRity(disparity_time, metric = median)
-med_disparity_time_cen <- dispRity(disparity_time_cen, metric = median)
-@
-
-\subsection{Displaying the results}
-
-<<Summary>>=
-## Disparity in the custom series:
-summary(disparity_cust)
-summary(disparity_cust_cen)
-
-## Disparity in the time series:
-summary(disparity_time)
-summary(disparity_time_cen)
-@
-
-<<Plotting1>>=
+<<plot>>=
 ## Graphical parameters
 op <- par(mfrow = c(2,2), bty = "n")
 
-## Plotting the median disparity in the custom (within the groups)
-plot(med_disparity_cust, type = "polygon", main = "Med_dis within groups")
-## Plotting the median disparity in the custom (within the groups)
-plot(med_disparity_cust_cen, type = "polygon", main = "Med_dis from center")
+## Plotting the distance from centroids
+plot(med_dist_centroids_Beck, main = "Beck 2014",
+    ylab = "Median distance from centroids", xlab = "")
+abline(v = 12, col = "red")
+plot(med_dist_centroids_Hall, main = "Halliday 2015", ylab = "", xlab = "")
+abline(v = 12, col = "red")
 
-## Plotting the disparity in the time series:
-plot(med_disparity_time, main = "Med_dis within groups")
-## Plotting the median disparity in the custom (within the groups)
-plot(med_disparity_time_cen, main = "Med_dis from center")
+## Plotting the distances from centre
+plot(med_dist_centre_Beck, ylab = "Median distance from center",
+    xlab = "Age (Mya)")
+abline(v = 12, col = "red")
+plot(med_dist_centre_Hall, ylab = "", xlab = "Age (Mya)")
+abline(v = 12, col = "red")
+
+## Resetting graphical parameters
+par(op)
 @
 
-\section{Differences in disparity around the K-Pg boundary}
+\subsection{Testing}
 
-First, let's check if there are any differences between all the taxa before and after the K-Pg event.
-I am not sure if this test is necessary since it's binning stuff that have not much to do with each other (i.e. it's probably silly to compare both the disparity in the paleogene and the present to the disparity in the jurassic and cretaceous combined).
+Before, we compared the distributions of the bootstrapped medians between slices
 
-<<distribution overlap>>=
-# How much do the distributions overlap?
-test.dispRity(disparity_cust, test = bhatt.coeff)
+<<Testing1>>=
+## Extracting the bootstrapped median distances from centroids from slices 19
+## and 20 for the example:
+disparity <- get.dispRity(med_dist_centroids_Beck, what = c(12:13))
+
+## Checking the difference between the two slices
+test.dispRity(disparity, test = t.test)
 @
 
-Though interestingly, there seems to be not much of a difference after and before the K-Pg (distributions nearly always fully overlap - Bhattacharyya Coefficient $>$ 0.95).
+The problem is that (1) we were only comparing the medians and (2) we were actually testing the effect of the bootstrap not of the changes in disparity (i.e. a significant p-value would mean that there is a difference in the mean of the distribution of medians (which are in turn just the results of the bootstraps)).
+This basically results in really big degrees of freedom (see \texttt{parameter}) and will probably tend to always significant results as the amount of bootstraps increase.
 
-Second, let's test that statistically with a \texttt{t.test} (and correcting for multiple tests using bonferronni).
+To avoid this problem, we can compare the distributions of disparity rather than their central tendencies and bootstrap these comparisons rather than the distributions (i.e. performing the distributions comparisons multiple time with each time a pseudo-replicate (the bootstrap) of the distribution).
 
-<<distribution_test>>=
-# Is the disparity before and after K-Pg siginificatively different?
-test.dispRity(disparity_cust, test = t.test, correction = "bonferroni")
+<<Testing2>>=
+## Extracting the bootstrapped distribution of distances from centroids
+## from slices 19 and 20 for the example:
+disparity <- get.dispRity(dist_centroids_Beck, what = c(12:13))
+
+## Checking the difference between the two slices for each bootstrap
+test.dispRity(disparity, test = t.test, concatenate = FALSE)
 @
 
-Note that they all come out as significant but with huge degrees of freedom (the parameters in the results).
-This is because in effect, we are here comparing not just the disparity of the two distributions but of all the 1000 bootstraps!
-One solution is to apply the test to all the pairs of bootstraps and look at the quantiles of the results.
+Now we have a distribution of statistics and parameters (note that the degrees of freedom are now back to a normal level).
+We can thus use this distribution to test our hypothesis, in this case, we have a low chance of rejecting H0 and being wrong (i.e. pvalue $<$ 0.05) in less than 2.5\% of the replicates!
+In other words, the distributions are the same (median p-value of 0.4).
 
-<<distribution_test2>>=
-# Is the disparity before and after K-Pg siginificatively different?
-test.dispRity(disparity_cust, test = t.test, correction = "bonferroni",
-			  concatenate = FALSE)
+And now we can apply that to both the size of the taxa's sub-morphospace through time and their position:
+
+<<Testing3>>=
+## Testing any change in group size (centroids) after K-Pg
+test.dispRity(get.dispRity(dist_centroids_Beck, what = c(12:20)),
+    test = t.test, concatenate = FALSE, comparisons = "referential",
+    correction = "bonferroni")
+test.dispRity(get.dispRity(dist_centroids_Hall, what = c(12:20)),
+    test = t.test, concatenate = FALSE, comparisons = "referential",
+    correction = "bonferroni")
 @
 
-Here we can see that the post-K-Pg disparity is always different than the overall disparity and that both post and pre are different in at least 75\% of the cases.
+When looking at Beck's data set, there is (as before) no significant expansion of the eutherian morphospace after the K-Pg event.
+However, when looking at Halliday's data, there is a consistent significant expansion in the 5 Mya after the K-Pg event (97.5\% of the p-values $<$ 0.001!) as well with a less consistent one in the following 10 Mya (75\% of the p-values $<$ 0.005).
+After that though, the morphospace size seems to go down to pre K-Pg levels (but that might be due to the under sampling).
 
-<<sequential_test1>>=
-# Difference between each series?
-sequential_t_test <- test.dispRity(disparity_time, test = t.test,
-	correction = "bonferroni", comparisons = "sequential", concatenate = FALSE)
-
-
+<<Testing4>>=
+## Testing any change in group position (centre) after K-Pg
+test.dispRity(get.dispRity(dist_centre_Beck, what = c(12:20)),
+    test = t.test, concatenate = FALSE, comparisons = "referential",
+    correction = "bonferroni")
+test.dispRity(get.dispRity(dist_centre_Hall, what = c(12:20)),
+    test = t.test, concatenate = FALSE, comparisons = "referential",
+    correction = "bonferroni")
 @
 
-<<seq.test>>=
-# Sequential test
-sequential_test <- test.dispRity(disparity_time, test = sequential.test,
-							     family = gaussian)
-plot(disparity_time)
-plot(sequential_test, add = TRUE,
-	lines.args = list(col = "red", lty = 3, lwd = 1.5),
-	token.args = list(cex = 0.6))
+When looking at the shifts in morphospace, in Beck's dataset, there is no significant ones right after the K-Pg event.
+However, it seems that the morphospace shifts after the PETM (around 35 Mya, see figure)
 
-
-
-# Difference after K-Pg
-test.dispRity(get.dispRity(disparity_time, what = c(19:33)), test = t.test,
-			  comparisons = "referential")
-test.dispRity(get.dispRity(med_disparity_time, what = c(19:33)), test = t.test,
-			  comparisons = "referential")
-test.dispRity(get.dispRity(disparity_time, what = c(19:33)), test = t.test,
-			  comparisons = "referential", concatenate = FALSE)
-@
-
-%Add sample size effect!
+For Halliday's one however, there is a shift that starts 5 Mya after the K-Pg event and holds for 10 Mya before coming back to the pre K-Pg position.
 
 \end{document}
 
