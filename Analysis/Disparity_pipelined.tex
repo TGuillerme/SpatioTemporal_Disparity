@@ -1,69 +1,28 @@
-\documentclass{article}\usepackage[]{graphicx}\usepackage[]{color}
-%% maxwidth is the original width if it is less than linewidth
-%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
-\makeatletter
-\def\maxwidth{ %
-  \ifdim\Gin@nat@width>\linewidth
-    \linewidth
-  \else
-    \Gin@nat@width
-  \fi
-}
-\makeatother
-
-\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
-\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
-\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
-\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
-\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
-\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
-\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
-\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
-\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
-\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
-
-\usepackage{framed}
-\makeatletter
-\newenvironment{kframe}{%
- \def\at@end@of@kframe{}%
- \ifinner\ifhmode%
-  \def\at@end@of@kframe{\end{minipage}}%
-  \begin{minipage}{\columnwidth}%
- \fi\fi%
- \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
- \colorbox{shadecolor}{##1}\hskip-\fboxsep
-     % There is no \\@totalrightmargin, so:
-     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
- \MakeFramed {\advance\hsize-\width
-   \@totalleftmargin\z@ \linewidth\hsize
-   \@setminipage}}%
- {\par\unskip\endMakeFramed%
- \at@end@of@kframe}
-\makeatother
-
-\definecolor{shadecolor}{rgb}{.97, .97, .97}
-\definecolor{messagecolor}{rgb}{0, 0, 0}
-\definecolor{warningcolor}{rgb}{1, 0, 1}
-\definecolor{errorcolor}{rgb}{1, 0, 0}
-\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
-
-\usepackage{alltt}
+\documentclass{article}
 \usepackage[sc]{mathpazo}
 \usepackage[T1]{fontenc}
 \usepackage{geometry}
+\usepackage{amsmath}
+\pagenumbering{arabic}
 \geometry{verbose,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm}
 \setcounter{secnumdepth}{2}
 \setcounter{tocdepth}{2}
-\usepackage{url}
 \usepackage[unicode=true,pdfusetitle,
  bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=2,
  breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
  {hyperref}
 \hypersetup{
  pdfstartview={XYZ null null 1}}
-\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\usepackage{Sweave}
 \begin{document}
-
+\begin{Schunk}
+\begin{Sinput}
+> library(knitr)
+> # set global chunk options
+> opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold')
+> options(formatR.arrow=TRUE,width=90)
+\end{Sinput}
+\end{Schunk}
 
 
 \title{STD pipelined analysis v2.0!}
@@ -72,27 +31,700 @@
 
 \maketitle
 
-New version of the spatio-temporal disparity analysis in mammals around the K-Pg boundary (using Beck's dataset only)
+New version of the spatio-temporal disparity analysis in mammals around the K-Pg boundary (using Beck's and Halliday's data)
 
 \tableofcontents
 
 \section{Before starting}
+
 \subsection{Loading the package}
-First we need to install the package:
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlcom{## Installing the package}
-\hlkwa{if}\hlstd{(}\hlopt{!}\hlkwd{require}\hlstd{(devtools))} \hlkwd{install.packages}\hlstd{(}\hlstr{"devtools"}\hlstd{)}
-\hlkwd{library}\hlstd{(devtools)}
-\hlkwd{install_github}\hlstd{(}\hlstr{"TGuillerme/dispRity"}\hlstd{,} \hlkwc{ref} \hlstd{=} \hlstr{"master"}\hlstd{)}
-\hlkwd{library}\hlstd{(dispRity) ;} \hlkwd{library}\hlstd{(ape);} \hlkwd{library}\hlstd{(ouch);} \hlkwd{library}\hlstd{(surface)}
-\hlkwd{library}\hlstd{(geiger);} \hlkwd{library}\hlstd{(BAMMtools);} \hlkwd{library}\hlstd{(phytools);} \hlkwd{library}\hlstd{(hexbin)}
-\end{alltt}
-\end{kframe}
-\end{knitrout}
-Note that here we are using the version 0.2 which is currently in development.
-Once released, it would be preferable to use \texttt{ref = ``release''}.
+First we need to install the packages.
+Note that if the packages need to be installed manually (the following code is not evaluated, assuming you have these packages already installed).
+To download them, just copy/paste the following code.
+
+%TG: Remember to change the Claddis INSTAL PATH whenever (if) Graeme uploads my new functionalities
+\begin{Schunk}
+\begin{Sinput}
+> # The latest version of devtools and ape
+> if(!require(devtools)) install.packages("devtools")
+> if(!require(ape)) install.packages("ape")
+> ## The latest version of Claddis (on development on my own branch)
+> install_github("TGuillerme/Claddis")
+> ## The latest version of dispRity 
+> install_github("TGuillerme/dispRity")
+\end{Sinput}
+\end{Schunk}
+
+
+\subsection{Loading the data}
+
+Using the data from Beck & Lee 2014 (same as previous one) as well as Halliday & Goswami 2015.
+Halliday's data contains more trees so a next version of the analysis will use the whole tree distribution for both data sets (\texttt{mulTree} style).
+The FADLAD tables are downloaded from the paleoDataBase with each first and last occurence datum being the most inclusive (i.e. taking the maximum and minimum time span of the genus).
+
+\begin{Schunk}
+\begin{Sinput}
+> set.seed(123)
+> ## Loading the packages
+> library(Claddis) ; library(dispRity)
+> ## Loading the discrete morphological matrix
+> matrix_Beck <- ReadMorphNexus("../Data/2014-Beck-ProcB-matrix-morpho.nex")
+> matrix_Hall <- ReadMorphNexus("../Data/2015-Halliday-LinSoc-matrix-morpho.nex")
+> ## Loading the tree
+> tree_Beck <- read.nexus("../Data/2014-Beck-ProcB-TEM.tre")
+> tree_Hall <- read.nexus("../Data/2015-Halliday-LinSoc-tree.nex")[[1]]
+> ## Arbitrarily solving 0 branch lengths in Halliday's tree by setting them to
+> ## 1% of the minimum branch length
+> zero_brlen <- which(tree_Hall$edge.length == 0)
+> min_brlen <- min(tree_Hall$edge.length[-zero_brlen])*0.1
+> tree_Hall$edge.length[which(tree_Hall$edge.length == 0)] <- min_brlen
+> ## Making sure the tree and the matrix are matching
+> clean.MorphNexus <- function(matrix, tree) {
++     cleaned_data <- clean.data(matrix$matrix, tree)
++     tree <- cleaned_data$tree
++     matrix$matrix <- cleaned_data$data
++     return(list(tree, matrix))
++ }
+> tmp <- clean.MorphNexus(matrix_Beck, tree_Beck)
+> tree_Beck <- tmp[[1]] ; matrix_Beck <- tmp[[2]]
+> tmp <- clean.MorphNexus(matrix_Hall, tree_Hall)
+> tree_Hall <- tmp[[1]] ; matrix_Hall <- tmp[[2]]
+> ## Adding node labels to the tree
+> tree_Beck <- makeNodeLabel(tree_Beck, method = "number", prefix = "n")
+> tree_Hall <- makeNodeLabel(tree_Hall, method = "number", prefix = "n")
+> ## Adding root.time to the tree
+> tree_Beck$root.time <- max(tree.age(tree_Beck)[,1])
+> tree_Hall$root.time <- max(tree.age(tree_Hall)[,1])
+> ## loading the first/last occurrence data
+> FADLAD_Beck <- read.csv("../Data/Beck2014_FADLAD.csv", row.names = 1)
+> FADLAD_Hall <- read.csv("../Data/Halliday2015_FADLAD.csv", row.names = 1)
+\end{Sinput}
+\end{Schunk}
+
+
+\section{Ordination}
+
+\subsection{Ancestral states reconstruction}
+
+First let's recreate the nodal states but excluding any estimation with less than 0.95 scaled likelihood value.
+
+\begin{Schunk}
+\begin{Sinput}
+> ## Estimating the ancestral states (with a uncertainty threshold of 0.95)
+> matrix_nodes_Beck <- AncStateEstMatrix(matrix_Beck, tree_Beck,
++     estimate.allchars = TRUE, uncertainty.threshold = 0.95)
+> ## Saving the matrix
+> save(matrix_nodes_Beck, file = "../Data/ancestral_states_beck2014.Rda")
+> ## Estimating the ancestral states (with a uncertainty threshold of 0.95)
+> matrix_nodes_Hall <- AncStateEstMatrix(matrix_Hall, tree_Hall,
++     estimate.allchars = TRUE, uncertainty.threshold = 0.95)
+> ## Saving the matrix
+> save(matrix_nodes_Hall, file = "../Data/ancestral_states_halliday2015.Rda")
+\end{Sinput}
+\end{Schunk}
+
+This takes some time (approx. one hour) so it can be skipped.
+
+\begin{Schunk}
+\begin{Sinput}
+> ## Loading the matrix
+> load("../Data/ancestral_states_beck2014.Rda")
+> load("../Data/ancestral_states_halliday2015.Rda")
+> ## The matrix was assigned to the object matrix_nodes (see above).
+> 
+> ## Adding the node names as row names
+> row.names(matrix_nodes_Beck) <- tree_Beck$node.label
+> row.names(matrix_nodes_Hall) <- tree_Hall$node.label
+> ## Combining the tips and the nodes in the same matrix
+> matrix_Beck$matrix <- rbind(matrix_Beck$matrix, matrix_nodes_Beck) 
+> matrix_Hall$matrix <- rbind(matrix_Hall$matrix, matrix_nodes_Hall) 
+\end{Sinput}
+\end{Schunk}
+
+\subsection{Distance matrix}
+
+Let's then calculate the distance matrix (using Gower's distance).
+Same thing, the step takes some time (couple of minutes) so can be skipped for convenience.
+
+\begin{Schunk}
+\begin{Sinput}
+> ## Calculating the Gower distance
+> matrix_dist_Beck <- MorphDistMatrix.fast(matrix_Beck, distance = "Gower")
+> save(matrix_dist_Beck, file = "../Data/distmatrix_beck2014.Rda")
+> matrix_dist_Hall <- MorphDistMatrix.fast(matrix_Hall, distance = "Gower")
+> save(matrix_dist_Hall, file = "../Data/distmatrix_halliday2015.Rda")
+\end{Sinput}
+\end{Schunk}
+
+\subsection{Ordination}
+
+\begin{Schunk}
+\begin{Sinput}
+> ## Loading the distance matrices
+> load("../Data/distmatrix_beck2014.Rda")
+> load("../Data/distmatrix_halliday2015.Rda")
+> #### TO FIX PROPERLY!
+> #
+> # Replacing NAs (incomparable taxa) by median distance (not excellent practice)
+> # But there's only 8 NAs in 120409 distances (0.006%) so it won't influence the
+> # results (I guess)
+> matrix_dist_Hall[which(is.na(matrix_dist_Hall))] <- mean(matrix_dist_Hall, na.rm = TRUE)
+> #
+> #### TO FIX PROPERLY!
+> 
+> ## Ordinating the matrices
+> matrix_ord_Beck <- cmdscale(matrix_dist_Beck,
++                             k = nrow(matrix_dist_Beck) - 2, add = T)$points
+> matrix_ord_Hall <- cmdscale(matrix_dist_Hall,
++                             k = nrow(matrix_dist_Hall) - 2, add = T)$points
+\end{Sinput}
+\end{Schunk}
+
+\section{Disparity through time}
+
+\subsection{Time slicing}
+
+First let's slice the data into 33 slices (every 5 Mya) using the gradual model.
+
+\begin{Schunk}
+\begin{Sinput}
+> ## Creating the time slices
+> time_slices <- rev(seq(from = 0, to = 120, by = 5))
+> ## Creating the time series
+> time_series_Beck <- time.series(matrix_ord_Beck, tree_Beck,
++     method = "continuous", time = time_slices, model = "gradual",
++     FADLAD = FADLAD_Beck, verbose = TRUE)
+> time_series_Hall <- time.series(matrix_ord_Hall, tree_Hall,
++     method = "continuous", time = time_slices, model = "gradual",
++     FADLAD = FADLAD_Hall, verbose = TRUE)
+> 
+\end{Sinput}
+\end{Schunk}
+
+\subsection{Bootstrapping}
+
+Then let's bootstrap 1000 times.
+
+\begin{Schunk}
+\begin{Sinput}
+> ## Bootstrapping the time series
+> time_series_Beck_bs <- boot.matrix(time_series_Beck, bootstrap = 1000)
+> time_series_Hall_bs <- boot.matrix(time_series_Hall, bootstrap = 1000)
+\end{Sinput}
+\end{Schunk}
+
+\subsection{Calculating disparity}
+
+And now let's calculate disparity.
+Couple of changes here, first, disparity is now calculated as two distributions (and then summarised as the median later on) and two aspects are now measured:
+\begin{enumerate}
+\item the distances between each taxa in a slice and the their centroid (as before)
+\item the distances between each taxa in a slice and the overall centre of the morphospace.
+\end{enumerate}
+The first distribution tells us about the \textit{size} of the taxa's morphospace at each slice (i.e. the space occupied by the taxa at each size) and the second tells us about the \textit{position} of the taxa's morphospace at each slice (i.e. where in the morphospace they are).
+The reason for using distributions becomes more obvious later on in the testing part.
+
+\begin{Schunk}
+\begin{Sinput}
+> ## Calculating the distance from the centroids
+> dist_centroids_Beck <- dispRity(time_series_Beck_bs, metric = centroids)
+> dist_centroids_Hall <- dispRity(time_series_Hall_bs, metric = centroids)
+> ## Calculating the distance from the centre of the space
+> dist_centre_Beck <- dispRity(time_series_Beck_bs, metric = centroids,
++                                centroid = rep(0, ncol(matrix_ord_Beck)))
+> dist_centre_Hall <- dispRity(time_series_Hall_bs, metric = centroids,
++                                centroid = rep(0, ncol(matrix_ord_Hall)))
+> ## Calculating the medians of the distances from centroids/centre
+> med_dist_centroids_Beck <- dispRity(dist_centroids_Beck, metric = median)
+> med_dist_centroids_Hall <- dispRity(dist_centroids_Hall, metric = median)
+> med_dist_centre_Beck <- dispRity(dist_centre_Beck, metric = median)
+> med_dist_centre_Hall <- dispRity(dist_centre_Hall, metric = median)
+\end{Sinput}
+\end{Schunk}
+
+\section{Results}
+
+\subsection{Plot}
+
+\begin{Schunk}
+\begin{Sinput}
+> ## Graphical parameters
+> op <- par(mfrow = c(2,2), bty = "n")
+> ## Plotting the distance from centroids
+> plot(med_dist_centroids_Beck, main = "Beck 2014",
++     ylab = "Median distance from centroids", xlab = "")
+> abline(v = 12, col = "red")
+> plot(med_dist_centroids_Hall, main = "Halliday 2015", ylab = "", xlab = "")
+> abline(v = 12, col = "red")
+> ## Plotting the distances from centre
+> plot(med_dist_centre_Beck, ylab = "Median distance from center",
++     xlab = "Age (Mya)")
+> abline(v = 12, col = "red")
+> plot(med_dist_centre_Hall, ylab = "", xlab = "Age (Mya)")
+> abline(v = 12, col = "red")
+> ## Resetting graphical parameters
+> par(op)
+\end{Sinput}
+\end{Schunk}
+
+\subsection{Testing}
+
+Before, we compared the distributions of the bootstrapped medians between slices
+
+\begin{Schunk}
+\begin{Sinput}
+> ## Extracting the bootstrapped median distances from centroids from slices 19
+> ## and 20 for the example:
+> disparity <- get.dispRity(med_dist_centroids_Beck, what = c(12:13))
+> ## Checking the difference between the two slices
+> test.dispRity(disparity, test = t.test)
+\end{Sinput}
+\begin{Soutput}
+[[1]]
+        statistic
+65 - 60  21.72199
+
+[[2]]
+        parameter
+65 - 60  1938.342
+
+[[3]]
+             p.value
+65 - 60 8.092521e-94
+\end{Soutput}
+\end{Schunk}
+
+The problem is that (1) we were only comparing the medians and (2) we were actually testing the effect of the bootstrap not of the changes in disparity (i.e. a significant p-value would mean that there is a difference in the mean of the distribution of medians (which are in turn just the results of the bootstraps)).
+This basically results in really big degrees of freedom (see \texttt{parameter}) and will probably tend to always significant results as the amount of bootstraps increase.
+
+To avoid this problem, we can compare the distributions of disparity rather than their central tendencies and bootstrap these comparisons rather than the distributions (i.e. performing the distributions comparisons multiple time with each time a pseudo-replicate (the bootstrap) of the distribution).
+
+\begin{Schunk}
+\begin{Sinput}
+> ## Extracting the bootstrapped distribution of distances from centroids
+> ## from slices 19 and 20 for the example:
+> disparity <- get.dispRity(dist_centroids_Beck, what = c(12:13))
+> ## Checking the difference between the two slices for each bootstrap
+> test.dispRity(disparity, test = t.test, concatenate = FALSE)
+\end{Sinput}
+\begin{Soutput}
+[[1]]
+        statistic       2.5%       25%      75%   97.5%
+65 - 60 0.9147833 -0.8446137 0.3597284 1.527678 2.45953
+
+[[2]]
+        parameter     2.5%     25%      75%    97.5%
+65 - 60  54.00714 37.86516 49.3347 60.41235 61.97998
+
+[[3]]
+          p.value       2.5%      25%       75%     97.5%
+65 - 60 0.3996766 0.01769352 0.132769 0.6371696 0.9730571
+\end{Soutput}
+\end{Schunk}
+
+Now we have a distribution of statistics and parameters (note that the degrees of freedom are now back to a normal level).
+We can thus use this distribution to test our hypothesis, in this case, we have a low chance of rejecting H0 and being wrong (i.e. pvalue $<$ 0.05) in less than 2.5\% of the replicates!
+In other words, the distributions are the same (median p-value of 0.4).
+
+And now we can apply that to both the size of the taxa's sub-morphospace through time and their position:
+
+\begin{Schunk}
+\begin{Sinput}
+> ## Testing any change in group size (centroids) after K-Pg
+> test.dispRity(get.dispRity(dist_centroids_Beck, what = c(12:20)),
++     test = t.test, concatenate = FALSE, comparisons = "referential",
++     correction = "bonferroni")
+\end{Sinput}
+\begin{Soutput}
+[[1]]
+        statistic       2.5%       25%      75%    97.5%
+65 - 60 0.9147833 -0.8446137 0.3597284 1.527678 2.459530
+65 - 55 0.6927230 -1.0444124 0.1364635 1.275056 2.374523
+65 - 50 1.9207544  0.4474268 1.4215593 2.428646 3.448048
+65 - 45 2.2850633  0.9360157 1.7835723 2.754341 3.810877
+65 - 40 1.9984564  0.6331092 1.4987886 2.471508 3.491970
+65 - 35 1.8931845  0.6360534 1.4632072 2.289641 3.322081
+65 - 30 1.9709847  0.6600025 1.5450305 2.318031 3.450900
+65 - 25 1.7147330  0.5938075 1.3463149 2.049747 3.071067
+
+[[2]]
+        parameter     2.5%      25%      75%    97.5%
+65 - 60  54.00714 37.86516 49.33470 60.41235 61.97998
+65 - 55  54.35329 37.44442 49.83175 60.55225 61.98337
+65 - 50  33.89302 22.95480 27.81262 38.75755 51.90786
+65 - 45  25.98327 18.73058 21.49606 28.88411 41.23487
+65 - 40  28.21174 19.79189 23.26336 31.53461 45.51507
+65 - 35  19.03124 14.73785 16.22375 20.29659 31.74108
+65 - 30  15.41861 12.41041 13.32783 16.01850 24.26067
+65 - 25  15.43249 12.41602 13.38847 16.31297 23.84081
+
+[[3]]
+           p.value         2.5%        25%        75%     97.5%
+65 - 60 0.39967660 0.0176935194 0.13276905 0.63716964 0.9730571
+65 - 55 0.45868024 0.0213227137 0.20230115 0.70961560 0.9709313
+65 - 50 0.13107232 0.0016567486 0.02208533 0.16346503 0.6517692
+65 - 45 0.07134567 0.0007229066 0.01095332 0.08633388 0.3560630
+65 - 40 0.11386611 0.0016574877 0.02044169 0.14583644 0.5304523
+65 - 35 0.12505011 0.0038257234 0.03515379 0.16067930 0.5329757
+65 - 30 0.11511303 0.0034481577 0.03542677 0.14135072 0.5194434
+65 - 25 0.15560467 0.0080558186 0.05927448 0.19754694 0.5592213
+\end{Soutput}
+\begin{Sinput}
+> test.dispRity(get.dispRity(dist_centroids_Hall, what = c(12:20)),
++     test = t.test, concatenate = FALSE, comparisons = "referential",
++     correction = "bonferroni")
+\end{Sinput}
+\begin{Soutput}
+[[1]]
+         statistic        2.5%        25%        75%     97.5%
+65 - 60 -3.3330013 -4.95668359 -3.8557254 -2.8007521 -1.813268
+65 - 55 -5.3095569 -7.08508889 -5.8398166 -4.7097518 -3.681545
+65 - 50 -3.7295264 -5.45722035 -4.2927029 -3.1552635 -2.054318
+65 - 45 -0.5359654 -2.37221967 -1.1297172  0.0928263  1.157233
+65 - 40  1.7304596  0.35933006  1.3002974  2.1564520  3.014847
+65 - 35  1.5696784  0.21839821  1.1128556  2.0285433  2.962330
+65 - 30  1.2049259 -0.15837070  0.8019610  1.6086395  2.394283
+65 - 25  1.3178384 -0.00503767  0.9411156  1.7227408  2.506521
+
+[[2]]
+        parameter     2.5%      25%      75%     97.5%
+65 - 60  76.75435 55.28250 66.26678 85.52933 107.07055
+65 - 55  72.52552 53.19196 63.16238 81.44204  98.49232
+65 - 50  82.52234 61.40796 75.43577 91.59313  94.96953
+65 - 45  61.18663 42.00048 53.61578 70.32014  74.95919
+65 - 40  31.41704 23.19798 26.30260 34.52790  49.04920
+65 - 35  29.14638 21.55024 24.45947 32.11300  46.99679
+65 - 30  20.39273 16.75170 17.99790 21.57553  30.16988
+65 - 25  18.69399 15.50308 16.53139 19.61086  27.08259
+
+[[3]]
+             p.value         2.5%          25%          75%        97.5%
+65 - 60 9.783863e-03 4.809926e-06 2.495973e-04 6.503933e-03 0.0729389550
+65 - 55 4.360725e-05 7.036060e-10 1.464759e-07 1.170213e-05 0.0004131995
+65 - 50 5.040219e-03 5.564254e-07 4.961521e-05 2.246752e-03 0.0426982078
+65 - 45 4.908678e-01 2.024863e-02 2.395055e-01 7.494322e-01 0.9765378626
+65 - 40 1.542917e-01 5.088938e-03 3.967839e-02 2.032722e-01 0.7097305433
+65 - 35 1.993787e-01 6.008576e-03 5.384837e-02 2.729358e-01 0.8105538735
+65 - 30 3.000629e-01 2.768617e-02 1.242626e-01 4.279613e-01 0.8756290881
+65 - 25 2.638469e-01 2.230895e-02 1.029528e-01 3.581971e-01 0.8755634657
+\end{Soutput}
+\end{Schunk}
+
+When looking at Beck's data set, there is (as before) no significant expansion of the eutherian morphospace after the K-Pg event.
+However, when looking at Halliday's data, there is a consistent significant expansion in the 5 Mya after the K-Pg event (97.5\% of the p-values $<$ 0.001!) as well with a less consistent one in the following 10 Mya (75\% of the p-values $<$ 0.005).
+After that though, the morphospace size seems to go down to pre K-Pg levels (but that might be due to the under sampling).
+
+\begin{Schunk}
+\begin{Sinput}
+> ## Testing any change in group position (centre) after K-Pg
+> test.dispRity(get.dispRity(dist_centre_Beck, what = c(12:20)),
++     test = t.test, concatenate = FALSE, comparisons = "referential",
++     correction = "bonferroni")
+\end{Sinput}
+\begin{Soutput}
+[[1]]
+         statistic      2.5%        25%         75%     97.5%
+65 - 60  0.2630636 -1.630182 -0.3630964  0.92406003  2.180075
+65 - 55 -0.6031800 -2.617759 -1.2362542  0.01579344  1.241088
+65 - 50  0.3661335 -1.744498 -0.2735814  1.01416486  2.342727
+65 - 45  0.2071830 -1.884423 -0.4948817  0.86358348  2.467839
+65 - 40 -0.1013658 -2.147666 -0.7679460  0.57452064  1.985088
+65 - 35 -0.8164971 -2.890869 -1.4846424 -0.12357517  1.121006
+65 - 30 -1.4087687 -4.019230 -2.0132660 -0.61523885  0.809619
+65 - 25 -3.2175043 -7.336468 -3.9778235 -2.11007262 -0.902265
+
+[[2]]
+        parameter     2.5%      25%      75%    97.5%
+65 - 60  55.89910 47.91654 53.54571 58.56496 61.67088
+65 - 55  55.15963 47.41650 52.43175 58.11236 61.64759
+65 - 50  35.82849 28.77616 32.25035 38.70533 46.56354
+65 - 45  26.90363 22.27642 24.57271 28.60670 34.71297
+65 - 40  28.02131 23.50971 26.01143 29.51412 34.61025
+65 - 35  19.69390 17.06158 18.33055 20.55524 24.30539
+65 - 30  16.58681 14.26666 15.21818 17.20197 21.25532
+65 - 25  24.32197 16.50793 19.16660 26.48500 45.94039
+
+[[3]]
+           p.value         2.5%          25%        75%     97.5%
+65 - 60 0.49979868 2.455271e-02 0.2462790962 0.75190118 0.9715318
+65 - 55 0.46352044 1.136438e-02 0.1966536145 0.73735498 0.9746299
+65 - 50 0.48426922 2.302380e-02 0.2299061704 0.74264702 0.9696690
+65 - 45 0.49611730 1.579224e-02 0.2319113427 0.75733538 0.9650609
+65 - 40 0.49906492 1.972234e-02 0.2486674283 0.75085223 0.9742211
+65 - 35 0.42847419 8.337426e-03 0.1471273115 0.70516576 0.9666992
+65 - 30 0.30006524 6.313256e-04 0.0604691204 0.49990922 0.9467349
+65 - 25 0.04981126 3.536786e-09 0.0004896603 0.04795985 0.3797201
+\end{Soutput}
+\begin{Sinput}
+> test.dispRity(get.dispRity(dist_centre_Hall, what = c(12:20)),
++     test = t.test, concatenate = FALSE, comparisons = "referential",
++     correction = "bonferroni")
+\end{Sinput}
+\begin{Soutput}
+[[1]]
+         statistic       2.5%       25%         75%      97.5%
+65 - 60 -1.7848510  -3.811931 -2.483189 -1.07416531  0.2040437
+65 - 55 -5.3337467  -7.653155 -6.033123 -4.57676694 -3.1647371
+65 - 50 -4.3632112  -6.537343 -5.072229 -3.63500668 -2.2313905
+65 - 45 -2.2605134  -4.583802 -2.967788 -1.52435768 -0.1320878
+65 - 40 -0.5400611  -2.593491 -1.137717  0.07609257  1.2863416
+65 - 35 -1.3753814  -3.597463 -2.077025 -0.58795281  0.6184512
+65 - 30 -4.3158272 -11.360597 -5.112202 -2.85676897 -1.4813432
+65 - 25 -4.9596005 -12.347116 -5.853889 -3.19195204 -1.5723883
+
+[[2]]
+        parameter     2.5%       25%       75%     97.5%
+65 - 60 102.42591 95.80486 100.40302 104.65116 107.99735
+65 - 55  99.80440 87.93130  96.44173 103.76617 108.24881
+65 - 50  94.01728 89.70749  93.78142  94.89381  94.99912
+65 - 45  57.91308 50.82924  54.83335  60.41054  68.35377
+65 - 40  34.48408 29.88318  32.23910  36.19537  42.08894
+65 - 35  30.13894 26.81224  28.48830  31.33716  36.18227
+65 - 30  23.51127 19.00460  20.12658  23.62406  54.22931
+65 - 25  24.56468 17.71964  18.93924  24.14916  56.73724
+
+[[3]]
+             p.value         2.5%          25%          75%       97.5%
+65 - 60 0.1913394118 2.316288e-04 1.465853e-02 2.722038e-01 0.890756741
+65 - 55 0.0003459418 1.447246e-11 3.029931e-08 1.343625e-05 0.002020223
+65 - 50 0.0025392598 3.828977e-09 1.977453e-06 4.512738e-04 0.028079504
+65 - 45 0.1192246671 2.382932e-05 4.323867e-03 1.330749e-01 0.730656346
+65 - 40 0.4793838604 1.314703e-02 2.236806e-01 7.299661e-01 0.980439220
+65 - 35 0.2954320225 1.091120e-03 4.623694e-02 5.048598e-01 0.939203917
+65 - 30 0.0175643003 9.106813e-16 3.471176e-05 9.827791e-03 0.154408048
+65 - 25 0.0131050168 1.999000e-17 4.661125e-06 4.638184e-03 0.132802065
+\end{Soutput}
+\end{Schunk}
+
+When looking at the shifts in morphospace, in Beck's dataset, there is no significant ones right after the K-Pg event.
+However, it seems that the morphospace shifts after the PETM (around 35 Mya, see figure)
+
+For Halliday's one however, there is a shift that starts 5 Mya after the K-Pg event and holds for 10 Mya before coming back to the pre K-Pg position.
+
+
+\section{rarefaction}
+
+Though as Beck is undersampling, maybe Halliday is oversampling.
+Here are the rarefied results with 10 taxa in each bootstrap pseudo-replication.
+
+\begin{Schunk}
+\begin{Sinput}
+> ## Rarefying the time series
+> time_series_Beck_rar <- boot.matrix(time_series_Beck, bootstrap = 1000,
++     rarefaction = 10)
+> time_series_Hall_rar <- boot.matrix(time_series_Hall, bootstrap = 1000,
++     rarefaction = 10)
+\end{Sinput}
+\end{Schunk}
+
+
+\begin{Schunk}
+\begin{Sinput}
+> ## Calculating the distance from the centroids
+> dist_centroids_Beck_rar <- dispRity(time_series_Beck_rar, metric = centroids)
+> dist_centroids_Hall_rar <- dispRity(time_series_Hall_rar, metric = centroids)
+> ## Calculating the distance from the centre of the space
+> dist_centre_Beck_rar <- dispRity(time_series_Beck_rar, metric = centroids,
++                                centroid = rep(0, ncol(matrix_ord_Beck)))
+> dist_centre_Hall_rar <- dispRity(time_series_Hall_rar, metric = centroids,
++                                centroid = rep(0, ncol(matrix_ord_Hall)))
+> ## Calculating the medians of the distances from centroids/centre
+> med_dist_centroids_Beck_rar <- dispRity(dist_centroids_Beck_rar, metric = median)
+> med_dist_centroids_Hall_rar <- dispRity(dist_centroids_Hall_rar, metric = median)
+> med_dist_centre_Beck_rar <- dispRity(dist_centre_Beck_rar, metric = median)
+> med_dist_centre_Hall_rar <- dispRity(dist_centre_Hall_rar, metric = median)
+\end{Sinput}
+\end{Schunk}
+
+\begin{Schunk}
+\begin{Sinput}
+> ## Graphical parameters
+> op <- par(mfrow = c(2,2), bty = "n")
+> ## Plotting the distance from centroids
+> plot(med_dist_centroids_Beck_rar, main = "Beck 2014 (rarefied)",
++     ylab = "Median distance from centroids", xlab = "")
+> abline(v = 12, col = "red")
+> plot(med_dist_centroids_Hall_rar, main = "Halliday 2015 (rarefied)", ylab = "",
++     xlab = "")
+> abline(v = 12, col = "red")
+> ## Plotting the distances from centre
+> plot(med_dist_centre_Beck_rar, ylab = "Median distance from center",
++     xlab = "Age (Mya)")
+> abline(v = 12, col = "red")
+> plot(med_dist_centre_Hall_rar, ylab = "", xlab = "Age (Mya)")
+> abline(v = 12, col = "red")
+> ## Resetting graphical parameters
+> par(op)
+\end{Sinput}
+\end{Schunk}
+
+\begin{Schunk}
+\begin{Sinput}
+> ## Testing any change in group size (centroids) after K-Pg
+> test.dispRity(get.dispRity(dist_centroids_Beck, what = c(12:20)),
++     test = t.test, concatenate = FALSE, comparisons = "referential",
++     correction = "bonferroni")
+\end{Sinput}
+\begin{Soutput}
+[[1]]
+        statistic       2.5%       25%      75%    97.5%
+65 - 60 0.9147833 -0.8446137 0.3597284 1.527678 2.459530
+65 - 55 0.6927230 -1.0444124 0.1364635 1.275056 2.374523
+65 - 50 1.9207544  0.4474268 1.4215593 2.428646 3.448048
+65 - 45 2.2850633  0.9360157 1.7835723 2.754341 3.810877
+65 - 40 1.9984564  0.6331092 1.4987886 2.471508 3.491970
+65 - 35 1.8931845  0.6360534 1.4632072 2.289641 3.322081
+65 - 30 1.9709847  0.6600025 1.5450305 2.318031 3.450900
+65 - 25 1.7147330  0.5938075 1.3463149 2.049747 3.071067
+
+[[2]]
+        parameter     2.5%      25%      75%    97.5%
+65 - 60  54.00714 37.86516 49.33470 60.41235 61.97998
+65 - 55  54.35329 37.44442 49.83175 60.55225 61.98337
+65 - 50  33.89302 22.95480 27.81262 38.75755 51.90786
+65 - 45  25.98327 18.73058 21.49606 28.88411 41.23487
+65 - 40  28.21174 19.79189 23.26336 31.53461 45.51507
+65 - 35  19.03124 14.73785 16.22375 20.29659 31.74108
+65 - 30  15.41861 12.41041 13.32783 16.01850 24.26067
+65 - 25  15.43249 12.41602 13.38847 16.31297 23.84081
+
+[[3]]
+           p.value         2.5%        25%        75%     97.5%
+65 - 60 0.39967660 0.0176935194 0.13276905 0.63716964 0.9730571
+65 - 55 0.45868024 0.0213227137 0.20230115 0.70961560 0.9709313
+65 - 50 0.13107232 0.0016567486 0.02208533 0.16346503 0.6517692
+65 - 45 0.07134567 0.0007229066 0.01095332 0.08633388 0.3560630
+65 - 40 0.11386611 0.0016574877 0.02044169 0.14583644 0.5304523
+65 - 35 0.12505011 0.0038257234 0.03515379 0.16067930 0.5329757
+65 - 30 0.11511303 0.0034481577 0.03542677 0.14135072 0.5194434
+65 - 25 0.15560467 0.0080558186 0.05927448 0.19754694 0.5592213
+\end{Soutput}
+\begin{Sinput}
+> test.dispRity(get.dispRity(dist_centroids_Hall, what = c(12:20)),
++     test = t.test, concatenate = FALSE, comparisons = "referential",
++     correction = "bonferroni")
+\end{Sinput}
+\begin{Soutput}
+[[1]]
+         statistic        2.5%        25%        75%     97.5%
+65 - 60 -3.3330013 -4.95668359 -3.8557254 -2.8007521 -1.813268
+65 - 55 -5.3095569 -7.08508889 -5.8398166 -4.7097518 -3.681545
+65 - 50 -3.7295264 -5.45722035 -4.2927029 -3.1552635 -2.054318
+65 - 45 -0.5359654 -2.37221967 -1.1297172  0.0928263  1.157233
+65 - 40  1.7304596  0.35933006  1.3002974  2.1564520  3.014847
+65 - 35  1.5696784  0.21839821  1.1128556  2.0285433  2.962330
+65 - 30  1.2049259 -0.15837070  0.8019610  1.6086395  2.394283
+65 - 25  1.3178384 -0.00503767  0.9411156  1.7227408  2.506521
+
+[[2]]
+        parameter     2.5%      25%      75%     97.5%
+65 - 60  76.75435 55.28250 66.26678 85.52933 107.07055
+65 - 55  72.52552 53.19196 63.16238 81.44204  98.49232
+65 - 50  82.52234 61.40796 75.43577 91.59313  94.96953
+65 - 45  61.18663 42.00048 53.61578 70.32014  74.95919
+65 - 40  31.41704 23.19798 26.30260 34.52790  49.04920
+65 - 35  29.14638 21.55024 24.45947 32.11300  46.99679
+65 - 30  20.39273 16.75170 17.99790 21.57553  30.16988
+65 - 25  18.69399 15.50308 16.53139 19.61086  27.08259
+
+[[3]]
+             p.value         2.5%          25%          75%        97.5%
+65 - 60 9.783863e-03 4.809926e-06 2.495973e-04 6.503933e-03 0.0729389550
+65 - 55 4.360725e-05 7.036060e-10 1.464759e-07 1.170213e-05 0.0004131995
+65 - 50 5.040219e-03 5.564254e-07 4.961521e-05 2.246752e-03 0.0426982078
+65 - 45 4.908678e-01 2.024863e-02 2.395055e-01 7.494322e-01 0.9765378626
+65 - 40 1.542917e-01 5.088938e-03 3.967839e-02 2.032722e-01 0.7097305433
+65 - 35 1.993787e-01 6.008576e-03 5.384837e-02 2.729358e-01 0.8105538735
+65 - 30 3.000629e-01 2.768617e-02 1.242626e-01 4.279613e-01 0.8756290881
+65 - 25 2.638469e-01 2.230895e-02 1.029528e-01 3.581971e-01 0.8755634657
+\end{Soutput}
+\end{Schunk}
+
+Now there is no more significant change morphospace size in both dataset.
+
+\begin{Schunk}
+\begin{Sinput}
+> ## Testing any change in group position (centre) after K-Pg
+> test.dispRity(get.dispRity(dist_centre_Beck, what = c(12:20)),
++     test = t.test, concatenate = FALSE, comparisons = "referential",
++     correction = "bonferroni")
+\end{Sinput}
+\begin{Soutput}
+[[1]]
+         statistic      2.5%        25%         75%     97.5%
+65 - 60  0.2630636 -1.630182 -0.3630964  0.92406003  2.180075
+65 - 55 -0.6031800 -2.617759 -1.2362542  0.01579344  1.241088
+65 - 50  0.3661335 -1.744498 -0.2735814  1.01416486  2.342727
+65 - 45  0.2071830 -1.884423 -0.4948817  0.86358348  2.467839
+65 - 40 -0.1013658 -2.147666 -0.7679460  0.57452064  1.985088
+65 - 35 -0.8164971 -2.890869 -1.4846424 -0.12357517  1.121006
+65 - 30 -1.4087687 -4.019230 -2.0132660 -0.61523885  0.809619
+65 - 25 -3.2175043 -7.336468 -3.9778235 -2.11007262 -0.902265
+
+[[2]]
+        parameter     2.5%      25%      75%    97.5%
+65 - 60  55.89910 47.91654 53.54571 58.56496 61.67088
+65 - 55  55.15963 47.41650 52.43175 58.11236 61.64759
+65 - 50  35.82849 28.77616 32.25035 38.70533 46.56354
+65 - 45  26.90363 22.27642 24.57271 28.60670 34.71297
+65 - 40  28.02131 23.50971 26.01143 29.51412 34.61025
+65 - 35  19.69390 17.06158 18.33055 20.55524 24.30539
+65 - 30  16.58681 14.26666 15.21818 17.20197 21.25532
+65 - 25  24.32197 16.50793 19.16660 26.48500 45.94039
+
+[[3]]
+           p.value         2.5%          25%        75%     97.5%
+65 - 60 0.49979868 2.455271e-02 0.2462790962 0.75190118 0.9715318
+65 - 55 0.46352044 1.136438e-02 0.1966536145 0.73735498 0.9746299
+65 - 50 0.48426922 2.302380e-02 0.2299061704 0.74264702 0.9696690
+65 - 45 0.49611730 1.579224e-02 0.2319113427 0.75733538 0.9650609
+65 - 40 0.49906492 1.972234e-02 0.2486674283 0.75085223 0.9742211
+65 - 35 0.42847419 8.337426e-03 0.1471273115 0.70516576 0.9666992
+65 - 30 0.30006524 6.313256e-04 0.0604691204 0.49990922 0.9467349
+65 - 25 0.04981126 3.536786e-09 0.0004896603 0.04795985 0.3797201
+\end{Soutput}
+\begin{Sinput}
+> test.dispRity(get.dispRity(dist_centre_Hall, what = c(12:20)),
++     test = t.test, concatenate = FALSE, comparisons = "referential",
++     correction = "bonferroni")
+\end{Sinput}
+\begin{Soutput}
+[[1]]
+         statistic       2.5%       25%         75%      97.5%
+65 - 60 -1.7848510  -3.811931 -2.483189 -1.07416531  0.2040437
+65 - 55 -5.3337467  -7.653155 -6.033123 -4.57676694 -3.1647371
+65 - 50 -4.3632112  -6.537343 -5.072229 -3.63500668 -2.2313905
+65 - 45 -2.2605134  -4.583802 -2.967788 -1.52435768 -0.1320878
+65 - 40 -0.5400611  -2.593491 -1.137717  0.07609257  1.2863416
+65 - 35 -1.3753814  -3.597463 -2.077025 -0.58795281  0.6184512
+65 - 30 -4.3158272 -11.360597 -5.112202 -2.85676897 -1.4813432
+65 - 25 -4.9596005 -12.347116 -5.853889 -3.19195204 -1.5723883
+
+[[2]]
+        parameter     2.5%       25%       75%     97.5%
+65 - 60 102.42591 95.80486 100.40302 104.65116 107.99735
+65 - 55  99.80440 87.93130  96.44173 103.76617 108.24881
+65 - 50  94.01728 89.70749  93.78142  94.89381  94.99912
+65 - 45  57.91308 50.82924  54.83335  60.41054  68.35377
+65 - 40  34.48408 29.88318  32.23910  36.19537  42.08894
+65 - 35  30.13894 26.81224  28.48830  31.33716  36.18227
+65 - 30  23.51127 19.00460  20.12658  23.62406  54.22931
+65 - 25  24.56468 17.71964  18.93924  24.14916  56.73724
+
+[[3]]
+             p.value         2.5%          25%          75%       97.5%
+65 - 60 0.1913394118 2.316288e-04 1.465853e-02 2.722038e-01 0.890756741
+65 - 55 0.0003459418 1.447246e-11 3.029931e-08 1.343625e-05 0.002020223
+65 - 50 0.0025392598 3.828977e-09 1.977453e-06 4.512738e-04 0.028079504
+65 - 45 0.1192246671 2.382932e-05 4.323867e-03 1.330749e-01 0.730656346
+65 - 40 0.4793838604 1.314703e-02 2.236806e-01 7.299661e-01 0.980439220
+65 - 35 0.2954320225 1.091120e-03 4.623694e-02 5.048598e-01 0.939203917
+65 - 30 0.0175643003 9.106813e-16 3.471176e-05 9.827791e-03 0.154408048
+65 - 25 0.0131050168 1.999000e-17 4.661125e-06 4.638184e-03 0.132802065
+\end{Soutput}
+\end{Schunk}
+
+Nor is there any change in morphospace position...
 
 \end{document}
 
