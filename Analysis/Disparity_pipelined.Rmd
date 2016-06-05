@@ -322,9 +322,52 @@ When looking at the shifts in morphospace, in Beck's dataset, there is no signif
 However, it seems that the morphospace shifts after the PETM (around 35 Mya, see figure)
 
 For Halliday's one however, there is a shift that starts 5 Mya after the K-Pg event and holds for 10 Mya before coming back to the pre K-Pg position.
+<!-- 
+Disparity through time
+-----------------------------------
+```{r}
+## Running the sequential tests on the centroids
+seq_centroids_Beck <- test.dispRity(dist_centroids_Beck, test = sequential.test,
+    family = gaussian, concatenate = FALSE, correction = "bonferroni")
+seq_centroids_Hall <- test.dispRity(dist_centroids_Hall, test = sequential.test,
+    family = gaussian, concatenate = FALSE, correction = "bonferroni")
+## Running the sequential tests on the centroids
+seq_centre_Beck <- test.dispRity(dist_centre_Beck, test = sequential.test,
+    family = gaussian, concatenate = FALSE, correction = "bonferroni")
+seq_centre_Hall <- test.dispRity(dist_centre_Hall, test = sequential.test,
+    family = gaussian, concatenate = FALSE, correction = "bonferroni")
 
+```
 
-rarefaction
+```{r, fig.width=6, fig.height=6}
+## Graphical parameters
+op <- par(mfrow = c(2,2), bty = "n")
+
+## Plotting the distance from centroids
+plot(med_dist_centroids_Beck, main = "Beck 2014", elements = TRUE,
+    ylab = c("Median distance from centroids", ""), xlab = "")
+abline(v = 12, col = "red")
+plot(seq_centroids_Beck, lines.args = list(col = "red", lty = 3), add = TRUE)
+plot(med_dist_centroids_Hall, main = "Halliday 2015", ylab = c("", "Taxa"),
+    xlab = "", elements = TRUE)
+abline(v = 12, col = "red")
+plot(seq_centroids_Hall, lines.args = list(col = "red", lty = 3), add = TRUE)
+
+## Plotting the distances from centre
+plot(med_dist_centre_Beck, ylab = c("Median distance from center", ""), 
+    xlab = "Age (Mya)", elements = TRUE)
+abline(v = 12, col = "red")
+plot(seq_centre_Beck, lines.args = list(col = "red", lty = 3), add = TRUE)
+plot(med_dist_centre_Hall, ylab = c("", "Taxa"), xlab = "Age (Mya)",
+    elements = TRUE)
+abline(v = 12, col = "red")
+plot(seq_centre_Hall, lines.args = list(col = "red", lty = 3), add = TRUE)
+
+## Resetting graphical parameters
+par(op)
+```
+ -->
+Rarefaction
 ===============
 
 Although Beck is undersampling, maybe Halliday is oversampling.
