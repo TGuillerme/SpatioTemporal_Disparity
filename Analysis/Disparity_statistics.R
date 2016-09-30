@@ -78,7 +78,13 @@ pco_slice_beck_ran  <-slice.pco(pco_beck  , tree_beck  , slices, method='random'
 set.seed(123)
 reftest_pro_slater<-disparity.test(pco_slice_slater_pro[21:28], method="centroid", test="reference", bootstraps=1000, correction="none")
 set.seed(123)
-reftest_pro_beck  <-disparity.test(pco_slice_beck_pro[21:28]  , method="centroid", test="reference", bootstraps=1000, correction="none")
+reftest_pro_beck  <-disparity.test(pco_slice_beck_pro[21:28]  , method="centroid", test="reference", bootstraps=1000, correction="bonferroni")
+
+
+
+
+
+
 set.seed(123)
 reftest_ran_slater<-disparity.test(pco_slice_slater_ran[21:28], method="centroid", test="reference", bootstraps=1000, correction="none")
 set.seed(123)

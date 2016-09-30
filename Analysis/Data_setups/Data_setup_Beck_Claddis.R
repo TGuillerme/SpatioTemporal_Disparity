@@ -13,8 +13,8 @@ library(disparity)
 #Selecting the file
 chain_name<-"Beck2014" #"Beck2014" #"Slater2013"
 data_path<-"../Data/"
-file_matrix<-"../Data/2014-Beck-ProcB-matrix-morpho.nex" #2014-Beck-ProcB-matrix-morpho.nex #"../Data/2013-Slater-MEE-matrix-morpho.nex"
-file_tree<-"../Data/2014-Beck-ProcB-TEM.tre" #2014-Beck-ProcB-TEM.tre #"../Data/2013-Slater-MEE-TEM.tre"
+file_matrix<-"../../Data/2014-Beck-ProcB-matrix-morpho.nex" #2014-Beck-ProcB-matrix-morpho.nex #"../Data/2013-Slater-MEE-matrix-morpho.nex"
+file_tree<-"../../Data/2014-Beck-ProcB-TEM.tre" #2014-Beck-ProcB-TEM.tre #"../Data/2013-Slater-MEE-TEM.tre"
 
 #matrix
 Nexus_data<-ReadMorphNexus(file_matrix)
