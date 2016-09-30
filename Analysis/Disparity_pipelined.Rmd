@@ -8,11 +8,22 @@ output:
     fig_height: 6
 ---
 
-STD pipelined analysis v2.0!
+STD pipelined analysis v3.0!
 ===============
 
-New version of the spatio-temporal disparity analysis in mammals around the K-Pg boundary (using Beck's and Halliday's data)
+New version of the spatio-temporal disparity analysis in mammals around the K-Pg boundary (using Beck's 2014 and Halliday's 2015 datasets).
+The idea here is to test whether there is a significant change in morphological disparity after the K-Pg boundary.
+We also propose a couple of new methods to properly test hypothesis using cladistic disparity (c.f. ``look, the curve goes up!'').
 
+The following describes/runs the analysis in lengthy details but here's the take home message:
+
+The classic hypothesis (proposed around the 40s with Simpson et al) is that the extinction of (non-avian) dinosaurs allowed mammals to radiate and occupy new niches (e.g. bats and whales).
+However, since then (70 years!) we know that a lot of dinosaurs are still present today (actually more dino species than mammals today!) and that mammals where already diverse since the Jurassic (see Close et al 2015 - Current Biology).
+
+Here we have two different datasets, one focusing sampling in the Cretaceous (Beck & Lee 2014 Proc B) and another one focusing on sampling in the Palaeogene (Halliday & Goswami 2015 Lin Soc).
+When looking at both the *size* (how much space) and the *position* (where in the space) of mammals in the morphospace between the end of the Cretaceous and the Palaeogene, we see no significant change for Beck's dataset and a significant change for Halliday's one (although this effect is dependent on sample size).
+
+By combining (i.e. *adding*) these datasets, or by extracting the difference signal (i.e. *subtracting*) we can test whether the K-Pg had an impact on mammals morphospace size *and* position (and allowing a 10 Mya lag effect, up until the PETM).
 
 Before starting
 ===============
@@ -39,9 +50,10 @@ install_github("TGuillerme/dispRity")
 Loading the data
 -----------------------------------
 
-Using the data from Beck & Lee 2014 (same as previous one) as well as Halliday & Goswami 2015.
-Halliday's data contains more trees so a next version of the analysis will use the whole tree distribution for both data sets (`mulTree` style).
-The FADLAD tables are downloaded from the paleoDataBase with each first and last occurrence datum being the most inclusive (i.e. taking the maximum and minimum time span of the genus).
+Note that Halliday's dataset contains more than one tree.
+Some work needs to be done on which tree to use, etc.
+However, note that tree topology should not influence much the results (or at least less than fossil - tips - and nodes age).
+The FAD/LAD tables are downloaded from the paleoDataBase with each first and last occurrence datum being the most inclusive (i.e. taking the maximum and minimum time span of the genus).
 
 ```{r}
 set.seed(123)
@@ -90,6 +102,25 @@ FADLAD_Beck <- read.csv("../Data/Beck2014_FADLAD.csv", row.names = 1)
 FADLAD_Hall <- read.csv("../Data/Halliday2015_FADLAD.csv", row.names = 1)
 ```
 
+Differences between the datasets (in terms of species)
+-----------------------------------
+
+
+They are 57 species in common between both datasets which represents a different coverage for each dataset.
+
+```{r}
+## Number of tips from Halliday present in Beck
+match_Beck <- match(tree_Beck$tip.label, tree_Hall$tip.label)
+match_Beck <- match_Beck[-which(is.na(match_Beck))]
+## Proportion of tips in Beck in common with Halliday
+length(match_Beck)/Ntip(tree_Beck)
+
+## Number of tips from Beck present in Halliday
+match_Hall <- match(tree_Hall$tip.label, tree_Beck$tip.label)
+match_Hall <- match_Hall[-which(is.na(match_Hall))]
+## Proportion of tips in Halliday in common with Beck
+length(match_Hall)/Ntip(tree_Hall)
+```
 
 Ordination
 ===============
@@ -98,6 +129,7 @@ Ancestral states reconstruction
 -----------------------------------
 
 First let's recreate the nodal states but excluding any estimation with less than 0.95 scaled likelihood value.
+This allows us to discard any dodgy/ambiguous reconstruction (note that NAs are not a problem since we use Gower's distances further down the road).
 
 ```{r, eval = FALSE}
 ## Estimating the ancestral states (with a uncertainty threshold of 0.95)
@@ -113,7 +145,7 @@ matrix_nodes_Hall <- AncStateEstMatrix(matrix_Hall, tree_Hall,
 save(matrix_nodes_Hall, file = "../Data/ancestral_states_halliday2015.Rda")
 ```
 
-This takes some time (couple of hours) so it can be skipped.
+This takes some time (couple of hours) so it can be skipped for the demo.
 
 ```{r}
 ## Loading the matrix
@@ -147,6 +179,8 @@ save(matrix_dist_Hall, file = "../Data/distmatrix_halliday2015.Rda")
 Ordination
 -----------------------------------
 
+Ordination is a classic NMDS including only the non-zero variance axis.
+
 ```{r}
 ## Loading the distance matrices
 load("../Data/distmatrix_beck2014.Rda")
@@ -154,7 +188,7 @@ load("../Data/distmatrix_halliday2015.Rda")
 
 #### TO FIX PROPERLY!
 #
-# Replacing NAs (incomparable taxa) by median distance (not excellent practice)
+# Replacing NAs (incomparable taxa) by mean distance (not excellent practice)
 # But there's only 8 NAs in 120409 distances (0.006%) so it won't influence the
 # results (I guess)
 matrix_dist_Hall[which(is.na(matrix_dist_Hall))] <- mean(matrix_dist_Hall, na.rm = TRUE)
@@ -174,7 +208,8 @@ Disparity through time
 Time slicing
 -----------------------------------
 
-First let's slice the data into 33 slices (every 5 Mya) using the gradual model.
+Rather than using classic time binning (that suffers from couple of caveats described in the manuscript), we here introduce a time slicing method that takes ``snapshots'' of disparity every 5 Mya.
+It also allows to propose *a priori* the evolutionary model (here we use gradual evolution).
 
 ```{r}
 ## Creating the time slices
@@ -192,7 +227,7 @@ time_series_Hall <- time.series(matrix_ord_Hall, tree_Hall,
 Bootstrapping
 -----------------------------------
 
-Then let's bootstrap 1000 times.
+Then let's bootstrap 1000 times for allowing us to calculate the support of the matrix.
 
 ```{r}
 ## Bootstrapping the time series
@@ -259,11 +294,13 @@ par(op)
 ```
 
 The dashed line represents the number of taxa in each slice.
+We can see a slow increase of disparity during the cretaceous, then a kind of jump around the KP-g in Halliday's dataset and then some funny things during the Neogene.
+The Neogene stuff can be ignored since (1) we have probably bad sampling there and (2) we don't care: it has nothing to do with our hypothesis (i.e. the effect of K-Pg before PETM).
 
 Testing
 -----------------------------------
 
-Before, we compared the distributions of the bootstrapped medians between slices
+Now, here comes some changes to ``classic'' disparity analysis: usually, people compare the distributions of the bootstrapped medians between slices like so:
 
 ```{r}
 ## Extracting the bootstrapped median distances from centroids from slices 19
@@ -274,8 +311,10 @@ disparity <- get.dispRity(med_dist_centroids_Beck, what = c(12:13))
 test.dispRity(disparity, test = t.test)
 ```
 
-The problem is that (1) we were only comparing the medians and (2) we were actually testing the effect of the bootstrap not of the changes in disparity (i.e. a significant p-value would mean that there is a difference in the mean of the distribution of medians (which are in turn just the results of the bootstraps)).
-This basically results in really big degrees of freedom (see `parameter`) and will probably tend to always significant results as the amount of bootstraps increase.
+However, some technical and statistical problems arise from such method:
+* we are only comparing the median distribution of species in the morphospace, not the actual distribution.
+* the test (a t.test here) is actually testing the effect of the bootstrap, not of the changes in disparity (i.e. a significant p-value would mean that there is a difference in the mean of the distribution of medians (which are in turn just the results of the bootstraps).
+* because we have bootstraps, we get a type I error rate inflation: the more bootstraps, the smaller the p-value will be (independently from the actual change in disparity - check out the huge degrees of freedom - see `parameter`).
 
 To avoid this problem, we can compare the distributions of disparity rather than their central tendencies and bootstrap these comparisons rather than the distributions (i.e. performing the distributions comparisons multiple time with each time a pseudo-replicate (the bootstrap) of the distribution).
 
@@ -290,9 +329,12 @@ test.dispRity(disparity, test = t.test, concatenate = FALSE)
 
 Now we have a distribution of statistics and parameters (note that the degrees of freedom are now back to a normal level).
 We can thus use this distribution to test our hypothesis, in this case, we have a low chance of rejecting H0 and being wrong (i.e. pvalue < 0.05) in less than 2.5% of the replicates!
-In other words, the distributions are the same (median p-value of 0.4).
+In other words, the distributions are the same (mean p-value of 0.38).
 
-And now we can apply that to both the size of the taxa's sub-morphospace through time and their position:
+And now we can apply that to both the size of the taxa's sub-morphospace through time and their position.
+Note that here we also had a Bonferroni p-value correction since we're running multiple tests.
+In the previous example (comparing just two samples) we also run multiple tests (actually 1000) but they are based on pseudo-replicates and we're interested in the pseudo-replicates comparisons distributions (so no need for correction).
+The correction below affects only the number of samples compared, not the bootstraps comparisons.
 
 ```{r}
 ## Testing any change in group size (centroids) after K-Pg
@@ -371,7 +413,7 @@ Rarefaction
 ===============
 
 Although Beck is undersampling, maybe Halliday is oversampling.
-Here are the rarefied results with 10 taxa in each bootstrap pseudo-replication.
+Here we rerun the same analysis but we rarefy the data down to 10 taxa in each bootstrap pseudo-replication.
 
 ```{r}
 ## Rarefying the time series
@@ -446,5 +488,3 @@ test.dispRity(get.dispRity(dist_centre_Hall_rar, what = c(12:20)),
 ```
 
 Nor is there any change in morphospace position...
-
-
