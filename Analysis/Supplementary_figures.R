@@ -243,6 +243,57 @@ prod_variances_Hall_sliPUN <- dispRity(BS_time_sliPUN_Hall, metric = c(prod, var
 prod_variances_Hall_sliACC <- dispRity(BS_time_sliACC_Hall, metric = c(prod, variances))
 prod_variances_Hall_sliDEL <- dispRity(BS_time_sliDEL_Hall, metric = c(prod, variances))
 
+## Save all this data!
+###################################
+median_centroids_Beck <- list(med_dist_centroids_Beck_binsEQ, med_dist_centroids_Beck_binsST, med_dist_centroids_Beck_sliGRA, med_dist_centroids_Beck_sliPUN, med_dist_centroids_Beck_sliACC, med_dist_centroids_Beck_sliDEL)
+save(median_centroids_Beck, file = "../Data/Supplementary_figures/median_centroids_Beck.rda")
+
+median_centre_Beck <- list(med_dist_centre_Beck_binsEQ, med_dist_centre_Beck_binsST, med_dist_centre_Beck_sliGRA, med_dist_centre_Beck_sliPUN, med_dist_centre_Beck_sliACC, , med_dist_centre_Beck_sliDEL)
+save(median_centre_Beck, file = "../Data/Supplementary_figures/median_centre_Beck.rda")
+
+sum_ranges_Beck <- list(sum_ranges_Beck_binsEQ, sum_ranges_Beck_binsST, sum_ranges_Beck_sliGRA, sum_ranges_Beck_sliPUN, , sum_ranges_Beck_sliACC, sum_ranges_Beck_sliDEL)
+save(sum_ranges_Beck, file = "../Data/Supplementary_figures/sum_ranges_Beck.rda")
+
+prod_ranges_Beck <- list(prod_ranges_Beck_binsEQ, prod_ranges_Beck_binsST, prod_ranges_Beck_sliGRA, prod_ranges_Beck_sliPUN, , prod_ranges_Beck_sliACC, prod_ranges_Beck_sliDEL)
+save(prod_ranges_Beck, file = "../Data/Supplementary_figures/prod_ranges_Beck.rda")
+
+sum_variances_Beck <- list(sum_variances_Beck_binsEQ, sum_variances_Beck_binsST, sum_variances_Beck_sliGRA, sum_variances_Beck_sliPUN, , sum_variances_Beck_sliACC, sum_variances_Beck_sliDEL)
+save(sum_variances_Beck, file = "../Data/Supplementary_figures/sum_variances_Beck.rda")
+
+prod_variances_Beck <- list(prod_variances_Beck_binsEQ, prod_variances_Beck_binsST, prod_variances_Beck_sliGRA, prod_variances_Beck_sliPUN, , prod_variances_Beck_sliACC, prod_variances_Beck_sliDEL)
+save(prod_variances_Beck, file = "../Data/Supplementary_figures/prod_variances_Beck.rda")
+
+median_centroids_Hall <- list(med_dist_centroids_Hall_binsEQ, med_dist_centroids_Hall_binsST, med_dist_centroids_Hall_sliGRA, med_dist_centroids_Hall_sliPUN, med_dist_centroids_Hall_sliACC, med_dist_centroids_Hall_sliDEL)
+save(median_centroids_Hall, file = "../Data/Supplementary_figures/median_centroids_Hall.rda")
+
+median_centre_Hall <- list(med_dist_centre_Hall_binsEQ, med_dist_centre_Hall_binsST, med_dist_centre_Hall_sliGRA, med_dist_centre_Hall_sliPUN, med_dist_centre_Hall_sliACC, med_dist_centre_Hall_sliDEL)
+save(median_centre_Hall, file = "../Data/Supplementary_figures/median_centre_Hall.rda")
+
+sum_ranges_Hall <- list(sum_ranges_Hall_binsEQ, sum_ranges_Hall_binsST, sum_ranges_Hall_sliGRA, sum_ranges_Hall_sliPUN, sum_ranges_Hall_sliACC, sum_ranges_Hall_sliDEL)
+save(sum_ranges_Hall, file = "../Data/Supplementary_figures/sum_ranges_Hall.rda")
+
+prod_ranges_Hall <- list(prod_ranges_Hall_binsEQ, prod_ranges_Hall_binsST, prod_ranges_Hall_sliGRA, prod_ranges_Hall_sliPUN, prod_ranges_Hall_sliACC, prod_ranges_Hall_sliDEL)
+save(prod_ranges_Hall, file = "../Data/Supplementary_figures/prod_ranges_Hall.rda")
+
+sum_variances_Hall <- list(sum_variances_Hall_binsEQ, sum_variances_Hall_binsST, sum_variances_Hall_sliGRA, sum_variances_Hall_sliPUN, , sum_variances_Hall_sliACC, , sum_variances_Hall_sliDEL)
+save(sum_variances_Hall, file = "../Data/Supplementary_figures/sum_variances_Hall.rda")
+
+prod_variances_Hall <- list(prod_variances_Hall_binsEQ, prod_variances_Hall_binsST, prod_variances_Hall_sliGRA, prod_variances_Hall_sliPUN, , prod_variances_Hall_sliACC, , prod_variances_Hall_sliDEL)
+save(prod_variances_Hall, file = "../Data/Supplementary_figures/prod_variances_Hall.rda")
+
+# Loading the data
+load("../Data/Supplementary_figures/median_centroids_Beck.rda")
+load("../Data/Supplementary_figures/median_centre_Beck.rda")
+load("../Data/Supplementary_figures/sum_ranges_Beck.rda")
+load("../Data/Supplementary_figures/prod_ranges_Beck.rda")
+load("../Data/Supplementary_figures/sum_variances_Beck.rda")
+load("../Data/Supplementary_figures/prod_variances_Beck.rda")
+load("../Data/Supplementary_figures/median_centroids_Hall.rda")
+load("../Data/Supplementary_figures/median_centre_Hall.rda")
+load("../Data/Supplementary_figures/sum_ranges_Hall.rda")
+load("../Data/Supplementary_figures/prod_ranges_Hall.rda")
+load("../Data/Supplementary_figures/sum_variances_Hall.rda")
+load("../Data/Supplementary_figures/prod_variances_Hall.rda")
 
 ###################################
 ## 3- Plotting!
