@@ -208,18 +208,18 @@ Disparity through time
 Time slicing
 -----------------------------------
 
-Rather than using classic time binning (that suffers from couple of caveats described in the manuscript), we here introduce a time slicing method that takes ``snapshots'' of disparity every 5 Mya.
-It also allows to propose *a priori* the evolutionary model (here we use gradual evolution).
+Rather than using classic time binning (that suffers from couple of caveats described in the manuscript), we here introduce a time slicing method that takes "snapshots" of disparity every 5 Mya.It also allows to propose *a priori* the evolutionary model (here we use gradual evolution).
+
 
 ```{r}
 ## Creating the time slices
 time_slices <- rev(seq(from = 0, to = 120, by = 5))
 
 ## Creating the time series
-time_series_Beck <- time.series(matrix_ord_Beck, tree_Beck,
+time_series_Beck <- time.subsamples(matrix_ord_Beck, tree_Beck,
     method = "continuous", time = time_slices, model = "gradual",
     FADLAD = FADLAD_Beck, verbose = TRUE)
-time_series_Hall <- time.series(matrix_ord_Hall, tree_Hall,
+time_series_Hall <- time.subsamples(matrix_ord_Hall, tree_Hall,
     method = "continuous", time = time_slices, model = "gradual",
     FADLAD = FADLAD_Hall, verbose = TRUE)
 ```
@@ -266,6 +266,11 @@ med_dist_centre_Hall <- dispRity(dist_centre_Hall, metric = median)
 Results
 ===============
 
+<!-- 
+# par(bty = "n")
+# plot(med_dist_centroids_Beck, main = "", elements = FALSE, ylab = "", xlab = "", col = c("#F65206", "#F68649", "#F7B149"), lwd = 3, xaxnt = "n")
+ -->
+
 Plot
 -----------------------------------
 
@@ -300,12 +305,12 @@ The Neogene stuff can be ignored since (1) we have probably bad sampling there a
 Testing
 -----------------------------------
 
-Now, here comes some changes to ``classic'' disparity analysis: usually, people compare the distributions of the bootstrapped medians between slices like so:
+Now, here comes some changes to "classic" disparity analysis: usually, people compare the distributions of the bootstrapped medians between slices like so:
 
 ```{r}
 ## Extracting the bootstrapped median distances from centroids from slices 19
 ## and 20 for the example:
-disparity <- get.dispRity(med_dist_centroids_Beck, what = c(12:13))
+disparity <- get.subsamples(dist_centroids_Beck, c(12:13))
 
 ## Checking the difference between the two slices
 test.dispRity(disparity, test = t.test)
@@ -321,7 +326,7 @@ To avoid this problem, we can compare the distributions of disparity rather than
 ```{r}
 ## Extracting the bootstrapped distribution of distances from centroids
 ## from slices 19 and 20 for the example:
-disparity <- get.dispRity(dist_centroids_Beck, what = c(12:13))
+disparity <- get.subsamples(dist_centroids_Beck, c(12:13))
 
 ## Checking the difference between the two slices for each bootstrap
 test.dispRity(disparity, test = t.test, concatenate = FALSE)
@@ -338,10 +343,10 @@ The correction below affects only the number of samples compared, not the bootst
 
 ```{r}
 ## Testing any change in group size (centroids) after K-Pg
-test.dispRity(get.dispRity(dist_centroids_Beck, what = c(12:20)),
+test.dispRity(get.subsamples(dist_centroids_Beck, c(12:20)),
     test = t.test, concatenate = FALSE, comparisons = "referential",
     correction = "bonferroni")
-test.dispRity(get.dispRity(dist_centroids_Hall, what = c(12:20)),
+test.dispRity(get.subsamples(dist_centroids_Hall, c(12:20)),
     test = t.test, concatenate = FALSE, comparisons = "referential",
     correction = "bonferroni")
 ```
@@ -352,10 +357,10 @@ After that though, the morphospace size seems to go down to pre K-Pg levels (but
 
 ```{r}
 ## Testing any change in group position (centre) after K-Pg
-test.dispRity(get.dispRity(dist_centre_Beck, what = c(12:20)),
+test.dispRity(get.subsamples(dist_centre_Beck, c(12:20)),
     test = t.test, concatenate = FALSE, comparisons = "referential",
     correction = "bonferroni")
-test.dispRity(get.dispRity(dist_centre_Hall, what = c(12:20)),
+test.dispRity(get.subsamples(dist_centre_Hall, c(12:20)),
     test = t.test, concatenate = FALSE, comparisons = "referential",
     correction = "bonferroni")
 ```
@@ -467,10 +472,10 @@ par(op)
 
 ```{r}
 ## Testing any change in group size (centroids) after K-Pg
-test.dispRity(get.dispRity(dist_centroids_Beck_rar, what = c(12:20)),
+test.dispRity(get.subsamples(dist_centroids_Beck_rar, c(12:20)),
     test = t.test, concatenate = FALSE, comparisons = "referential",
     correction = "bonferroni")
-test.dispRity(get.dispRity(dist_centroids_Hall_rar, what = c(12:20)),
+test.dispRity(get.subsamples(dist_centroids_Hall_rar, c(12:20)),
     test = t.test, concatenate = FALSE, comparisons = "referential",
     correction = "bonferroni")
 ```
@@ -479,12 +484,196 @@ Now there is no more significant change morphospace size in both dataset.
 
 ```{r}
 ## Testing any change in group position (centre) after K-Pg
-test.dispRity(get.dispRity(dist_centre_Beck_rar, what = c(12:20)),
+test.dispRity(get.subsamples(dist_centre_Beck_rar, c(12:20)),
     test = t.test, concatenate = FALSE, comparisons = "referential",
     correction = "bonferroni")
-test.dispRity(get.dispRity(dist_centre_Hall_rar, what = c(12:20)),
+test.dispRity(get.subsamples(dist_centre_Hall_rar, c(12:20)),
     test = t.test, concatenate = FALSE, comparisons = "referential",
     correction = "bonferroni")
 ```
 
 Nor is there any change in morphospace position...
+
+
+Model fitting
+===============
+This section is still under development.
+
+```{r}
+source("~/Desktop/disparity_models_bkp/model.test_fun_MNP.R")
+source("~/Desktop/disparity_models_bkp/model.test_fun.R")
+source("~/Desktop/disparity_models_bkp/model.test.sim.R")
+```
+
+```{r}
+## Creating the time slices
+time_slices <- rev(seq(from = 0, to = 120, by = 1))
+
+## Creating the time series
+time_series_Beck <- boot.matrix(time.subsamples(matrix_ord_Beck, tree_Beck,
+    method = "continuous", time = time_slices, model = "gradual",
+    FADLAD = FADLAD_Beck, verbose = TRUE))
+# time_series_Hall <- boot.matrix(time.subsamples(matrix_ord_Hall, tree_Hall,
+    method = "continuous", time = time_slices, model = "gradual",
+    FADLAD = FADLAD_Hall, verbose = TRUE))
+
+## Calculating disparity
+dist_centroids_Beck <- dispRity(time_series_Beck, metric = c(median, centroids))
+# dist_centroids_Hall <- dispRity(time_series_Hall, metric = c(median, centroids))
+## Calculating the distance from the centre of the space
+dist_centre_Beck <- dispRity(time_series_Beck, metric = c(median, centroids),
+                               centroid = rep(0, ncol(matrix_ord_Beck)))
+# dist_centre_Hall <- dispRity(time_series_Hall, metric = c(median, centroids),
+                               centroid = rep(0, ncol(matrix_ord_Hall)))
+
+# save(dist_centroids_Beck, file = "../Data/dist_centroids_Beck.rda")
+# save(dist_centroids_Hall, file = "../Data/dist_centroids_Hall.rda")
+# save(dist_centre_Beck, file = "../Data/dist_centre_Beck.rda")
+# save(dist_centre_Hall, file = "../Data/dist_centre_Hall.rda")
+
+## Graphical parameters
+op <- par(mfrow = c(1,2), bty = "n")
+
+## Plotting the distance from centroids
+plot(dist_centroids_Beck, main = "Beck 2014",
+    ylab = "Median distance from centroids", xlab = "")
+abline(v = 55, col = "red")
+
+## Plotting the distances from centre
+plot(dist_centre_Beck, ylab = "Median distance from center",
+    xlab = "Age (Mya)")
+abline(v = 55, col = "red")
+
+## Resetting graphical parameters
+par(op)
+
+
+```
+
+# Model testing
+
+Make sure the `model.test` branch of `dispRity` is active.
+
+
+
+```{r, eval = FALSE, echo = FALSE}
+## Data loader
+set.seed(123)
+## Loading the packages
+library(Claddis) ; library(dispRity)
+
+## Loading the discrete morphological matrix
+matrix_Beck <- ReadMorphNexus("../Data/2014-Beck-ProcB-matrix-morpho.nex")
+matrix_Hall <- ReadMorphNexus("../Data/2015-Halliday-LinSoc-matrix-morpho.nex")
+
+## Loading the tree
+tree_Beck <- read.nexus("../Data/2014-Beck-ProcB-TEM.tre")
+tree_Hall <- read.nexus("../Data/2015-Halliday-LinSoc-tree.nex")[[1]]
+
+## Arbitrarily solving 0 branch lengths in Halliday's tree by setting them to
+## 1% of the minimum branch length
+# zero_brlen <- which(tree_Hall$edge.length == 0)
+# min_brlen <- min(tree_Hall$edge.length[-zero_brlen])*0.1
+# tree_Hall$edge.length[which(tree_Hall$edge.length == 0)] <- min_brlen
+
+## Making the living species in Halliday's tree ultrametric
+Hall_ages <- tree.age(tree_Hall)
+living_tips <- Hall_ages[which(Hall_ages[,1] < 2), 1]
+shorter_edges <- tree_Hall$edge[which(tree_Hall$edge[,2] %in% which(Hall_ages[,1] < 2)), 1]
+tree_Hall$edge.length[shorter_edges] <- tree_Hall$edge.length[shorter_edges] + living_tips
+
+## Making sure the tree and the matrix are matching
+clean.MorphNexus <- function(matrix, tree) {
+    cleaned_data <- clean.data(matrix$matrix, tree)
+    tree <- cleaned_data$tree
+    matrix$matrix <- cleaned_data$data
+    return(list(tree, matrix))
+}
+
+tmp <- clean.MorphNexus(matrix_Beck, tree_Beck)
+tree_Beck <- tmp[[1]] ; matrix_Beck <- tmp[[2]]
+
+tmp <- clean.MorphNexus(matrix_Hall, tree_Hall)
+tree_Hall <- tmp[[1]] ; matrix_Hall <- tmp[[2]]
+
+
+## Adding node labels to the tree
+tree_Beck <- makeNodeLabel(tree_Beck, method = "number", prefix = "n")
+tree_Hall <- makeNodeLabel(tree_Hall, method = "number", prefix = "n")
+
+## Adding root.time to the tree
+tree_Beck$root.time <- max(tree.age(tree_Beck)[,1])
+tree_Hall$root.time <- max(tree.age(tree_Hall)[,1])
+
+## loading the first/last occurrence data
+FADLAD_Beck <- read.csv("../Data/Beck2014_FADLAD.csv", row.names = 1)
+FADLAD_Hall <- read.csv("../Data/Halliday2015_FADLAD.csv", row.names = 1)
+
+## Loading the matrix
+load("../Data/ancestral_states_beck2014.Rda")
+load("../Data/ancestral_states_halliday2015.Rda")
+## The matrix was assigned to the object matrix_nodes (see above).
+
+## Adding the node names as row names
+row.names(matrix_nodes_Beck) <- tree_Beck$node.label
+row.names(matrix_nodes_Hall) <- tree_Hall$node.label
+
+## Combining the tips and the nodes in the same matrix
+matrix_Beck$matrix <- rbind(matrix_Beck$matrix, matrix_nodes_Beck) 
+matrix_Hall$matrix <- rbind(matrix_Hall$matrix, matrix_nodes_Hall) 
+
+## Loading the distance matrices
+load("../Data/distmatrix_beck2014.Rda")
+load("../Data/distmatrix_halliday2015.Rda")
+
+#### TO FIX PROPERLY!
+#
+# Replacing NAs (incomparable taxa) by mean distance (not excellent practice)
+# But there's only 8 NAs in 120409 distances (0.006%) so it won't influence the
+# results (I guess)
+matrix_dist_Hall[which(is.na(matrix_dist_Hall))] <- mean(matrix_dist_Hall, na.rm = TRUE)
+#
+#### TO FIX PROPERLY!
+
+## Ordinating the matrices
+matrix_ord_Beck <- cmdscale(matrix_dist_Beck,
+                            k = nrow(matrix_dist_Beck) - 2, add = T)$points
+matrix_ord_Hall <- cmdscale(matrix_dist_Hall,
+                            k = nrow(matrix_dist_Hall) - 2, add = T)$points
+
+```
+
+## Fine scale time slicing
+```{r, eval = FALSE}
+## Time slices every 2 Mya
+time_slices <- rev(seq(from = 2, to = 120, by = 2))
+
+## Time slicing
+continuous_Beck <- time.subsamples(matrix_ord_Beck, tree_Beck, method = "continuous", time = time_slices, model = "gradual")
+continuous_Hall <- time.subsamples(matrix_ord_Hall, tree_Hall, method = "continuous", time = time_slices, model = "gradual")
+
+## Bootstrapping the data
+boot_Beck <- boot.matrix(continuous_Beck)
+boot_Hall <- boot.matrix(continuous_Hall)
+
+## Calculating disparity as the median centroids
+centroids_Beck <- dispRity(boot_Beck, metric = c(median, centroids))
+centroids_Hall <- dispRity(boot_Hall, metric = c(median, centroids))
+
+## Calculating disparity as the median centre
+centre_Beck <- dispRity(boot_Beck, metric = c(median, centroids), centroid = 0)
+centre_Hall <- dispRity(boot_Hall, metric = c(median, centroids), centroid = 0)
+```
+
+## Model testing
+
+```{r, eval = FALSE}
+## Selecting the models to test
+models_tests <- list("BM", "OU", "Stasis", "EB", "Trend", c("Stasis", "Stasis"), c("BM", "Trend"), c("BM", "EB"), c("OU", "Trend"), c("OU", "EB"), c("Stasis", "EB"), c("Stasis", "Trend")) #"multi-OU"
+
+## Run the models
+models_Beck_centroids <- model.test(data = centroids_Beck, model = models_tests, control.list = list(fnscale = -1), time.split = 66) 
+models_Beck_centre <- model.test(data = centre_Beck, model = models_tests, control.list = list(fnscale = -1), time.split = 66) 
+models_Hall_centroids <- model.test(data = centroids_Hall, model = models_tests, control.list = list(fnscale = -1), time.split = 66) 
+models_Hall_centre <- model.test(data = centre_Hall, model = models_tests, control.list = list(fnscale = -1), time.split = 66) 
+```
